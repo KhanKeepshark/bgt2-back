@@ -10,7 +10,6 @@ import { RedisModule } from './redis/redis.module';
 import { AccountModule } from '../modules/auth/account/account.module';
 import { SessionModule } from '../modules/auth/session/session.module';
 import { TotpModule } from '../modules/auth/totp/totp.module';
-import { ProfileModule } from '../modules/auth/profile/profile.module';
 import { CronModule } from '../modules/cron/cron.module';
 
 @Module({
@@ -31,7 +30,6 @@ import { CronModule } from '../modules/cron/cron.module';
     AccountModule,
     SessionModule,
     TotpModule,
-    ProfileModule,
   ],
 })
 export class CoreModule {}

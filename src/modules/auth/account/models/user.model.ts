@@ -1,15 +1,5 @@
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import type { User } from '@prisma/generated';
-export const Role = {
-  USER: 'USER',
-  ADMIN: 'ADMIN',
-} as const;
-
-export type RoleType = (typeof Role)[keyof typeof Role];
-
-registerEnumType(Role, {
-  name: 'Role',
-});
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import type { PremiumPlan, User } from '@prisma/generated';
 
 @ObjectType()
 export class UserModel implements User {
@@ -25,8 +15,20 @@ export class UserModel implements User {
   @Field(() => String)
   password: string;
 
+  @Field(() => Boolean)
+  isActive: boolean;
+
+  @Field(() => Boolean)
+  isEmailVerified: boolean;
+
+  @Field(() => Boolean)
+  isPremium: boolean;
+
+  @Field(() => Date, { nullable: true })
+  premiumExpiresAt: Date;
+
   @Field(() => String, { nullable: true })
-  avatar: string;
+  premiumPlan: PremiumPlan;
 
   @Field(() => Boolean)
   isTotpEnabled: boolean;
@@ -34,12 +36,18 @@ export class UserModel implements User {
   @Field(() => String, { nullable: true })
   totpSecret: string;
 
+  @Field(() => Date, { nullable: true })
+  lastLoginAt: Date;
+
+  @Field(() => Number)
+  loginCount: number;
+
   @Field(() => Date)
   createdAt: Date;
 
   @Field(() => Date)
   updatedAt: Date;
 
-  @Field(() => Role)
-  role: RoleType;
+  @Field(() => String)
+  role: 'USER' | 'ADMIN';
 }

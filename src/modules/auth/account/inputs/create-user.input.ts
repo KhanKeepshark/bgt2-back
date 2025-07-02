@@ -10,11 +10,6 @@ export class CreateUserInput {
   @Field(() => String)
   @IsNotEmpty()
   @IsString()
-  name: string;
-
-  @Field(() => String)
-  @IsNotEmpty()
-  @IsString()
   @MinLength(8)
   password: string;
 }

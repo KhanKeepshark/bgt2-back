@@ -122,12 +122,73 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   name: 'name',
-  avatar: 'avatar',
+  isActive: 'isActive',
+  isEmailVerified: 'isEmailVerified',
+  isPremium: 'isPremium',
+  premiumExpiresAt: 'premiumExpiresAt',
+  premiumPlan: 'premiumPlan',
   isTotpEnabled: 'isTotpEnabled',
   totpSecret: 'totpSecret',
+  lastLoginAt: 'lastLoginAt',
+  loginCount: 'loginCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   role: 'role'
+};
+
+exports.Prisma.TokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  type: 'type',
+  expiresAt: 'expiresAt',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  balance: 'balance',
+  currency: 'currency',
+  icon: 'icon',
+  iconColor: 'iconColor',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OperationScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  date: 'date',
+  description: 'description',
+  type: 'type',
+  categoryId: 'categoryId',
+  accountId: 'accountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  color: 'color',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  color: 'color',
+  icon: 'icon',
+  userId: 'userId',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -144,13 +205,39 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.PremiumPlan = exports.$Enums.PremiumPlan = {
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY',
+  FOREVER: 'FOREVER'
+};
+
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN'
 };
 
+exports.TokenType = exports.$Enums.TokenType = {
+  EMAIL_VERIFY: 'EMAIL_VERIFY'
+};
+
+exports.OperationType = exports.$Enums.OperationType = {
+  INCOME: 'INCOME',
+  EXPENSE: 'EXPENSE',
+  TRANSFER: 'TRANSFER'
+};
+
+exports.CategoryType = exports.$Enums.CategoryType = {
+  INCOME: 'INCOME',
+  EXPENSE: 'EXPENSE'
+};
+
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Token: 'Token',
+  Account: 'Account',
+  Operation: 'Operation',
+  Tag: 'Tag',
+  Category: 'Category'
 };
 
 /**

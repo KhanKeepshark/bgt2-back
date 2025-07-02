@@ -11,17 +11,20 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
-  name      String   @unique
+  name      String   @default("User")
   
   // Статус аккаунта
   isActive     Boolean @default(true)
   isEmailVerified Boolean @default(false)
-  emailVerificationToken String?
-  emailVerificationExpires DateTime?
 
   // Премиум функции
   isPremium    Boolean @default(false)
   premiumExpiresAt DateTime?
+  premiumPlan   PremiumPlan?
+
+  // totp
+  isTotpEnabled Boolean @default(false)
+  totpSecret String?
   
   // Метаданные
   lastLoginAt DateTime?
@@ -30,13 +33,43 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      Role     @default(USER)
+
+  // Токены
+  tokens Token[]
+  accounts Account[]
+  tags Tag[]
+  categories Category[]
+}
+
+enum PremiumPlan {
+  MONTHLY
+  YEARLY
+  FOREVER
 }
 
 enum Role {
   USER
   ADMIN
 }
- 
+
+model Token {
+  id        String   @id @default(uuid())
+
+  token     String @unique
+  type      TokenType
+  expiresAt DateTime
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TokenType {
+  EMAIL_VERIFY
+}
+
 model Account {
   id        String   @id @default(uuid())
   name      String
@@ -46,8 +79,10 @@ model Account {
   icon      String @default("default")
   iconColor String @default("#000000")
 
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
+
+  operations Operation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -66,8 +101,7 @@ model Operation {
   account     Account     @relation(fields: [accountId], references: [id])
   accountId   String
 
-  tags Tag[] @relation("OperationTags", references: [id])
-
+  tags Tag[]
 
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -86,7 +120,7 @@ model Tag {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
 
-  operations Operation[] @relation("OperationTags", references: [id])
+  operations Operation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -103,7 +137,7 @@ model Category {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
 
-  // Для иерархии (опционально)
+  // Для иерархии 
   parent    Category? @relation("CategoryToParent", fields: [parentId], references: [id])
   parentId  String?
   children  Category[] @relation("CategoryToParent")
@@ -113,7 +147,7 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId, name, type]) // уникальность имени и типа для пользователя
+  @@unique([userId, name])
 }
 
 enum CategoryType {
