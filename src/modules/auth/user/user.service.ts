@@ -2,9 +2,13 @@ import { PrismaService } from '@/src/core/prisma/prisma.service';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserInput } from './inputs/create-user.input';
 import { hash } from 'argon2';
+import { VerificationService } from '../verification/verification.service';
 @Injectable()
-export class AccountService {
-  public constructor(private readonly prismaService: PrismaService) {}
+export class UserService {
+  public constructor(
+    private readonly prismaService: PrismaService,
+    private readonly verificationService: VerificationService,
+  ) {}
 
   public async findAll() {
     const users = await this.prismaService.user.findMany();
@@ -42,6 +46,8 @@ export class AccountService {
       },
     });
 
-    return user;
+    await this.verificationService.sendVerificationEmail(user);
+
+    return true;
   }
 }

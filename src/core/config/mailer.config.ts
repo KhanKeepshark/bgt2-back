@@ -12,7 +12,7 @@ export function getMailerConfig(configService: ConfigService): MailerOptions {
       },
     },
     defaults: {
-      from: configService.getOrThrow<string>('MAILER_FROM'),
+      from: `"No-Reply" <${configService.getOrThrow<string>('MAILER_LOGIN')}>`,
     },
   };
 }

@@ -43,12 +43,13 @@ input LoginInput {
 
 type Mutation {
   clearSessionCookie: Boolean!
-  createUser(data: CreateUserInput!): UserModel!
+  createUser(data: CreateUserInput!): Boolean!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   removeSession(id: String!): Boolean!
+  verifyAccount(input: VerificationInput!): AuthModel!
 }
 
 type Query {
@@ -94,4 +95,8 @@ type UserModel {
   role: String!
   totpSecret: String
   updatedAt: DateTime!
+}
+
+input VerificationInput {
+  token: String!
 }

@@ -5,7 +5,7 @@ import { GqlContext } from '@/src/shared/types/gql-context.types';
 import { UserAgent } from '@/src/shared/decorators/user-agent.decorator';
 import { Authorization } from '@/src/shared/decorators/auth.decorator';
 import { SessionModel } from './models/session.model';
-import { AuthModel } from '../account/models/auth.model';
+import { AuthModel } from '../user/models/auth.model';
 @Resolver('Session')
 export class SessionResolver {
   constructor(private readonly sessionService: SessionService) {}

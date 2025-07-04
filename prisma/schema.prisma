@@ -98,7 +98,7 @@ model Operation {
   category    Category    @relation(fields: [categoryId], references: [id])
   categoryId  String
 
-  account     Account     @relation(fields: [accountId], references: [id])
+  account     Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId   String
 
   tags Tag[]
@@ -117,7 +117,7 @@ model Tag {
   id        String   @id @default(uuid())
   name      String
   color     String   @default("#cccccc")
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
   operations Operation[]
@@ -134,7 +134,7 @@ model Category {
   type      CategoryType
   color     String   @default("#cccccc")
   icon      String   @default("default")
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
   // Для иерархии 
