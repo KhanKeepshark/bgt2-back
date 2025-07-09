@@ -73,6 +73,10 @@ export class SessionService {
       throw new UnauthorizedException('Invalid password');
     }
 
+    if (!user.isEmailVerified) {
+      throw new UnauthorizedException('Email not verified');
+    }
+
     if (user.isTotpEnabled) {
       if (!pin) {
         return {
