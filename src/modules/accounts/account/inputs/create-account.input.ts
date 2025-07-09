@@ -1,12 +1,13 @@
 // create-account.input.ts
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 @InputType()
 export class CreateAccountInput {
   @Field(() => String)
   @IsString()
   @IsNotEmpty()
+  @MinLength(1)
   name: string;
 
   @Field(() => String)
@@ -14,10 +15,10 @@ export class CreateAccountInput {
   @IsNotEmpty()
   currency: string;
 
-  @Field(() => Number, { nullable: true })
-  @IsNumber()
+  @Field(() => String, { nullable: true })
+  @IsString()
   @IsOptional()
-  balance?: number;
+  balance?: string;
 
   @Field(() => String, { nullable: true })
   @IsString()

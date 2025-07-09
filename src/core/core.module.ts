@@ -13,6 +13,7 @@ import { TotpModule } from '../modules/auth/totp/totp.module';
 import { CronModule } from '../modules/cron/cron.module';
 import { VerificationModule } from '../modules/auth/verification/verification.module';
 import { MailModule } from '../modules/libs/mail/mail.module';
+import { AccountModule } from '../modules/accounts/account/account.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { MailModule } from '../modules/libs/mail/mail.module';
     TotpModule,
     VerificationModule,
     MailModule,
+    AccountModule,
   ],
 })
 export class CoreModule {}

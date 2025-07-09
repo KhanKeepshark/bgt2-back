@@ -2,9 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AccountModel {
+  balance: String!
+  createdAt: DateTime!
+  currency: String!
+  icon: String!
+  iconColor: String!
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+  userId: String!
+}
+
 type AuthModel {
   message: String
   user: UserModel
+}
+
+input CreateAccountInput {
+  balance: String
+  currency: String!
+  icon: String
+  iconColor: String
+  name: String!
 }
 
 input CreateUserInput {
@@ -43,18 +63,23 @@ input LoginInput {
 
 type Mutation {
   clearSessionCookie: Boolean!
+  createAccount(input: CreateAccountInput!): AccountModel!
   createUser(data: CreateUserInput!): Boolean!
+  deleteAccount(id: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   removeSession(id: String!): Boolean!
+  updateAccount(input: UpdateAccountInput!): AccountModel!
   verifyAccount(input: VerificationInput!): AuthModel!
 }
 
 type Query {
+  findAllAccounts: [AccountModel!]!
   findAllUsers: [UserModel!]!
   findCurrentSession: SessionModel!
+  findOneAccount(id: String!): AccountModel!
   findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
   generateTotpSecret: TotpModel!
@@ -76,6 +101,15 @@ type SessionModel {
 type TotpModel {
   qrCodeUrl: String!
   secret: String!
+}
+
+input UpdateAccountInput {
+  balance: String
+  currency: String
+  icon: String
+  iconColor: String
+  id: String!
+  name: String
 }
 
 type UserModel {

@@ -27,8 +27,26 @@ export class AccountResolver {
   }
 
   @Authorization()
+  @Query(() => AccountModel, { name: 'findOneAccount' })
+  public async findOneAccount(
+    @Args('id') id: string,
+    @Authorized() user: User,
+  ) {
+    return this.accountService.findOne(id, user);
+  }
+
+  @Authorization()
   @Mutation(() => AccountModel, { name: 'updateAccount' })
-  public async updateAccount(@Args('input') input: UpdateAccountInput) {
-    return this.accountService.update(input);
+  public async updateAccount(
+    @Args('input') input: UpdateAccountInput,
+    @Authorized() user: User,
+  ) {
+    return this.accountService.update(input, user);
+  }
+
+  @Authorization()
+  @Mutation(() => Boolean, { name: 'deleteAccount' })
+  public async deleteAccount(@Args('id') id: string, @Authorized() user: User) {
+    return this.accountService.delete(id, user);
   }
 }

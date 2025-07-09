@@ -10,7 +10,7 @@ export class AccountModel implements Account {
   @Field(() => String)
   name: string;
 
-  @Field(() => Decimal)
+  @Field(() => String)
   balance: Decimal;
 
   @Field(() => String)
