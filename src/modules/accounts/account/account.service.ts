@@ -1,5 +1,9 @@
 import { PrismaService } from '@/src/core/prisma/prisma.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAccountInput } from './inputs/create-account.input';
 import { Account, User } from '@/prisma/generated';
 import { UpdateAccountInput } from './inputs/update-account.input';
@@ -9,52 +13,113 @@ export class AccountService {
   public constructor(private readonly prismaService: PrismaService) {}
 
   public async create(input: CreateAccountInput, user: User): Promise<Account> {
-    return this.prismaService.account.create({
-      data: {
-        ...input,
-        user: {
-          connect: { id: user.id },
+    try {
+      const existingAccount = await this.prismaService.account.findFirst({
+        where: { name: input.name, userId: user.id },
+      });
+
+      if (existingAccount) {
+        throw new BadRequestException('Account with this name already exists');
+      }
+
+      const created = await this.prismaService.account.create({
+        data: {
+          ...input,
+          user: {
+            connect: { id: user.id },
+          },
         },
-      },
-    });
+      });
+
+      return created;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to create account');
+      }
+
+      throw error;
+    }
   }
 
   public async findAll(user: User): Promise<Account[]> {
-    return this.prismaService.account.findMany({
-      where: { userId: user.id },
-    });
+    try {
+      const accounts = await this.prismaService.account.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      return accounts;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to find accounts');
+      }
+
+      throw error;
+    }
   }
 
   public async findOne(id: string, user: User): Promise<Account> {
-    const account = await this.prismaService.account.findFirst({
-      where: { id, userId: user.id },
-    });
+    try {
+      const account = await this.prismaService.account.findFirst({
+        where: { id, userId: user.id },
+      });
 
-    if (!account) {
-      throw new NotFoundException('Account not found');
+      if (!account) {
+        throw new NotFoundException('Account not found');
+      }
+
+      return account;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to find account');
+      }
+
+      throw error;
     }
-
-    return account;
   }
 
   public async update(input: UpdateAccountInput, user: User): Promise<Account> {
-    const result = await this.prismaService.account.updateMany({
-      where: { id: input.id, userId: user.id },
-      data: input,
-    });
+    try {
+      if (input.name) {
+        const existingAccount = await this.prismaService.account.findFirst({
+          where: { name: input.name, userId: user.id },
+        });
 
-    if (result.count === 0) {
-      throw new NotFoundException('Account not found');
+        if (existingAccount) {
+          throw new BadRequestException(
+            'Account with this name already exists',
+          );
+        }
+      }
+
+      const updated = await this.prismaService.account.update({
+        where: { id: input.id, userId: user.id },
+        data: input,
+      });
+
+      return updated;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to update account');
+      }
+
+      throw error;
     }
-
-    return this.findOne(input.id, user);
   }
 
   public async delete(id: string, user: User): Promise<boolean> {
-    const result = await this.prismaService.account.deleteMany({
-      where: { id, userId: user.id },
-    });
+    try {
+      const result = await this.prismaService.account.delete({
+        where: { id, userId: user.id },
+      });
 
-    return result.count > 0;
+      return !!result;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to delete account');
+      }
+
+      throw error;
+    }
   }
 }

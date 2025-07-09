@@ -27,6 +27,11 @@ input CreateAccountInput {
   name: String!
 }
 
+input CreateTagInput {
+  color: String
+  name: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -64,22 +69,27 @@ input LoginInput {
 type Mutation {
   clearSessionCookie: Boolean!
   createAccount(input: CreateAccountInput!): AccountModel!
+  createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
+  deleteTag(id: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   removeSession(id: String!): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
+  updateTag(input: UpdateTagInput!): TagModel!
   verifyAccount(input: VerificationInput!): AuthModel!
 }
 
 type Query {
   findAllAccounts: [AccountModel!]!
+  findAllTags: [TagModel!]!
   findAllUsers: [UserModel!]!
   findCurrentSession: SessionModel!
   findOneAccount(id: String!): AccountModel!
+  findOneTag(id: String!): TagModel!
   findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
   generateTotpSecret: TotpModel!
@@ -98,6 +108,15 @@ type SessionModel {
   userId: String!
 }
 
+type TagModel {
+  color: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+  userId: String!
+}
+
 type TotpModel {
   qrCodeUrl: String!
   secret: String!
@@ -108,6 +127,12 @@ input UpdateAccountInput {
   currency: String
   icon: String
   iconColor: String
+  id: String!
+  name: String
+}
+
+input UpdateTagInput {
+  color: String
   id: String!
   name: String
 }

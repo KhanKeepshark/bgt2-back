@@ -9151,6 +9151,7 @@ export namespace Prisma {
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId_name?: AccountUserIdNameCompoundUniqueInput
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
@@ -9164,7 +9165,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     operations?: OperationListRelationFilter
-  }, "id">
+  }, "id" | "userId_name">
 
   export type AccountOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10348,6 +10349,11 @@ export namespace Prisma {
 
   export type OperationOrderByRelationAggregateInput = {
     _count?: SortOrder
+  }
+
+  export type AccountUserIdNameCompoundUniqueInput = {
+    userId: string
+    name: string
   }
 
   export type AccountCountOrderByAggregateInput = {

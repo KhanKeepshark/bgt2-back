@@ -14,6 +14,7 @@ import { CronModule } from '../modules/cron/cron.module';
 import { VerificationModule } from '../modules/auth/verification/verification.module';
 import { MailModule } from '../modules/libs/mail/mail.module';
 import { AccountModule } from '../modules/accounts/account/account.module';
+import { TagModule } from '../modules/accounts/tag/tag.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { AccountModule } from '../modules/accounts/account/account.module';
     VerificationModule,
     MailModule,
     AccountModule,
+    TagModule,
   ],
 })
 export class CoreModule {}
