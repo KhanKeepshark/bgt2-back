@@ -15,6 +15,7 @@ import { VerificationModule } from '../modules/auth/verification/verification.mo
 import { MailModule } from '../modules/libs/mail/mail.module';
 import { AccountModule } from '../modules/accounts/account/account.module';
 import { TagModule } from '../modules/accounts/tag/tag.module';
+import { OperationModule } from '../modules/accounts/operation/operation.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { TagModule } from '../modules/accounts/tag/tag.module';
     MailModule,
     AccountModule,
     TagModule,
+    OperationModule,
   ],
 })
 export class CoreModule {}
