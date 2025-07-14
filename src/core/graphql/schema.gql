@@ -19,6 +19,25 @@ type AuthModel {
   user: UserModel
 }
 
+type CategoryModel {
+  children: [CategoryModel!]
+  color: String!
+  createdAt: DateTime!
+  icon: String!
+  id: String!
+  name: String!
+  parentId: String
+  type: CategoryType!
+  updatedAt: DateTime!
+  userId: String!
+}
+
+"""Type of category"""
+enum CategoryType {
+  EXPENSE
+  INCOME
+}
+
 input CreateAccountInput {
   balance: String
   currency: String!
@@ -27,13 +46,22 @@ input CreateAccountInput {
   name: String!
 }
 
+input CreateCategoryInput {
+  color: String
+  icon: String
+  name: String!
+  parentId: String
+  type: CategoryType!
+}
+
 input CreateOperationInput {
   accountId: String!
   amount: String!
-  categoryId: String!
+  categoryId: String
   date: DateTime!
   description: String
   tags: [String!]
+  transferAccountId: String
   type: OperationType!
 }
 
@@ -79,10 +107,12 @@ input LoginInput {
 type Mutation {
   clearSessionCookie: Boolean!
   createAccount(input: CreateAccountInput!): AccountModel!
+  createCategory(input: CreateCategoryInput!): CategoryModel!
   createOperation(input: CreateOperationInput!): OperationModel!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
+  deleteCategory(id: String!): Boolean!
   deleteOperation(id: String!): Boolean!
   deleteTag(id: String!): Boolean!
   disableTotp: Boolean!
@@ -91,6 +121,7 @@ type Mutation {
   logoutUser: Boolean!
   removeSession(id: String!): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
+  updateCategory(input: UpdateCategoryInput!): CategoryModel!
   updateOperation(input: UpdateOperationInput!): OperationModel!
   updateTag(input: UpdateTagInput!): TagModel!
   verifyAccount(input: VerificationInput!): AuthModel!
@@ -99,11 +130,12 @@ type Mutation {
 type OperationModel {
   accountId: String!
   amount: String!
-  categoryId: String!
+  categoryId: String
   createdAt: DateTime!
   date: DateTime!
   description: String!
   id: String!
+  transferAccountId: String
   type: String!
   updatedAt: DateTime!
 }
@@ -117,11 +149,14 @@ enum OperationType {
 
 type Query {
   findAllAccounts: [AccountModel!]!
+  findAllCategories: [CategoryModel!]!
   findAllOperations: [OperationModel!]!
   findAllTags: [TagModel!]!
   findAllUsers: [UserModel!]!
+  findCategoriesByType(type: String!): [CategoryModel!]!
   findCurrentSession: SessionModel!
   findOneAccount(id: String!): AccountModel!
+  findOneCategory(id: String!): CategoryModel!
   findOneOperation(id: String!): OperationModel!
   findOneTag(id: String!): TagModel!
   findProfile: UserModel!
@@ -165,6 +200,15 @@ input UpdateAccountInput {
   name: String
 }
 
+input UpdateCategoryInput {
+  color: String
+  icon: String
+  id: String!
+  name: String
+  parentId: String
+  type: CategoryType
+}
+
 input UpdateOperationInput {
   accountId: String
   amount: String
@@ -173,6 +217,7 @@ input UpdateOperationInput {
   description: String
   id: String!
   tags: [String!]
+  transferAccountId: String
   type: OperationType
 }
 

@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateOperationInput } from './inputs/create-operation.input';
-import { Operation, User } from '@/prisma/generated';
+import { Operation, OperationType, User } from '@/prisma/generated';
 import { UpdateOperationInput } from './inputs/update-operation.input';
 
 @Injectable()
@@ -25,14 +25,6 @@ export class OperationService {
         throw new BadRequestException('Account not found or access denied');
       }
 
-      const category = await this.prismaService.category.findFirst({
-        where: { id: input.categoryId, userId: user.id },
-      });
-
-      if (!category) {
-        throw new BadRequestException('Category not found or access denied');
-      }
-
       if (input.tags && input.tags.length > 0) {
         const tags = await this.prismaService.tag.findMany({
           where: {
@@ -44,6 +36,47 @@ export class OperationService {
         if (tags.length !== input.tags.length) {
           throw new BadRequestException('Some tags not found or access denied');
         }
+      }
+
+      if (input.type === OperationType.TRANSFER) {
+        const transferAccount = await this.prismaService.account.findFirst({
+          where: { id: input.transferAccountId, userId: user.id },
+        });
+
+        if (!transferAccount) {
+          throw new BadRequestException(
+            'Transfer account not found or access denied',
+          );
+        }
+
+        const createTransferOperation =
+          await this.prismaService.operation.create({
+            data: {
+              amount: input.amount,
+              date: input.date,
+              description: input.description,
+              type: OperationType.TRANSFER,
+              transferAccountId: input.transferAccountId,
+              tags: input.tags
+                ? {
+                    connect: input.tags.map((id) => ({ id })),
+                  }
+                : undefined,
+              account: {
+                connect: { id: input.accountId },
+              },
+            },
+          });
+
+        return createTransferOperation;
+      }
+
+      const category = await this.prismaService.category.findFirst({
+        where: { id: input.categoryId, userId: user.id },
+      });
+
+      if (!category) {
+        throw new BadRequestException('Category not found or access denied');
       }
 
       const created = await this.prismaService.operation.create({

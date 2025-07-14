@@ -164,6 +164,7 @@ exports.Prisma.OperationScalarFieldEnum = {
   date: 'date',
   description: 'description',
   type: 'type',
+  transferAccountId: 'transferAccountId',
   categoryId: 'categoryId',
   accountId: 'accountId',
   createdAt: 'createdAt',

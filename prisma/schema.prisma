@@ -96,9 +96,12 @@ model Operation {
   date        DateTime    @default(now())
   description String?
   type        OperationType
+
+  // Для перевода
+  transferAccountId String?
   
-  category    Category    @relation(fields: [categoryId], references: [id])
-  categoryId  String
+  category    Category?    @relation(fields: [categoryId], references: [id])
+  categoryId  String?
 
   account     Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId   String

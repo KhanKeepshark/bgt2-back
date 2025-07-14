@@ -24,11 +24,14 @@ export class OperationModel implements Operation {
   @Field(() => String)
   type: OperationType;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   categoryId: string;
 
   @Field(() => String)
   accountId: string;
+
+  @Field(() => String, { nullable: true })
+  transferAccountId: string;
 
   @Field(() => Date)
   createdAt: Date;

@@ -16,6 +16,7 @@ import { MailModule } from '../modules/libs/mail/mail.module';
 import { AccountModule } from '../modules/accounts/account/account.module';
 import { TagModule } from '../modules/accounts/tag/tag.module';
 import { OperationModule } from '../modules/accounts/operation/operation.module';
+import { CategoryModule } from '../modules/accounts/category/category.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { OperationModule } from '../modules/accounts/operation/operation.module'
     AccountModule,
     TagModule,
     OperationModule,
+    CategoryModule,
   ],
 })
 export class CoreModule {}

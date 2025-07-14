@@ -98,8 +98,11 @@ model Operation {
   description String?
   type        OperationType
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  // Для перевода
+  transferAccountId String?
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
 
   account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String
