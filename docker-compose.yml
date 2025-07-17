@@ -46,10 +46,26 @@ services:
     networks:
       - bgt2-network
 
+  rabbitmq:
+    container_name: bgt2-rabbitmq
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"    
+      - "15672:15672"   
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - bgt2-network
+
 volumes:
   postgres_data:
   redis_data:
-  
+  rabbitmq_data:
+
 networks:
   bgt2-network:
 

@@ -11,7 +11,8 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["*"],
+      "@back/*": ["apps/back/*"],
+      "@mail/*": ["apps/rabbitmq-service/*"],
       "@prisma/generated": ["prisma/generated"],
       "@prisma/generated/*": ["prisma/generated/*"]
     },
@@ -25,6 +26,6 @@
     "jsx": "react"
   },
   "include": [
-    "src/**/*"
+    "apps/**/*"
   ]
 }
