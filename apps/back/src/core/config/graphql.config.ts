@@ -9,7 +9,10 @@ export function getGraphqlConfig(
   return {
     playground: isDev(configService),
     path: configService.getOrThrow<string>('GRAPHQL_PREFIX'),
-    autoSchemaFile: join(process.cwd(), 'src/core/graphql/schema.gql'),
+    autoSchemaFile: join(
+      process.cwd(),
+      'apps/back/src/core/graphql/schema.gql',
+    ),
     sortSchema: true,
     context: ({ req, res }) => ({ req, res }),
   };

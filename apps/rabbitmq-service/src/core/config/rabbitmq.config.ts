@@ -7,8 +7,6 @@ export const getRabbitmqConfig = (configService: ConfigService): RmqOptions => {
   const rabbitPassword = configService.getOrThrow<string>('RABBITMQ_PASSWORD');
   const rabbitName = configService.getOrThrow<string>('RABBITMQ_NAME');
 
-  console.log(`amqp://${rabbitUser}:${rabbitPassword}@${rabbitName}:5672`);
-
   return {
     transport: Transport.RMQ,
     options: {

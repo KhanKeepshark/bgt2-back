@@ -9,8 +9,6 @@ async function bootstrap() {
   const rabbitUser = process.env.RABBITMQ_USER;
   const rabbitPassword = process.env.RABBITMQ_PASSWORD;
 
-  console.log(`amqp://${rabbitUser}:${rabbitPassword}@${rabbitName}:5672`);
-
   const app = await NestFactory.createMicroservice(CoreModule, {
     transport: Transport.RMQ,
     options: {
