@@ -56,7 +56,12 @@ export class OperationService {
               date: input.date,
               description: input.description,
               type: OperationType.TRANSFER,
-              transferAccountId: input.transferAccountId,
+              user: {
+                connect: { id: user.id },
+              },
+              transferAccount: {
+                connect: { id: input.transferAccountId },
+              },
               tags: input.tags
                 ? {
                     connect: input.tags.map((id) => ({ id })),
@@ -90,6 +95,9 @@ export class OperationService {
           },
           account: {
             connect: { id: input.accountId },
+          },
+          user: {
+            connect: { id: user.id },
           },
           tags: input.tags
             ? {
@@ -129,6 +137,49 @@ export class OperationService {
       });
 
       return operations;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to find operations');
+      }
+
+      throw error;
+    }
+  }
+
+  public async findAllSortedByDays(
+    user: User,
+  ): Promise<Array<{ day: string; operations: Operation[] }>> {
+    try {
+      const operations = await this.prismaService.operation.findMany({
+        where: {
+          account: { userId: user.id },
+        },
+        include: {
+          category: true,
+          account: true,
+          tags: true,
+          transferAccount: true,
+        },
+        orderBy: { date: 'desc' },
+      });
+
+      const groupedByDay = new Map<string, Operation[]>();
+
+      for (const operation of operations) {
+        const day = operation.date.toISOString().split('T')[0];
+        const listForDay = groupedByDay.get(day) ?? [];
+        listForDay.push(operation);
+        groupedByDay.set(day, listForDay);
+      }
+
+      const groups = Array.from(groupedByDay.entries()).map(([day, ops]) => ({
+        day,
+        operations: ops,
+      }));
+
+      groups.sort((a, b) => (a.day < b.day ? 1 : a.day > b.day ? -1 : 0));
+
+      return groups;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException('Failed to find operations');

@@ -6,6 +6,7 @@ import { OperationModel } from './models/operation.model';
 import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
 import { UpdateOperationInput } from './inputs/update-operation.input';
+import { OperationDayGroupModel } from './models/operation-day-group.model';
 
 @Resolver('Operation')
 export class OperationResolver {
@@ -24,6 +25,14 @@ export class OperationResolver {
   @Query(() => [OperationModel], { name: 'findAllOperations' })
   public async findAllOperations(@Authorized() user: User) {
     return this.operationService.findAll(user);
+  }
+
+  @Authorization()
+  @Query(() => [OperationDayGroupModel], {
+    name: 'findAllOperationsSortedByDays',
+  })
+  public async findAllOperationsSortedByDays(@Authorized() user: User) {
+    return this.operationService.findAllSortedByDays(user);
   }
 
   @Authorization()

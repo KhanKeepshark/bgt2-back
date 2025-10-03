@@ -127,17 +127,27 @@ type Mutation {
   verifyAccount(input: VerificationInput!): AuthModel!
 }
 
+type OperationDayGroupModel {
+  day: String!
+  operations: [OperationModel!]!
+}
+
 type OperationModel {
+  account: AccountModel!
   accountId: String!
   amount: String!
+  category: CategoryModel
   categoryId: String
   createdAt: DateTime!
   date: DateTime!
   description: String!
   id: String!
+  tags: [TagModel!]
+  transferAccount: AccountModel
   transferAccountId: String
   type: String!
   updatedAt: DateTime!
+  userId: String!
 }
 
 """Type of operation"""
@@ -151,6 +161,7 @@ type Query {
   findAllAccounts: [AccountModel!]!
   findAllCategories: [CategoryModel!]!
   findAllOperations: [OperationModel!]!
+  findAllOperationsSortedByDays: [OperationDayGroupModel!]!
   findAllTags: [TagModel!]!
   findAllUsers: [UserModel!]!
   findCategoriesByType(type: String!): [CategoryModel!]!
@@ -228,6 +239,8 @@ input UpdateTagInput {
 }
 
 type UserModel {
+  accounts: [AccountModel!]
+  categories: [CategoryModel!]
   createdAt: DateTime!
   email: String!
   id: ID!
@@ -242,6 +255,7 @@ type UserModel {
   premiumExpiresAt: DateTime
   premiumPlan: String
   role: String!
+  tags: [TagModel!]
   totpSecret: String
   updatedAt: DateTime!
 }

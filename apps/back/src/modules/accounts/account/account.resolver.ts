@@ -26,13 +26,13 @@ export class AccountResolver {
     return this.accountService.findAll(user);
   }
 
-  @Authorization()
+  // @Authorization()
   @Query(() => AccountModel, { name: 'findOneAccount' })
   public async findOneAccount(
     @Args('id') id: string,
-    @Authorized() user: User,
+    // @Authorized() user: User,
   ) {
-    return this.accountService.findOne(id, user);
+    return this.accountService.findOne(id);
   }
 
   @Authorization()

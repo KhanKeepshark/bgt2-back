@@ -41,6 +41,31 @@ export class AccountService {
     }
   }
 
+  public async createDefault(user: User): Promise<Account> {
+    try {
+      const created = await this.prismaService.account.create({
+        data: {
+          name: 'Default',
+          icon: 'wallet',
+          currency: 'USD',
+          user: {
+            connect: { id: user.id },
+          },
+        },
+      });
+
+      console.log('created', created);
+
+      return created;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to create default account');
+      }
+
+      throw error;
+    }
+  }
+
   public async findAll(user: User): Promise<Account[]> {
     try {
       const accounts = await this.prismaService.account.findMany({
@@ -58,10 +83,10 @@ export class AccountService {
     }
   }
 
-  public async findOne(id: string, user: User): Promise<Account> {
+  public async findOne(id: string): Promise<Account> {
     try {
       const account = await this.prismaService.account.findFirst({
-        where: { id, userId: user.id },
+        where: { id },
       });
 
       if (!account) {

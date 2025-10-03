@@ -7,6 +7,7 @@ import { CreateCategoryInput } from './inputs/create-category.input';
 import { Category, User } from '@prisma/generated';
 import { PrismaService } from '@back/src/core/prisma/prisma.service';
 import { UpdateCategoryInput } from './inputs/update-category.input';
+import { defaultCategories } from './const/defaultCategories';
 
 @Injectable()
 export class CategoryService {
@@ -64,6 +65,31 @@ export class CategoryService {
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException('Failed to create category');
+      }
+
+      throw error;
+    }
+  }
+
+  public async createDefault(user: User): Promise<void> {
+    try {
+      for (const category of defaultCategories) {
+        await Promise.all([
+          await this.prismaService.category.create({
+            data: {
+              name: category.name,
+              icon: category.icon,
+              user: {
+                connect: { id: user.id },
+              },
+              type: category.type,
+            },
+          }),
+        ]);
+      }
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to create default category');
       }
 
       throw error;

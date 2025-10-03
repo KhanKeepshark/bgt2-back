@@ -1,5 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import type { PremiumPlan, User } from '@prisma/generated';
+import { AccountModel } from '../../../accounts/account/models/account.model';
+import { TagModel } from '../../../accounts/tag/model/tag.model';
+import { CategoryModel } from '../../../accounts/category/models/category.model';
 
 @ObjectType()
 export class UserModel implements User {
@@ -50,4 +53,13 @@ export class UserModel implements User {
 
   @Field(() => String)
   role: 'USER' | 'ADMIN';
+
+  @Field(() => [AccountModel], { nullable: true })
+  accounts?: AccountModel[];
+
+  @Field(() => [TagModel], { nullable: true })
+  tags?: TagModel[];
+
+  @Field(() => [CategoryModel], { nullable: true })
+  categories?: CategoryModel[];
 }

@@ -3,10 +3,14 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserInput } from './inputs/create-user.input';
 import { hash } from 'argon2';
 import { VerificationService } from '../verification/verification.service';
+import { AccountService } from '../../accounts/account/account.service';
+import { CategoryService } from '../../accounts/category/category.service';
 @Injectable()
 export class UserService {
   public constructor(
     private readonly prismaService: PrismaService,
+    private readonly accountService: AccountService,
+    private readonly categoryService: CategoryService,
     private readonly verificationService: VerificationService,
   ) {}
 
@@ -20,6 +24,15 @@ export class UserService {
     const user = await this.prismaService.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        accounts: true,
+        tags: true,
+        categories: {
+          include: {
+            children: true,
+          },
+        },
       },
     });
 
@@ -46,7 +59,10 @@ export class UserService {
       },
     });
 
-    await this.verificationService.sendVerificationEmail(user);
+    await this.accountService.createDefault(user);
+    await this.categoryService.createDefault(user);
+
+    // await this.verificationService.sendVerificationEmail(user);
 
     return true;
   }

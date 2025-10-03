@@ -61,6 +61,15 @@ export class SessionService {
       where: {
         email: { equals: login },
       },
+      include: {
+        accounts: true,
+        tags: true,
+        categories: {
+          include: {
+            children: true,
+          },
+        },
+      },
     });
 
     if (!user) {

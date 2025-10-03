@@ -1394,6 +1394,7 @@ export namespace Prisma {
     accounts: number
     tags: number
     categories: number
+    operations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1401,6 +1402,7 @@ export namespace Prisma {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     tags?: boolean | UserCountOutputTypeCountTagsArgs
     categories?: boolean | UserCountOutputTypeCountCategoriesArgs
+    operations?: boolean | UserCountOutputTypeCountOperationsArgs
   }
 
   // Custom InputTypes
@@ -1442,6 +1444,13 @@ export namespace Prisma {
     where?: CategoryWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OperationWhereInput
+  }
+
 
   /**
    * Count Type AccountCountOutputType
@@ -1449,10 +1458,12 @@ export namespace Prisma {
 
   export type AccountCountOutputType = {
     operations: number
+    transferOperations: number
   }
 
   export type AccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     operations?: boolean | AccountCountOutputTypeCountOperationsArgs
+    transferOperations?: boolean | AccountCountOutputTypeCountTransferOperationsArgs
   }
 
   // Custom InputTypes
@@ -1470,6 +1481,13 @@ export namespace Prisma {
    * AccountCountOutputType without action
    */
   export type AccountCountOutputTypeCountOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OperationWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountTransferOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OperationWhereInput
   }
 
@@ -1870,6 +1888,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     tags?: boolean | User$tagsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
+    operations?: boolean | User$operationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1936,6 +1955,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     tags?: boolean | User$tagsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
+    operations?: boolean | User$operationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1948,6 +1968,7 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       tags: Prisma.$TagPayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
+      operations: Prisma.$OperationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2364,6 +2385,7 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends User$tagsArgs<ExtArgs> = {}>(args?: Subset<T, User$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends User$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    operations<T extends User$operationsArgs<ExtArgs> = {}>(args?: Subset<T, User$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2890,6 +2912,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * User.operations
+   */
+  export type User$operationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Operation
+     */
+    select?: OperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Operation
+     */
+    omit?: OperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationInclude<ExtArgs> | null
+    where?: OperationWhereInput
+    orderBy?: OperationOrderByWithRelationInput | OperationOrderByWithRelationInput[]
+    cursor?: OperationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OperationScalarFieldEnum | OperationScalarFieldEnum[]
   }
 
   /**
@@ -4227,6 +4273,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     operations?: boolean | Account$operationsArgs<ExtArgs>
+    transferOperations?: boolean | Account$transferOperationsArgs<ExtArgs>
     _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
@@ -4272,6 +4319,7 @@ export namespace Prisma {
   export type AccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     operations?: boolean | Account$operationsArgs<ExtArgs>
+    transferOperations?: boolean | Account$transferOperationsArgs<ExtArgs>
     _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4286,6 +4334,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       operations: Prisma.$OperationPayload<ExtArgs>[]
+      transferOperations: Prisma.$OperationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4693,6 +4742,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     operations<T extends Account$operationsArgs<ExtArgs> = {}>(args?: Subset<T, Account$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transferOperations<T extends Account$transferOperationsArgs<ExtArgs> = {}>(args?: Subset<T, Account$transferOperationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5151,6 +5201,30 @@ export namespace Prisma {
   }
 
   /**
+   * Account.transferOperations
+   */
+  export type Account$transferOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Operation
+     */
+    select?: OperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Operation
+     */
+    omit?: OperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationInclude<ExtArgs> | null
+    where?: OperationWhereInput
+    orderBy?: OperationOrderByWithRelationInput | OperationOrderByWithRelationInput[]
+    cursor?: OperationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OperationScalarFieldEnum | OperationScalarFieldEnum[]
+  }
+
+  /**
    * Account without action
    */
   export type AccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5195,9 +5269,10 @@ export namespace Prisma {
     date: Date | null
     description: string | null
     type: $Enums.OperationType | null
+    userId: string | null
+    accountId: string | null
     transferAccountId: string | null
     categoryId: string | null
-    accountId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5208,9 +5283,10 @@ export namespace Prisma {
     date: Date | null
     description: string | null
     type: $Enums.OperationType | null
+    userId: string | null
+    accountId: string | null
     transferAccountId: string | null
     categoryId: string | null
-    accountId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5221,9 +5297,10 @@ export namespace Prisma {
     date: number
     description: number
     type: number
+    userId: number
+    accountId: number
     transferAccountId: number
     categoryId: number
-    accountId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5244,9 +5321,10 @@ export namespace Prisma {
     date?: true
     description?: true
     type?: true
+    userId?: true
+    accountId?: true
     transferAccountId?: true
     categoryId?: true
-    accountId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5257,9 +5335,10 @@ export namespace Prisma {
     date?: true
     description?: true
     type?: true
+    userId?: true
+    accountId?: true
     transferAccountId?: true
     categoryId?: true
-    accountId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5270,9 +5349,10 @@ export namespace Prisma {
     date?: true
     description?: true
     type?: true
+    userId?: true
+    accountId?: true
     transferAccountId?: true
     categoryId?: true
-    accountId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5370,9 +5450,10 @@ export namespace Prisma {
     date: Date
     description: string | null
     type: $Enums.OperationType
+    userId: string
+    accountId: string | null
     transferAccountId: string | null
     categoryId: string | null
-    accountId: string
     createdAt: Date
     updatedAt: Date
     _count: OperationCountAggregateOutputType | null
@@ -5402,13 +5483,16 @@ export namespace Prisma {
     date?: boolean
     description?: boolean
     type?: boolean
+    userId?: boolean
+    accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
-    accountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | Operation$accountArgs<ExtArgs>
+    transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
-    account?: boolean | AccountDefaultArgs<ExtArgs>
     tags?: boolean | Operation$tagsArgs<ExtArgs>
     _count?: boolean | OperationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["operation"]>
@@ -5419,13 +5503,16 @@ export namespace Prisma {
     date?: boolean
     description?: boolean
     type?: boolean
+    userId?: boolean
+    accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
-    accountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | Operation$accountArgs<ExtArgs>
+    transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
-    account?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["operation"]>
 
   export type OperationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5434,13 +5521,16 @@ export namespace Prisma {
     date?: boolean
     description?: boolean
     type?: boolean
+    userId?: boolean
+    accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
-    accountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | Operation$accountArgs<ExtArgs>
+    transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
-    account?: boolean | AccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["operation"]>
 
   export type OperationSelectScalar = {
@@ -5449,34 +5539,43 @@ export namespace Prisma {
     date?: boolean
     description?: boolean
     type?: boolean
+    userId?: boolean
+    accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
-    accountId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type OperationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "date" | "description" | "type" | "transferAccountId" | "categoryId" | "accountId" | "createdAt" | "updatedAt", ExtArgs["result"]["operation"]>
+  export type OperationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "date" | "description" | "type" | "userId" | "accountId" | "transferAccountId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["operation"]>
   export type OperationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | Operation$accountArgs<ExtArgs>
+    transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
-    account?: boolean | AccountDefaultArgs<ExtArgs>
     tags?: boolean | Operation$tagsArgs<ExtArgs>
     _count?: boolean | OperationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OperationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | Operation$accountArgs<ExtArgs>
+    transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
-    account?: boolean | AccountDefaultArgs<ExtArgs>
   }
   export type OperationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | Operation$accountArgs<ExtArgs>
+    transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
-    account?: boolean | AccountDefaultArgs<ExtArgs>
   }
 
   export type $OperationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Operation"
     objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      account: Prisma.$AccountPayload<ExtArgs> | null
+      transferAccount: Prisma.$AccountPayload<ExtArgs> | null
       category: Prisma.$CategoryPayload<ExtArgs> | null
-      account: Prisma.$AccountPayload<ExtArgs>
       tags: Prisma.$TagPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5485,9 +5584,10 @@ export namespace Prisma {
       date: Date
       description: string | null
       type: $Enums.OperationType
+      userId: string
+      accountId: string | null
       transferAccountId: string | null
       categoryId: string | null
-      accountId: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["operation"]>
@@ -5884,8 +5984,10 @@ export namespace Prisma {
    */
   export interface Prisma__OperationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    account<T extends Operation$accountArgs<ExtArgs> = {}>(args?: Subset<T, Operation$accountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    transferAccount<T extends Operation$transferAccountArgs<ExtArgs> = {}>(args?: Subset<T, Operation$transferAccountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     category<T extends Operation$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Operation$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    account<T extends AccountDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AccountDefaultArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tags<T extends Operation$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Operation$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5921,9 +6023,10 @@ export namespace Prisma {
     readonly date: FieldRef<"Operation", 'DateTime'>
     readonly description: FieldRef<"Operation", 'String'>
     readonly type: FieldRef<"Operation", 'OperationType'>
+    readonly userId: FieldRef<"Operation", 'String'>
+    readonly accountId: FieldRef<"Operation", 'String'>
     readonly transferAccountId: FieldRef<"Operation", 'String'>
     readonly categoryId: FieldRef<"Operation", 'String'>
-    readonly accountId: FieldRef<"Operation", 'String'>
     readonly createdAt: FieldRef<"Operation", 'DateTime'>
     readonly updatedAt: FieldRef<"Operation", 'DateTime'>
   }
@@ -6319,6 +6422,44 @@ export namespace Prisma {
      * Limit how many Operations to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Operation.account
+   */
+  export type Operation$accountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    where?: AccountWhereInput
+  }
+
+  /**
+   * Operation.transferAccount
+   */
+  export type Operation$transferAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    where?: AccountWhereInput
   }
 
   /**
@@ -8749,9 +8890,10 @@ export namespace Prisma {
     date: 'date',
     description: 'description',
     type: 'type',
+    userId: 'userId',
+    accountId: 'accountId',
     transferAccountId: 'transferAccountId',
     categoryId: 'categoryId',
-    accountId: 'accountId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8989,6 +9131,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     tags?: TagListRelationFilter
     categories?: CategoryListRelationFilter
+    operations?: OperationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9012,6 +9155,7 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
+    operations?: OperationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9038,6 +9182,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     tags?: TagListRelationFilter
     categories?: CategoryListRelationFilter
+    operations?: OperationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9166,6 +9311,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     operations?: OperationListRelationFilter
+    transferOperations?: OperationListRelationFilter
   }
 
   export type AccountOrderByWithRelationInput = {
@@ -9180,6 +9326,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     operations?: OperationOrderByRelationAggregateInput
+    transferOperations?: OperationOrderByRelationAggregateInput
   }
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -9198,6 +9345,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     operations?: OperationListRelationFilter
+    transferOperations?: OperationListRelationFilter
   }, "id" | "userId_name">
 
   export type AccountOrderByWithAggregationInput = {
@@ -9241,13 +9389,16 @@ export namespace Prisma {
     date?: DateTimeFilter<"Operation"> | Date | string
     description?: StringNullableFilter<"Operation"> | string | null
     type?: EnumOperationTypeFilter<"Operation"> | $Enums.OperationType
+    userId?: StringFilter<"Operation"> | string
+    accountId?: StringNullableFilter<"Operation"> | string | null
     transferAccountId?: StringNullableFilter<"Operation"> | string | null
     categoryId?: StringNullableFilter<"Operation"> | string | null
-    accountId?: StringFilter<"Operation"> | string
     createdAt?: DateTimeFilter<"Operation"> | Date | string
     updatedAt?: DateTimeFilter<"Operation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+    transferAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
-    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     tags?: TagListRelationFilter
   }
 
@@ -9257,13 +9408,16 @@ export namespace Prisma {
     date?: SortOrder
     description?: SortOrderInput | SortOrder
     type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     transferAccountId?: SortOrderInput | SortOrder
     categoryId?: SortOrderInput | SortOrder
-    accountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    category?: CategoryOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
     account?: AccountOrderByWithRelationInput
+    transferAccount?: AccountOrderByWithRelationInput
+    category?: CategoryOrderByWithRelationInput
     tags?: TagOrderByRelationAggregateInput
   }
 
@@ -9276,13 +9430,16 @@ export namespace Prisma {
     date?: DateTimeFilter<"Operation"> | Date | string
     description?: StringNullableFilter<"Operation"> | string | null
     type?: EnumOperationTypeFilter<"Operation"> | $Enums.OperationType
+    userId?: StringFilter<"Operation"> | string
+    accountId?: StringNullableFilter<"Operation"> | string | null
     transferAccountId?: StringNullableFilter<"Operation"> | string | null
     categoryId?: StringNullableFilter<"Operation"> | string | null
-    accountId?: StringFilter<"Operation"> | string
     createdAt?: DateTimeFilter<"Operation"> | Date | string
     updatedAt?: DateTimeFilter<"Operation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+    transferAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
-    account?: XOR<AccountScalarRelationFilter, AccountWhereInput>
     tags?: TagListRelationFilter
   }, "id">
 
@@ -9292,9 +9449,10 @@ export namespace Prisma {
     date?: SortOrder
     description?: SortOrderInput | SortOrder
     type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
     transferAccountId?: SortOrderInput | SortOrder
     categoryId?: SortOrderInput | SortOrder
-    accountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: OperationCountOrderByAggregateInput
@@ -9313,9 +9471,10 @@ export namespace Prisma {
     date?: DateTimeWithAggregatesFilter<"Operation"> | Date | string
     description?: StringNullableWithAggregatesFilter<"Operation"> | string | null
     type?: EnumOperationTypeWithAggregatesFilter<"Operation"> | $Enums.OperationType
+    userId?: StringWithAggregatesFilter<"Operation"> | string
+    accountId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
     transferAccountId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
     categoryId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
-    accountId?: StringWithAggregatesFilter<"Operation"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Operation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Operation"> | Date | string
   }
@@ -9490,6 +9649,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9513,6 +9673,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -9536,6 +9697,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -9559,6 +9721,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -9698,6 +9861,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAccountsInput
     operations?: OperationCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUncheckedCreateInput = {
@@ -9711,6 +9875,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUpdateInput = {
@@ -9724,6 +9889,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
     operations?: OperationUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateInput = {
@@ -9737,6 +9903,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountCreateManyInput = {
@@ -9780,11 +9947,12 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
-    transferAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutOperationsInput
+    account?: AccountCreateNestedOneWithoutOperationsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
-    account: AccountCreateNestedOneWithoutOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
 
@@ -9794,9 +9962,10 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
-    accountId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
@@ -9808,11 +9977,12 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
-    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutOperationsNestedInput
+    account?: AccountUpdateOneWithoutOperationsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
-    account?: AccountUpdateOneRequiredWithoutOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
 
@@ -9822,9 +9992,10 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
@@ -9836,9 +10007,10 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
-    accountId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9849,7 +10021,6 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
-    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9860,9 +10031,10 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10129,6 +10301,12 @@ export namespace Prisma {
     none?: CategoryWhereInput
   }
 
+  export type OperationListRelationFilter = {
+    every?: OperationWhereInput
+    some?: OperationWhereInput
+    none?: OperationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -10147,6 +10325,10 @@ export namespace Prisma {
   }
 
   export type CategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OperationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10386,16 +10568,6 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
-  export type OperationListRelationFilter = {
-    every?: OperationWhereInput
-    some?: OperationWhereInput
-    none?: OperationWhereInput
-  }
-
-  export type OperationOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type AccountUserIdNameCompoundUniqueInput = {
     userId: string
     name: string
@@ -10468,14 +10640,14 @@ export namespace Prisma {
     not?: NestedEnumOperationTypeFilter<$PrismaModel> | $Enums.OperationType
   }
 
+  export type AccountNullableScalarRelationFilter = {
+    is?: AccountWhereInput | null
+    isNot?: AccountWhereInput | null
+  }
+
   export type CategoryNullableScalarRelationFilter = {
     is?: CategoryWhereInput | null
     isNot?: CategoryWhereInput | null
-  }
-
-  export type AccountScalarRelationFilter = {
-    is?: AccountWhereInput
-    isNot?: AccountWhereInput
   }
 
   export type OperationCountOrderByAggregateInput = {
@@ -10484,9 +10656,10 @@ export namespace Prisma {
     date?: SortOrder
     description?: SortOrder
     type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrder
     transferAccountId?: SortOrder
     categoryId?: SortOrder
-    accountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10501,9 +10674,10 @@ export namespace Prisma {
     date?: SortOrder
     description?: SortOrder
     type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrder
     transferAccountId?: SortOrder
     categoryId?: SortOrder
-    accountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10514,9 +10688,10 @@ export namespace Prisma {
     date?: SortOrder
     description?: SortOrder
     type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrder
     transferAccountId?: SortOrder
     categoryId?: SortOrder
-    accountId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10653,6 +10828,13 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
   }
 
+  export type OperationCreateNestedManyWithoutUserInput = {
+    create?: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput> | OperationCreateWithoutUserInput[] | OperationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
+    createMany?: OperationCreateManyUserInputEnvelope
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
   export type TokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -10679,6 +10861,13 @@ export namespace Prisma {
     connectOrCreate?: CategoryCreateOrConnectWithoutUserInput | CategoryCreateOrConnectWithoutUserInput[]
     createMany?: CategoryCreateManyUserInputEnvelope
     connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+  }
+
+  export type OperationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput> | OperationCreateWithoutUserInput[] | OperationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
+    createMany?: OperationCreateManyUserInputEnvelope
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10773,6 +10962,20 @@ export namespace Prisma {
     deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
+  export type OperationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput> | OperationCreateWithoutUserInput[] | OperationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
+    upsert?: OperationUpsertWithWhereUniqueWithoutUserInput | OperationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OperationCreateManyUserInputEnvelope
+    set?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    disconnect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    delete?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    update?: OperationUpdateWithWhereUniqueWithoutUserInput | OperationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OperationUpdateManyWithWhereWithoutUserInput | OperationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
+  }
+
   export type TokenUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -10829,6 +11032,20 @@ export namespace Prisma {
     deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
+  export type OperationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput> | OperationCreateWithoutUserInput[] | OperationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
+    upsert?: OperationUpsertWithWhereUniqueWithoutUserInput | OperationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OperationCreateManyUserInputEnvelope
+    set?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    disconnect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    delete?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    update?: OperationUpdateWithWhereUniqueWithoutUserInput | OperationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OperationUpdateManyWithWhereWithoutUserInput | OperationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutTokensInput = {
     create?: XOR<UserCreateWithoutTokensInput, UserUncheckedCreateWithoutTokensInput>
     connectOrCreate?: UserCreateOrConnectWithoutTokensInput
@@ -10860,10 +11077,24 @@ export namespace Prisma {
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
   }
 
+  export type OperationCreateNestedManyWithoutTransferAccountInput = {
+    create?: XOR<OperationCreateWithoutTransferAccountInput, OperationUncheckedCreateWithoutTransferAccountInput> | OperationCreateWithoutTransferAccountInput[] | OperationUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutTransferAccountInput | OperationCreateOrConnectWithoutTransferAccountInput[]
+    createMany?: OperationCreateManyTransferAccountInputEnvelope
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
   export type OperationUncheckedCreateNestedManyWithoutAccountInput = {
     create?: XOR<OperationCreateWithoutAccountInput, OperationUncheckedCreateWithoutAccountInput> | OperationCreateWithoutAccountInput[] | OperationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: OperationCreateOrConnectWithoutAccountInput | OperationCreateOrConnectWithoutAccountInput[]
     createMany?: OperationCreateManyAccountInputEnvelope
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
+  export type OperationUncheckedCreateNestedManyWithoutTransferAccountInput = {
+    create?: XOR<OperationCreateWithoutTransferAccountInput, OperationUncheckedCreateWithoutTransferAccountInput> | OperationCreateWithoutTransferAccountInput[] | OperationUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutTransferAccountInput | OperationCreateOrConnectWithoutTransferAccountInput[]
+    createMany?: OperationCreateManyTransferAccountInputEnvelope
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
   }
 
@@ -10897,6 +11128,20 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
+  export type OperationUpdateManyWithoutTransferAccountNestedInput = {
+    create?: XOR<OperationCreateWithoutTransferAccountInput, OperationUncheckedCreateWithoutTransferAccountInput> | OperationCreateWithoutTransferAccountInput[] | OperationUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutTransferAccountInput | OperationCreateOrConnectWithoutTransferAccountInput[]
+    upsert?: OperationUpsertWithWhereUniqueWithoutTransferAccountInput | OperationUpsertWithWhereUniqueWithoutTransferAccountInput[]
+    createMany?: OperationCreateManyTransferAccountInputEnvelope
+    set?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    disconnect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    delete?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    update?: OperationUpdateWithWhereUniqueWithoutTransferAccountInput | OperationUpdateWithWhereUniqueWithoutTransferAccountInput[]
+    updateMany?: OperationUpdateManyWithWhereWithoutTransferAccountInput | OperationUpdateManyWithWhereWithoutTransferAccountInput[]
+    deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
+  }
+
   export type OperationUncheckedUpdateManyWithoutAccountNestedInput = {
     create?: XOR<OperationCreateWithoutAccountInput, OperationUncheckedCreateWithoutAccountInput> | OperationCreateWithoutAccountInput[] | OperationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: OperationCreateOrConnectWithoutAccountInput | OperationCreateOrConnectWithoutAccountInput[]
@@ -10911,16 +11156,42 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
-  export type CategoryCreateNestedOneWithoutOperationsInput = {
-    create?: XOR<CategoryCreateWithoutOperationsInput, CategoryUncheckedCreateWithoutOperationsInput>
-    connectOrCreate?: CategoryCreateOrConnectWithoutOperationsInput
-    connect?: CategoryWhereUniqueInput
+  export type OperationUncheckedUpdateManyWithoutTransferAccountNestedInput = {
+    create?: XOR<OperationCreateWithoutTransferAccountInput, OperationUncheckedCreateWithoutTransferAccountInput> | OperationCreateWithoutTransferAccountInput[] | OperationUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutTransferAccountInput | OperationCreateOrConnectWithoutTransferAccountInput[]
+    upsert?: OperationUpsertWithWhereUniqueWithoutTransferAccountInput | OperationUpsertWithWhereUniqueWithoutTransferAccountInput[]
+    createMany?: OperationCreateManyTransferAccountInputEnvelope
+    set?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    disconnect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    delete?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    update?: OperationUpdateWithWhereUniqueWithoutTransferAccountInput | OperationUpdateWithWhereUniqueWithoutTransferAccountInput[]
+    updateMany?: OperationUpdateManyWithWhereWithoutTransferAccountInput | OperationUpdateManyWithWhereWithoutTransferAccountInput[]
+    deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutOperationsInput = {
+    create?: XOR<UserCreateWithoutOperationsInput, UserUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOperationsInput
+    connect?: UserWhereUniqueInput
   }
 
   export type AccountCreateNestedOneWithoutOperationsInput = {
     create?: XOR<AccountCreateWithoutOperationsInput, AccountUncheckedCreateWithoutOperationsInput>
     connectOrCreate?: AccountCreateOrConnectWithoutOperationsInput
     connect?: AccountWhereUniqueInput
+  }
+
+  export type AccountCreateNestedOneWithoutTransferOperationsInput = {
+    create?: XOR<AccountCreateWithoutTransferOperationsInput, AccountUncheckedCreateWithoutTransferOperationsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutTransferOperationsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type CategoryCreateNestedOneWithoutOperationsInput = {
+    create?: XOR<CategoryCreateWithoutOperationsInput, CategoryUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutOperationsInput
+    connect?: CategoryWhereUniqueInput
   }
 
   export type TagCreateNestedManyWithoutOperationsInput = {
@@ -10939,6 +11210,34 @@ export namespace Prisma {
     set?: $Enums.OperationType
   }
 
+  export type UserUpdateOneRequiredWithoutOperationsNestedInput = {
+    create?: XOR<UserCreateWithoutOperationsInput, UserUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOperationsInput
+    upsert?: UserUpsertWithoutOperationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOperationsInput, UserUpdateWithoutOperationsInput>, UserUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type AccountUpdateOneWithoutOperationsNestedInput = {
+    create?: XOR<AccountCreateWithoutOperationsInput, AccountUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutOperationsInput
+    upsert?: AccountUpsertWithoutOperationsInput
+    disconnect?: AccountWhereInput | boolean
+    delete?: AccountWhereInput | boolean
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutOperationsInput, AccountUpdateWithoutOperationsInput>, AccountUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type AccountUpdateOneWithoutTransferOperationsNestedInput = {
+    create?: XOR<AccountCreateWithoutTransferOperationsInput, AccountUncheckedCreateWithoutTransferOperationsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutTransferOperationsInput
+    upsert?: AccountUpsertWithoutTransferOperationsInput
+    disconnect?: AccountWhereInput | boolean
+    delete?: AccountWhereInput | boolean
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutTransferOperationsInput, AccountUpdateWithoutTransferOperationsInput>, AccountUncheckedUpdateWithoutTransferOperationsInput>
+  }
+
   export type CategoryUpdateOneWithoutOperationsNestedInput = {
     create?: XOR<CategoryCreateWithoutOperationsInput, CategoryUncheckedCreateWithoutOperationsInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutOperationsInput
@@ -10947,14 +11246,6 @@ export namespace Prisma {
     delete?: CategoryWhereInput | boolean
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutOperationsInput, CategoryUpdateWithoutOperationsInput>, CategoryUncheckedUpdateWithoutOperationsInput>
-  }
-
-  export type AccountUpdateOneRequiredWithoutOperationsNestedInput = {
-    create?: XOR<AccountCreateWithoutOperationsInput, AccountUncheckedCreateWithoutOperationsInput>
-    connectOrCreate?: AccountCreateOrConnectWithoutOperationsInput
-    upsert?: AccountUpsertWithoutOperationsInput
-    connect?: AccountWhereUniqueInput
-    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutOperationsInput, AccountUpdateWithoutOperationsInput>, AccountUncheckedUpdateWithoutOperationsInput>
   }
 
   export type TagUpdateManyWithoutOperationsNestedInput = {
@@ -11477,6 +11768,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     operations?: OperationCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUncheckedCreateWithoutUserInput = {
@@ -11489,6 +11781,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountCreateOrConnectWithoutUserInput = {
@@ -11562,6 +11855,44 @@ export namespace Prisma {
 
   export type CategoryCreateManyUserInputEnvelope = {
     data: CategoryCreateManyUserInput | CategoryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OperationCreateWithoutUserInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account?: AccountCreateNestedOneWithoutOperationsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
+    category?: CategoryCreateNestedOneWithoutOperationsInput
+    tags?: TagCreateNestedManyWithoutOperationsInput
+  }
+
+  export type OperationUncheckedCreateWithoutUserInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
+  }
+
+  export type OperationCreateOrConnectWithoutUserInput = {
+    where: OperationWhereUniqueInput
+    create: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput>
+  }
+
+  export type OperationCreateManyUserInputEnvelope = {
+    data: OperationCreateManyUserInput | OperationCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -11684,6 +12015,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Category"> | Date | string
   }
 
+  export type OperationUpsertWithWhereUniqueWithoutUserInput = {
+    where: OperationWhereUniqueInput
+    update: XOR<OperationUpdateWithoutUserInput, OperationUncheckedUpdateWithoutUserInput>
+    create: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput>
+  }
+
+  export type OperationUpdateWithWhereUniqueWithoutUserInput = {
+    where: OperationWhereUniqueInput
+    data: XOR<OperationUpdateWithoutUserInput, OperationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type OperationUpdateManyWithWhereWithoutUserInput = {
+    where: OperationScalarWhereInput
+    data: XOR<OperationUpdateManyMutationInput, OperationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type OperationScalarWhereInput = {
+    AND?: OperationScalarWhereInput | OperationScalarWhereInput[]
+    OR?: OperationScalarWhereInput[]
+    NOT?: OperationScalarWhereInput | OperationScalarWhereInput[]
+    id?: StringFilter<"Operation"> | string
+    amount?: DecimalFilter<"Operation"> | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFilter<"Operation"> | Date | string
+    description?: StringNullableFilter<"Operation"> | string | null
+    type?: EnumOperationTypeFilter<"Operation"> | $Enums.OperationType
+    userId?: StringFilter<"Operation"> | string
+    accountId?: StringNullableFilter<"Operation"> | string | null
+    transferAccountId?: StringNullableFilter<"Operation"> | string | null
+    categoryId?: StringNullableFilter<"Operation"> | string | null
+    createdAt?: DateTimeFilter<"Operation"> | Date | string
+    updatedAt?: DateTimeFilter<"Operation"> | Date | string
+  }
+
   export type UserCreateWithoutTokensInput = {
     id?: string
     email: string
@@ -11704,6 +12068,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -11726,6 +12091,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -11764,6 +12130,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -11786,6 +12153,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -11808,6 +12176,7 @@ export namespace Prisma {
     tokens?: TokenCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -11830,6 +12199,7 @@ export namespace Prisma {
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -11843,9 +12213,10 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
-    transferAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutOperationsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
@@ -11856,6 +12227,7 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
+    userId: string
     transferAccountId?: string | null
     categoryId?: string | null
     createdAt?: Date | string
@@ -11870,6 +12242,44 @@ export namespace Prisma {
 
   export type OperationCreateManyAccountInputEnvelope = {
     data: OperationCreateManyAccountInput | OperationCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OperationCreateWithoutTransferAccountInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutOperationsInput
+    account?: AccountCreateNestedOneWithoutOperationsInput
+    category?: CategoryCreateNestedOneWithoutOperationsInput
+    tags?: TagCreateNestedManyWithoutOperationsInput
+  }
+
+  export type OperationUncheckedCreateWithoutTransferAccountInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
+  }
+
+  export type OperationCreateOrConnectWithoutTransferAccountInput = {
+    where: OperationWhereUniqueInput
+    create: XOR<OperationCreateWithoutTransferAccountInput, OperationUncheckedCreateWithoutTransferAccountInput>
+  }
+
+  export type OperationCreateManyTransferAccountInputEnvelope = {
+    data: OperationCreateManyTransferAccountInput | OperationCreateManyTransferAccountInput[]
     skipDuplicates?: boolean
   }
 
@@ -11904,6 +12314,7 @@ export namespace Prisma {
     tokens?: TokenUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -11926,6 +12337,7 @@ export namespace Prisma {
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OperationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -11944,20 +12356,133 @@ export namespace Prisma {
     data: XOR<OperationUpdateManyMutationInput, OperationUncheckedUpdateManyWithoutAccountInput>
   }
 
-  export type OperationScalarWhereInput = {
-    AND?: OperationScalarWhereInput | OperationScalarWhereInput[]
-    OR?: OperationScalarWhereInput[]
-    NOT?: OperationScalarWhereInput | OperationScalarWhereInput[]
-    id?: StringFilter<"Operation"> | string
-    amount?: DecimalFilter<"Operation"> | Decimal | DecimalJsLike | number | string
-    date?: DateTimeFilter<"Operation"> | Date | string
-    description?: StringNullableFilter<"Operation"> | string | null
-    type?: EnumOperationTypeFilter<"Operation"> | $Enums.OperationType
-    transferAccountId?: StringNullableFilter<"Operation"> | string | null
-    categoryId?: StringNullableFilter<"Operation"> | string | null
-    accountId?: StringFilter<"Operation"> | string
-    createdAt?: DateTimeFilter<"Operation"> | Date | string
-    updatedAt?: DateTimeFilter<"Operation"> | Date | string
+  export type OperationUpsertWithWhereUniqueWithoutTransferAccountInput = {
+    where: OperationWhereUniqueInput
+    update: XOR<OperationUpdateWithoutTransferAccountInput, OperationUncheckedUpdateWithoutTransferAccountInput>
+    create: XOR<OperationCreateWithoutTransferAccountInput, OperationUncheckedCreateWithoutTransferAccountInput>
+  }
+
+  export type OperationUpdateWithWhereUniqueWithoutTransferAccountInput = {
+    where: OperationWhereUniqueInput
+    data: XOR<OperationUpdateWithoutTransferAccountInput, OperationUncheckedUpdateWithoutTransferAccountInput>
+  }
+
+  export type OperationUpdateManyWithWhereWithoutTransferAccountInput = {
+    where: OperationScalarWhereInput
+    data: XOR<OperationUpdateManyMutationInput, OperationUncheckedUpdateManyWithoutTransferAccountInput>
+  }
+
+  export type UserCreateWithoutOperationsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    isPremium?: boolean
+    premiumExpiresAt?: Date | string | null
+    premiumPlan?: $Enums.PremiumPlan | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutOperationsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    isPremium?: boolean
+    premiumExpiresAt?: Date | string | null
+    premiumPlan?: $Enums.PremiumPlan | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutOperationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutOperationsInput, UserUncheckedCreateWithoutOperationsInput>
+  }
+
+  export type AccountCreateWithoutOperationsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAccountsInput
+    transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutOperationsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutOperationsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutOperationsInput, AccountUncheckedCreateWithoutOperationsInput>
+  }
+
+  export type AccountCreateWithoutTransferOperationsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAccountsInput
+    operations?: OperationCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutTransferOperationsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutTransferOperationsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutTransferOperationsInput, AccountUncheckedCreateWithoutTransferOperationsInput>
   }
 
   export type CategoryCreateWithoutOperationsInput = {
@@ -11991,35 +12516,6 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutOperationsInput, CategoryUncheckedCreateWithoutOperationsInput>
   }
 
-  export type AccountCreateWithoutOperationsInput = {
-    id?: string
-    name: string
-    balance?: Decimal | DecimalJsLike | number | string
-    currency: string
-    icon?: string
-    iconColor?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAccountsInput
-  }
-
-  export type AccountUncheckedCreateWithoutOperationsInput = {
-    id?: string
-    name: string
-    balance?: Decimal | DecimalJsLike | number | string
-    currency: string
-    icon?: string
-    iconColor?: string
-    userId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type AccountCreateOrConnectWithoutOperationsInput = {
-    where: AccountWhereUniqueInput
-    create: XOR<AccountCreateWithoutOperationsInput, AccountUncheckedCreateWithoutOperationsInput>
-  }
-
   export type TagCreateWithoutOperationsInput = {
     id?: string
     name: string
@@ -12041,6 +12537,137 @@ export namespace Prisma {
   export type TagCreateOrConnectWithoutOperationsInput = {
     where: TagWhereUniqueInput
     create: XOR<TagCreateWithoutOperationsInput, TagUncheckedCreateWithoutOperationsInput>
+  }
+
+  export type UserUpsertWithoutOperationsInput = {
+    update: XOR<UserUpdateWithoutOperationsInput, UserUncheckedUpdateWithoutOperationsInput>
+    create: XOR<UserCreateWithoutOperationsInput, UserUncheckedCreateWithoutOperationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutOperationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutOperationsInput, UserUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type UserUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    premiumPlan?: NullableEnumPremiumPlanFieldUpdateOperationsInput | $Enums.PremiumPlan | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    premiumPlan?: NullableEnumPremiumPlanFieldUpdateOperationsInput | $Enums.PremiumPlan | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AccountUpsertWithoutOperationsInput = {
+    update: XOR<AccountUpdateWithoutOperationsInput, AccountUncheckedUpdateWithoutOperationsInput>
+    create: XOR<AccountCreateWithoutOperationsInput, AccountUncheckedCreateWithoutOperationsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutOperationsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutOperationsInput, AccountUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type AccountUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAccountsNestedInput
+    transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
+  }
+
+  export type AccountUpsertWithoutTransferOperationsInput = {
+    update: XOR<AccountUpdateWithoutTransferOperationsInput, AccountUncheckedUpdateWithoutTransferOperationsInput>
+    create: XOR<AccountCreateWithoutTransferOperationsInput, AccountUncheckedCreateWithoutTransferOperationsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutTransferOperationsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutTransferOperationsInput, AccountUncheckedUpdateWithoutTransferOperationsInput>
+  }
+
+  export type AccountUpdateWithoutTransferOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAccountsNestedInput
+    operations?: OperationUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutTransferOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
   }
 
   export type CategoryUpsertWithoutOperationsInput = {
@@ -12080,41 +12707,6 @@ export namespace Prisma {
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
   }
 
-  export type AccountUpsertWithoutOperationsInput = {
-    update: XOR<AccountUpdateWithoutOperationsInput, AccountUncheckedUpdateWithoutOperationsInput>
-    create: XOR<AccountCreateWithoutOperationsInput, AccountUncheckedCreateWithoutOperationsInput>
-    where?: AccountWhereInput
-  }
-
-  export type AccountUpdateToOneWithWhereWithoutOperationsInput = {
-    where?: AccountWhereInput
-    data: XOR<AccountUpdateWithoutOperationsInput, AccountUncheckedUpdateWithoutOperationsInput>
-  }
-
-  export type AccountUpdateWithoutOperationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: StringFieldUpdateOperationsInput | string
-    icon?: StringFieldUpdateOperationsInput | string
-    iconColor?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAccountsNestedInput
-  }
-
-  export type AccountUncheckedUpdateWithoutOperationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: StringFieldUpdateOperationsInput | string
-    icon?: StringFieldUpdateOperationsInput | string
-    iconColor?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type TagUpsertWithWhereUniqueWithoutOperationsInput = {
     where: TagWhereUniqueInput
     update: XOR<TagUpdateWithoutOperationsInput, TagUncheckedUpdateWithoutOperationsInput>
@@ -12151,6 +12743,7 @@ export namespace Prisma {
     tokens?: TokenCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTagsInput = {
@@ -12173,6 +12766,7 @@ export namespace Prisma {
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTagsInput = {
@@ -12186,11 +12780,12 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
-    transferAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutOperationsInput
+    account?: AccountCreateNestedOneWithoutOperationsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
-    account: AccountCreateNestedOneWithoutOperationsInput
   }
 
   export type OperationUncheckedCreateWithoutTagsInput = {
@@ -12199,9 +12794,10 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
-    accountId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12242,6 +12838,7 @@ export namespace Prisma {
     tokens?: TokenUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTagsInput = {
@@ -12264,6 +12861,7 @@ export namespace Prisma {
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OperationUpsertWithWhereUniqueWithoutTagsInput = {
@@ -12302,6 +12900,7 @@ export namespace Prisma {
     tokens?: TokenCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
@@ -12324,6 +12923,7 @@ export namespace Prisma {
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoriesInput = {
@@ -12404,10 +13004,11 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
-    transferAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    account: AccountCreateNestedOneWithoutOperationsInput
+    user: UserCreateNestedOneWithoutOperationsInput
+    account?: AccountCreateNestedOneWithoutOperationsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
 
@@ -12417,8 +13018,9 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
     transferAccountId?: string | null
-    accountId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
@@ -12465,6 +13067,7 @@ export namespace Prisma {
     tokens?: TokenUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoriesInput = {
@@ -12487,6 +13090,7 @@ export namespace Prisma {
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutChildrenInput = {
@@ -12597,6 +13201,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type OperationCreateManyUserInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type TokenUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
@@ -12634,6 +13251,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutUserInput = {
@@ -12646,6 +13264,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateManyWithoutUserInput = {
@@ -12722,13 +13341,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type OperationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneWithoutOperationsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
+    category?: CategoryUpdateOneWithoutOperationsNestedInput
+    tags?: TagUpdateManyWithoutOperationsNestedInput
+  }
+
+  export type OperationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
+  }
+
+  export type OperationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OperationCreateManyAccountInput = {
     id?: string
     amount: Decimal | DecimalJsLike | number | string
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
+    userId: string
     transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OperationCreateManyTransferAccountInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
     categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12740,9 +13414,10 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
-    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutOperationsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
@@ -12753,6 +13428,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12766,7 +13442,49 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OperationUpdateWithoutTransferAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutOperationsNestedInput
+    account?: AccountUpdateOneWithoutOperationsNestedInput
+    category?: CategoryUpdateOneWithoutOperationsNestedInput
+    tags?: TagUpdateManyWithoutOperationsNestedInput
+  }
+
+  export type OperationUncheckedUpdateWithoutTransferAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
+  }
+
+  export type OperationUncheckedUpdateManyWithoutTransferAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12805,11 +13523,12 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
-    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutOperationsNestedInput
+    account?: AccountUpdateOneWithoutOperationsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
-    account?: AccountUpdateOneRequiredWithoutOperationsNestedInput
   }
 
   export type OperationUncheckedUpdateWithoutTagsInput = {
@@ -12818,9 +13537,10 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12831,9 +13551,10 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12855,8 +13576,9 @@ export namespace Prisma {
     date?: Date | string
     description?: string | null
     type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
     transferAccountId?: string | null
-    accountId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12904,10 +13626,11 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
-    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    account?: AccountUpdateOneRequiredWithoutOperationsNestedInput
+    user?: UserUpdateOneRequiredWithoutOperationsNestedInput
+    account?: AccountUpdateOneWithoutOperationsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
 
@@ -12917,8 +13640,9 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
@@ -12930,8 +13654,9 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
-    accountId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
