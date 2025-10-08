@@ -34,6 +34,11 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  */
 export type Operation = $Result.DefaultSelection<Prisma.$OperationPayload>
 /**
+ * Model RecurrenceConfig
+ * 
+ */
+export type RecurrenceConfig = $Result.DefaultSelection<Prisma.$RecurrenceConfigPayload>
+/**
  * Model Tag
  * 
  */
@@ -81,6 +86,16 @@ export const OperationType: {
 export type OperationType = (typeof OperationType)[keyof typeof OperationType]
 
 
+export const RecurrenceFrequency: {
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+};
+
+export type RecurrenceFrequency = (typeof RecurrenceFrequency)[keyof typeof RecurrenceFrequency]
+
+
 export const CategoryType: {
   INCOME: 'INCOME',
   EXPENSE: 'EXPENSE'
@@ -105,6 +120,10 @@ export const TokenType: typeof $Enums.TokenType
 export type OperationType = $Enums.OperationType
 
 export const OperationType: typeof $Enums.OperationType
+
+export type RecurrenceFrequency = $Enums.RecurrenceFrequency
+
+export const RecurrenceFrequency: typeof $Enums.RecurrenceFrequency
 
 export type CategoryType = $Enums.CategoryType
 
@@ -274,6 +293,16 @@ export class PrismaClient<
     * ```
     */
   get operation(): Prisma.OperationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.recurrenceConfig`: Exposes CRUD operations for the **RecurrenceConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RecurrenceConfigs
+    * const recurrenceConfigs = await prisma.recurrenceConfig.findMany()
+    * ```
+    */
+  get recurrenceConfig(): Prisma.RecurrenceConfigDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tag`: Exposes CRUD operations for the **Tag** model.
@@ -738,6 +767,7 @@ export namespace Prisma {
     Token: 'Token',
     Account: 'Account',
     Operation: 'Operation',
+    RecurrenceConfig: 'RecurrenceConfig',
     Tag: 'Tag',
     Category: 'Category'
   };
@@ -758,7 +788,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "token" | "account" | "operation" | "tag" | "category"
+      modelProps: "user" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1058,6 +1088,80 @@ export namespace Prisma {
           }
         }
       }
+      RecurrenceConfig: {
+        payload: Prisma.$RecurrenceConfigPayload<ExtArgs>
+        fields: Prisma.RecurrenceConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RecurrenceConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RecurrenceConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.RecurrenceConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RecurrenceConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>
+          }
+          findMany: {
+            args: Prisma.RecurrenceConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>[]
+          }
+          create: {
+            args: Prisma.RecurrenceConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>
+          }
+          createMany: {
+            args: Prisma.RecurrenceConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RecurrenceConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.RecurrenceConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>
+          }
+          update: {
+            args: Prisma.RecurrenceConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.RecurrenceConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RecurrenceConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RecurrenceConfigUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>[]
+          }
+          upsert: {
+            args: Prisma.RecurrenceConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecurrenceConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.RecurrenceConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRecurrenceConfig>
+          }
+          groupBy: {
+            args: Prisma.RecurrenceConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RecurrenceConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RecurrenceConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<RecurrenceConfigCountAggregateOutputType> | number
+          }
+        }
+      }
       Tag: {
         payload: Prisma.$TagPayload<ExtArgs>
         fields: Prisma.TagFieldRefs
@@ -1294,6 +1398,7 @@ export namespace Prisma {
     token?: TokenOmit
     account?: AccountOmit
     operation?: OperationOmit
+    recurrenceConfig?: RecurrenceConfigOmit
     tag?: TagOmit
     category?: CategoryOmit
   }
@@ -1395,6 +1500,7 @@ export namespace Prisma {
     tags: number
     categories: number
     operations: number
+    recurrenceConfigs: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1403,6 +1509,7 @@ export namespace Prisma {
     tags?: boolean | UserCountOutputTypeCountTagsArgs
     categories?: boolean | UserCountOutputTypeCountCategoriesArgs
     operations?: boolean | UserCountOutputTypeCountOperationsArgs
+    recurrenceConfigs?: boolean | UserCountOutputTypeCountRecurrenceConfigsArgs
   }
 
   // Custom InputTypes
@@ -1451,6 +1558,13 @@ export namespace Prisma {
     where?: OperationWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecurrenceConfigWhereInput
+  }
+
 
   /**
    * Count Type AccountCountOutputType
@@ -1459,11 +1573,15 @@ export namespace Prisma {
   export type AccountCountOutputType = {
     operations: number
     transferOperations: number
+    recurrenceConfigs: number
+    transferRecurrenceConfigs: number
   }
 
   export type AccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     operations?: boolean | AccountCountOutputTypeCountOperationsArgs
     transferOperations?: boolean | AccountCountOutputTypeCountTransferOperationsArgs
+    recurrenceConfigs?: boolean | AccountCountOutputTypeCountRecurrenceConfigsArgs
+    transferRecurrenceConfigs?: boolean | AccountCountOutputTypeCountTransferRecurrenceConfigsArgs
   }
 
   // Custom InputTypes
@@ -1489,6 +1607,20 @@ export namespace Prisma {
    */
   export type AccountCountOutputTypeCountTransferOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OperationWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountRecurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecurrenceConfigWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountTransferRecurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecurrenceConfigWhereInput
   }
 
 
@@ -1520,6 +1652,37 @@ export namespace Prisma {
    */
   export type OperationCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TagWhereInput
+  }
+
+
+  /**
+   * Count Type RecurrenceConfigCountOutputType
+   */
+
+  export type RecurrenceConfigCountOutputType = {
+    operations: number
+  }
+
+  export type RecurrenceConfigCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    operations?: boolean | RecurrenceConfigCountOutputTypeCountOperationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RecurrenceConfigCountOutputType without action
+   */
+  export type RecurrenceConfigCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfigCountOutputType
+     */
+    select?: RecurrenceConfigCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RecurrenceConfigCountOutputType without action
+   */
+  export type RecurrenceConfigCountOutputTypeCountOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OperationWhereInput
   }
 
 
@@ -1561,11 +1724,13 @@ export namespace Prisma {
   export type CategoryCountOutputType = {
     children: number
     operations: number
+    recurrenceConfigs: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     children?: boolean | CategoryCountOutputTypeCountChildrenArgs
     operations?: boolean | CategoryCountOutputTypeCountOperationsArgs
+    recurrenceConfigs?: boolean | CategoryCountOutputTypeCountRecurrenceConfigsArgs
   }
 
   // Custom InputTypes
@@ -1591,6 +1756,13 @@ export namespace Prisma {
    */
   export type CategoryCountOutputTypeCountOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OperationWhereInput
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountRecurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecurrenceConfigWhereInput
   }
 
 
@@ -1889,6 +2061,7 @@ export namespace Prisma {
     tags?: boolean | User$tagsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     operations?: boolean | User$operationsArgs<ExtArgs>
+    recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1956,6 +2129,7 @@ export namespace Prisma {
     tags?: boolean | User$tagsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     operations?: boolean | User$operationsArgs<ExtArgs>
+    recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1969,6 +2143,7 @@ export namespace Prisma {
       tags: Prisma.$TagPayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       operations: Prisma.$OperationPayload<ExtArgs>[]
+      recurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2386,6 +2561,7 @@ export namespace Prisma {
     tags<T extends User$tagsArgs<ExtArgs> = {}>(args?: Subset<T, User$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends User$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     operations<T extends User$operationsArgs<ExtArgs> = {}>(args?: Subset<T, User$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recurrenceConfigs<T extends User$recurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, User$recurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2936,6 +3112,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OperationScalarFieldEnum | OperationScalarFieldEnum[]
+  }
+
+  /**
+   * User.recurrenceConfigs
+   */
+  export type User$recurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    where?: RecurrenceConfigWhereInput
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    cursor?: RecurrenceConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecurrenceConfigScalarFieldEnum | RecurrenceConfigScalarFieldEnum[]
   }
 
   /**
@@ -4274,6 +4474,8 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     operations?: boolean | Account$operationsArgs<ExtArgs>
     transferOperations?: boolean | Account$transferOperationsArgs<ExtArgs>
+    recurrenceConfigs?: boolean | Account$recurrenceConfigsArgs<ExtArgs>
+    transferRecurrenceConfigs?: boolean | Account$transferRecurrenceConfigsArgs<ExtArgs>
     _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
@@ -4320,6 +4522,8 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     operations?: boolean | Account$operationsArgs<ExtArgs>
     transferOperations?: boolean | Account$transferOperationsArgs<ExtArgs>
+    recurrenceConfigs?: boolean | Account$recurrenceConfigsArgs<ExtArgs>
+    transferRecurrenceConfigs?: boolean | Account$transferRecurrenceConfigsArgs<ExtArgs>
     _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4335,6 +4539,8 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       operations: Prisma.$OperationPayload<ExtArgs>[]
       transferOperations: Prisma.$OperationPayload<ExtArgs>[]
+      recurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
+      transferRecurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4743,6 +4949,8 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     operations<T extends Account$operationsArgs<ExtArgs> = {}>(args?: Subset<T, Account$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transferOperations<T extends Account$transferOperationsArgs<ExtArgs> = {}>(args?: Subset<T, Account$transferOperationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recurrenceConfigs<T extends Account$recurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Account$recurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transferRecurrenceConfigs<T extends Account$transferRecurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Account$transferRecurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5225,6 +5433,54 @@ export namespace Prisma {
   }
 
   /**
+   * Account.recurrenceConfigs
+   */
+  export type Account$recurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    where?: RecurrenceConfigWhereInput
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    cursor?: RecurrenceConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecurrenceConfigScalarFieldEnum | RecurrenceConfigScalarFieldEnum[]
+  }
+
+  /**
+   * Account.transferRecurrenceConfigs
+   */
+  export type Account$transferRecurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    where?: RecurrenceConfigWhereInput
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    cursor?: RecurrenceConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecurrenceConfigScalarFieldEnum | RecurrenceConfigScalarFieldEnum[]
+  }
+
+  /**
    * Account without action
    */
   export type AccountDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5273,6 +5529,7 @@ export namespace Prisma {
     accountId: string | null
     transferAccountId: string | null
     categoryId: string | null
+    recurrenceConfigId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5287,6 +5544,7 @@ export namespace Prisma {
     accountId: string | null
     transferAccountId: string | null
     categoryId: string | null
+    recurrenceConfigId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5301,6 +5559,7 @@ export namespace Prisma {
     accountId: number
     transferAccountId: number
     categoryId: number
+    recurrenceConfigId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5325,6 +5584,7 @@ export namespace Prisma {
     accountId?: true
     transferAccountId?: true
     categoryId?: true
+    recurrenceConfigId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5339,6 +5599,7 @@ export namespace Prisma {
     accountId?: true
     transferAccountId?: true
     categoryId?: true
+    recurrenceConfigId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5353,6 +5614,7 @@ export namespace Prisma {
     accountId?: true
     transferAccountId?: true
     categoryId?: true
+    recurrenceConfigId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5454,6 +5716,7 @@ export namespace Prisma {
     accountId: string | null
     transferAccountId: string | null
     categoryId: string | null
+    recurrenceConfigId: string | null
     createdAt: Date
     updatedAt: Date
     _count: OperationCountAggregateOutputType | null
@@ -5487,12 +5750,14 @@ export namespace Prisma {
     accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
+    recurrenceConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     account?: boolean | Operation$accountArgs<ExtArgs>
     transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
+    recurrenceConfig?: boolean | Operation$recurrenceConfigArgs<ExtArgs>
     tags?: boolean | Operation$tagsArgs<ExtArgs>
     _count?: boolean | OperationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["operation"]>
@@ -5507,12 +5772,14 @@ export namespace Prisma {
     accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
+    recurrenceConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     account?: boolean | Operation$accountArgs<ExtArgs>
     transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
+    recurrenceConfig?: boolean | Operation$recurrenceConfigArgs<ExtArgs>
   }, ExtArgs["result"]["operation"]>
 
   export type OperationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5525,12 +5792,14 @@ export namespace Prisma {
     accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
+    recurrenceConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     account?: boolean | Operation$accountArgs<ExtArgs>
     transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
+    recurrenceConfig?: boolean | Operation$recurrenceConfigArgs<ExtArgs>
   }, ExtArgs["result"]["operation"]>
 
   export type OperationSelectScalar = {
@@ -5543,16 +5812,18 @@ export namespace Prisma {
     accountId?: boolean
     transferAccountId?: boolean
     categoryId?: boolean
+    recurrenceConfigId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type OperationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "date" | "description" | "type" | "userId" | "accountId" | "transferAccountId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["operation"]>
+  export type OperationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "date" | "description" | "type" | "userId" | "accountId" | "transferAccountId" | "categoryId" | "recurrenceConfigId" | "createdAt" | "updatedAt", ExtArgs["result"]["operation"]>
   export type OperationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     account?: boolean | Operation$accountArgs<ExtArgs>
     transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
+    recurrenceConfig?: boolean | Operation$recurrenceConfigArgs<ExtArgs>
     tags?: boolean | Operation$tagsArgs<ExtArgs>
     _count?: boolean | OperationCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -5561,12 +5832,14 @@ export namespace Prisma {
     account?: boolean | Operation$accountArgs<ExtArgs>
     transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
+    recurrenceConfig?: boolean | Operation$recurrenceConfigArgs<ExtArgs>
   }
   export type OperationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     account?: boolean | Operation$accountArgs<ExtArgs>
     transferAccount?: boolean | Operation$transferAccountArgs<ExtArgs>
     category?: boolean | Operation$categoryArgs<ExtArgs>
+    recurrenceConfig?: boolean | Operation$recurrenceConfigArgs<ExtArgs>
   }
 
   export type $OperationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5576,6 +5849,7 @@ export namespace Prisma {
       account: Prisma.$AccountPayload<ExtArgs> | null
       transferAccount: Prisma.$AccountPayload<ExtArgs> | null
       category: Prisma.$CategoryPayload<ExtArgs> | null
+      recurrenceConfig: Prisma.$RecurrenceConfigPayload<ExtArgs> | null
       tags: Prisma.$TagPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5588,6 +5862,7 @@ export namespace Prisma {
       accountId: string | null
       transferAccountId: string | null
       categoryId: string | null
+      recurrenceConfigId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["operation"]>
@@ -5988,6 +6263,7 @@ export namespace Prisma {
     account<T extends Operation$accountArgs<ExtArgs> = {}>(args?: Subset<T, Operation$accountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     transferAccount<T extends Operation$transferAccountArgs<ExtArgs> = {}>(args?: Subset<T, Operation$transferAccountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     category<T extends Operation$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Operation$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    recurrenceConfig<T extends Operation$recurrenceConfigArgs<ExtArgs> = {}>(args?: Subset<T, Operation$recurrenceConfigArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tags<T extends Operation$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Operation$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6027,6 +6303,7 @@ export namespace Prisma {
     readonly accountId: FieldRef<"Operation", 'String'>
     readonly transferAccountId: FieldRef<"Operation", 'String'>
     readonly categoryId: FieldRef<"Operation", 'String'>
+    readonly recurrenceConfigId: FieldRef<"Operation", 'String'>
     readonly createdAt: FieldRef<"Operation", 'DateTime'>
     readonly updatedAt: FieldRef<"Operation", 'DateTime'>
   }
@@ -6482,6 +6759,25 @@ export namespace Prisma {
   }
 
   /**
+   * Operation.recurrenceConfig
+   */
+  export type Operation$recurrenceConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    where?: RecurrenceConfigWhereInput
+  }
+
+  /**
    * Operation.tags
    */
   export type Operation$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6521,6 +6817,1330 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: OperationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RecurrenceConfig
+   */
+
+  export type AggregateRecurrenceConfig = {
+    _count: RecurrenceConfigCountAggregateOutputType | null
+    _avg: RecurrenceConfigAvgAggregateOutputType | null
+    _sum: RecurrenceConfigSumAggregateOutputType | null
+    _min: RecurrenceConfigMinAggregateOutputType | null
+    _max: RecurrenceConfigMaxAggregateOutputType | null
+  }
+
+  export type RecurrenceConfigAvgAggregateOutputType = {
+    interval: number | null
+    weekDays: number | null
+    amount: Decimal | null
+  }
+
+  export type RecurrenceConfigSumAggregateOutputType = {
+    interval: number | null
+    weekDays: number[]
+    amount: Decimal | null
+  }
+
+  export type RecurrenceConfigMinAggregateOutputType = {
+    id: string | null
+    frequency: $Enums.RecurrenceFrequency | null
+    interval: number | null
+    date: Date | null
+    amount: Decimal | null
+    description: string | null
+    type: $Enums.OperationType | null
+    userId: string | null
+    accountId: string | null
+    transferAccountId: string | null
+    categoryId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RecurrenceConfigMaxAggregateOutputType = {
+    id: string | null
+    frequency: $Enums.RecurrenceFrequency | null
+    interval: number | null
+    date: Date | null
+    amount: Decimal | null
+    description: string | null
+    type: $Enums.OperationType | null
+    userId: string | null
+    accountId: string | null
+    transferAccountId: string | null
+    categoryId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RecurrenceConfigCountAggregateOutputType = {
+    id: number
+    frequency: number
+    interval: number
+    weekDays: number
+    date: number
+    amount: number
+    description: number
+    type: number
+    userId: number
+    accountId: number
+    transferAccountId: number
+    categoryId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RecurrenceConfigAvgAggregateInputType = {
+    interval?: true
+    weekDays?: true
+    amount?: true
+  }
+
+  export type RecurrenceConfigSumAggregateInputType = {
+    interval?: true
+    weekDays?: true
+    amount?: true
+  }
+
+  export type RecurrenceConfigMinAggregateInputType = {
+    id?: true
+    frequency?: true
+    interval?: true
+    date?: true
+    amount?: true
+    description?: true
+    type?: true
+    userId?: true
+    accountId?: true
+    transferAccountId?: true
+    categoryId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RecurrenceConfigMaxAggregateInputType = {
+    id?: true
+    frequency?: true
+    interval?: true
+    date?: true
+    amount?: true
+    description?: true
+    type?: true
+    userId?: true
+    accountId?: true
+    transferAccountId?: true
+    categoryId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RecurrenceConfigCountAggregateInputType = {
+    id?: true
+    frequency?: true
+    interval?: true
+    weekDays?: true
+    date?: true
+    amount?: true
+    description?: true
+    type?: true
+    userId?: true
+    accountId?: true
+    transferAccountId?: true
+    categoryId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RecurrenceConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecurrenceConfig to aggregate.
+     */
+    where?: RecurrenceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurrenceConfigs to fetch.
+     */
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RecurrenceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurrenceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurrenceConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RecurrenceConfigs
+    **/
+    _count?: true | RecurrenceConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RecurrenceConfigAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RecurrenceConfigSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RecurrenceConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RecurrenceConfigMaxAggregateInputType
+  }
+
+  export type GetRecurrenceConfigAggregateType<T extends RecurrenceConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecurrenceConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRecurrenceConfig[P]>
+      : GetScalarType<T[P], AggregateRecurrenceConfig[P]>
+  }
+
+
+
+
+  export type RecurrenceConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecurrenceConfigWhereInput
+    orderBy?: RecurrenceConfigOrderByWithAggregationInput | RecurrenceConfigOrderByWithAggregationInput[]
+    by: RecurrenceConfigScalarFieldEnum[] | RecurrenceConfigScalarFieldEnum
+    having?: RecurrenceConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RecurrenceConfigCountAggregateInputType | true
+    _avg?: RecurrenceConfigAvgAggregateInputType
+    _sum?: RecurrenceConfigSumAggregateInputType
+    _min?: RecurrenceConfigMinAggregateInputType
+    _max?: RecurrenceConfigMaxAggregateInputType
+  }
+
+  export type RecurrenceConfigGroupByOutputType = {
+    id: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays: number[]
+    date: Date
+    amount: Decimal
+    description: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId: string | null
+    transferAccountId: string | null
+    categoryId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RecurrenceConfigCountAggregateOutputType | null
+    _avg: RecurrenceConfigAvgAggregateOutputType | null
+    _sum: RecurrenceConfigSumAggregateOutputType | null
+    _min: RecurrenceConfigMinAggregateOutputType | null
+    _max: RecurrenceConfigMaxAggregateOutputType | null
+  }
+
+  type GetRecurrenceConfigGroupByPayload<T extends RecurrenceConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RecurrenceConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RecurrenceConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RecurrenceConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], RecurrenceConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RecurrenceConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    frequency?: boolean
+    interval?: boolean
+    weekDays?: boolean
+    date?: boolean
+    amount?: boolean
+    description?: boolean
+    type?: boolean
+    userId?: boolean
+    accountId?: boolean
+    transferAccountId?: boolean
+    categoryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | RecurrenceConfig$accountArgs<ExtArgs>
+    transferAccount?: boolean | RecurrenceConfig$transferAccountArgs<ExtArgs>
+    category?: boolean | RecurrenceConfig$categoryArgs<ExtArgs>
+    operations?: boolean | RecurrenceConfig$operationsArgs<ExtArgs>
+    _count?: boolean | RecurrenceConfigCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recurrenceConfig"]>
+
+  export type RecurrenceConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    frequency?: boolean
+    interval?: boolean
+    weekDays?: boolean
+    date?: boolean
+    amount?: boolean
+    description?: boolean
+    type?: boolean
+    userId?: boolean
+    accountId?: boolean
+    transferAccountId?: boolean
+    categoryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | RecurrenceConfig$accountArgs<ExtArgs>
+    transferAccount?: boolean | RecurrenceConfig$transferAccountArgs<ExtArgs>
+    category?: boolean | RecurrenceConfig$categoryArgs<ExtArgs>
+  }, ExtArgs["result"]["recurrenceConfig"]>
+
+  export type RecurrenceConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    frequency?: boolean
+    interval?: boolean
+    weekDays?: boolean
+    date?: boolean
+    amount?: boolean
+    description?: boolean
+    type?: boolean
+    userId?: boolean
+    accountId?: boolean
+    transferAccountId?: boolean
+    categoryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | RecurrenceConfig$accountArgs<ExtArgs>
+    transferAccount?: boolean | RecurrenceConfig$transferAccountArgs<ExtArgs>
+    category?: boolean | RecurrenceConfig$categoryArgs<ExtArgs>
+  }, ExtArgs["result"]["recurrenceConfig"]>
+
+  export type RecurrenceConfigSelectScalar = {
+    id?: boolean
+    frequency?: boolean
+    interval?: boolean
+    weekDays?: boolean
+    date?: boolean
+    amount?: boolean
+    description?: boolean
+    type?: boolean
+    userId?: boolean
+    accountId?: boolean
+    transferAccountId?: boolean
+    categoryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RecurrenceConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "frequency" | "interval" | "weekDays" | "date" | "amount" | "description" | "type" | "userId" | "accountId" | "transferAccountId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["recurrenceConfig"]>
+  export type RecurrenceConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | RecurrenceConfig$accountArgs<ExtArgs>
+    transferAccount?: boolean | RecurrenceConfig$transferAccountArgs<ExtArgs>
+    category?: boolean | RecurrenceConfig$categoryArgs<ExtArgs>
+    operations?: boolean | RecurrenceConfig$operationsArgs<ExtArgs>
+    _count?: boolean | RecurrenceConfigCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RecurrenceConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | RecurrenceConfig$accountArgs<ExtArgs>
+    transferAccount?: boolean | RecurrenceConfig$transferAccountArgs<ExtArgs>
+    category?: boolean | RecurrenceConfig$categoryArgs<ExtArgs>
+  }
+  export type RecurrenceConfigIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    account?: boolean | RecurrenceConfig$accountArgs<ExtArgs>
+    transferAccount?: boolean | RecurrenceConfig$transferAccountArgs<ExtArgs>
+    category?: boolean | RecurrenceConfig$categoryArgs<ExtArgs>
+  }
+
+  export type $RecurrenceConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RecurrenceConfig"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      account: Prisma.$AccountPayload<ExtArgs> | null
+      transferAccount: Prisma.$AccountPayload<ExtArgs> | null
+      category: Prisma.$CategoryPayload<ExtArgs> | null
+      operations: Prisma.$OperationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      frequency: $Enums.RecurrenceFrequency
+      interval: number
+      weekDays: number[]
+      date: Date
+      amount: Prisma.Decimal
+      description: string | null
+      type: $Enums.OperationType
+      userId: string
+      accountId: string | null
+      transferAccountId: string | null
+      categoryId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["recurrenceConfig"]>
+    composites: {}
+  }
+
+  type RecurrenceConfigGetPayload<S extends boolean | null | undefined | RecurrenceConfigDefaultArgs> = $Result.GetResult<Prisma.$RecurrenceConfigPayload, S>
+
+  type RecurrenceConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RecurrenceConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RecurrenceConfigCountAggregateInputType | true
+    }
+
+  export interface RecurrenceConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RecurrenceConfig'], meta: { name: 'RecurrenceConfig' } }
+    /**
+     * Find zero or one RecurrenceConfig that matches the filter.
+     * @param {RecurrenceConfigFindUniqueArgs} args - Arguments to find a RecurrenceConfig
+     * @example
+     * // Get one RecurrenceConfig
+     * const recurrenceConfig = await prisma.recurrenceConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RecurrenceConfigFindUniqueArgs>(args: SelectSubset<T, RecurrenceConfigFindUniqueArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RecurrenceConfig that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RecurrenceConfigFindUniqueOrThrowArgs} args - Arguments to find a RecurrenceConfig
+     * @example
+     * // Get one RecurrenceConfig
+     * const recurrenceConfig = await prisma.recurrenceConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RecurrenceConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, RecurrenceConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecurrenceConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurrenceConfigFindFirstArgs} args - Arguments to find a RecurrenceConfig
+     * @example
+     * // Get one RecurrenceConfig
+     * const recurrenceConfig = await prisma.recurrenceConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RecurrenceConfigFindFirstArgs>(args?: SelectSubset<T, RecurrenceConfigFindFirstArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecurrenceConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurrenceConfigFindFirstOrThrowArgs} args - Arguments to find a RecurrenceConfig
+     * @example
+     * // Get one RecurrenceConfig
+     * const recurrenceConfig = await prisma.recurrenceConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RecurrenceConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, RecurrenceConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RecurrenceConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurrenceConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RecurrenceConfigs
+     * const recurrenceConfigs = await prisma.recurrenceConfig.findMany()
+     * 
+     * // Get first 10 RecurrenceConfigs
+     * const recurrenceConfigs = await prisma.recurrenceConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const recurrenceConfigWithIdOnly = await prisma.recurrenceConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RecurrenceConfigFindManyArgs>(args?: SelectSubset<T, RecurrenceConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RecurrenceConfig.
+     * @param {RecurrenceConfigCreateArgs} args - Arguments to create a RecurrenceConfig.
+     * @example
+     * // Create one RecurrenceConfig
+     * const RecurrenceConfig = await prisma.recurrenceConfig.create({
+     *   data: {
+     *     // ... data to create a RecurrenceConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends RecurrenceConfigCreateArgs>(args: SelectSubset<T, RecurrenceConfigCreateArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RecurrenceConfigs.
+     * @param {RecurrenceConfigCreateManyArgs} args - Arguments to create many RecurrenceConfigs.
+     * @example
+     * // Create many RecurrenceConfigs
+     * const recurrenceConfig = await prisma.recurrenceConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RecurrenceConfigCreateManyArgs>(args?: SelectSubset<T, RecurrenceConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RecurrenceConfigs and returns the data saved in the database.
+     * @param {RecurrenceConfigCreateManyAndReturnArgs} args - Arguments to create many RecurrenceConfigs.
+     * @example
+     * // Create many RecurrenceConfigs
+     * const recurrenceConfig = await prisma.recurrenceConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RecurrenceConfigs and only return the `id`
+     * const recurrenceConfigWithIdOnly = await prisma.recurrenceConfig.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RecurrenceConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, RecurrenceConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RecurrenceConfig.
+     * @param {RecurrenceConfigDeleteArgs} args - Arguments to delete one RecurrenceConfig.
+     * @example
+     * // Delete one RecurrenceConfig
+     * const RecurrenceConfig = await prisma.recurrenceConfig.delete({
+     *   where: {
+     *     // ... filter to delete one RecurrenceConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RecurrenceConfigDeleteArgs>(args: SelectSubset<T, RecurrenceConfigDeleteArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RecurrenceConfig.
+     * @param {RecurrenceConfigUpdateArgs} args - Arguments to update one RecurrenceConfig.
+     * @example
+     * // Update one RecurrenceConfig
+     * const recurrenceConfig = await prisma.recurrenceConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RecurrenceConfigUpdateArgs>(args: SelectSubset<T, RecurrenceConfigUpdateArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RecurrenceConfigs.
+     * @param {RecurrenceConfigDeleteManyArgs} args - Arguments to filter RecurrenceConfigs to delete.
+     * @example
+     * // Delete a few RecurrenceConfigs
+     * const { count } = await prisma.recurrenceConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RecurrenceConfigDeleteManyArgs>(args?: SelectSubset<T, RecurrenceConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecurrenceConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurrenceConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RecurrenceConfigs
+     * const recurrenceConfig = await prisma.recurrenceConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RecurrenceConfigUpdateManyArgs>(args: SelectSubset<T, RecurrenceConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecurrenceConfigs and returns the data updated in the database.
+     * @param {RecurrenceConfigUpdateManyAndReturnArgs} args - Arguments to update many RecurrenceConfigs.
+     * @example
+     * // Update many RecurrenceConfigs
+     * const recurrenceConfig = await prisma.recurrenceConfig.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RecurrenceConfigs and only return the `id`
+     * const recurrenceConfigWithIdOnly = await prisma.recurrenceConfig.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RecurrenceConfigUpdateManyAndReturnArgs>(args: SelectSubset<T, RecurrenceConfigUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RecurrenceConfig.
+     * @param {RecurrenceConfigUpsertArgs} args - Arguments to update or create a RecurrenceConfig.
+     * @example
+     * // Update or create a RecurrenceConfig
+     * const recurrenceConfig = await prisma.recurrenceConfig.upsert({
+     *   create: {
+     *     // ... data to create a RecurrenceConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RecurrenceConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RecurrenceConfigUpsertArgs>(args: SelectSubset<T, RecurrenceConfigUpsertArgs<ExtArgs>>): Prisma__RecurrenceConfigClient<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RecurrenceConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurrenceConfigCountArgs} args - Arguments to filter RecurrenceConfigs to count.
+     * @example
+     * // Count the number of RecurrenceConfigs
+     * const count = await prisma.recurrenceConfig.count({
+     *   where: {
+     *     // ... the filter for the RecurrenceConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends RecurrenceConfigCountArgs>(
+      args?: Subset<T, RecurrenceConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RecurrenceConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RecurrenceConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurrenceConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RecurrenceConfigAggregateArgs>(args: Subset<T, RecurrenceConfigAggregateArgs>): Prisma.PrismaPromise<GetRecurrenceConfigAggregateType<T>>
+
+    /**
+     * Group by RecurrenceConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecurrenceConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RecurrenceConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RecurrenceConfigGroupByArgs['orderBy'] }
+        : { orderBy?: RecurrenceConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RecurrenceConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecurrenceConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RecurrenceConfig model
+   */
+  readonly fields: RecurrenceConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RecurrenceConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RecurrenceConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    account<T extends RecurrenceConfig$accountArgs<ExtArgs> = {}>(args?: Subset<T, RecurrenceConfig$accountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    transferAccount<T extends RecurrenceConfig$transferAccountArgs<ExtArgs> = {}>(args?: Subset<T, RecurrenceConfig$transferAccountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    category<T extends RecurrenceConfig$categoryArgs<ExtArgs> = {}>(args?: Subset<T, RecurrenceConfig$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    operations<T extends RecurrenceConfig$operationsArgs<ExtArgs> = {}>(args?: Subset<T, RecurrenceConfig$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RecurrenceConfig model
+   */ 
+  interface RecurrenceConfigFieldRefs {
+    readonly id: FieldRef<"RecurrenceConfig", 'String'>
+    readonly frequency: FieldRef<"RecurrenceConfig", 'RecurrenceFrequency'>
+    readonly interval: FieldRef<"RecurrenceConfig", 'Int'>
+    readonly weekDays: FieldRef<"RecurrenceConfig", 'Int[]'>
+    readonly date: FieldRef<"RecurrenceConfig", 'DateTime'>
+    readonly amount: FieldRef<"RecurrenceConfig", 'Decimal'>
+    readonly description: FieldRef<"RecurrenceConfig", 'String'>
+    readonly type: FieldRef<"RecurrenceConfig", 'OperationType'>
+    readonly userId: FieldRef<"RecurrenceConfig", 'String'>
+    readonly accountId: FieldRef<"RecurrenceConfig", 'String'>
+    readonly transferAccountId: FieldRef<"RecurrenceConfig", 'String'>
+    readonly categoryId: FieldRef<"RecurrenceConfig", 'String'>
+    readonly createdAt: FieldRef<"RecurrenceConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"RecurrenceConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RecurrenceConfig findUnique
+   */
+  export type RecurrenceConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurrenceConfig to fetch.
+     */
+    where: RecurrenceConfigWhereUniqueInput
+  }
+
+  /**
+   * RecurrenceConfig findUniqueOrThrow
+   */
+  export type RecurrenceConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurrenceConfig to fetch.
+     */
+    where: RecurrenceConfigWhereUniqueInput
+  }
+
+  /**
+   * RecurrenceConfig findFirst
+   */
+  export type RecurrenceConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurrenceConfig to fetch.
+     */
+    where?: RecurrenceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurrenceConfigs to fetch.
+     */
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecurrenceConfigs.
+     */
+    cursor?: RecurrenceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurrenceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurrenceConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecurrenceConfigs.
+     */
+    distinct?: RecurrenceConfigScalarFieldEnum | RecurrenceConfigScalarFieldEnum[]
+  }
+
+  /**
+   * RecurrenceConfig findFirstOrThrow
+   */
+  export type RecurrenceConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurrenceConfig to fetch.
+     */
+    where?: RecurrenceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurrenceConfigs to fetch.
+     */
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecurrenceConfigs.
+     */
+    cursor?: RecurrenceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurrenceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurrenceConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecurrenceConfigs.
+     */
+    distinct?: RecurrenceConfigScalarFieldEnum | RecurrenceConfigScalarFieldEnum[]
+  }
+
+  /**
+   * RecurrenceConfig findMany
+   */
+  export type RecurrenceConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which RecurrenceConfigs to fetch.
+     */
+    where?: RecurrenceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecurrenceConfigs to fetch.
+     */
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RecurrenceConfigs.
+     */
+    cursor?: RecurrenceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecurrenceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecurrenceConfigs.
+     */
+    skip?: number
+    distinct?: RecurrenceConfigScalarFieldEnum | RecurrenceConfigScalarFieldEnum[]
+  }
+
+  /**
+   * RecurrenceConfig create
+   */
+  export type RecurrenceConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RecurrenceConfig.
+     */
+    data: XOR<RecurrenceConfigCreateInput, RecurrenceConfigUncheckedCreateInput>
+  }
+
+  /**
+   * RecurrenceConfig createMany
+   */
+  export type RecurrenceConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RecurrenceConfigs.
+     */
+    data: RecurrenceConfigCreateManyInput | RecurrenceConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RecurrenceConfig createManyAndReturn
+   */
+  export type RecurrenceConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * The data used to create many RecurrenceConfigs.
+     */
+    data: RecurrenceConfigCreateManyInput | RecurrenceConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecurrenceConfig update
+   */
+  export type RecurrenceConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RecurrenceConfig.
+     */
+    data: XOR<RecurrenceConfigUpdateInput, RecurrenceConfigUncheckedUpdateInput>
+    /**
+     * Choose, which RecurrenceConfig to update.
+     */
+    where: RecurrenceConfigWhereUniqueInput
+  }
+
+  /**
+   * RecurrenceConfig updateMany
+   */
+  export type RecurrenceConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RecurrenceConfigs.
+     */
+    data: XOR<RecurrenceConfigUpdateManyMutationInput, RecurrenceConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which RecurrenceConfigs to update
+     */
+    where?: RecurrenceConfigWhereInput
+    /**
+     * Limit how many RecurrenceConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecurrenceConfig updateManyAndReturn
+   */
+  export type RecurrenceConfigUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * The data used to update RecurrenceConfigs.
+     */
+    data: XOR<RecurrenceConfigUpdateManyMutationInput, RecurrenceConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which RecurrenceConfigs to update
+     */
+    where?: RecurrenceConfigWhereInput
+    /**
+     * Limit how many RecurrenceConfigs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecurrenceConfig upsert
+   */
+  export type RecurrenceConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RecurrenceConfig to update in case it exists.
+     */
+    where: RecurrenceConfigWhereUniqueInput
+    /**
+     * In case the RecurrenceConfig found by the `where` argument doesn't exist, create a new RecurrenceConfig with this data.
+     */
+    create: XOR<RecurrenceConfigCreateInput, RecurrenceConfigUncheckedCreateInput>
+    /**
+     * In case the RecurrenceConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RecurrenceConfigUpdateInput, RecurrenceConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * RecurrenceConfig delete
+   */
+  export type RecurrenceConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    /**
+     * Filter which RecurrenceConfig to delete.
+     */
+    where: RecurrenceConfigWhereUniqueInput
+  }
+
+  /**
+   * RecurrenceConfig deleteMany
+   */
+  export type RecurrenceConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecurrenceConfigs to delete
+     */
+    where?: RecurrenceConfigWhereInput
+    /**
+     * Limit how many RecurrenceConfigs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecurrenceConfig.account
+   */
+  export type RecurrenceConfig$accountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    where?: AccountWhereInput
+  }
+
+  /**
+   * RecurrenceConfig.transferAccount
+   */
+  export type RecurrenceConfig$transferAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    where?: AccountWhereInput
+  }
+
+  /**
+   * RecurrenceConfig.category
+   */
+  export type RecurrenceConfig$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
+  }
+
+  /**
+   * RecurrenceConfig.operations
+   */
+  export type RecurrenceConfig$operationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Operation
+     */
+    select?: OperationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Operation
+     */
+    omit?: OperationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationInclude<ExtArgs> | null
+    where?: OperationWhereInput
+    orderBy?: OperationOrderByWithRelationInput | OperationOrderByWithRelationInput[]
+    cursor?: OperationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OperationScalarFieldEnum | OperationScalarFieldEnum[]
+  }
+
+  /**
+   * RecurrenceConfig without action
+   */
+  export type RecurrenceConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
   }
 
 
@@ -7825,6 +9445,7 @@ export namespace Prisma {
     parent?: boolean | Category$parentArgs<ExtArgs>
     children?: boolean | Category$childrenArgs<ExtArgs>
     operations?: boolean | Category$operationsArgs<ExtArgs>
+    recurrenceConfigs?: boolean | Category$recurrenceConfigsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
@@ -7874,6 +9495,7 @@ export namespace Prisma {
     parent?: boolean | Category$parentArgs<ExtArgs>
     children?: boolean | Category$childrenArgs<ExtArgs>
     operations?: boolean | Category$operationsArgs<ExtArgs>
+    recurrenceConfigs?: boolean | Category$recurrenceConfigsArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7892,6 +9514,7 @@ export namespace Prisma {
       parent: Prisma.$CategoryPayload<ExtArgs> | null
       children: Prisma.$CategoryPayload<ExtArgs>[]
       operations: Prisma.$OperationPayload<ExtArgs>[]
+      recurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8301,6 +9924,7 @@ export namespace Prisma {
     parent<T extends Category$parentArgs<ExtArgs> = {}>(args?: Subset<T, Category$parentArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     children<T extends Category$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Category$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     operations<T extends Category$operationsArgs<ExtArgs> = {}>(args?: Subset<T, Category$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recurrenceConfigs<T extends Category$recurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Category$recurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8802,6 +10426,30 @@ export namespace Prisma {
   }
 
   /**
+   * Category.recurrenceConfigs
+   */
+  export type Category$recurrenceConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecurrenceConfig
+     */
+    select?: RecurrenceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecurrenceConfig
+     */
+    omit?: RecurrenceConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecurrenceConfigInclude<ExtArgs> | null
+    where?: RecurrenceConfigWhereInput
+    orderBy?: RecurrenceConfigOrderByWithRelationInput | RecurrenceConfigOrderByWithRelationInput[]
+    cursor?: RecurrenceConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecurrenceConfigScalarFieldEnum | RecurrenceConfigScalarFieldEnum[]
+  }
+
+  /**
    * Category without action
    */
   export type CategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8894,11 +10542,32 @@ export namespace Prisma {
     accountId: 'accountId',
     transferAccountId: 'transferAccountId',
     categoryId: 'categoryId',
+    recurrenceConfigId: 'recurrenceConfigId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type OperationScalarFieldEnum = (typeof OperationScalarFieldEnum)[keyof typeof OperationScalarFieldEnum]
+
+
+  export const RecurrenceConfigScalarFieldEnum: {
+    id: 'id',
+    frequency: 'frequency',
+    interval: 'interval',
+    weekDays: 'weekDays',
+    date: 'date',
+    amount: 'amount',
+    description: 'description',
+    type: 'type',
+    userId: 'userId',
+    accountId: 'accountId',
+    transferAccountId: 'transferAccountId',
+    categoryId: 'categoryId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RecurrenceConfigScalarFieldEnum = (typeof RecurrenceConfigScalarFieldEnum)[keyof typeof RecurrenceConfigScalarFieldEnum]
 
 
   export const TagScalarFieldEnum: {
@@ -9077,6 +10746,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RecurrenceFrequency'
+   */
+  export type EnumRecurrenceFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecurrenceFrequency'>
+    
+
+
+  /**
+   * Reference to a field of type 'RecurrenceFrequency[]'
+   */
+  export type ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecurrenceFrequency[]'>
+    
+
+
+  /**
    * Reference to a field of type 'CategoryType'
    */
   export type EnumCategoryTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CategoryType'>
@@ -9132,6 +10815,7 @@ export namespace Prisma {
     tags?: TagListRelationFilter
     categories?: CategoryListRelationFilter
     operations?: OperationListRelationFilter
+    recurrenceConfigs?: RecurrenceConfigListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9156,6 +10840,7 @@ export namespace Prisma {
     tags?: TagOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     operations?: OperationOrderByRelationAggregateInput
+    recurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9183,6 +10868,7 @@ export namespace Prisma {
     tags?: TagListRelationFilter
     categories?: CategoryListRelationFilter
     operations?: OperationListRelationFilter
+    recurrenceConfigs?: RecurrenceConfigListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9312,6 +10998,8 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     operations?: OperationListRelationFilter
     transferOperations?: OperationListRelationFilter
+    recurrenceConfigs?: RecurrenceConfigListRelationFilter
+    transferRecurrenceConfigs?: RecurrenceConfigListRelationFilter
   }
 
   export type AccountOrderByWithRelationInput = {
@@ -9327,6 +11015,8 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     operations?: OperationOrderByRelationAggregateInput
     transferOperations?: OperationOrderByRelationAggregateInput
+    recurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
+    transferRecurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
   }
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -9346,6 +11036,8 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     operations?: OperationListRelationFilter
     transferOperations?: OperationListRelationFilter
+    recurrenceConfigs?: RecurrenceConfigListRelationFilter
+    transferRecurrenceConfigs?: RecurrenceConfigListRelationFilter
   }, "id" | "userId_name">
 
   export type AccountOrderByWithAggregationInput = {
@@ -9393,12 +11085,14 @@ export namespace Prisma {
     accountId?: StringNullableFilter<"Operation"> | string | null
     transferAccountId?: StringNullableFilter<"Operation"> | string | null
     categoryId?: StringNullableFilter<"Operation"> | string | null
+    recurrenceConfigId?: StringNullableFilter<"Operation"> | string | null
     createdAt?: DateTimeFilter<"Operation"> | Date | string
     updatedAt?: DateTimeFilter<"Operation"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     transferAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    recurrenceConfig?: XOR<RecurrenceConfigNullableScalarRelationFilter, RecurrenceConfigWhereInput> | null
     tags?: TagListRelationFilter
   }
 
@@ -9412,12 +11106,14 @@ export namespace Prisma {
     accountId?: SortOrderInput | SortOrder
     transferAccountId?: SortOrderInput | SortOrder
     categoryId?: SortOrderInput | SortOrder
+    recurrenceConfigId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     account?: AccountOrderByWithRelationInput
     transferAccount?: AccountOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
+    recurrenceConfig?: RecurrenceConfigOrderByWithRelationInput
     tags?: TagOrderByRelationAggregateInput
   }
 
@@ -9434,12 +11130,14 @@ export namespace Prisma {
     accountId?: StringNullableFilter<"Operation"> | string | null
     transferAccountId?: StringNullableFilter<"Operation"> | string | null
     categoryId?: StringNullableFilter<"Operation"> | string | null
+    recurrenceConfigId?: StringNullableFilter<"Operation"> | string | null
     createdAt?: DateTimeFilter<"Operation"> | Date | string
     updatedAt?: DateTimeFilter<"Operation"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     transferAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    recurrenceConfig?: XOR<RecurrenceConfigNullableScalarRelationFilter, RecurrenceConfigWhereInput> | null
     tags?: TagListRelationFilter
   }, "id">
 
@@ -9453,6 +11151,7 @@ export namespace Prisma {
     accountId?: SortOrderInput | SortOrder
     transferAccountId?: SortOrderInput | SortOrder
     categoryId?: SortOrderInput | SortOrder
+    recurrenceConfigId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: OperationCountOrderByAggregateInput
@@ -9475,8 +11174,123 @@ export namespace Prisma {
     accountId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
     transferAccountId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
     categoryId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
+    recurrenceConfigId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Operation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Operation"> | Date | string
+  }
+
+  export type RecurrenceConfigWhereInput = {
+    AND?: RecurrenceConfigWhereInput | RecurrenceConfigWhereInput[]
+    OR?: RecurrenceConfigWhereInput[]
+    NOT?: RecurrenceConfigWhereInput | RecurrenceConfigWhereInput[]
+    id?: StringFilter<"RecurrenceConfig"> | string
+    frequency?: EnumRecurrenceFrequencyFilter<"RecurrenceConfig"> | $Enums.RecurrenceFrequency
+    interval?: IntFilter<"RecurrenceConfig"> | number
+    weekDays?: IntNullableListFilter<"RecurrenceConfig">
+    date?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    amount?: DecimalFilter<"RecurrenceConfig"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    type?: EnumOperationTypeFilter<"RecurrenceConfig"> | $Enums.OperationType
+    userId?: StringFilter<"RecurrenceConfig"> | string
+    accountId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    transferAccountId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    categoryId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    createdAt?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+    transferAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    operations?: OperationListRelationFilter
+  }
+
+  export type RecurrenceConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    frequency?: SortOrder
+    interval?: SortOrder
+    weekDays?: SortOrder
+    date?: SortOrder
+    amount?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
+    transferAccountId?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    account?: AccountOrderByWithRelationInput
+    transferAccount?: AccountOrderByWithRelationInput
+    category?: CategoryOrderByWithRelationInput
+    operations?: OperationOrderByRelationAggregateInput
+  }
+
+  export type RecurrenceConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RecurrenceConfigWhereInput | RecurrenceConfigWhereInput[]
+    OR?: RecurrenceConfigWhereInput[]
+    NOT?: RecurrenceConfigWhereInput | RecurrenceConfigWhereInput[]
+    frequency?: EnumRecurrenceFrequencyFilter<"RecurrenceConfig"> | $Enums.RecurrenceFrequency
+    interval?: IntFilter<"RecurrenceConfig"> | number
+    weekDays?: IntNullableListFilter<"RecurrenceConfig">
+    date?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    amount?: DecimalFilter<"RecurrenceConfig"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    type?: EnumOperationTypeFilter<"RecurrenceConfig"> | $Enums.OperationType
+    userId?: StringFilter<"RecurrenceConfig"> | string
+    accountId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    transferAccountId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    categoryId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    createdAt?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    account?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+    transferAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    operations?: OperationListRelationFilter
+  }, "id">
+
+  export type RecurrenceConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    frequency?: SortOrder
+    interval?: SortOrder
+    weekDays?: SortOrder
+    date?: SortOrder
+    amount?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrderInput | SortOrder
+    transferAccountId?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RecurrenceConfigCountOrderByAggregateInput
+    _avg?: RecurrenceConfigAvgOrderByAggregateInput
+    _max?: RecurrenceConfigMaxOrderByAggregateInput
+    _min?: RecurrenceConfigMinOrderByAggregateInput
+    _sum?: RecurrenceConfigSumOrderByAggregateInput
+  }
+
+  export type RecurrenceConfigScalarWhereWithAggregatesInput = {
+    AND?: RecurrenceConfigScalarWhereWithAggregatesInput | RecurrenceConfigScalarWhereWithAggregatesInput[]
+    OR?: RecurrenceConfigScalarWhereWithAggregatesInput[]
+    NOT?: RecurrenceConfigScalarWhereWithAggregatesInput | RecurrenceConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RecurrenceConfig"> | string
+    frequency?: EnumRecurrenceFrequencyWithAggregatesFilter<"RecurrenceConfig"> | $Enums.RecurrenceFrequency
+    interval?: IntWithAggregatesFilter<"RecurrenceConfig"> | number
+    weekDays?: IntNullableListFilter<"RecurrenceConfig">
+    date?: DateTimeWithAggregatesFilter<"RecurrenceConfig"> | Date | string
+    amount?: DecimalWithAggregatesFilter<"RecurrenceConfig"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableWithAggregatesFilter<"RecurrenceConfig"> | string | null
+    type?: EnumOperationTypeWithAggregatesFilter<"RecurrenceConfig"> | $Enums.OperationType
+    userId?: StringWithAggregatesFilter<"RecurrenceConfig"> | string
+    accountId?: StringNullableWithAggregatesFilter<"RecurrenceConfig"> | string | null
+    transferAccountId?: StringNullableWithAggregatesFilter<"RecurrenceConfig"> | string | null
+    categoryId?: StringNullableWithAggregatesFilter<"RecurrenceConfig"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RecurrenceConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RecurrenceConfig"> | Date | string
   }
 
   export type TagWhereInput = {
@@ -9560,6 +11374,7 @@ export namespace Prisma {
     parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     children?: CategoryListRelationFilter
     operations?: OperationListRelationFilter
+    recurrenceConfigs?: RecurrenceConfigListRelationFilter
   }
 
   export type CategoryOrderByWithRelationInput = {
@@ -9576,6 +11391,7 @@ export namespace Prisma {
     parent?: CategoryOrderByWithRelationInput
     children?: CategoryOrderByRelationAggregateInput
     operations?: OperationOrderByRelationAggregateInput
+    recurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
   }
 
   export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -9596,6 +11412,7 @@ export namespace Prisma {
     parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     children?: CategoryListRelationFilter
     operations?: OperationListRelationFilter
+    recurrenceConfigs?: RecurrenceConfigListRelationFilter
   }, "id" | "userId_name">
 
   export type CategoryOrderByWithAggregationInput = {
@@ -9650,6 +11467,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9674,6 +11492,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -9698,6 +11517,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -9722,6 +11542,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -9862,6 +11683,8 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutAccountsInput
     operations?: OperationCreateNestedManyWithoutAccountInput
     transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUncheckedCreateInput = {
@@ -9876,6 +11699,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
     transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUpdateInput = {
@@ -9890,6 +11715,8 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
     operations?: OperationUpdateManyWithoutAccountNestedInput
     transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateInput = {
@@ -9904,6 +11731,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
     transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountCreateManyInput = {
@@ -9953,6 +11782,7 @@ export namespace Prisma {
     account?: AccountCreateNestedOneWithoutOperationsInput
     transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
+    recurrenceConfig?: RecurrenceConfigCreateNestedOneWithoutOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
 
@@ -9966,6 +11796,7 @@ export namespace Prisma {
     accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
@@ -9983,6 +11814,7 @@ export namespace Prisma {
     account?: AccountUpdateOneWithoutOperationsNestedInput
     transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
+    recurrenceConfig?: RecurrenceConfigUpdateOneWithoutOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
 
@@ -9996,6 +11828,7 @@ export namespace Prisma {
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
@@ -10011,6 +11844,7 @@ export namespace Prisma {
     accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10029,6 +11863,126 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecurrenceConfigCreateInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRecurrenceConfigsInput
+    account?: AccountCreateNestedOneWithoutRecurrenceConfigsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferRecurrenceConfigsInput
+    category?: CategoryCreateNestedOneWithoutRecurrenceConfigsInput
+    operations?: OperationCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigUncheckedCreateInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecurrenceConfigsNestedInput
+    account?: AccountUpdateOneWithoutRecurrenceConfigsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferRecurrenceConfigsNestedInput
+    category?: CategoryUpdateOneWithoutRecurrenceConfigsNestedInput
+    operations?: OperationUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigCreateManyInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurrenceConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecurrenceConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
     userId?: StringFieldUpdateOperationsInput | string
@@ -10117,6 +12071,7 @@ export namespace Prisma {
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
     operations?: OperationCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateInput = {
@@ -10131,6 +12086,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     operations?: OperationUncheckedCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUpdateInput = {
@@ -10145,6 +12101,7 @@ export namespace Prisma {
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
     operations?: OperationUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateInput = {
@@ -10159,6 +12116,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     operations?: OperationUncheckedUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateManyInput = {
@@ -10307,6 +12265,12 @@ export namespace Prisma {
     none?: OperationWhereInput
   }
 
+  export type RecurrenceConfigListRelationFilter = {
+    every?: RecurrenceConfigWhereInput
+    some?: RecurrenceConfigWhereInput
+    none?: RecurrenceConfigWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -10329,6 +12293,10 @@ export namespace Prisma {
   }
 
   export type OperationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RecurrenceConfigOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10650,6 +12618,11 @@ export namespace Prisma {
     isNot?: CategoryWhereInput | null
   }
 
+  export type RecurrenceConfigNullableScalarRelationFilter = {
+    is?: RecurrenceConfigWhereInput | null
+    isNot?: RecurrenceConfigWhereInput | null
+  }
+
   export type OperationCountOrderByAggregateInput = {
     id?: SortOrder
     amount?: SortOrder
@@ -10660,6 +12633,7 @@ export namespace Prisma {
     accountId?: SortOrder
     transferAccountId?: SortOrder
     categoryId?: SortOrder
+    recurrenceConfigId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10678,6 +12652,7 @@ export namespace Prisma {
     accountId?: SortOrder
     transferAccountId?: SortOrder
     categoryId?: SortOrder
+    recurrenceConfigId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10692,6 +12667,7 @@ export namespace Prisma {
     accountId?: SortOrder
     transferAccountId?: SortOrder
     categoryId?: SortOrder
+    recurrenceConfigId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10708,6 +12684,92 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumOperationTypeFilter<$PrismaModel>
     _max?: NestedEnumOperationTypeFilter<$PrismaModel>
+  }
+
+  export type EnumRecurrenceFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.RecurrenceFrequency | EnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumRecurrenceFrequencyFilter<$PrismaModel> | $Enums.RecurrenceFrequency
+  }
+
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type RecurrenceConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    frequency?: SortOrder
+    interval?: SortOrder
+    weekDays?: SortOrder
+    date?: SortOrder
+    amount?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrder
+    transferAccountId?: SortOrder
+    categoryId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RecurrenceConfigAvgOrderByAggregateInput = {
+    interval?: SortOrder
+    weekDays?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type RecurrenceConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    frequency?: SortOrder
+    interval?: SortOrder
+    date?: SortOrder
+    amount?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrder
+    transferAccountId?: SortOrder
+    categoryId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RecurrenceConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    frequency?: SortOrder
+    interval?: SortOrder
+    date?: SortOrder
+    amount?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    accountId?: SortOrder
+    transferAccountId?: SortOrder
+    categoryId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RecurrenceConfigSumOrderByAggregateInput = {
+    interval?: SortOrder
+    weekDays?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type EnumRecurrenceFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RecurrenceFrequency | EnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumRecurrenceFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.RecurrenceFrequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRecurrenceFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumRecurrenceFrequencyFilter<$PrismaModel>
   }
 
   export type TagUserIdNameCompoundUniqueInput = {
@@ -10835,6 +12897,13 @@ export namespace Prisma {
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
   }
 
+  export type RecurrenceConfigCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput> | RecurrenceConfigCreateWithoutUserInput[] | RecurrenceConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutUserInput | RecurrenceConfigCreateOrConnectWithoutUserInput[]
+    createMany?: RecurrenceConfigCreateManyUserInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+  }
+
   export type TokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -10868,6 +12937,13 @@ export namespace Prisma {
     connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
     createMany?: OperationCreateManyUserInputEnvelope
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
+  export type RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput> | RecurrenceConfigCreateWithoutUserInput[] | RecurrenceConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutUserInput | RecurrenceConfigCreateOrConnectWithoutUserInput[]
+    createMany?: RecurrenceConfigCreateManyUserInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10976,6 +13052,20 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
+  export type RecurrenceConfigUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput> | RecurrenceConfigCreateWithoutUserInput[] | RecurrenceConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutUserInput | RecurrenceConfigCreateOrConnectWithoutUserInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutUserInput | RecurrenceConfigUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecurrenceConfigCreateManyUserInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutUserInput | RecurrenceConfigUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutUserInput | RecurrenceConfigUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+  }
+
   export type TokenUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -11046,6 +13136,20 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
+  export type RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput> | RecurrenceConfigCreateWithoutUserInput[] | RecurrenceConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutUserInput | RecurrenceConfigCreateOrConnectWithoutUserInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutUserInput | RecurrenceConfigUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecurrenceConfigCreateManyUserInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutUserInput | RecurrenceConfigUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutUserInput | RecurrenceConfigUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutTokensInput = {
     create?: XOR<UserCreateWithoutTokensInput, UserUncheckedCreateWithoutTokensInput>
     connectOrCreate?: UserCreateOrConnectWithoutTokensInput
@@ -11084,6 +13188,20 @@ export namespace Prisma {
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
   }
 
+  export type RecurrenceConfigCreateNestedManyWithoutAccountInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutAccountInput, RecurrenceConfigUncheckedCreateWithoutAccountInput> | RecurrenceConfigCreateWithoutAccountInput[] | RecurrenceConfigUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutAccountInput | RecurrenceConfigCreateOrConnectWithoutAccountInput[]
+    createMany?: RecurrenceConfigCreateManyAccountInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+  }
+
+  export type RecurrenceConfigCreateNestedManyWithoutTransferAccountInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutTransferAccountInput, RecurrenceConfigUncheckedCreateWithoutTransferAccountInput> | RecurrenceConfigCreateWithoutTransferAccountInput[] | RecurrenceConfigUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutTransferAccountInput | RecurrenceConfigCreateOrConnectWithoutTransferAccountInput[]
+    createMany?: RecurrenceConfigCreateManyTransferAccountInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+  }
+
   export type OperationUncheckedCreateNestedManyWithoutAccountInput = {
     create?: XOR<OperationCreateWithoutAccountInput, OperationUncheckedCreateWithoutAccountInput> | OperationCreateWithoutAccountInput[] | OperationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: OperationCreateOrConnectWithoutAccountInput | OperationCreateOrConnectWithoutAccountInput[]
@@ -11096,6 +13214,20 @@ export namespace Prisma {
     connectOrCreate?: OperationCreateOrConnectWithoutTransferAccountInput | OperationCreateOrConnectWithoutTransferAccountInput[]
     createMany?: OperationCreateManyTransferAccountInputEnvelope
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
+  export type RecurrenceConfigUncheckedCreateNestedManyWithoutAccountInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutAccountInput, RecurrenceConfigUncheckedCreateWithoutAccountInput> | RecurrenceConfigCreateWithoutAccountInput[] | RecurrenceConfigUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutAccountInput | RecurrenceConfigCreateOrConnectWithoutAccountInput[]
+    createMany?: RecurrenceConfigCreateManyAccountInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+  }
+
+  export type RecurrenceConfigUncheckedCreateNestedManyWithoutTransferAccountInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutTransferAccountInput, RecurrenceConfigUncheckedCreateWithoutTransferAccountInput> | RecurrenceConfigCreateWithoutTransferAccountInput[] | RecurrenceConfigUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutTransferAccountInput | RecurrenceConfigCreateOrConnectWithoutTransferAccountInput[]
+    createMany?: RecurrenceConfigCreateManyTransferAccountInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -11142,6 +13274,34 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
+  export type RecurrenceConfigUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutAccountInput, RecurrenceConfigUncheckedCreateWithoutAccountInput> | RecurrenceConfigCreateWithoutAccountInput[] | RecurrenceConfigUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutAccountInput | RecurrenceConfigCreateOrConnectWithoutAccountInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutAccountInput | RecurrenceConfigUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: RecurrenceConfigCreateManyAccountInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutAccountInput | RecurrenceConfigUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutAccountInput | RecurrenceConfigUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+  }
+
+  export type RecurrenceConfigUpdateManyWithoutTransferAccountNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutTransferAccountInput, RecurrenceConfigUncheckedCreateWithoutTransferAccountInput> | RecurrenceConfigCreateWithoutTransferAccountInput[] | RecurrenceConfigUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutTransferAccountInput | RecurrenceConfigCreateOrConnectWithoutTransferAccountInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutTransferAccountInput | RecurrenceConfigUpsertWithWhereUniqueWithoutTransferAccountInput[]
+    createMany?: RecurrenceConfigCreateManyTransferAccountInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutTransferAccountInput | RecurrenceConfigUpdateWithWhereUniqueWithoutTransferAccountInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutTransferAccountInput | RecurrenceConfigUpdateManyWithWhereWithoutTransferAccountInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+  }
+
   export type OperationUncheckedUpdateManyWithoutAccountNestedInput = {
     create?: XOR<OperationCreateWithoutAccountInput, OperationUncheckedCreateWithoutAccountInput> | OperationCreateWithoutAccountInput[] | OperationUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: OperationCreateOrConnectWithoutAccountInput | OperationCreateOrConnectWithoutAccountInput[]
@@ -11170,6 +13330,34 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
+  export type RecurrenceConfigUncheckedUpdateManyWithoutAccountNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutAccountInput, RecurrenceConfigUncheckedCreateWithoutAccountInput> | RecurrenceConfigCreateWithoutAccountInput[] | RecurrenceConfigUncheckedCreateWithoutAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutAccountInput | RecurrenceConfigCreateOrConnectWithoutAccountInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutAccountInput | RecurrenceConfigUpsertWithWhereUniqueWithoutAccountInput[]
+    createMany?: RecurrenceConfigCreateManyAccountInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutAccountInput | RecurrenceConfigUpdateWithWhereUniqueWithoutAccountInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutAccountInput | RecurrenceConfigUpdateManyWithWhereWithoutAccountInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+  }
+
+  export type RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutTransferAccountInput, RecurrenceConfigUncheckedCreateWithoutTransferAccountInput> | RecurrenceConfigCreateWithoutTransferAccountInput[] | RecurrenceConfigUncheckedCreateWithoutTransferAccountInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutTransferAccountInput | RecurrenceConfigCreateOrConnectWithoutTransferAccountInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutTransferAccountInput | RecurrenceConfigUpsertWithWhereUniqueWithoutTransferAccountInput[]
+    createMany?: RecurrenceConfigCreateManyTransferAccountInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutTransferAccountInput | RecurrenceConfigUpdateWithWhereUniqueWithoutTransferAccountInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutTransferAccountInput | RecurrenceConfigUpdateManyWithWhereWithoutTransferAccountInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutOperationsInput = {
     create?: XOR<UserCreateWithoutOperationsInput, UserUncheckedCreateWithoutOperationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutOperationsInput
@@ -11192,6 +13380,12 @@ export namespace Prisma {
     create?: XOR<CategoryCreateWithoutOperationsInput, CategoryUncheckedCreateWithoutOperationsInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutOperationsInput
     connect?: CategoryWhereUniqueInput
+  }
+
+  export type RecurrenceConfigCreateNestedOneWithoutOperationsInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutOperationsInput, RecurrenceConfigUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutOperationsInput
+    connect?: RecurrenceConfigWhereUniqueInput
   }
 
   export type TagCreateNestedManyWithoutOperationsInput = {
@@ -11248,6 +13442,16 @@ export namespace Prisma {
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutOperationsInput, CategoryUpdateWithoutOperationsInput>, CategoryUncheckedUpdateWithoutOperationsInput>
   }
 
+  export type RecurrenceConfigUpdateOneWithoutOperationsNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutOperationsInput, RecurrenceConfigUncheckedCreateWithoutOperationsInput>
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutOperationsInput
+    upsert?: RecurrenceConfigUpsertWithoutOperationsInput
+    disconnect?: RecurrenceConfigWhereInput | boolean
+    delete?: RecurrenceConfigWhereInput | boolean
+    connect?: RecurrenceConfigWhereUniqueInput
+    update?: XOR<XOR<RecurrenceConfigUpdateToOneWithWhereWithoutOperationsInput, RecurrenceConfigUpdateWithoutOperationsInput>, RecurrenceConfigUncheckedUpdateWithoutOperationsInput>
+  }
+
   export type TagUpdateManyWithoutOperationsNestedInput = {
     create?: XOR<TagCreateWithoutOperationsInput, TagUncheckedCreateWithoutOperationsInput> | TagCreateWithoutOperationsInput[] | TagUncheckedCreateWithoutOperationsInput[]
     connectOrCreate?: TagCreateOrConnectWithoutOperationsInput | TagCreateOrConnectWithoutOperationsInput[]
@@ -11272,6 +13476,123 @@ export namespace Prisma {
     update?: TagUpdateWithWhereUniqueWithoutOperationsInput | TagUpdateWithWhereUniqueWithoutOperationsInput[]
     updateMany?: TagUpdateManyWithWhereWithoutOperationsInput | TagUpdateManyWithWhereWithoutOperationsInput[]
     deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type RecurrenceConfigCreateweekDaysInput = {
+    set: number[]
+  }
+
+  export type UserCreateNestedOneWithoutRecurrenceConfigsInput = {
+    create?: XOR<UserCreateWithoutRecurrenceConfigsInput, UserUncheckedCreateWithoutRecurrenceConfigsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecurrenceConfigsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AccountCreateNestedOneWithoutRecurrenceConfigsInput = {
+    create?: XOR<AccountCreateWithoutRecurrenceConfigsInput, AccountUncheckedCreateWithoutRecurrenceConfigsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutRecurrenceConfigsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type AccountCreateNestedOneWithoutTransferRecurrenceConfigsInput = {
+    create?: XOR<AccountCreateWithoutTransferRecurrenceConfigsInput, AccountUncheckedCreateWithoutTransferRecurrenceConfigsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutTransferRecurrenceConfigsInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type CategoryCreateNestedOneWithoutRecurrenceConfigsInput = {
+    create?: XOR<CategoryCreateWithoutRecurrenceConfigsInput, CategoryUncheckedCreateWithoutRecurrenceConfigsInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutRecurrenceConfigsInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type OperationCreateNestedManyWithoutRecurrenceConfigInput = {
+    create?: XOR<OperationCreateWithoutRecurrenceConfigInput, OperationUncheckedCreateWithoutRecurrenceConfigInput> | OperationCreateWithoutRecurrenceConfigInput[] | OperationUncheckedCreateWithoutRecurrenceConfigInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutRecurrenceConfigInput | OperationCreateOrConnectWithoutRecurrenceConfigInput[]
+    createMany?: OperationCreateManyRecurrenceConfigInputEnvelope
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
+  export type OperationUncheckedCreateNestedManyWithoutRecurrenceConfigInput = {
+    create?: XOR<OperationCreateWithoutRecurrenceConfigInput, OperationUncheckedCreateWithoutRecurrenceConfigInput> | OperationCreateWithoutRecurrenceConfigInput[] | OperationUncheckedCreateWithoutRecurrenceConfigInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutRecurrenceConfigInput | OperationCreateOrConnectWithoutRecurrenceConfigInput[]
+    createMany?: OperationCreateManyRecurrenceConfigInputEnvelope
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
+  export type EnumRecurrenceFrequencyFieldUpdateOperationsInput = {
+    set?: $Enums.RecurrenceFrequency
+  }
+
+  export type RecurrenceConfigUpdateweekDaysInput = {
+    set?: number[]
+    push?: number | number[]
+  }
+
+  export type UserUpdateOneRequiredWithoutRecurrenceConfigsNestedInput = {
+    create?: XOR<UserCreateWithoutRecurrenceConfigsInput, UserUncheckedCreateWithoutRecurrenceConfigsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecurrenceConfigsInput
+    upsert?: UserUpsertWithoutRecurrenceConfigsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecurrenceConfigsInput, UserUpdateWithoutRecurrenceConfigsInput>, UserUncheckedUpdateWithoutRecurrenceConfigsInput>
+  }
+
+  export type AccountUpdateOneWithoutRecurrenceConfigsNestedInput = {
+    create?: XOR<AccountCreateWithoutRecurrenceConfigsInput, AccountUncheckedCreateWithoutRecurrenceConfigsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutRecurrenceConfigsInput
+    upsert?: AccountUpsertWithoutRecurrenceConfigsInput
+    disconnect?: AccountWhereInput | boolean
+    delete?: AccountWhereInput | boolean
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutRecurrenceConfigsInput, AccountUpdateWithoutRecurrenceConfigsInput>, AccountUncheckedUpdateWithoutRecurrenceConfigsInput>
+  }
+
+  export type AccountUpdateOneWithoutTransferRecurrenceConfigsNestedInput = {
+    create?: XOR<AccountCreateWithoutTransferRecurrenceConfigsInput, AccountUncheckedCreateWithoutTransferRecurrenceConfigsInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutTransferRecurrenceConfigsInput
+    upsert?: AccountUpsertWithoutTransferRecurrenceConfigsInput
+    disconnect?: AccountWhereInput | boolean
+    delete?: AccountWhereInput | boolean
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutTransferRecurrenceConfigsInput, AccountUpdateWithoutTransferRecurrenceConfigsInput>, AccountUncheckedUpdateWithoutTransferRecurrenceConfigsInput>
+  }
+
+  export type CategoryUpdateOneWithoutRecurrenceConfigsNestedInput = {
+    create?: XOR<CategoryCreateWithoutRecurrenceConfigsInput, CategoryUncheckedCreateWithoutRecurrenceConfigsInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutRecurrenceConfigsInput
+    upsert?: CategoryUpsertWithoutRecurrenceConfigsInput
+    disconnect?: CategoryWhereInput | boolean
+    delete?: CategoryWhereInput | boolean
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutRecurrenceConfigsInput, CategoryUpdateWithoutRecurrenceConfigsInput>, CategoryUncheckedUpdateWithoutRecurrenceConfigsInput>
+  }
+
+  export type OperationUpdateManyWithoutRecurrenceConfigNestedInput = {
+    create?: XOR<OperationCreateWithoutRecurrenceConfigInput, OperationUncheckedCreateWithoutRecurrenceConfigInput> | OperationCreateWithoutRecurrenceConfigInput[] | OperationUncheckedCreateWithoutRecurrenceConfigInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutRecurrenceConfigInput | OperationCreateOrConnectWithoutRecurrenceConfigInput[]
+    upsert?: OperationUpsertWithWhereUniqueWithoutRecurrenceConfigInput | OperationUpsertWithWhereUniqueWithoutRecurrenceConfigInput[]
+    createMany?: OperationCreateManyRecurrenceConfigInputEnvelope
+    set?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    disconnect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    delete?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    update?: OperationUpdateWithWhereUniqueWithoutRecurrenceConfigInput | OperationUpdateWithWhereUniqueWithoutRecurrenceConfigInput[]
+    updateMany?: OperationUpdateManyWithWhereWithoutRecurrenceConfigInput | OperationUpdateManyWithWhereWithoutRecurrenceConfigInput[]
+    deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
+  }
+
+  export type OperationUncheckedUpdateManyWithoutRecurrenceConfigNestedInput = {
+    create?: XOR<OperationCreateWithoutRecurrenceConfigInput, OperationUncheckedCreateWithoutRecurrenceConfigInput> | OperationCreateWithoutRecurrenceConfigInput[] | OperationUncheckedCreateWithoutRecurrenceConfigInput[]
+    connectOrCreate?: OperationCreateOrConnectWithoutRecurrenceConfigInput | OperationCreateOrConnectWithoutRecurrenceConfigInput[]
+    upsert?: OperationUpsertWithWhereUniqueWithoutRecurrenceConfigInput | OperationUpsertWithWhereUniqueWithoutRecurrenceConfigInput[]
+    createMany?: OperationCreateManyRecurrenceConfigInputEnvelope
+    set?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    disconnect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    delete?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+    update?: OperationUpdateWithWhereUniqueWithoutRecurrenceConfigInput | OperationUpdateWithWhereUniqueWithoutRecurrenceConfigInput[]
+    updateMany?: OperationUpdateManyWithWhereWithoutRecurrenceConfigInput | OperationUpdateManyWithWhereWithoutRecurrenceConfigInput[]
+    deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutTagsInput = {
@@ -11352,6 +13673,13 @@ export namespace Prisma {
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
   }
 
+  export type RecurrenceConfigCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutCategoryInput, RecurrenceConfigUncheckedCreateWithoutCategoryInput> | RecurrenceConfigCreateWithoutCategoryInput[] | RecurrenceConfigUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutCategoryInput | RecurrenceConfigCreateOrConnectWithoutCategoryInput[]
+    createMany?: RecurrenceConfigCreateManyCategoryInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+  }
+
   export type CategoryUncheckedCreateNestedManyWithoutParentInput = {
     create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
     connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
@@ -11364,6 +13692,13 @@ export namespace Prisma {
     connectOrCreate?: OperationCreateOrConnectWithoutCategoryInput | OperationCreateOrConnectWithoutCategoryInput[]
     createMany?: OperationCreateManyCategoryInputEnvelope
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
+  export type RecurrenceConfigUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutCategoryInput, RecurrenceConfigUncheckedCreateWithoutCategoryInput> | RecurrenceConfigCreateWithoutCategoryInput[] | RecurrenceConfigUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutCategoryInput | RecurrenceConfigCreateOrConnectWithoutCategoryInput[]
+    createMany?: RecurrenceConfigCreateManyCategoryInputEnvelope
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
   }
 
   export type EnumCategoryTypeFieldUpdateOperationsInput = {
@@ -11416,6 +13751,20 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
+  export type RecurrenceConfigUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutCategoryInput, RecurrenceConfigUncheckedCreateWithoutCategoryInput> | RecurrenceConfigCreateWithoutCategoryInput[] | RecurrenceConfigUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutCategoryInput | RecurrenceConfigCreateOrConnectWithoutCategoryInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutCategoryInput | RecurrenceConfigUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: RecurrenceConfigCreateManyCategoryInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutCategoryInput | RecurrenceConfigUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutCategoryInput | RecurrenceConfigUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+  }
+
   export type CategoryUncheckedUpdateManyWithoutParentNestedInput = {
     create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
     connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
@@ -11442,6 +13791,20 @@ export namespace Prisma {
     update?: OperationUpdateWithWhereUniqueWithoutCategoryInput | OperationUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: OperationUpdateManyWithWhereWithoutCategoryInput | OperationUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
+  }
+
+  export type RecurrenceConfigUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<RecurrenceConfigCreateWithoutCategoryInput, RecurrenceConfigUncheckedCreateWithoutCategoryInput> | RecurrenceConfigCreateWithoutCategoryInput[] | RecurrenceConfigUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutCategoryInput | RecurrenceConfigCreateOrConnectWithoutCategoryInput[]
+    upsert?: RecurrenceConfigUpsertWithWhereUniqueWithoutCategoryInput | RecurrenceConfigUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: RecurrenceConfigCreateManyCategoryInputEnvelope
+    set?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    disconnect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    delete?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    connect?: RecurrenceConfigWhereUniqueInput | RecurrenceConfigWhereUniqueInput[]
+    update?: RecurrenceConfigUpdateWithWhereUniqueWithoutCategoryInput | RecurrenceConfigUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: RecurrenceConfigUpdateManyWithWhereWithoutCategoryInput | RecurrenceConfigUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11713,6 +14076,23 @@ export namespace Prisma {
     _max?: NestedEnumOperationTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumRecurrenceFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.RecurrenceFrequency | EnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumRecurrenceFrequencyFilter<$PrismaModel> | $Enums.RecurrenceFrequency
+  }
+
+  export type NestedEnumRecurrenceFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RecurrenceFrequency | EnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RecurrenceFrequency[] | ListEnumRecurrenceFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumRecurrenceFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.RecurrenceFrequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRecurrenceFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumRecurrenceFrequencyFilter<$PrismaModel>
+  }
+
   export type NestedEnumCategoryTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.CategoryType | EnumCategoryTypeFieldRefInput<$PrismaModel>
     in?: $Enums.CategoryType[] | ListEnumCategoryTypeFieldRefInput<$PrismaModel>
@@ -11769,6 +14149,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     operations?: OperationCreateNestedManyWithoutAccountInput
     transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUncheckedCreateWithoutUserInput = {
@@ -11782,6 +14164,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
     transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountCreateOrConnectWithoutUserInput = {
@@ -11833,6 +14217,7 @@ export namespace Prisma {
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
     operations?: OperationCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutUserInput = {
@@ -11846,6 +14231,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     operations?: OperationUncheckedCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutUserInput = {
@@ -11869,6 +14255,7 @@ export namespace Prisma {
     account?: AccountCreateNestedOneWithoutOperationsInput
     transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
+    recurrenceConfig?: RecurrenceConfigCreateNestedOneWithoutOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
 
@@ -11881,6 +14268,7 @@ export namespace Prisma {
     accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
@@ -11893,6 +14281,50 @@ export namespace Prisma {
 
   export type OperationCreateManyUserInputEnvelope = {
     data: OperationCreateManyUserInput | OperationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecurrenceConfigCreateWithoutUserInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    account?: AccountCreateNestedOneWithoutRecurrenceConfigsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferRecurrenceConfigsInput
+    category?: CategoryCreateNestedOneWithoutRecurrenceConfigsInput
+    operations?: OperationCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigUncheckedCreateWithoutUserInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigCreateOrConnectWithoutUserInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    create: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecurrenceConfigCreateManyUserInputEnvelope = {
+    data: RecurrenceConfigCreateManyUserInput | RecurrenceConfigCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -12044,8 +14476,45 @@ export namespace Prisma {
     accountId?: StringNullableFilter<"Operation"> | string | null
     transferAccountId?: StringNullableFilter<"Operation"> | string | null
     categoryId?: StringNullableFilter<"Operation"> | string | null
+    recurrenceConfigId?: StringNullableFilter<"Operation"> | string | null
     createdAt?: DateTimeFilter<"Operation"> | Date | string
     updatedAt?: DateTimeFilter<"Operation"> | Date | string
+  }
+
+  export type RecurrenceConfigUpsertWithWhereUniqueWithoutUserInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    update: XOR<RecurrenceConfigUpdateWithoutUserInput, RecurrenceConfigUncheckedUpdateWithoutUserInput>
+    create: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecurrenceConfigUpdateWithWhereUniqueWithoutUserInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    data: XOR<RecurrenceConfigUpdateWithoutUserInput, RecurrenceConfigUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RecurrenceConfigUpdateManyWithWhereWithoutUserInput = {
+    where: RecurrenceConfigScalarWhereInput
+    data: XOR<RecurrenceConfigUpdateManyMutationInput, RecurrenceConfigUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RecurrenceConfigScalarWhereInput = {
+    AND?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+    OR?: RecurrenceConfigScalarWhereInput[]
+    NOT?: RecurrenceConfigScalarWhereInput | RecurrenceConfigScalarWhereInput[]
+    id?: StringFilter<"RecurrenceConfig"> | string
+    frequency?: EnumRecurrenceFrequencyFilter<"RecurrenceConfig"> | $Enums.RecurrenceFrequency
+    interval?: IntFilter<"RecurrenceConfig"> | number
+    weekDays?: IntNullableListFilter<"RecurrenceConfig">
+    date?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    amount?: DecimalFilter<"RecurrenceConfig"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    type?: EnumOperationTypeFilter<"RecurrenceConfig"> | $Enums.OperationType
+    userId?: StringFilter<"RecurrenceConfig"> | string
+    accountId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    transferAccountId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    categoryId?: StringNullableFilter<"RecurrenceConfig"> | string | null
+    createdAt?: DateTimeFilter<"RecurrenceConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"RecurrenceConfig"> | Date | string
   }
 
   export type UserCreateWithoutTokensInput = {
@@ -12069,6 +14538,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -12092,6 +14562,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -12131,6 +14602,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -12154,6 +14626,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -12177,6 +14650,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -12200,6 +14674,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -12218,6 +14693,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutOperationsInput
     transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
+    recurrenceConfig?: RecurrenceConfigCreateNestedOneWithoutOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
 
@@ -12230,6 +14706,7 @@ export namespace Prisma {
     userId: string
     transferAccountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
@@ -12256,6 +14733,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutOperationsInput
     account?: AccountCreateNestedOneWithoutOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
+    recurrenceConfig?: RecurrenceConfigCreateNestedOneWithoutOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
 
@@ -12268,6 +14746,7 @@ export namespace Prisma {
     userId: string
     accountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
@@ -12280,6 +14759,94 @@ export namespace Prisma {
 
   export type OperationCreateManyTransferAccountInputEnvelope = {
     data: OperationCreateManyTransferAccountInput | OperationCreateManyTransferAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecurrenceConfigCreateWithoutAccountInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRecurrenceConfigsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferRecurrenceConfigsInput
+    category?: CategoryCreateNestedOneWithoutRecurrenceConfigsInput
+    operations?: OperationCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigUncheckedCreateWithoutAccountInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigCreateOrConnectWithoutAccountInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    create: XOR<RecurrenceConfigCreateWithoutAccountInput, RecurrenceConfigUncheckedCreateWithoutAccountInput>
+  }
+
+  export type RecurrenceConfigCreateManyAccountInputEnvelope = {
+    data: RecurrenceConfigCreateManyAccountInput | RecurrenceConfigCreateManyAccountInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecurrenceConfigCreateWithoutTransferAccountInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRecurrenceConfigsInput
+    account?: AccountCreateNestedOneWithoutRecurrenceConfigsInput
+    category?: CategoryCreateNestedOneWithoutRecurrenceConfigsInput
+    operations?: OperationCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigUncheckedCreateWithoutTransferAccountInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigCreateOrConnectWithoutTransferAccountInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    create: XOR<RecurrenceConfigCreateWithoutTransferAccountInput, RecurrenceConfigUncheckedCreateWithoutTransferAccountInput>
+  }
+
+  export type RecurrenceConfigCreateManyTransferAccountInputEnvelope = {
+    data: RecurrenceConfigCreateManyTransferAccountInput | RecurrenceConfigCreateManyTransferAccountInput[]
     skipDuplicates?: boolean
   }
 
@@ -12315,6 +14882,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -12338,6 +14906,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OperationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -12372,6 +14941,38 @@ export namespace Prisma {
     data: XOR<OperationUpdateManyMutationInput, OperationUncheckedUpdateManyWithoutTransferAccountInput>
   }
 
+  export type RecurrenceConfigUpsertWithWhereUniqueWithoutAccountInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    update: XOR<RecurrenceConfigUpdateWithoutAccountInput, RecurrenceConfigUncheckedUpdateWithoutAccountInput>
+    create: XOR<RecurrenceConfigCreateWithoutAccountInput, RecurrenceConfigUncheckedCreateWithoutAccountInput>
+  }
+
+  export type RecurrenceConfigUpdateWithWhereUniqueWithoutAccountInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    data: XOR<RecurrenceConfigUpdateWithoutAccountInput, RecurrenceConfigUncheckedUpdateWithoutAccountInput>
+  }
+
+  export type RecurrenceConfigUpdateManyWithWhereWithoutAccountInput = {
+    where: RecurrenceConfigScalarWhereInput
+    data: XOR<RecurrenceConfigUpdateManyMutationInput, RecurrenceConfigUncheckedUpdateManyWithoutAccountInput>
+  }
+
+  export type RecurrenceConfigUpsertWithWhereUniqueWithoutTransferAccountInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    update: XOR<RecurrenceConfigUpdateWithoutTransferAccountInput, RecurrenceConfigUncheckedUpdateWithoutTransferAccountInput>
+    create: XOR<RecurrenceConfigCreateWithoutTransferAccountInput, RecurrenceConfigUncheckedCreateWithoutTransferAccountInput>
+  }
+
+  export type RecurrenceConfigUpdateWithWhereUniqueWithoutTransferAccountInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    data: XOR<RecurrenceConfigUpdateWithoutTransferAccountInput, RecurrenceConfigUncheckedUpdateWithoutTransferAccountInput>
+  }
+
+  export type RecurrenceConfigUpdateManyWithWhereWithoutTransferAccountInput = {
+    where: RecurrenceConfigScalarWhereInput
+    data: XOR<RecurrenceConfigUpdateManyMutationInput, RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountInput>
+  }
+
   export type UserCreateWithoutOperationsInput = {
     id?: string
     email: string
@@ -12393,6 +14994,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOperationsInput = {
@@ -12416,6 +15018,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOperationsInput = {
@@ -12434,6 +15037,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAccountsInput
     transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUncheckedCreateWithoutOperationsInput = {
@@ -12447,6 +15052,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountCreateOrConnectWithoutOperationsInput = {
@@ -12465,6 +15072,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAccountsInput
     operations?: OperationCreateNestedManyWithoutAccountInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountUncheckedCreateWithoutTransferOperationsInput = {
@@ -12478,6 +15087,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutTransferAccountInput
   }
 
   export type AccountCreateOrConnectWithoutTransferOperationsInput = {
@@ -12496,6 +15107,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutCategoriesInput
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutOperationsInput = {
@@ -12509,11 +15121,51 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutOperationsInput = {
     where: CategoryWhereUniqueInput
     create: XOR<CategoryCreateWithoutOperationsInput, CategoryUncheckedCreateWithoutOperationsInput>
+  }
+
+  export type RecurrenceConfigCreateWithoutOperationsInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRecurrenceConfigsInput
+    account?: AccountCreateNestedOneWithoutRecurrenceConfigsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferRecurrenceConfigsInput
+    category?: CategoryCreateNestedOneWithoutRecurrenceConfigsInput
+  }
+
+  export type RecurrenceConfigUncheckedCreateWithoutOperationsInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurrenceConfigCreateOrConnectWithoutOperationsInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    create: XOR<RecurrenceConfigCreateWithoutOperationsInput, RecurrenceConfigUncheckedCreateWithoutOperationsInput>
   }
 
   export type TagCreateWithoutOperationsInput = {
@@ -12571,6 +15223,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOperationsInput = {
@@ -12594,6 +15247,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountUpsertWithoutOperationsInput = {
@@ -12618,6 +15272,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
     transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutOperationsInput = {
@@ -12631,6 +15287,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUpsertWithoutTransferOperationsInput = {
@@ -12655,6 +15313,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
     operations?: OperationUpdateManyWithoutAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutTransferOperationsInput = {
@@ -12668,6 +15328,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type CategoryUpsertWithoutOperationsInput = {
@@ -12692,6 +15354,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutOperationsInput = {
@@ -12705,6 +15368,52 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type RecurrenceConfigUpsertWithoutOperationsInput = {
+    update: XOR<RecurrenceConfigUpdateWithoutOperationsInput, RecurrenceConfigUncheckedUpdateWithoutOperationsInput>
+    create: XOR<RecurrenceConfigCreateWithoutOperationsInput, RecurrenceConfigUncheckedCreateWithoutOperationsInput>
+    where?: RecurrenceConfigWhereInput
+  }
+
+  export type RecurrenceConfigUpdateToOneWithWhereWithoutOperationsInput = {
+    where?: RecurrenceConfigWhereInput
+    data: XOR<RecurrenceConfigUpdateWithoutOperationsInput, RecurrenceConfigUncheckedUpdateWithoutOperationsInput>
+  }
+
+  export type RecurrenceConfigUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecurrenceConfigsNestedInput
+    account?: AccountUpdateOneWithoutRecurrenceConfigsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferRecurrenceConfigsNestedInput
+    category?: CategoryUpdateOneWithoutRecurrenceConfigsNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateWithoutOperationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TagUpsertWithWhereUniqueWithoutOperationsInput = {
@@ -12721,6 +15430,398 @@ export namespace Prisma {
   export type TagUpdateManyWithWhereWithoutOperationsInput = {
     where: TagScalarWhereInput
     data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyWithoutOperationsInput>
+  }
+
+  export type UserCreateWithoutRecurrenceConfigsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    isPremium?: boolean
+    premiumExpiresAt?: Date | string | null
+    premiumPlan?: $Enums.PremiumPlan | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecurrenceConfigsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    isPremium?: boolean
+    premiumExpiresAt?: Date | string | null
+    premiumPlan?: $Enums.PremiumPlan | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecurrenceConfigsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecurrenceConfigsInput, UserUncheckedCreateWithoutRecurrenceConfigsInput>
+  }
+
+  export type AccountCreateWithoutRecurrenceConfigsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAccountsInput
+    operations?: OperationCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutTransferAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutRecurrenceConfigsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutTransferAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutRecurrenceConfigsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutRecurrenceConfigsInput, AccountUncheckedCreateWithoutRecurrenceConfigsInput>
+  }
+
+  export type AccountCreateWithoutTransferRecurrenceConfigsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAccountsInput
+    operations?: OperationCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutTransferRecurrenceConfigsInput = {
+    id?: string
+    name: string
+    balance?: Decimal | DecimalJsLike | number | string
+    currency: string
+    icon?: string
+    iconColor?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutAccountInput
+    transferOperations?: OperationUncheckedCreateNestedManyWithoutTransferAccountInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutTransferRecurrenceConfigsInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutTransferRecurrenceConfigsInput, AccountUncheckedCreateWithoutTransferRecurrenceConfigsInput>
+  }
+
+  export type CategoryCreateWithoutRecurrenceConfigsInput = {
+    id?: string
+    name: string
+    type: $Enums.CategoryType
+    color?: string
+    icon?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCategoriesInput
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+    children?: CategoryCreateNestedManyWithoutParentInput
+    operations?: OperationCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryUncheckedCreateWithoutRecurrenceConfigsInput = {
+    id?: string
+    name: string
+    type: $Enums.CategoryType
+    color?: string
+    icon?: string
+    userId: string
+    parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
+    operations?: OperationUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutRecurrenceConfigsInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutRecurrenceConfigsInput, CategoryUncheckedCreateWithoutRecurrenceConfigsInput>
+  }
+
+  export type OperationCreateWithoutRecurrenceConfigInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutOperationsInput
+    account?: AccountCreateNestedOneWithoutOperationsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
+    category?: CategoryCreateNestedOneWithoutOperationsInput
+    tags?: TagCreateNestedManyWithoutOperationsInput
+  }
+
+  export type OperationUncheckedCreateWithoutRecurrenceConfigInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
+  }
+
+  export type OperationCreateOrConnectWithoutRecurrenceConfigInput = {
+    where: OperationWhereUniqueInput
+    create: XOR<OperationCreateWithoutRecurrenceConfigInput, OperationUncheckedCreateWithoutRecurrenceConfigInput>
+  }
+
+  export type OperationCreateManyRecurrenceConfigInputEnvelope = {
+    data: OperationCreateManyRecurrenceConfigInput | OperationCreateManyRecurrenceConfigInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutRecurrenceConfigsInput = {
+    update: XOR<UserUpdateWithoutRecurrenceConfigsInput, UserUncheckedUpdateWithoutRecurrenceConfigsInput>
+    create: XOR<UserCreateWithoutRecurrenceConfigsInput, UserUncheckedCreateWithoutRecurrenceConfigsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecurrenceConfigsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecurrenceConfigsInput, UserUncheckedUpdateWithoutRecurrenceConfigsInput>
+  }
+
+  export type UserUpdateWithoutRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    premiumPlan?: NullableEnumPremiumPlanFieldUpdateOperationsInput | $Enums.PremiumPlan | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    premiumExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    premiumPlan?: NullableEnumPremiumPlanFieldUpdateOperationsInput | $Enums.PremiumPlan | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AccountUpsertWithoutRecurrenceConfigsInput = {
+    update: XOR<AccountUpdateWithoutRecurrenceConfigsInput, AccountUncheckedUpdateWithoutRecurrenceConfigsInput>
+    create: XOR<AccountCreateWithoutRecurrenceConfigsInput, AccountUncheckedCreateWithoutRecurrenceConfigsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutRecurrenceConfigsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutRecurrenceConfigsInput, AccountUncheckedUpdateWithoutRecurrenceConfigsInput>
+  }
+
+  export type AccountUpdateWithoutRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAccountsNestedInput
+    operations?: OperationUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUpdateManyWithoutTransferAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountNestedInput
+  }
+
+  export type AccountUpsertWithoutTransferRecurrenceConfigsInput = {
+    update: XOR<AccountUpdateWithoutTransferRecurrenceConfigsInput, AccountUncheckedUpdateWithoutTransferRecurrenceConfigsInput>
+    create: XOR<AccountCreateWithoutTransferRecurrenceConfigsInput, AccountUncheckedCreateWithoutTransferRecurrenceConfigsInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutTransferRecurrenceConfigsInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutTransferRecurrenceConfigsInput, AccountUncheckedUpdateWithoutTransferRecurrenceConfigsInput>
+  }
+
+  export type AccountUpdateWithoutTransferRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAccountsNestedInput
+    operations?: OperationUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutTransferRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
+    transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutAccountNestedInput
+  }
+
+  export type CategoryUpsertWithoutRecurrenceConfigsInput = {
+    update: XOR<CategoryUpdateWithoutRecurrenceConfigsInput, CategoryUncheckedUpdateWithoutRecurrenceConfigsInput>
+    create: XOR<CategoryCreateWithoutRecurrenceConfigsInput, CategoryUncheckedCreateWithoutRecurrenceConfigsInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutRecurrenceConfigsInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutRecurrenceConfigsInput, CategoryUncheckedUpdateWithoutRecurrenceConfigsInput>
+  }
+
+  export type CategoryUpdateWithoutRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
+    operations?: OperationUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutRecurrenceConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type OperationUpsertWithWhereUniqueWithoutRecurrenceConfigInput = {
+    where: OperationWhereUniqueInput
+    update: XOR<OperationUpdateWithoutRecurrenceConfigInput, OperationUncheckedUpdateWithoutRecurrenceConfigInput>
+    create: XOR<OperationCreateWithoutRecurrenceConfigInput, OperationUncheckedCreateWithoutRecurrenceConfigInput>
+  }
+
+  export type OperationUpdateWithWhereUniqueWithoutRecurrenceConfigInput = {
+    where: OperationWhereUniqueInput
+    data: XOR<OperationUpdateWithoutRecurrenceConfigInput, OperationUncheckedUpdateWithoutRecurrenceConfigInput>
+  }
+
+  export type OperationUpdateManyWithWhereWithoutRecurrenceConfigInput = {
+    where: OperationScalarWhereInput
+    data: XOR<OperationUpdateManyMutationInput, OperationUncheckedUpdateManyWithoutRecurrenceConfigInput>
   }
 
   export type UserCreateWithoutTagsInput = {
@@ -12744,6 +15845,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTagsInput = {
@@ -12767,6 +15869,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTagsInput = {
@@ -12786,6 +15889,7 @@ export namespace Prisma {
     account?: AccountCreateNestedOneWithoutOperationsInput
     transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
     category?: CategoryCreateNestedOneWithoutOperationsInput
+    recurrenceConfig?: RecurrenceConfigCreateNestedOneWithoutOperationsInput
   }
 
   export type OperationUncheckedCreateWithoutTagsInput = {
@@ -12798,6 +15902,7 @@ export namespace Prisma {
     accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12839,6 +15944,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTagsInput = {
@@ -12862,6 +15968,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OperationUpsertWithWhereUniqueWithoutTagsInput = {
@@ -12901,6 +16008,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
@@ -12924,6 +16032,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoriesInput = {
@@ -12942,6 +16051,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutCategoriesInput
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     operations?: OperationCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutChildrenInput = {
@@ -12955,6 +16065,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     operations?: OperationUncheckedCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutChildrenInput = {
@@ -12973,6 +16084,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutCategoriesInput
     children?: CategoryCreateNestedManyWithoutParentInput
     operations?: OperationCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutParentInput = {
@@ -12986,6 +16098,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     operations?: OperationUncheckedCreateNestedManyWithoutCategoryInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutParentInput = {
@@ -13009,6 +16122,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutOperationsInput
     account?: AccountCreateNestedOneWithoutOperationsInput
     transferAccount?: AccountCreateNestedOneWithoutTransferOperationsInput
+    recurrenceConfig?: RecurrenceConfigCreateNestedOneWithoutOperationsInput
     tags?: TagCreateNestedManyWithoutOperationsInput
   }
 
@@ -13021,6 +16135,7 @@ export namespace Prisma {
     userId: string
     accountId?: string | null
     transferAccountId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutOperationsInput
@@ -13033,6 +16148,50 @@ export namespace Prisma {
 
   export type OperationCreateManyCategoryInputEnvelope = {
     data: OperationCreateManyCategoryInput | OperationCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecurrenceConfigCreateWithoutCategoryInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRecurrenceConfigsInput
+    account?: AccountCreateNestedOneWithoutRecurrenceConfigsInput
+    transferAccount?: AccountCreateNestedOneWithoutTransferRecurrenceConfigsInput
+    operations?: OperationCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    transferAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    operations?: OperationUncheckedCreateNestedManyWithoutRecurrenceConfigInput
+  }
+
+  export type RecurrenceConfigCreateOrConnectWithoutCategoryInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    create: XOR<RecurrenceConfigCreateWithoutCategoryInput, RecurrenceConfigUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type RecurrenceConfigCreateManyCategoryInputEnvelope = {
+    data: RecurrenceConfigCreateManyCategoryInput | RecurrenceConfigCreateManyCategoryInput[]
     skipDuplicates?: boolean
   }
 
@@ -13068,6 +16227,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoriesInput = {
@@ -13091,6 +16251,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutChildrenInput = {
@@ -13115,6 +16276,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     operations?: OperationUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutChildrenInput = {
@@ -13128,6 +16290,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUncheckedUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUpsertWithWhereUniqueWithoutParentInput = {
@@ -13160,6 +16323,22 @@ export namespace Prisma {
   export type OperationUpdateManyWithWhereWithoutCategoryInput = {
     where: OperationScalarWhereInput
     data: XOR<OperationUpdateManyMutationInput, OperationUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type RecurrenceConfigUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    update: XOR<RecurrenceConfigUpdateWithoutCategoryInput, RecurrenceConfigUncheckedUpdateWithoutCategoryInput>
+    create: XOR<RecurrenceConfigCreateWithoutCategoryInput, RecurrenceConfigUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type RecurrenceConfigUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: RecurrenceConfigWhereUniqueInput
+    data: XOR<RecurrenceConfigUpdateWithoutCategoryInput, RecurrenceConfigUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type RecurrenceConfigUpdateManyWithWhereWithoutCategoryInput = {
+    where: RecurrenceConfigScalarWhereInput
+    data: XOR<RecurrenceConfigUpdateManyMutationInput, RecurrenceConfigUncheckedUpdateManyWithoutCategoryInput>
   }
 
   export type TokenCreateManyUserInput = {
@@ -13210,6 +16389,23 @@ export namespace Prisma {
     accountId?: string | null
     transferAccountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurrenceConfigCreateManyUserInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13252,6 +16448,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUpdateManyWithoutAccountNestedInput
     transferOperations?: OperationUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutUserInput = {
@@ -13265,6 +16463,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     operations?: OperationUncheckedUpdateManyWithoutAccountNestedInput
     transferOperations?: OperationUncheckedUpdateManyWithoutTransferAccountNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutAccountNestedInput
+    transferRecurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountNestedInput
   }
 
   export type AccountUncheckedUpdateManyWithoutUserInput = {
@@ -13315,6 +16515,7 @@ export namespace Prisma {
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
     operations?: OperationUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutUserInput = {
@@ -13328,6 +16529,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     operations?: OperationUncheckedUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateManyWithoutUserInput = {
@@ -13352,6 +16554,7 @@ export namespace Prisma {
     account?: AccountUpdateOneWithoutOperationsNestedInput
     transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
+    recurrenceConfig?: RecurrenceConfigUpdateOneWithoutOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
 
@@ -13364,6 +16567,7 @@ export namespace Prisma {
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
@@ -13373,6 +16577,57 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecurrenceConfigUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    account?: AccountUpdateOneWithoutRecurrenceConfigsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferRecurrenceConfigsNestedInput
+    category?: CategoryUpdateOneWithoutRecurrenceConfigsNestedInput
+    operations?: OperationUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13391,6 +16646,7 @@ export namespace Prisma {
     userId: string
     transferAccountId?: string | null
     categoryId?: string | null
+    recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13399,6 +16655,39 @@ export namespace Prisma {
     id?: string
     amount: Decimal | DecimalJsLike | number | string
     date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    categoryId?: string | null
+    recurrenceConfigId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurrenceConfigCreateManyAccountInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurrenceConfigCreateManyTransferAccountInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
     description?: string | null
     type: $Enums.OperationType
     userId: string
@@ -13419,6 +16708,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutOperationsNestedInput
     transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
+    recurrenceConfig?: RecurrenceConfigUpdateOneWithoutOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
 
@@ -13431,6 +16721,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
@@ -13445,6 +16736,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13460,6 +16752,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutOperationsNestedInput
     account?: AccountUpdateOneWithoutOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
+    recurrenceConfig?: RecurrenceConfigUpdateOneWithoutOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
 
@@ -13472,6 +16765,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
@@ -13481,6 +16775,107 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecurrenceConfigUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecurrenceConfigsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferRecurrenceConfigsNestedInput
+    category?: CategoryUpdateOneWithoutRecurrenceConfigsNestedInput
+    operations?: OperationUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateManyWithoutAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecurrenceConfigUpdateWithoutTransferAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecurrenceConfigsNestedInput
+    account?: AccountUpdateOneWithoutRecurrenceConfigsNestedInput
+    category?: CategoryUpdateOneWithoutRecurrenceConfigsNestedInput
+    operations?: OperationUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateWithoutTransferAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateManyWithoutTransferAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
     userId?: StringFieldUpdateOperationsInput | string
@@ -13517,6 +16912,64 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type OperationCreateManyRecurrenceConfigInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    date?: Date | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    transferAccountId?: string | null
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OperationUpdateWithoutRecurrenceConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutOperationsNestedInput
+    account?: AccountUpdateOneWithoutOperationsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
+    category?: CategoryUpdateOneWithoutOperationsNestedInput
+    tags?: TagUpdateManyWithoutOperationsNestedInput
+  }
+
+  export type OperationUncheckedUpdateWithoutRecurrenceConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
+  }
+
+  export type OperationUncheckedUpdateManyWithoutRecurrenceConfigInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OperationUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -13529,6 +16982,7 @@ export namespace Prisma {
     account?: AccountUpdateOneWithoutOperationsNestedInput
     transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
     category?: CategoryUpdateOneWithoutOperationsNestedInput
+    recurrenceConfig?: RecurrenceConfigUpdateOneWithoutOperationsNestedInput
   }
 
   export type OperationUncheckedUpdateWithoutTagsInput = {
@@ -13541,6 +16995,7 @@ export namespace Prisma {
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13555,6 +17010,7 @@ export namespace Prisma {
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13579,6 +17035,23 @@ export namespace Prisma {
     userId: string
     accountId?: string | null
     transferAccountId?: string | null
+    recurrenceConfigId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RecurrenceConfigCreateManyCategoryInput = {
+    id?: string
+    frequency: $Enums.RecurrenceFrequency
+    interval: number
+    weekDays?: RecurrenceConfigCreateweekDaysInput | number[]
+    date: Date | string
+    amount: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    type: $Enums.OperationType
+    userId: string
+    accountId?: string | null
+    transferAccountId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13594,6 +17067,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutCategoriesNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
     operations?: OperationUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutParentInput = {
@@ -13607,6 +17081,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     operations?: OperationUncheckedUpdateManyWithoutCategoryNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateManyWithoutParentInput = {
@@ -13631,6 +17106,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutOperationsNestedInput
     account?: AccountUpdateOneWithoutOperationsNestedInput
     transferAccount?: AccountUpdateOneWithoutTransferOperationsNestedInput
+    recurrenceConfig?: RecurrenceConfigUpdateOneWithoutOperationsNestedInput
     tags?: TagUpdateManyWithoutOperationsNestedInput
   }
 
@@ -13643,6 +17119,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     accountId?: NullableStringFieldUpdateOperationsInput | string | null
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutOperationsNestedInput
@@ -13652,6 +17129,57 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecurrenceConfigUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecurrenceConfigsNestedInput
+    account?: AccountUpdateOneWithoutRecurrenceConfigsNestedInput
+    transferAccount?: AccountUpdateOneWithoutTransferRecurrenceConfigsNestedInput
+    operations?: OperationUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    userId?: StringFieldUpdateOperationsInput | string
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operations?: OperationUncheckedUpdateManyWithoutRecurrenceConfigNestedInput
+  }
+
+  export type RecurrenceConfigUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
+    interval?: IntFieldUpdateOperationsInput | number
+    weekDays?: RecurrenceConfigUpdateweekDaysInput | number[]
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
     userId?: StringFieldUpdateOperationsInput | string

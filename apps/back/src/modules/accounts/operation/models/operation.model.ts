@@ -1,9 +1,10 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Decimal } from '@prisma/client/runtime/library';
-import { Operation, OperationType } from '@prisma/generated';
+import { Operation, OperationType, RecurrenceConfig } from '@prisma/generated';
 import { CategoryModel } from '../../category/models/category.model';
 import { AccountModel } from '../../account/models/account.model';
 import { TagModel } from '../../tag/model/tag.model';
+import { RecurrenceConfigModel } from './recurrence-config.model';
 
 registerEnumType(OperationType, {
   name: 'OperationType',
@@ -39,6 +40,9 @@ export class OperationModel implements Operation {
   @Field(() => String, { nullable: true })
   transferAccountId: string;
 
+  @Field(() => String, { nullable: true })
+  recurrenceConfigId: string | null;
+
   @Field(() => Date)
   createdAt: Date;
 
@@ -56,4 +60,7 @@ export class OperationModel implements Operation {
 
   @Field(() => [TagModel], { nullable: true })
   tags?: TagModel[] | null;
+
+  @Field(() => RecurrenceConfigModel, { nullable: true })
+  recurrenceConfig?: RecurrenceConfig | null;
 }

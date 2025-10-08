@@ -168,6 +168,24 @@ exports.Prisma.OperationScalarFieldEnum = {
   accountId: 'accountId',
   transferAccountId: 'transferAccountId',
   categoryId: 'categoryId',
+  recurrenceConfigId: 'recurrenceConfigId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RecurrenceConfigScalarFieldEnum = {
+  id: 'id',
+  frequency: 'frequency',
+  interval: 'interval',
+  weekDays: 'weekDays',
+  date: 'date',
+  amount: 'amount',
+  description: 'description',
+  type: 'type',
+  userId: 'userId',
+  accountId: 'accountId',
+  transferAccountId: 'transferAccountId',
+  categoryId: 'categoryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -228,6 +246,13 @@ exports.OperationType = exports.$Enums.OperationType = {
   TRANSFER: 'TRANSFER'
 };
 
+exports.RecurrenceFrequency = exports.$Enums.RecurrenceFrequency = {
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+};
+
 exports.CategoryType = exports.$Enums.CategoryType = {
   INCOME: 'INCOME',
   EXPENSE: 'EXPENSE'
@@ -238,6 +263,7 @@ exports.Prisma.ModelName = {
   Token: 'Token',
   Account: 'Account',
   Operation: 'Operation',
+  RecurrenceConfig: 'RecurrenceConfig',
   Tag: 'Tag',
   Category: 'Category'
 };

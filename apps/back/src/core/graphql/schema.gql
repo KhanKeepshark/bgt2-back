@@ -60,6 +60,7 @@ input CreateOperationInput {
   categoryId: String
   date: DateTime!
   description: String
+  recurrence: RecurrenceConfigInput
   tags: [String!]
   transferAccountId: String
   type: OperationType!
@@ -114,6 +115,7 @@ type Mutation {
   deleteAccount(id: String!): Boolean!
   deleteCategory(id: String!): Boolean!
   deleteOperation(id: String!): Boolean!
+  deleteRecurrence(id: String!): Boolean!
   deleteTag(id: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
@@ -123,11 +125,14 @@ type Mutation {
   updateAccount(input: UpdateAccountInput!): AccountModel!
   updateCategory(input: UpdateCategoryInput!): CategoryModel!
   updateOperation(input: UpdateOperationInput!): OperationModel!
+  updateRecurrence(input: UpdateRecurrenceInput!): RecurrenceConfigModel!
   updateTag(input: UpdateTagInput!): TagModel!
   verifyAccount(input: VerificationInput!): AuthModel!
 }
 
 type OperationDayGroupModel {
+  allExpense: String!
+  allIncome: String!
   day: String!
   operations: [OperationModel!]!
 }
@@ -142,6 +147,8 @@ type OperationModel {
   date: DateTime!
   description: String!
   id: String!
+  recurrenceConfig: RecurrenceConfigModel
+  recurrenceConfigId: String
   tags: [TagModel!]
   transferAccount: AccountModel
   transferAccountId: String
@@ -162,6 +169,7 @@ type Query {
   findAllCategories: [CategoryModel!]!
   findAllOperations: [OperationModel!]!
   findAllOperationsSortedByDays: [OperationDayGroupModel!]!
+  findAllRecurrences: [RecurrenceConfigModel!]!
   findAllTags: [TagModel!]!
   findAllUsers: [UserModel!]!
   findCategoriesByType(type: String!): [CategoryModel!]!
@@ -169,10 +177,46 @@ type Query {
   findOneAccount(id: String!): AccountModel!
   findOneCategory(id: String!): CategoryModel!
   findOneOperation(id: String!): OperationModel!
+  findOneRecurrence(id: String!): RecurrenceConfigModel!
   findOneTag(id: String!): TagModel!
   findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
   generateTotpSecret: TotpModel!
+}
+
+input RecurrenceConfigInput {
+  frequency: RecurrenceFrequency!
+  interval: Int!
+  weekDays: [Int!]
+}
+
+type RecurrenceConfigModel {
+  account: AccountModel
+  accountId: String
+  amount: String!
+  category: CategoryModel
+  categoryId: String
+  createdAt: DateTime!
+  date: DateTime!
+  description: String
+  frequency: String!
+  id: ID!
+  interval: Int!
+  operations: [OperationModel!]
+  transferAccount: AccountModel
+  transferAccountId: String
+  type: String!
+  updatedAt: DateTime!
+  userId: String!
+  weekDays: [Int!]!
+}
+
+"""Frequency of recurrence"""
+enum RecurrenceFrequency {
+  DAILY
+  MONTHLY
+  WEEKLY
+  YEARLY
 }
 
 type SessionMetadataModel {
@@ -227,9 +271,20 @@ input UpdateOperationInput {
   date: DateTime
   description: String
   id: String!
+  recurrence: RecurrenceConfigInput
   tags: [String!]
   transferAccountId: String
   type: OperationType
+}
+
+input UpdateRecurrenceInput {
+  accountId: String
+  amount: String
+  categoryId: String
+  description: String
+  id: String!
+  recurrence: RecurrenceConfigInput
+  transferAccountId: String
 }
 
 input UpdateTagInput {

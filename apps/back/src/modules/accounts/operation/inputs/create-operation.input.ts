@@ -8,7 +8,10 @@ import {
   IsOptional,
   IsString,
   ValidateIf,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { RecurrenceConfigInput } from './recurrence-config.input';
 
 registerEnumType(OperationType, {
   name: 'OperationType',
@@ -59,4 +62,10 @@ export class CreateOperationInput {
   @IsArray()
   @IsString({ each: true })
   tags?: string[];
+
+  @Field(() => RecurrenceConfigInput, { nullable: true })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => RecurrenceConfigInput)
+  recurrence?: RecurrenceConfigInput;
 }

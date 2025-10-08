@@ -13,33 +13,29 @@ model User {
   password  String
   name      String   @default("User")
   
-  // Статус аккаунта
   isActive     Boolean @default(true)
   isEmailVerified Boolean @default(false)
 
-  // Премиум функции
   isPremium    Boolean @default(false)
   premiumExpiresAt DateTime?
   premiumPlan   PremiumPlan?
 
-  // totp
   isTotpEnabled Boolean @default(false)
   totpSecret String?
   
-  // Метаданные
   lastLoginAt DateTime?
   loginCount  Int      @default(0)
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      Role     @default(USER)
-
-  // Токены
+  
   tokens Token[]
   accounts Account[]
   tags Tag[]
   categories Category[]
   operations Operation[]
+  recurrenceConfigs RecurrenceConfig[]
 }
 
 enum PremiumPlan {
@@ -83,8 +79,10 @@ model Account {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
-  operations          Operation[] @relation("OperationAccount")
-  transferOperations  Operation[] @relation("OperationTransferAccount")
+  operations                Operation[] @relation("OperationAccount")
+  transferOperations        Operation[] @relation("OperationTransferAccount")
+  recurrenceConfigs         RecurrenceConfig[] @relation("RecurrenceAccount")
+  transferRecurrenceConfigs RecurrenceConfig[] @relation("RecurrenceTransferAccount")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -110,16 +108,55 @@ model Operation {
   category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   categoryId  String?
 
+  recurrenceConfig   RecurrenceConfig? @relation(fields: [recurrenceConfigId], references: [id], onDelete: SetNull)
+  recurrenceConfigId String?
+
   tags Tag[]
 
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
 
+model RecurrenceConfig {
+  id          String   @id @default(uuid())
+  
+  frequency   RecurrenceFrequency
+  interval    Int      
+  weekDays    Int[]    
+  
+  date        DateTime
+  amount      Decimal
+  description String?
+  type        OperationType
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  
+  account           Account? @relation("RecurrenceAccount", fields: [accountId], references: [id], onDelete: SetNull)
+  accountId         String?
+  transferAccount   Account? @relation("RecurrenceTransferAccount", fields: [transferAccountId], references: [id], onDelete: SetNull)
+  transferAccountId String?
+  
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId  String?
+  
+  operations  Operation[]
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 enum OperationType {
   INCOME
   EXPENSE
   TRANSFER
+}
+
+enum RecurrenceFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
 }
 
 model Tag {
@@ -146,12 +183,12 @@ model Category {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
-  // Для иерархии 
   parent    Category? @relation("CategoryToParent", fields: [parentId], references: [id])
   parentId  String?
   children  Category[] @relation("CategoryToParent")
 
-  operations Operation[]
+  operations        Operation[]
+  recurrenceConfigs RecurrenceConfig[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
