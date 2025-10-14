@@ -7,7 +7,7 @@ import {
 import { Decimal } from '@prisma/client/runtime/library';
 import { AccountModel } from '../../account/models/account.model';
 import { CategoryModel } from '../../category/models/category.model';
-import { OperationModel } from './operation.model';
+import { OperationModel } from '../../operation/models/operation.model';
 
 registerEnumType(RecurrenceFrequency, {
   name: 'RecurrenceFrequency',

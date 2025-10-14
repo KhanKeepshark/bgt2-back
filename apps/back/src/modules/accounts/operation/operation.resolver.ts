@@ -7,8 +7,7 @@ import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
 import { UpdateOperationInput } from './inputs/update-operation.input';
 import { OperationDayGroupModel } from './models/operation-day-group.model';
-import { RecurrenceConfigModel } from './models/recurrence-config.model';
-import { UpdateRecurrenceInput } from './inputs/update-recurrence.input';
+import { OperationFilterInput } from './inputs/operation-filter.input';
 
 @Resolver('Operation')
 export class OperationResolver {
@@ -33,8 +32,11 @@ export class OperationResolver {
   @Query(() => [OperationDayGroupModel], {
     name: 'findAllOperationsSortedByDays',
   })
-  public async findAllOperationsSortedByDays(@Authorized() user: User) {
-    return this.operationService.findAllSortedByDays(user);
+  public async findAllOperationsSortedByDays(
+    @Authorized() user: User,
+    @Args('filter', { nullable: true }) filter?: OperationFilterInput,
+  ) {
+    return this.operationService.findAllSortedByDays(user, filter);
   }
 
   @Authorization()
@@ -62,40 +64,5 @@ export class OperationResolver {
     @Authorized() user: User,
   ) {
     return this.operationService.delete(id, user);
-  }
-
-  // ==================== RecurrenceConfig Resolvers ====================
-
-  @Authorization()
-  @Query(() => [RecurrenceConfigModel], { name: 'findAllRecurrences' })
-  public async findAllRecurrences(@Authorized() user: User) {
-    return this.operationService.findAllRecurrences(user);
-  }
-
-  @Authorization()
-  @Query(() => RecurrenceConfigModel, { name: 'findOneRecurrence' })
-  public async findOneRecurrence(
-    @Args('id') id: string,
-    @Authorized() user: User,
-  ) {
-    return this.operationService.findOneRecurrence(id, user);
-  }
-
-  @Authorization()
-  @Mutation(() => RecurrenceConfigModel, { name: 'updateRecurrence' })
-  public async updateRecurrence(
-    @Args('input') input: UpdateRecurrenceInput,
-    @Authorized() user: User,
-  ) {
-    return this.operationService.updateRecurrence(input.id, input, user);
-  }
-
-  @Authorization()
-  @Mutation(() => Boolean, { name: 'deleteRecurrence' })
-  public async deleteRecurrence(
-    @Args('id') id: string,
-    @Authorized() user: User,
-  ) {
-    return this.operationService.deleteRecurrence(id, user);
   }
 }

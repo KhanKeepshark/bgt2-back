@@ -137,6 +137,14 @@ type OperationDayGroupModel {
   operations: [OperationModel!]!
 }
 
+input OperationFilterInput {
+  categoryIds: [String!]
+  dateFrom: DateTime
+  dateTo: DateTime
+  searchDescription: String
+  types: [OperationType!]
+}
+
 type OperationModel {
   account: AccountModel!
   accountId: String!
@@ -168,7 +176,7 @@ type Query {
   findAllAccounts: [AccountModel!]!
   findAllCategories: [CategoryModel!]!
   findAllOperations: [OperationModel!]!
-  findAllOperationsSortedByDays: [OperationDayGroupModel!]!
+  findAllOperationsSortedByDays(filter: OperationFilterInput): [OperationDayGroupModel!]!
   findAllRecurrences: [RecurrenceConfigModel!]!
   findAllTags: [TagModel!]!
   findAllUsers: [UserModel!]!

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { CronService } from './cron.service';
 import { ScheduleModule } from '@nestjs/schedule';
-import { OperationModule } from '../accounts/operation/operation.module';
+import { RecurrenceModule } from '../accounts/recurrenceConfig/recurrence.module';
 
 @Module({
-  imports: [ScheduleModule.forRoot(), OperationModule],
+  imports: [ScheduleModule.forRoot(), RecurrenceModule],
   providers: [CronService],
 })
 export class CronModule {}

@@ -2,7 +2,6 @@ import { RecurrenceFrequency } from '@prisma/generated';
 import { Field, InputType, Int, registerEnumType } from '@nestjs/graphql';
 import {
   ArrayMaxSize,
-  ArrayMinSize,
   IsArray,
   IsEnum,
   IsInt,
@@ -35,7 +34,6 @@ export class RecurrenceConfigInput {
   @IsOptional()
   @IsArray()
   @IsInt({ each: true })
-  @ArrayMinSize(1, { message: 'At least one weekday must be selected' })
   @ArrayMaxSize(7, { message: 'Cannot select more than 7 weekdays' })
   @Min(0, { each: true, message: 'Weekday must be between 0 and 6' })
   @Max(6, { each: true, message: 'Weekday must be between 0 and 6' })

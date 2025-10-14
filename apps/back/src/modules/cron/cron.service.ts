@@ -1,7 +1,7 @@
 import { PrismaService } from '@back/src/core/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { OperationService } from '../accounts/operation/operation.service';
+import { RecurrenceService } from '../accounts/recurrenceConfig/recurrence.service';
 
 @Injectable()
 export class CronService {
@@ -9,7 +9,7 @@ export class CronService {
 
   public constructor(
     private readonly prismaService: PrismaService,
-    private readonly operationService: OperationService,
+    private readonly recurrenceService: RecurrenceService,
   ) {}
 
   /**
@@ -20,7 +20,7 @@ export class CronService {
     this.logger.log('Starting recurring operations processing...');
 
     try {
-      const stats = await this.operationService.processRecurringOperations();
+      const stats = await this.recurrenceService.processRecurringOperations();
 
       this.logger.log(
         `Recurring operations processed: ${stats.processed} total, ${stats.created} created, ${stats.errors} errors`,

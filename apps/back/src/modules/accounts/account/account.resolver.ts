@@ -26,6 +26,7 @@ export class AccountResolver {
     return this.accountService.findAll(user);
   }
 
+  // TODO: return authorization
   // @Authorization()
   @Query(() => AccountModel, { name: 'findOneAccount' })
   public async findOneAccount(

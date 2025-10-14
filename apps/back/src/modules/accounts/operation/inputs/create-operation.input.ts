@@ -11,7 +11,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { RecurrenceConfigInput } from './recurrence-config.input';
+import { RecurrenceConfigInput } from '../../recurrenceConfig/inputs/recurrence-config.input';
 
 registerEnumType(OperationType, {
   name: 'OperationType',

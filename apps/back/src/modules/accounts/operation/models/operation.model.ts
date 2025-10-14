@@ -4,7 +4,7 @@ import { Operation, OperationType, RecurrenceConfig } from '@prisma/generated';
 import { CategoryModel } from '../../category/models/category.model';
 import { AccountModel } from '../../account/models/account.model';
 import { TagModel } from '../../tag/model/tag.model';
-import { RecurrenceConfigModel } from './recurrence-config.model';
+import { RecurrenceConfigModel } from '../../recurrenceConfig/models/recurrence-config.model';
 
 registerEnumType(OperationType, {
   name: 'OperationType',
