@@ -1,4 +1,3 @@
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { RecurrenceService } from '../accounts/recurrenceConfig/recurrence.service';
@@ -7,10 +6,7 @@ import { RecurrenceService } from '../accounts/recurrenceConfig/recurrence.servi
 export class CronService {
   private readonly logger = new Logger(CronService.name);
 
-  public constructor(
-    private readonly prismaService: PrismaService,
-    private readonly recurrenceService: RecurrenceService,
-  ) {}
+  public constructor(private readonly recurrenceService: RecurrenceService) {}
 
   /**
    * Обработка повторяющихся операций каждый день в 00:01

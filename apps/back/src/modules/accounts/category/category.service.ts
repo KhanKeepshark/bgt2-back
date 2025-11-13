@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateCategoryInput } from './inputs/create-category.input';
-import { Category, User } from '@prisma/generated';
+import { Category, CategoryType, User } from '@prisma/generated';
 import { PrismaService } from '@back/src/core/prisma/prisma.service';
 import { UpdateCategoryInput } from './inputs/update-category.input';
 import { defaultCategories } from './const/defaultCategories';
@@ -226,11 +226,11 @@ export class CategoryService {
     }
   }
 
-  public async findByType(type: string, user: User): Promise<Category[]> {
+  public async findByType(type: CategoryType, user: User): Promise<Category[]> {
     try {
       const categories = await this.prismaService.category.findMany({
         where: {
-          type: type as any,
+          type: type,
           userId: user.id,
         },
         include: {

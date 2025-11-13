@@ -54,8 +54,6 @@ export class AccountService {
         },
       });
 
-      console.log('created', created);
-
       return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {

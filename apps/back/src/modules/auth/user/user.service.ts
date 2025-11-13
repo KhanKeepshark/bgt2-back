@@ -59,7 +59,12 @@ export class UserService {
       },
     });
 
-    await this.accountService.createDefault(user);
+    const defaultAccount = await this.accountService.createDefault(user);
+    user.defaultAccountId = defaultAccount.id;
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: { defaultAccountId: defaultAccount.id },
+    });
     await this.categoryService.createDefault(user);
 
     // await this.verificationService.sendVerificationEmail(user);

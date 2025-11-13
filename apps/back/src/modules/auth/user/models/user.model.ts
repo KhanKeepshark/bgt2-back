@@ -18,6 +18,9 @@ export class UserModel implements User {
   @Field(() => String)
   password: string;
 
+  @Field(() => String, { nullable: true })
+  defaultAccountId: string;
+
   @Field(() => Boolean)
   isActive: boolean;
 

@@ -19,6 +19,20 @@ type AuthModel {
   user: UserModel
 }
 
+type AveragesDataModel {
+  dayAverage: String!
+  monthAverage: String
+  weekAverage: String
+  yearAverage: String
+}
+
+type Categories {
+  all: String!
+  category: CategoryModel!
+  changePercent: String
+  percent: String!
+}
+
 type CategoryModel {
   children: [CategoryModel!]
   color: String!
@@ -81,6 +95,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type DaySumModel {
+  key: String!
+  value: String!
+}
+
 type DeviceModel {
   browser: String!
   os: String!
@@ -90,6 +109,15 @@ type DeviceModel {
 input EnableTotpInput {
   pin: String!
   secret: String!
+}
+
+type IncomeExpenseDataModel {
+  all: String!
+  averages: AveragesDataModel!
+  byDays: [DaySumModel!]!
+  categories: [Categories!]!
+  changePercent: String
+  groupSize: Float!
 }
 
 type LocationModel {
@@ -130,6 +158,20 @@ type Mutation {
   verifyAccount(input: VerificationInput!): AuthModel!
 }
 
+type OperationChartDataModel {
+  expense: IncomeExpenseDataModel!
+  income: IncomeExpenseDataModel!
+}
+
+input OperationChartsFilterInput {
+  accountIds: [String!]
+  categoryIds: [String!]
+  dateFrom: DateTime
+  dateTo: DateTime
+  searchDescription: String
+  type: String
+}
+
 type OperationDayGroupModel {
   allExpense: String!
   allIncome: String!
@@ -138,6 +180,7 @@ type OperationDayGroupModel {
 }
 
 input OperationFilterInput {
+  accountIds: [String!]
   categoryIds: [String!]
   dateFrom: DateTime
   dateTo: DateTime
@@ -176,6 +219,7 @@ type Query {
   findAllAccounts: [AccountModel!]!
   findAllCategories: [CategoryModel!]!
   findAllOperations: [OperationModel!]!
+  findAllOperationsForCharts(filter: OperationChartsFilterInput): OperationChartDataModel!
   findAllOperationsSortedByDays(filter: OperationFilterInput): [OperationDayGroupModel!]!
   findAllRecurrences: [RecurrenceConfigModel!]!
   findAllTags: [TagModel!]!
@@ -273,16 +317,16 @@ input UpdateCategoryInput {
 }
 
 input UpdateOperationInput {
-  accountId: String
-  amount: String
+  accountId: String!
+  amount: String!
   categoryId: String
-  date: DateTime
+  date: DateTime!
   description: String
   id: String!
   recurrence: RecurrenceConfigInput
   tags: [String!]
   transferAccountId: String
-  type: OperationType
+  type: OperationType!
 }
 
 input UpdateRecurrenceInput {
@@ -305,6 +349,7 @@ type UserModel {
   accounts: [AccountModel!]
   categories: [CategoryModel!]
   createdAt: DateTime!
+  defaultAccountId: String
   email: String!
   id: ID!
   isActive: Boolean!

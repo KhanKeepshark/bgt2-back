@@ -8,6 +8,8 @@ import { User } from '@prisma/generated';
 import { UpdateOperationInput } from './inputs/update-operation.input';
 import { OperationDayGroupModel } from './models/operation-day-group.model';
 import { OperationFilterInput } from './inputs/operation-filter.input';
+import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
+import { OperationChartDataModel } from './models/operation-chart-data.model';
 
 @Resolver('Operation')
 export class OperationResolver {
@@ -37,6 +39,15 @@ export class OperationResolver {
     @Args('filter', { nullable: true }) filter?: OperationFilterInput,
   ) {
     return this.operationService.findAllSortedByDays(user, filter);
+  }
+
+  @Authorization()
+  @Query(() => OperationChartDataModel, { name: 'findAllOperationsForCharts' })
+  public async findAllOperationsForCharts(
+    @Authorized() user: User,
+    @Args('filter', { nullable: true }) filter?: OperationChartsFilterInput,
+  ) {
+    return this.operationService.findAllForCharts(user, filter);
   }
 
   @Authorization()

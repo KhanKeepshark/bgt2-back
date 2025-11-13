@@ -1,9 +1,8 @@
-import { OperationType } from '@prisma/generated';
 import { Field, InputType } from '@nestjs/graphql';
-import { IsArray, IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsDate, IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 @InputType()
-export class OperationFilterInput {
+export class OperationChartsFilterInput {
   @Field(() => Date, { nullable: true })
   @IsOptional()
   @IsDate()
@@ -14,11 +13,11 @@ export class OperationFilterInput {
   @IsDate()
   dateTo?: Date;
 
-  @Field(() => [OperationType], { nullable: true })
-  @IsOptional()
-  @IsArray()
-  @IsEnum(OperationType, { each: true })
-  types?: OperationType[];
+  @Field(() => String, { nullable: true })
+  @ValidateIf((o) => o.dateFrom && o.dateTo)
+  @IsNotEmpty()
+  @IsString()
+  type: "week" | "month" | "year" | "custom"
 
   @Field(() => [String], { nullable: true })
   @IsOptional()

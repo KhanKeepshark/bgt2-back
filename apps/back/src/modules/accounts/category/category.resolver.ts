@@ -4,7 +4,7 @@ import { CreateCategoryInput } from './inputs/create-category.input';
 import { Authorization } from '@back/src/shared/decorators/auth.decorator';
 import { CategoryModel } from './models/category.model';
 import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
-import { User } from '@prisma/generated';
+import { CategoryType, User } from '@prisma/generated';
 import { UpdateCategoryInput } from './inputs/update-category.input';
 
 @Resolver('Category')
@@ -59,6 +59,6 @@ export class CategoryResolver {
     @Args('type') type: string,
     @Authorized() user: User,
   ) {
-    return this.categoryService.findByType(type, user);
+    return this.categoryService.findByType(type as CategoryType, user);
   }
 }
