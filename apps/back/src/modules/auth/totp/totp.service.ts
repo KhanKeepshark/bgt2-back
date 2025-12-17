@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import { encode } from 'hi-base32';
 import { User } from '@prisma/generated';
 import { randomBytes } from 'crypto';

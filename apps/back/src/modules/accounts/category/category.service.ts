@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateCategoryInput } from './inputs/create-category.input';
 import { Category, CategoryType, User } from '@prisma/generated';
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import { UpdateCategoryInput } from './inputs/update-category.input';
 import { defaultCategories } from './const/defaultCategories';
 

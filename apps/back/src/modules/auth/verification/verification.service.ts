@@ -1,4 +1,4 @@
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import {
   BadRequestException,
   Injectable,
@@ -7,10 +7,10 @@ import {
 import { MailService } from '../../libs/mail/mail.service';
 import { VerificationInput } from './inputs/verification.input';
 import { TokenType, User } from '@prisma/generated';
-import { getSessionMetadata } from '@back/src/shared/utils/session-metadata.util';
-import { saveSession } from '@back/src/shared/utils/session.util';
+import { getSessionMetadata } from '@back/shared/utils/session-metadata.util';
+import { saveSession } from '@back/shared/utils/session.util';
 import { Request } from 'express';
-import { generateToken } from '@back/src/shared/utils/generate-token.util';
+import { generateToken } from '@back/shared/utils/generate-token.util';
 
 @Injectable()
 export class VerificationService {

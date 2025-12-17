@@ -125,16 +125,32 @@ exports.Prisma.UserScalarFieldEnum = {
   defaultAccountId: 'defaultAccountId',
   isActive: 'isActive',
   isEmailVerified: 'isEmailVerified',
-  isPremium: 'isPremium',
-  premiumExpiresAt: 'premiumExpiresAt',
-  premiumPlan: 'premiumPlan',
+  subscriptionPlanId: 'subscriptionPlanId',
+  subscriptionStartedAt: 'subscriptionStartedAt',
+  subscriptionExpiresAt: 'subscriptionExpiresAt',
   isTotpEnabled: 'isTotpEnabled',
   totpSecret: 'totpSecret',
   lastLoginAt: 'lastLoginAt',
   loginCount: 'loginCount',
+  tokensBalance: 'tokensBalance',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   role: 'role'
+};
+
+exports.Prisma.SubscriptionPlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  tokensPerMonth: 'tokensPerMonth',
+  tokensOnPurchase: 'tokensOnPurchase',
+  price: 'price',
+  currency: 'currency',
+  durationDays: 'durationDays',
+  features: 'features',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TokenScalarFieldEnum = {
@@ -217,6 +233,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -226,12 +247,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.PremiumPlan = exports.$Enums.PremiumPlan = {
-  MONTHLY: 'MONTHLY',
-  YEARLY: 'YEARLY',
-  FOREVER: 'FOREVER'
-};
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN'
@@ -261,6 +282,7 @@ exports.CategoryType = exports.$Enums.CategoryType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  SubscriptionPlan: 'SubscriptionPlan',
   Token: 'Token',
   Account: 'Account',
   Operation: 'Operation',

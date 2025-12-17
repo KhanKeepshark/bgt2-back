@@ -1,5 +1,5 @@
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { PrismaService } from '@back/core/prisma/prisma.service';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserInput } from './inputs/create-user.input';
 import { hash } from 'argon2';
 import { VerificationService } from '../verification/verification.service';
@@ -15,7 +15,11 @@ export class UserService {
   ) {}
 
   public async findAll() {
-    const users = await this.prismaService.user.findMany();
+    const users = await this.prismaService.user.findMany({
+      include: {
+        subscriptionPlan: true,
+      },
+    });
 
     return users;
   }
@@ -33,6 +37,7 @@ export class UserService {
             children: true,
           },
         },
+        subscriptionPlan: true,
       },
     });
 
@@ -50,12 +55,32 @@ export class UserService {
       throw new ConflictException('Email already exists');
     }
 
+    const plan = await this.prismaService.subscriptionPlan.findFirst({
+      where: { name: 'FREE', isActive: true },
+    });
+
+    if (!plan) {
+      throw new BadRequestException('Default subscription plan "FREE" not found');
+    }
+
+    const subscriptionStartedAt = new Date();
+    const subscriptionExpiresAt =
+      plan.durationDays !== null
+        ? new Date(
+            subscriptionStartedAt.getTime() + plan.durationDays * 24 * 60 * 60 * 1000,
+          )
+        : null;
+
     const user = await this.prismaService.user.create({
       data: {
         email,
         password: await hash(password),
         role: 'USER',
-        lastLoginAt: new Date(),
+        lastLoginAt: subscriptionStartedAt,
+        subscriptionPlanId: plan.id,
+        subscriptionStartedAt,
+        subscriptionExpiresAt,
+        tokensBalance: plan.tokensOnPurchase ?? 0,
       },
     });
 

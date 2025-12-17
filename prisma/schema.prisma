@@ -18,15 +18,19 @@ model User {
   isActive     Boolean @default(true)
   isEmailVerified Boolean @default(false)
 
-  isPremium    Boolean @default(false)
-  premiumExpiresAt DateTime?
-  premiumPlan   PremiumPlan?
+  // Подписка - у пользователя всегда есть план
+  subscriptionPlan   SubscriptionPlan @relation(fields: [subscriptionPlanId], references: [id], onDelete: Restrict)
+  subscriptionPlanId String
+  subscriptionStartedAt DateTime @default(now())
+  subscriptionExpiresAt DateTime? // null = бессрочно
 
   isTotpEnabled Boolean @default(false)
   totpSecret String?
   
   lastLoginAt DateTime?
   loginCount  Int      @default(0)
+
+  tokensBalance Int @default(0)
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,10 +44,33 @@ model User {
   recurrenceConfigs RecurrenceConfig[]
 }
 
-enum PremiumPlan {
-  MONTHLY
-  YEARLY
-  FOREVER
+model SubscriptionPlan {
+  id            String   @id @default(uuid())
+  name          String   @unique // "Free", "Basic", "Premium", "Pro"
+  description   String?
+  
+  // Лимиты токенов
+  tokensPerMonth Int?    // null = безлимит
+  tokensOnPurchase Int   @default(0) // Токены при покупке плана
+  
+  // Цена и длительность
+  price         Decimal?
+  currency      String   @default("USD")
+  durationDays  Int?     // null = бессрочно
+  
+  // Дополнительные возможности
+  features      Json?    // {"aiOperations": true, "export": true, ...}
+  
+  // Статус
+  isActive      Boolean  @default(true)
+  
+  // Связи
+  users         User[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([isActive])
 }
 
 enum Role {

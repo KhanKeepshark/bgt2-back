@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateTagInput } from './inputs/create-tag.input';
 import { Tag, User } from '@prisma/generated';
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import { UpdateTagInput } from './inputs/update-tag.input';
 
 @Injectable()

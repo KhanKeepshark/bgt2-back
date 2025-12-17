@@ -2,8 +2,8 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserModel } from './models/user.model';
 import { CreateUserInput } from './inputs/create-user.input';
-import { Authorization } from '@back/src/shared/decorators/auth.decorator';
-import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
+import { Authorization } from '@back/shared/decorators/auth.decorator';
+import { Authorized } from '@back/shared/decorators/authorized.decorator';
 
 @Resolver('User')
 export class UserResolver {

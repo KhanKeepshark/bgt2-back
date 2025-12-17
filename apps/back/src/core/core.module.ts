@@ -18,6 +18,8 @@ import { TagModule } from '../modules/accounts/tag/tag.module';
 import { OperationModule } from '../modules/accounts/operation/operation.module';
 import { CategoryModule } from '../modules/accounts/category/category.module';
 import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
+import { AiUploadModule } from '../modules/files/ai-upload/ai-upload.module';
+import { FileUploadModule } from '../modules/files/file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -40,10 +42,12 @@ import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
     VerificationModule,
     MailModule,
     AccountModule,
+    AiUploadModule,
     TagModule,
     OperationModule,
     CategoryModule,
     RabbitmqModule,
+    FileUploadModule,
   ],
 })
 export class CoreModule {}

@@ -16,7 +16,7 @@ export async function validateFileSize(
 
     fileStream
       .on('data', (data: Buffer) => {
-        fileSizeInBytes = data.byteLength;
+        fileSizeInBytes += data.byteLength;
       })
       .on('end', () => {
         resolve(fileSizeInBytes <= allowedFileSizeInBytes);

@@ -1,4 +1,4 @@
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import {
   BadRequestException,
   Injectable,
@@ -6,8 +6,16 @@ import {
 } from '@nestjs/common';
 import { CreateOperationInput } from './inputs/create-operation.input';
 import { Decimal } from '@prisma/client/runtime/library';
-import { Operation, OperationType, User } from '@prisma/generated';
+import {
+  Operation,
+  OperationType,
+  User,
+  Category,
+  CategoryType,
+  Account,
+} from '@prisma/generated';
 import { UpdateOperationInput } from './inputs/update-operation.input';
+import { ExtractedOperationInput } from './inputs/extracted-operation.input';
 import { OperationFilterInput } from './inputs/operation-filter.input';
 import { RecurrenceService } from '../recurrenceConfig/recurrence.service';
 import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
@@ -139,6 +147,131 @@ export class OperationService {
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException('Failed to create operation');
+      }
+
+      throw error;
+    }
+  }
+
+  public async createExtracted(
+    accountId: string,
+    operations: ExtractedOperationInput[],
+    user: User,
+  ): Promise<Operation[]> {
+    try {
+      const account = await this.prismaService.account.findFirst({
+        where: { id: accountId, userId: user.id },
+      });
+
+      if (!account) {
+        throw new BadRequestException('Account not found or access denied');
+      }
+
+      const [categories, accounts] = await Promise.all([
+        this.prismaService.category.findMany({
+          where: { userId: user.id },
+        }),
+        this.prismaService.account.findMany({
+          where: { userId: user.id },
+        }),
+      ]);
+
+      const categoryMap = new Map<string, Category>();
+      categories.forEach((c) => categoryMap.set(c.name.toLowerCase(), c));
+      const accountMap = new Map<string, Account>();
+      accounts.forEach((acc) => accountMap.set(acc.name.toLowerCase(), acc));
+
+      const createdOperations: Operation[] = [];
+
+      for (const op of operations) {
+        if (op.type === OperationType.TRANSFER) {
+          // For transfers we interpret categoryName column as the target account name
+          const transferAccountName = op.categoryName?.toLowerCase();
+          if (!transferAccountName) {
+            throw new BadRequestException(
+              'Transfer operations must include target account name in categoryName field',
+            );
+          }
+
+          const transferAccount = accountMap.get(transferAccountName);
+
+          if (!transferAccount) {
+            throw new BadRequestException(
+              `Transfer account "${op.categoryName}" not found`,
+            );
+          }
+
+          if (transferAccount.id === accountId) {
+            throw new BadRequestException(
+              'Transfer account must differ from source account',
+            );
+          }
+
+          const transferOperation = await this.prismaService.operation.create({
+            data: {
+              amount: op.amount,
+              date: new Date(op.date),
+              description: op.description,
+              type: OperationType.TRANSFER,
+              account: { connect: { id: accountId } },
+              transferAccount: { connect: { id: transferAccount.id } },
+              user: { connect: { id: user.id } },
+            },
+            include: {
+              category: true,
+              account: true,
+              tags: true,
+              transferAccount: true,
+            },
+          });
+          createdOperations.push(transferOperation);
+          continue;
+        }
+
+        let category = categoryMap.get(op.categoryName.toLowerCase());
+
+        if (!category) {
+          const catType =
+            op.type === OperationType.INCOME
+              ? CategoryType.INCOME
+              : CategoryType.EXPENSE;
+
+          category = await this.prismaService.category.create({
+            data: {
+              name: op.categoryName,
+              type: catType,
+              user: { connect: { id: user.id } },
+              icon: 'help-circle',
+              color: '#cccccc',
+            },
+          });
+          categoryMap.set(category.name.toLowerCase(), category);
+        }
+
+        const newOp = await this.prismaService.operation.create({
+          data: {
+            amount: op.amount,
+            date: new Date(op.date),
+            description: op.description,
+            type: op.type,
+            category: { connect: { id: category.id } },
+            account: { connect: { id: accountId } },
+            user: { connect: { id: user.id } },
+          },
+          include: {
+            category: true,
+            account: true,
+            tags: true,
+            transferAccount: true,
+          },
+        });
+        createdOperations.push(newOp);
+      }
+
+      return createdOperations;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to create extracted operations');
       }
 
       throw error;

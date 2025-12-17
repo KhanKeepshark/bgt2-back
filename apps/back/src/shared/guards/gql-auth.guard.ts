@@ -1,4 +1,4 @@
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import {
   ExecutionContext,
   Injectable,
@@ -22,6 +22,9 @@ export class GqlAuthGuard implements CanActivate {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: request.session.userId,
+      },
+      include: {
+        subscriptionPlan: true,
       },
     });
 

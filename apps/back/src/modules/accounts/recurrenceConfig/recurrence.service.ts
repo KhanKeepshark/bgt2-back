@@ -1,4 +1,4 @@
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import {
   BadRequestException,
   Injectable,

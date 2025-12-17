@@ -11,7 +11,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@back/*": ["apps/back/*"],
+      "@back/*": ["apps/back/src/*"],
       "@mail/*": ["apps/rabbitmq-service/*"],
       "@prisma/generated": ["prisma/generated"],
       "@prisma/generated/*": ["prisma/generated/*"]
@@ -23,7 +23,8 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "jsx": "react"
+    "jsx": "react",
+    "resolveJsonModule": true
   },
   "include": [
     "apps/**/*",

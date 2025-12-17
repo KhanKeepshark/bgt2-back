@@ -1,0 +1,1191 @@
+{
+  "timestamp": "2025-11-21T07:17:13.756Z",
+  "userId": "73a5a4c7-abbb-4ccf-bc08-6f53c341d5e9",
+  "originalFilename": "Выписка9045096497304989539_compressed.pdf",
+  "extractedOperations": [
+    {
+      "amount": "787",
+      "date": "2025-11-11",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "IP SAUDAGER ASTANA KZ"
+    },
+    {
+      "amount": "1847",
+      "date": "2025-11-11",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "TOO \"SALEKZ\" ASTANA KZ"
+    },
+    {
+      "amount": "2840",
+      "date": "2025-11-11",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP ZHANGAZINOVA ASTANA KZ"
+    },
+    {
+      "amount": "1791",
+      "date": "2025-11-10",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "по договору KZ59551Z329182146KZT в сумме 1791 KZT."
+    },
+    {
+      "amount": "1795",
+      "date": "2025-11-10",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ALMATY KZ"
+    },
+    {
+      "amount": "210",
+      "date": "2025-11-10",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP ARYSTAN ASTANA KZ"
+    },
+    {
+      "amount": "1204",
+      "date": "2025-11-10",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "5000",
+      "date": "2025-11-10",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1350",
+      "date": "2025-11-07",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP OMAROVA ASTANA KZ"
+    },
+    {
+      "amount": "630000",
+      "date": "2025-11-06",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1180",
+      "date": "2025-11-06",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "630000",
+      "date": "2025-11-06",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "по договору KZ59551Z329182146KZT в сумме 630000 KZT."
+    },
+    {
+      "amount": "630000",
+      "date": "2025-11-06",
+      "type": "INCOME",
+      "categoryName": "Salary",
+      "description": "Пополнение. Заработная плата за Октябрь 2025г Пе"
+    },
+    {
+      "amount": "1780",
+      "date": "2025-11-06",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "8200",
+      "date": "2025-11-05",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "Алихан Серикұлы."
+    },
+    {
+      "amount": "8200",
+      "date": "2025-11-05",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "791",
+      "date": "2025-11-04",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "2409",
+      "date": "2025-11-04",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "по договору KZ59551Z329182146KZT в сумме 2409 KZT."
+    },
+    {
+      "amount": "890",
+      "date": "2025-11-04",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "MAGAZIN MYASOVIK ASTANA KZ"
+    },
+    {
+      "amount": "6111",
+      "date": "2025-11-04",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "FRUKTOVIK ALMATY KZ"
+    },
+    {
+      "amount": "590",
+      "date": "2025-11-03",
+      "type": "EXPENSE",
+      "categoryName": "Entertainment",
+      "description": "Google Last Z Surviva 650-2530000"
+    },
+    {
+      "amount": "10000",
+      "date": "2025-11-03",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "6061",
+      "date": "2025-11-03",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "JETPAY.KZ DODO.KZ ALMATY KZ"
+    },
+    {
+      "amount": "1137.52",
+      "date": "2025-11-03",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1423",
+      "date": "2025-11-03",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "TOO \"SALEKZ\" ASTANA KZ"
+    },
+    {
+      "amount": "50.30",
+      "date": "2025-11-03",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Пополнение."
+    },
+    {
+      "amount": "2160",
+      "date": "2025-11-02",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "8040",
+      "date": "2025-11-01",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "по договору KZ59551Z329182146KZT в сумме 8040 KZT."
+    },
+    {
+      "amount": "1040",
+      "date": "2025-11-01",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "BEK MARKET ASTANA KZ"
+    },
+    {
+      "amount": "920",
+      "date": "2025-11-01",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "10000",
+      "date": "2025-11-01",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1424",
+      "date": "2025-10-31",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "BEK MARKET ASTANA KZ"
+    },
+    {
+      "amount": "1000",
+      "date": "2025-10-31",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE SHOP ASTANA KZ"
+    },
+    {
+      "amount": "1445",
+      "date": "2025-10-30",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "TOO \"SALEKZ\" ASTANA KZ"
+    },
+    {
+      "amount": "4035.99",
+      "date": "2025-10-30",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "по договору KZ59551Z329182146KZT в сумме 4035.99 KZT."
+    },
+    {
+      "amount": "4035.99",
+      "date": "2025-10-30",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1131",
+      "date": "2025-10-30",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "ZEBRA COFFEE ASTANA KZ"
+    },
+    {
+      "amount": "3195",
+      "date": "2025-10-29",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP ARYSTAN ASTANA KZ"
+    },
+    {
+      "amount": "1280",
+      "date": "2025-10-28",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "2180",
+      "date": "2025-10-27",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "2520",
+      "date": "2025-10-26",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "Pampushka na Uly Dala 67"
+    },
+    {
+      "amount": "2280",
+      "date": "2025-10-26",
+      "type": "EXPENSE",
+      "categoryName": "Health",
+      "description": "APTEKA NIZKIKH TSEN ALMATY KZ"
+    },
+    {
+      "amount": "5504.27",
+      "date": "2025-10-25",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "по договору KZ59551Z329182146KZT в сумме 5504.27 KZT."
+    },
+    {
+      "amount": "933",
+      "date": "2025-10-25",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "BEK MARKET ASTANA KZ"
+    },
+    {
+      "amount": "450",
+      "date": "2025-10-25",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "MAGAZIN AZAMAT ASTANA KZ"
+    },
+    {
+      "amount": "1584",
+      "date": "2025-10-25",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "Pampushka na Uly Dala 67"
+    },
+    {
+      "amount": "8471.27",
+      "date": "2025-10-25",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "570",
+      "date": "2025-10-24",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "2350",
+      "date": "2025-10-24",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "8303.45",
+      "date": "2025-10-24",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "290",
+      "date": "2025-10-23",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "5435",
+      "date": "2025-10-22",
+      "type": "EXPENSE",
+      "categoryName": "Health",
+      "description": "APTEKA NIZKIKH TSEN ALMATY KZ"
+    },
+    {
+      "amount": "1833",
+      "date": "2025-10-19",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "TOO \"SKIF TREYD\" ASTANA KZ"
+    },
+    {
+      "amount": "8744.17",
+      "date": "2025-10-18",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "4300",
+      "date": "2025-10-18",
+      "type": "EXPENSE",
+      "categoryName": "Health",
+      "description": "APTEKA NIZKIKH TSEN ALMATY KZ"
+    },
+    {
+      "amount": "2800",
+      "date": "2025-10-18",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "HAPPY CAKE ASTANA KZ"
+    },
+    {
+      "amount": "260",
+      "date": "2025-10-17",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1010",
+      "date": "2025-10-17",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ALMATY KZ"
+    },
+    {
+      "amount": "8862.45",
+      "date": "2025-10-17",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "650",
+      "date": "2025-10-17",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "ABC 2 ASTANA KZ"
+    },
+    {
+      "amount": "500",
+      "date": "2025-10-16",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "941",
+      "date": "2025-10-16",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "ZEBRA COFFEE ASTANA KZ"
+    },
+    {
+      "amount": "700",
+      "date": "2025-10-15",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP ALAN ASTANA KZ"
+    },
+    {
+      "amount": "760",
+      "date": "2025-10-14",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "TOO \"SAB 110962\" ASTANA KZ"
+    },
+    {
+      "amount": "2077",
+      "date": "2025-10-14",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "MAGAZIN PROKORM ULY DALA ASTANA"
+    },
+    {
+      "amount": "1425",
+      "date": "2025-10-14",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "MYPMART ASTANA KZ"
+    },
+    {
+      "amount": "600",
+      "date": "2025-10-14",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP ZHANGAZINOVA ASTANA KZ"
+    },
+    {
+      "amount": "680",
+      "date": "2025-10-13",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1510",
+      "date": "2025-10-12",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "FRUKTOVIK ALMATY KZ"
+    },
+    {
+      "amount": "1000",
+      "date": "2025-10-12",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP \"ZHANAT\" SHU KZ"
+    },
+    {
+      "amount": "941",
+      "date": "2025-10-10",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "ZEBRA COFFEE ASTANA KZ"
+    },
+    {
+      "amount": "850",
+      "date": "2025-10-09",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "BAKING STUDIO ASTANA Q. KZ"
+    },
+    {
+      "amount": "9329.95",
+      "date": "2025-10-09",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1215",
+      "date": "2025-10-09",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "FRUKTOVIK ASTANA KZ"
+    },
+    {
+      "amount": "4000",
+      "date": "2025-10-09",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1053",
+      "date": "2025-10-09",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ALMATY KZ"
+    },
+    {
+      "amount": "560",
+      "date": "2025-10-09",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE SHOP ASTANA KZ"
+    },
+    {
+      "amount": "627",
+      "date": "2025-10-07",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "1150",
+      "date": "2025-10-06",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "432",
+      "date": "2025-10-05",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "60000",
+      "date": "2025-10-04",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "Перевод с карты на карту"
+    },
+    {
+      "amount": "60000",
+      "date": "2025-10-04",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "5679",
+      "date": "2025-10-04",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "JETPAY.KZ DODO.KZ ALMATY KZ"
+    },
+    {
+      "amount": "5000",
+      "date": "2025-10-04",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1030",
+      "date": "2025-10-03",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "932",
+      "date": "2025-10-02",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ALMATY KZ"
+    },
+    {
+      "amount": "910",
+      "date": "2025-10-01",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "500",
+      "date": "2025-10-01",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE SHOP ASTANA KZ"
+    },
+    {
+      "amount": "625000",
+      "date": "2025-10-01",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "490",
+      "date": "2025-10-01",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE SHOP ASTANA KZ"
+    },
+    {
+      "amount": "21.75",
+      "date": "2025-10-01",
+      "type": "INCOME",
+      "categoryName": "Investments",
+      "description": "Пополнение. Выплата процентов по вкладу № KZ59551Z329182146KZT от 29.01.2025 за период с 01-го по 30.09.25. Вкладчик Өтеген Алихан Серикұлы."
+    },
+    {
+      "amount": "130",
+      "date": "2025-09-30",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "630000",
+      "date": "2025-09-30",
+      "type": "INCOME",
+      "categoryName": "Salary",
+      "description": "Пополнение. Заработная плата за Сентябрь 2025г Пе"
+    },
+    {
+      "amount": "940",
+      "date": "2025-09-30",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "ZEBRA COFFEE ASTANA KZ"
+    },
+    {
+      "amount": "730",
+      "date": "2025-09-29",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE SHOP ASTANA KZ"
+    },
+    {
+      "amount": "10610",
+      "date": "2025-09-27",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "Temu Temu.com IE"
+    },
+    {
+      "amount": "9288.22",
+      "date": "2025-09-27",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1647",
+      "date": "2025-09-26",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "MAGAZIN PROKORM ULY DALA ASTANA"
+    },
+    {
+      "amount": "9017.42",
+      "date": "2025-09-25",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "350",
+      "date": "2025-09-25",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "448",
+      "date": "2025-09-24",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "MUR MART ASTANA Q. KZ"
+    },
+    {
+      "amount": "860",
+      "date": "2025-09-22",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "BEK MARKET Astana KZ"
+    },
+    {
+      "amount": "977",
+      "date": "2025-09-22",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1225",
+      "date": "2025-09-22",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP CREATUM GROUP ASTANA KZ"
+    },
+    {
+      "amount": "14233",
+      "date": "2025-09-20",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "Temu Temu.com IE"
+    },
+    {
+      "amount": "9091.81",
+      "date": "2025-09-20",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "943",
+      "date": "2025-09-18",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ALMATY KZ"
+    },
+    {
+      "amount": "9119.29",
+      "date": "2025-09-18",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "700",
+      "date": "2025-09-16",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "WEDRINK ASTANA Q. KZ"
+    },
+    {
+      "amount": "1846",
+      "date": "2025-09-15",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "MUR MART ASTANA Q. KZ"
+    },
+    {
+      "amount": "560",
+      "date": "2025-09-14",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "4840",
+      "date": "2025-09-14",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "JetPay Dodopizza.kz NUR-SULTAN KZ"
+    },
+    {
+      "amount": "645",
+      "date": "2025-09-13",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "8813.53",
+      "date": "2025-09-13",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "620",
+      "date": "2025-09-10",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "680",
+      "date": "2025-09-09",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1010",
+      "date": "2025-09-07",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "25000",
+      "date": "2025-09-07",
+      "type": "EXPENSE",
+      "categoryName": "Health",
+      "description": "STOMATOLOGIYA GLAVNYY ZU ASTANA KZ"
+    },
+    {
+      "amount": "4535.47",
+      "date": "2025-09-07",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "9070.94",
+      "date": "2025-09-07",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1250",
+      "date": "2025-09-07",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "TOO \"SALEKZ\" ASTANA KZ"
+    },
+    {
+      "amount": "490",
+      "date": "2025-09-07",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "DISAR ASTANA KZ"
+    },
+    {
+      "amount": "430",
+      "date": "2025-09-06",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "13606.41",
+      "date": "2025-09-06",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "1690",
+      "date": "2025-09-06",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "NANDUK ASTANA KZ"
+    },
+    {
+      "amount": "1245",
+      "date": "2025-09-05",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP ARYSTAN ASTANA KZ"
+    },
+    {
+      "amount": "1600",
+      "date": "2025-09-04",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1225",
+      "date": "2025-09-04",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "ZEBRA COFFEE ASTANA KZ"
+    },
+    {
+      "amount": "1170",
+      "date": "2025-09-03",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1470",
+      "date": "2025-09-03",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "560",
+      "date": "2025-09-02",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "9189.56",
+      "date": "2025-09-02",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "56.39",
+      "date": "2025-09-02",
+      "type": "INCOME",
+      "categoryName": "Investments",
+      "description": "Пополнение. Выплата процентов по вкладу № KZ59551Z329182146KZT от 29.01.2025 за период с 01-го по 31.08.25. Вкладчик Өтеген Алихан Серикұлы."
+    },
+    {
+      "amount": "1824",
+      "date": "2025-09-01",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "440",
+      "date": "2025-08-31",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "250",
+      "date": "2025-08-31",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "CHUDO MARKET ASTANA Q. KZ"
+    },
+    {
+      "amount": "1478",
+      "date": "2025-08-31",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "DIONA 17 ASTANA KZ"
+    },
+    {
+      "amount": "630000",
+      "date": "2025-08-30",
+      "type": "EXPENSE",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "878",
+      "date": "2025-08-29",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP DMITRIENKO PAVEL ALEKS NUR-SULTANKZKZ"
+    },
+    {
+      "amount": "207",
+      "date": "2025-08-29",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "IP ARYSTAN ASTANA KZ"
+    },
+    {
+      "amount": "630000",
+      "date": "2025-08-29",
+      "type": "INCOME",
+      "categoryName": "Salary",
+      "description": "Пополнение. Заработная плата за Август 2025г Пе"
+    },
+    {
+      "amount": "229",
+      "date": "2025-08-28",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "605",
+      "date": "2025-08-27",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "1250",
+      "date": "2025-08-26",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "9314.44",
+      "date": "2025-08-25",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "28.49",
+      "date": "2025-08-24",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "FFT PINDUODUO10 SHANGHAI CN"
+    },
+    {
+      "amount": "11.87",
+      "date": "2025-08-24",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "FFT PINDUODU011 SHANGHAI CN"
+    },
+    {
+      "amount": "23.30",
+      "date": "2025-08-24",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "FFT PINDUODUO9 SHANGHAI CN"
+    },
+    {
+      "amount": "5377",
+      "date": "2025-08-24",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "33.39",
+      "date": "2025-08-24",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "FFT PINDUODUO1 SHANGHAI CN"
+    },
+    {
+      "amount": "1008",
+      "date": "2025-08-24",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "800",
+      "date": "2025-08-23",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1131",
+      "date": "2025-08-23",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "ZEBRA forte Nur-Sultan KZ"
+    },
+    {
+      "amount": "760",
+      "date": "2025-08-23",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "950",
+      "date": "2025-08-22",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "410",
+      "date": "2025-08-21",
+      "type": "EXPENSE",
+      "categoryName": "Health",
+      "description": "APTEKA NIZKIH CEN NUR-SULTAN KZ"
+    },
+    {
+      "amount": "300",
+      "date": "2025-08-21",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "TOO \"SALEKZ\" ASTANA KZ"
+    },
+    {
+      "amount": "300",
+      "date": "2025-08-21",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1415",
+      "date": "2025-08-20",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "ZEBRA COFFEE TURAN Nur-Sultan KZ"
+    },
+    {
+      "amount": "3020",
+      "date": "2025-08-19",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "MAGAZIN PROKORM ULY DALA ASTANA"
+    },
+    {
+      "amount": "10000",
+      "date": "2025-08-19",
+      "type": "INCOME",
+      "categoryName": "test",
+      "description": "Между своими счетами"
+    },
+    {
+      "amount": "820",
+      "date": "2025-08-19",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "MAGAZIN RYBA I KURICA ASTANA"
+    },
+    {
+      "amount": "1390",
+      "date": "2025-08-19",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE SHOP ASTANA KZ"
+    },
+    {
+      "amount": "460",
+      "date": "2025-08-18",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "650",
+      "date": "2025-08-15",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "300",
+      "date": "2025-08-14",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "732",
+      "date": "2025-08-14",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    },
+    {
+      "amount": "1470",
+      "date": "2025-08-13",
+      "type": "EXPENSE",
+      "categoryName": "Domestic",
+      "description": "BEREKE Nur-Sultan KZ"
+    },
+    {
+      "amount": "1280",
+      "date": "2025-08-12",
+      "type": "EXPENSE",
+      "categoryName": "Food",
+      "description": "SMALL SUPERMARKET AST53 ASTANA KZ"
+    }
+  ],
+  "count": 169
+}

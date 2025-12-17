@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from './inputs/create-category.input';
-import { Authorization } from '@back/src/shared/decorators/auth.decorator';
+import { Authorization } from '@back/shared/decorators/auth.decorator';
 import { CategoryModel } from './models/category.model';
-import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
+import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { CategoryType, User } from '@prisma/generated';
 import { UpdateCategoryInput } from './inputs/update-category.input';
 

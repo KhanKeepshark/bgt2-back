@@ -14,6 +14,14 @@ type AccountModel {
   userId: String!
 }
 
+type AiCountModel {
+  tokenCount: Float!
+}
+
+type AiUploadResultModel {
+  operations: [ExtractedOperationModel!]!
+}
+
 type AuthModel {
   message: String
   user: UserModel
@@ -111,6 +119,22 @@ input EnableTotpInput {
   secret: String!
 }
 
+input ExtractedOperationInput {
+  amount: String!
+  categoryName: String!
+  date: String!
+  description: String
+  type: OperationType!
+}
+
+type ExtractedOperationModel {
+  amount: String!
+  categoryName: String!
+  date: String!
+  description: String
+  type: String!
+}
+
 type IncomeExpenseDataModel {
   all: String!
   averages: AveragesDataModel!
@@ -134,9 +158,12 @@ input LoginInput {
 }
 
 type Mutation {
+  aiFileTokenCount(file: Upload!): AiCountModel!
+  aiFileUpload(file: Upload!): AiUploadResultModel!
   clearSessionCookie: Boolean!
   createAccount(input: CreateAccountInput!): AccountModel!
   createCategory(input: CreateCategoryInput!): CategoryModel!
+  createExtractedOperations(accountId: String!, operations: [ExtractedOperationInput!]!): [OperationModel!]!
   createOperation(input: CreateOperationInput!): OperationModel!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
@@ -149,6 +176,7 @@ type Mutation {
   enableTotp(input: EnableTotpInput!): Boolean!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
+  parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
   removeSession(id: String!): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
   updateCategory(input: UpdateCategoryInput!): CategoryModel!
@@ -284,6 +312,21 @@ type SessionModel {
   userId: String!
 }
 
+type SubscriptionPlanModel {
+  createdAt: DateTime!
+  currency: String!
+  description: String
+  durationDays: Float
+  id: ID!
+  isActive: Boolean!
+  isDefault: Boolean!
+  name: String!
+  price: String
+  tokensOnPurchase: Float!
+  tokensPerMonth: Float
+  updatedAt: DateTime!
+}
+
 type TagModel {
   color: String!
   createdAt: DateTime!
@@ -345,6 +388,9 @@ input UpdateTagInput {
   name: String
 }
 
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
 type UserModel {
   accounts: [AccountModel!]
   categories: [CategoryModel!]
@@ -354,16 +400,18 @@ type UserModel {
   id: ID!
   isActive: Boolean!
   isEmailVerified: Boolean!
-  isPremium: Boolean!
   isTotpEnabled: Boolean!
   lastLoginAt: DateTime
   loginCount: Float!
   name: String!
   password: String!
-  premiumExpiresAt: DateTime
-  premiumPlan: String
   role: String!
+  subscriptionExpiresAt: DateTime
+  subscriptionPlan: SubscriptionPlanModel!
+  subscriptionPlanId: String!
+  subscriptionStartedAt: DateTime!
   tags: [TagModel!]
+  tokensBalance: Float!
   totpSecret: String
   updatedAt: DateTime!
 }

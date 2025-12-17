@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { RecurrenceService } from './recurrence.service';
-import { Authorization } from '@back/src/shared/decorators/auth.decorator';
-import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
+import { Authorization } from '@back/shared/decorators/auth.decorator';
+import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
 import { RecurrenceConfigModel } from './models/recurrence-config.model';
 import { UpdateRecurrenceInput } from './inputs/update-recurrence.input';

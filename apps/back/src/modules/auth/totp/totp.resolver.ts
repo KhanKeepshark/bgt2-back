@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { TotpService } from './totp.service';
-import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
+import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
-import { Authorization } from '@back/src/shared/decorators/auth.decorator';
+import { Authorization } from '@back/shared/decorators/auth.decorator';
 import { TotpModel } from './models/totp.model';
 import { EnableTotpInput } from './inputs/enable-totp.input';
 

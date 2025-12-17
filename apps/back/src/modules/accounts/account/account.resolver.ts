@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AccountService } from './account.service';
 import { CreateAccountInput } from './inputs/create-account.input';
-import { Authorization } from '@back/src/shared/decorators/auth.decorator';
+import { Authorization } from '@back/shared/decorators/auth.decorator';
 import { AccountModel } from './models/account.model';
-import { Authorized } from '@back/src/shared/decorators/authorized.decorator';
+import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
 import { UpdateAccountInput } from './inputs/update-account.input';
 

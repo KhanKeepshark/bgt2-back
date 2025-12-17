@@ -1,4 +1,4 @@
-import { PrismaService } from '@back/src/core/prisma/prisma.service';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import {
   BadRequestException,
   ConflictException,
@@ -10,10 +10,10 @@ import { LoginInput } from './inputs/login.inputs';
 import { verify } from 'argon2';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
-import { getSessionMetadata } from '@back/src/shared/utils/session-metadata.util';
-import { RedisService } from '@back/src/core/redis/redis.service';
+import { getSessionMetadata } from '@back/shared/utils/session-metadata.util';
+import { RedisService } from '@back/core/redis/redis.service';
 import { TOTP } from 'otpauth';
-import { clearSession, saveSession } from '@back/src/shared/utils/session.util';
+import { clearSession, saveSession } from '@back/shared/utils/session.util';
 @Injectable()
 export class SessionService {
   public constructor(
@@ -69,6 +69,7 @@ export class SessionService {
             children: true,
           },
         },
+        subscriptionPlan: true,
       },
     });
 

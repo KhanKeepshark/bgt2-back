@@ -1,8 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import type { PremiumPlan, User } from '@prisma/generated';
+import type { User } from '@prisma/generated';
 import { AccountModel } from '../../../accounts/account/models/account.model';
 import { TagModel } from '../../../accounts/tag/model/tag.model';
 import { CategoryModel } from '../../../accounts/category/models/category.model';
+import { SubscriptionPlanModel } from './subscription-plan.model';
 
 @ObjectType()
 export class UserModel implements User {
@@ -27,14 +28,17 @@ export class UserModel implements User {
   @Field(() => Boolean)
   isEmailVerified: boolean;
 
-  @Field(() => Boolean)
-  isPremium: boolean;
+  @Field(() => String)
+  subscriptionPlanId: string;
+
+  @Field(() => Date)
+  subscriptionStartedAt: Date;
 
   @Field(() => Date, { nullable: true })
-  premiumExpiresAt: Date;
+  subscriptionExpiresAt: Date;
 
-  @Field(() => String, { nullable: true })
-  premiumPlan: PremiumPlan;
+  @Field(() => Number)
+  tokensBalance: number;
 
   @Field(() => Boolean)
   isTotpEnabled: boolean;
@@ -56,6 +60,9 @@ export class UserModel implements User {
 
   @Field(() => String)
   role: 'USER' | 'ADMIN';
+
+  @Field(() => SubscriptionPlanModel)
+  subscriptionPlan: SubscriptionPlanModel;
 
   @Field(() => [AccountModel], { nullable: true })
   accounts?: AccountModel[];
