@@ -135,6 +135,12 @@ type ExtractedOperationModel {
   type: String!
 }
 
+type FileDownloadModel {
+  base64: String!
+  filename: String!
+  mimeType: String!
+}
+
 type IncomeExpenseDataModel {
   all: String!
   averages: AveragesDataModel!
@@ -174,6 +180,7 @@ type Mutation {
   deleteTag(id: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
+  exportOperationsToExcel(filter: OperationsExportFilterInput): FileDownloadModel!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
@@ -241,6 +248,11 @@ enum OperationType {
   EXPENSE
   INCOME
   TRANSFER
+}
+
+input OperationsExportFilterInput {
+  dateFrom: DateTime
+  dateTo: DateTime
 }
 
 type Query {

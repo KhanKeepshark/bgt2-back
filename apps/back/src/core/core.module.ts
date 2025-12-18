@@ -20,6 +20,7 @@ import { CategoryModule } from '../modules/accounts/category/category.module';
 import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { AiUploadModule } from '../modules/files/ai-upload/ai-upload.module';
 import { FileUploadModule } from '../modules/files/file-upload/file-upload.module';
+import { FileDownloadModule } from '../modules/files/file-download/file-download.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { FileUploadModule } from '../modules/files/file-upload/file-upload.modul
     CategoryModule,
     RabbitmqModule,
     FileUploadModule,
+    FileDownloadModule,
   ],
 })
 export class CoreModule {}
