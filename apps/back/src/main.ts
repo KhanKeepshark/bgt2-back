@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { CoreModule } from './core/core.module';
 import { ConfigService } from '@nestjs/config';
-import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
 import * as session from 'express-session';
 import * as graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import type { StringValue } from './shared/utils/ms.util';
@@ -24,7 +25,22 @@ async function bootstrap() {
 
   const redis = app.get(RedisService);
   app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
-  app.use(config.getOrThrow<string>('GRAPHQL_PREFIX'), graphqlUploadExpress());
+
+  const requestBodyLimit = config.get<string>('REQUEST_BODY_LIMIT') || '20mb';
+  app.use(bodyParser.json({ limit: requestBodyLimit }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: requestBodyLimit }));
+
+  const maxUploadFileSize =
+    Number(config.get<string>('UPLOAD_MAX_FILE_SIZE')) || 20 * 1024 * 1024; // 20 MB by default
+  const maxUploadFiles = Number(config.get<string>('UPLOAD_MAX_FILES')) || 1;
+
+  app.use(
+    config.getOrThrow<string>('GRAPHQL_PREFIX'),
+    graphqlUploadExpress({
+      maxFileSize: maxUploadFileSize,
+      maxFiles: maxUploadFiles,
+    }),
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({

@@ -9,7 +9,7 @@ type RequiredColumns =
   | 'date'
   | 'description'
   | 'type'
-  | 'categoryName';
+  | 'category';
 
 @Injectable()
 export class FileUploadService {
@@ -77,7 +77,7 @@ export class FileUploadService {
           true,
         ));
         const type = this.getCellValue(row, columnIndexMap.type);
-        const categoryName = this.fixEncoding(this.getCellValue(row, columnIndexMap.categoryName));
+        const categoryName = this.fixEncoding(this.getCellValue(row, columnIndexMap.category));
 
         if (!amount || !date || !type || !categoryName) {
           throw new BadRequestException(
@@ -130,7 +130,7 @@ export class FileUploadService {
       'date',
       'description',
       'type',
-      'categoryName',
+      'category',
     ];
 
     const indexMap = {} as Record<RequiredColumns, number>;

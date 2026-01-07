@@ -231,7 +231,7 @@ type OperationModel {
   categoryId: String
   createdAt: DateTime!
   date: DateTime!
-  description: String!
+  description: String
   id: String!
   recurrenceConfig: RecurrenceConfigModel
   recurrenceConfigId: String

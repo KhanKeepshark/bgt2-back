@@ -22,8 +22,8 @@ export class OperationModel implements Operation {
   @Field(() => Date)
   date: Date;
 
-  @Field(() => String)
-  description: string;
+  @Field(() => String, { nullable: true })
+  description: string | null;
 
   @Field(() => String)
   type: OperationType;
