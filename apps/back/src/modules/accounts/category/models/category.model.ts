@@ -1,5 +1,6 @@
 import { Category, CategoryType } from '@prisma/generated';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { CategoryKeywordModel } from './category-keyword.model';
 
 @ObjectType()
 export class CategoryModel implements Category {
@@ -17,6 +18,9 @@ export class CategoryModel implements Category {
 
   @Field(() => String)
   icon: string;
+
+  @Field(() => [CategoryKeywordModel], { nullable: true })
+  keywords: CategoryKeywordModel[];
 
   @Field(() => String)
   userId: string;

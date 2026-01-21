@@ -41,6 +41,7 @@ model User {
   accounts          Account[]
   tags              Tag[]
   categories        Category[]
+  categoryKeywords  CategoryKeyword[]
   operations        Operation[]
   recurrenceConfigs RecurrenceConfig[]
 }
@@ -213,6 +214,8 @@ model Category {
   user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
+  keywords CategoryKeyword[]
+
   parent   Category?  @relation("CategoryToParent", fields: [parentId], references: [id])
   parentId String?
   children Category[] @relation("CategoryToParent")
@@ -224,6 +227,22 @@ model Category {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, name])
+}
+
+model CategoryKeyword {
+  id     String @id @default(uuid())
+  phrase String
+
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, phrase])
 }
 
 enum CategoryType {

@@ -4,4 +4,6 @@ export interface ExtractedOperation {
   description?: string;
   type: 'INCOME' | 'EXPENSE' | 'TRANSFER';
   categoryName: string;
+  categoryIcon?: string;
+  containsKeyword?: boolean;
 }

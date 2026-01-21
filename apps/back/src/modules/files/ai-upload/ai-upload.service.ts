@@ -1,24 +1,30 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { User } from '@prisma/generated';
 import * as Upload from 'graphql-upload/Upload.js';
-import { GoogleGenAI } from '@google/genai';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { streamToBuffer } from './utils/streamToBuffer';
 import { createFilePart } from './utils/createFilePart';
 import { buildOptimizedPrompt } from './utils/buildOptimizedPrompt';
 import { ExtractedOperation } from '@back/shared/types/ai-operations';
+import { GoogleGenAI } from '@google/genai';
+import { parseToonResponse } from './utils/parseToonResponse';
 
 @Injectable()
 export class AiUploadService {
-  private readonly ai: GoogleGenAI;
+  private readonly logger = new Logger(AiUploadService.name);
+  private readonly genAI: GoogleGenAI;
+  private readonly modelName = 'gemini-2.5-flash-lite';
 
   constructor(
     configService: ConfigService,
     private readonly prismaService: PrismaService,
   ) {
     const geminiApiKey = configService.get<string>('GEMINI_API_KEY');
-    this.ai = new GoogleGenAI({apiKey: geminiApiKey}); 
+    if (!geminiApiKey) {
+      this.logger.error('GEMINI_API_KEY is not defined in configuration');
+    }
+    this.genAI = new GoogleGenAI({ apiKey: geminiApiKey }); 
   }
 
   public async aiFileUpload(
@@ -27,73 +33,48 @@ export class AiUploadService {
   ): Promise<{ operations: ExtractedOperation[] }> {
     try {      
       const buffer = await streamToBuffer(file.createReadStream());
-
-      // Получаем категории пользователя
-      const categories = await this.prismaService.category.findMany({
-        where: { userId: user.id },
-        select: {
-          id: true,
-          name: true,
-          type: true,
-        },
-      });
-
-      if (categories.length === 0) {
-        throw new BadRequestException('No categories found. Please create categories first.');
-      }
+      const categories = await this.getUserCategories(user.id);
 
       const filePart = createFilePart(buffer, file.mimetype);
       const prompt = buildOptimizedPrompt(categories);
 
-        // TODO: return when added premium plan
-        // const countResponse = await this.ai.models.countTokens({
-        //     model: 'gemini-2.5-flash', 
-        //     contents: [
-        //         filePart,         
-        //         { text: prompt }, 
-        //     ],
-        // });
+      const response = await this.genAI.models.generateContent({
+        model: this.modelName,
+        contents: [filePart, prompt],
+      });
+      
+      const rawResult = response.text;
 
-    //   const response = await this.ai.models.generateContent({
-    //     model: 'gemini-2.5-flash',
-    //     contents: [
-    //       filePart,
-    //       { text: prompt },
-    //     ],
-    //   });
+      // TODO: use only for debug
+      // console.log(`Usage: ${response.usageMetadata}`);
+      // this.logger.debug(`AI Response: ${rawResult}`);
+       
 
-    //   console.log("response", response);
-    //   const usage = response.usageMetadata
-    //   console.log("usage", usage);
-    //   const rawResult = response.text;
-    //   console.log("AI Response:", rawResult);
+      const extractedOperations = parseToonResponse(rawResult);
 
-    //   // Парсим ответ AI в компактном формате
-    //   const extractedOperations = this.parseToonResponse(rawResult);
-
-    //   // Сохраняем extractedOperations в локальный файл
-    //   const savedFilePath = await this.saveExtractedOperations(
-    //     extractedOperations,
-    //     user.id,
-    //     originalFilename,
-    //   );
-    //   if (savedFilePath) {
-    //     console.log(`Extracted operations saved to: ${savedFilePath}`);
-    //   }
-
-      // Создаем операции
-      const responceJson = require('./const/extracted-1763709433756-73a5a4c7-abbb-4ccf-bc08-6f53c341d5e9-f47528de.json');
-      const createdOperations = responceJson.extractedOperations as ExtractedOperation[];
+      const refinedOperations = extractedOperations.map(op => {
+        if (op.description && op.type !== 'TRANSFER') {
+          const autoCategory = this.findCategoryByKeywords(
+            op.description,
+            op.type as 'INCOME' | 'EXPENSE',
+            categories,
+          );
+          if (autoCategory) {
+            return { ...op, categoryName: autoCategory.name, categoryIcon: autoCategory.icon };
+          }
+        }
+        return op;
+      });
 
       return {
-        operations: createdOperations,
+        operations: refinedOperations,
       };
     } catch (error) {
-      console.error("Error processing file:", error);
+      this.logger.error(`Error processing file: ${error.message}`, error.stack);
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new BadRequestException('Failed to process uploaded file.');
+      throw new BadRequestException(error.message || 'Failed to process uploaded file.');
     }
   }
 
@@ -103,37 +84,64 @@ export class AiUploadService {
   ): Promise<{ tokenCount: number }> {
     try {
       const buffer = await streamToBuffer(file.createReadStream());
-
-      const categories = await this.prismaService.category.findMany({
-        where: { userId: user.id },
-        select: {
-          id: true,
-          name: true,
-          type: true,
-        },
-      });
-
-      if (categories.length === 0) {
-        throw new BadRequestException('No categories found. Please create categories first.');
-      }
+      const categories = await this.getUserCategories(user.id);
 
       const filePart = createFilePart(buffer, file.mimetype);
       const prompt = buildOptimizedPrompt(categories);
 
-      const countResponse = await this.ai.models.countTokens({
-          model: 'gemini-2.5-flash', 
-          contents: [
-              filePart,         
-              { text: prompt }, 
-          ],
+      const countResponse = await this.genAI.models.countTokens({
+        model: this.modelName,
+        contents: [filePart, prompt],
       });
 
       return {
         tokenCount: countResponse.totalTokens,
       };
     } catch (error) {
-      throw new BadRequestException('Failed to process uploaded file.');
+      this.logger.error(`Error counting tokens: ${error.message}`, error.stack);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new BadRequestException(error.message || 'Failed to count tokens.');
     }
   }
-}
 
+  private findCategoryByKeywords(
+    description: string,
+    type: 'INCOME' | 'EXPENSE',
+    categories: Array<{ name: string; type: string; icon: string; keywords: Array<{ phrase: string }> }>,
+  ): { name: string; icon: string } | null {
+    const normalizedDescription = description.toLowerCase().trim();
+
+    for (const category of categories) {
+      if (category.type !== type) continue;
+
+      for (const keyword of category.keywords) {
+        const normalizedKeyword = keyword.phrase.toLowerCase().trim();
+        if (normalizedKeyword && normalizedDescription.includes(normalizedKeyword)) {
+          return { name: category.name, icon: category.icon };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private async getUserCategories(userId: string) {
+    const categories = await this.prismaService.category.findMany({
+      where: { userId },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        icon: true,
+        keywords: { select: { phrase: true } },
+      },
+    });
+
+    if (categories.length === 0) {
+      throw new BadRequestException('No categories found.');
+    }
+    return categories;
+  }
+}

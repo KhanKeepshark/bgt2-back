@@ -17,4 +17,10 @@ export class ExtractedOperationModel implements ExtractedOperation {
 
   @Field(() => String)
   categoryName: string;
+
+  @Field(() => String, { nullable: true })
+  categoryIcon?: string;
+
+  @Field(() => Boolean, { nullable: true })
+  containsKeyword?: boolean;
 }

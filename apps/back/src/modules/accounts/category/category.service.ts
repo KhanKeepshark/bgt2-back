@@ -4,10 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateCategoryInput } from './inputs/create-category.input';
-import { Category, CategoryType, User } from '@prisma/generated';
+import { Category, CategoryKeyword, CategoryType, User } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { UpdateCategoryInput } from './inputs/update-category.input';
 import { defaultCategories } from './const/defaultCategories';
+import { CreateCategoryKeywordInput } from './inputs/create-category-keyword.input';
+import { UpdateCategoryKeywordInput } from './inputs/update-category-keyword.input';
 
 @Injectable()
 export class CategoryService {
@@ -103,6 +105,7 @@ export class CategoryService {
         include: {
           parent: true,
           children: true,
+          keywords: true,
         },
         orderBy: { createdAt: 'desc' },
       });
@@ -124,6 +127,7 @@ export class CategoryService {
         include: {
           parent: true,
           children: true,
+          keywords: true,
         },
       });
 
@@ -184,6 +188,7 @@ export class CategoryService {
         include: {
           parent: true,
           children: true,
+          keywords: true,
         },
       });
 
@@ -236,6 +241,7 @@ export class CategoryService {
         include: {
           parent: true,
           children: true,
+          keywords: true,
         },
         orderBy: { name: 'asc' },
       });
@@ -248,5 +254,82 @@ export class CategoryService {
 
       throw error;
     }
+  }
+
+  public async createKeyword(
+    input: CreateCategoryKeywordInput,
+    user: User,
+  ): Promise<CategoryKeyword> {
+    try {
+      const category = await this.prismaService.category.findFirst({
+        where: { id: input.categoryId, userId: user.id },
+      });
+
+      if (!category) {
+        throw new NotFoundException('Category not found or access denied');
+      }
+
+      return await this.prismaService.categoryKeyword.create({
+        data: {
+          phrase: input.phrase,
+          categoryId: input.categoryId,
+          userId: user.id,
+        },
+      });
+    } catch (error) {
+      if (error?.code === 'P2002') {
+        throw new BadRequestException(
+          'This keyword phrase already exists for this user',
+        );
+      }
+      throw error;
+    }
+  }
+
+  public async updateKeyword(
+    input: UpdateCategoryKeywordInput,
+    user: User,
+  ): Promise<CategoryKeyword> {
+    try {
+      const keyword = await this.prismaService.categoryKeyword.findFirst({
+        where: { id: input.id, userId: user.id },
+      });
+
+      if (!keyword) {
+        throw new NotFoundException('Keyword not found or access denied');
+      }
+
+      if (input.categoryId) {
+        const category = await this.prismaService.category.findFirst({
+          where: { id: input.categoryId, userId: user.id },
+        });
+        if (!category) {
+          throw new NotFoundException('Target category not found');
+        }
+      }
+
+      return await this.prismaService.categoryKeyword.update({
+        where: { id: input.id },
+        data: {
+          phrase: input.phrase,
+          categoryId: input.categoryId,
+        },
+      });
+    } catch (error) {
+      if (error?.code === 'P2002') {
+        throw new BadRequestException(
+          'This keyword phrase already exists for this user',
+        );
+      }
+      throw error;
+    }
+  }
+
+  public async deleteKeyword(id: string, user: User): Promise<boolean> {
+    const result = await this.prismaService.categoryKeyword.deleteMany({
+      where: { id, userId: user.id },
+    });
+
+    return result.count > 0;
   }
 }

@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { OperationType } from '@prisma/generated';
 
 @InputType()
@@ -28,4 +28,9 @@ export class ExtractedOperationInput {
   @IsNotEmpty()
   @IsString()
   categoryName: string;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  @IsBoolean()
+  containsKeyword?: boolean;
 }

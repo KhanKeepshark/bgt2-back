@@ -6,6 +6,9 @@ import { CategoryModel } from './models/category.model';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { CategoryType, User } from '@prisma/generated';
 import { UpdateCategoryInput } from './inputs/update-category.input';
+import { CategoryKeywordModel } from './models/category-keyword.model';
+import { CreateCategoryKeywordInput } from './inputs/create-category-keyword.input';
+import { UpdateCategoryKeywordInput } from './inputs/update-category-keyword.input';
 
 @Resolver('Category')
 export class CategoryResolver {
@@ -60,5 +63,32 @@ export class CategoryResolver {
     @Authorized() user: User,
   ) {
     return this.categoryService.findByType(type as CategoryType, user);
+  }
+
+  @Authorization()
+  @Mutation(() => CategoryKeywordModel, { name: 'createCategoryKeyword' })
+  public async createCategoryKeyword(
+    @Args('input') input: CreateCategoryKeywordInput,
+    @Authorized() user: User,
+  ) {
+    return this.categoryService.createKeyword(input, user);
+  }
+
+  @Authorization()
+  @Mutation(() => CategoryKeywordModel, { name: 'updateCategoryKeyword' })
+  public async updateCategoryKeyword(
+    @Args('input') input: UpdateCategoryKeywordInput,
+    @Authorized() user: User,
+  ) {
+    return this.categoryService.updateKeyword(input, user);
+  }
+
+  @Authorization()
+  @Mutation(() => Boolean, { name: 'deleteCategoryKeyword' })
+  public async deleteCategoryKeyword(
+    @Args('id') id: string,
+    @Authorized() user: User,
+  ) {
+    return this.categoryService.deleteKeyword(id, user);
   }
 }

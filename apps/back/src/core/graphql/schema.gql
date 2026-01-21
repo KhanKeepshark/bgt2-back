@@ -41,12 +41,22 @@ type Categories {
   percent: String!
 }
 
+type CategoryKeywordModel {
+  categoryId: String!
+  createdAt: DateTime!
+  id: ID!
+  phrase: String!
+  updatedAt: DateTime!
+  userId: String!
+}
+
 type CategoryModel {
   children: [CategoryModel!]
   color: String!
   createdAt: DateTime!
   icon: String!
   id: String!
+  keywords: [CategoryKeywordModel!]
   name: String!
   parentId: String
   type: CategoryType!
@@ -74,6 +84,11 @@ input CreateCategoryInput {
   name: String!
   parentId: String
   type: CategoryType!
+}
+
+input CreateCategoryKeywordInput {
+  categoryId: String!
+  phrase: String!
 }
 
 input CreateOperationInput {
@@ -122,6 +137,7 @@ input EnableTotpInput {
 input ExtractedOperationInput {
   amount: String!
   categoryName: String!
+  containsKeyword: Boolean
   date: String!
   description: String
   type: OperationType!
@@ -129,7 +145,9 @@ input ExtractedOperationInput {
 
 type ExtractedOperationModel {
   amount: String!
+  categoryIcon: String
   categoryName: String!
+  containsKeyword: Boolean
   date: String!
   description: String
   type: String!
@@ -169,12 +187,14 @@ type Mutation {
   clearSessionCookie: Boolean!
   createAccount(input: CreateAccountInput!): AccountModel!
   createCategory(input: CreateCategoryInput!): CategoryModel!
+  createCategoryKeyword(input: CreateCategoryKeywordInput!): CategoryKeywordModel!
   createExtractedOperations(accountId: String!, operations: [ExtractedOperationInput!]!): [OperationModel!]!
   createOperation(input: CreateOperationInput!): OperationModel!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
   deleteCategory(id: String!): Boolean!
+  deleteCategoryKeyword(id: String!): Boolean!
   deleteOperation(id: String!): Boolean!
   deleteRecurrence(id: String!): Boolean!
   deleteTag(id: String!): Boolean!
@@ -187,6 +207,7 @@ type Mutation {
   removeSession(id: String!): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
   updateCategory(input: UpdateCategoryInput!): CategoryModel!
+  updateCategoryKeyword(input: UpdateCategoryKeywordInput!): CategoryKeywordModel!
   updateOperation(input: UpdateOperationInput!): OperationModel!
   updateRecurrence(input: UpdateRecurrenceInput!): RecurrenceConfigModel!
   updateTag(input: UpdateTagInput!): TagModel!
@@ -369,6 +390,12 @@ input UpdateCategoryInput {
   name: String
   parentId: String
   type: CategoryType
+}
+
+input UpdateCategoryKeywordInput {
+  categoryId: String
+  id: String!
+  phrase: String
 }
 
 input UpdateOperationInput {

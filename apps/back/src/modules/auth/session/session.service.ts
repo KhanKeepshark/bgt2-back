@@ -67,6 +67,7 @@ export class SessionService {
         categories: {
           include: {
             children: true,
+            keywords: true,
           },
         },
         subscriptionPlan: true,

@@ -228,6 +228,15 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CategoryKeywordScalarFieldEnum = {
+  id: 'id',
+  phrase: 'phrase',
+  categoryId: 'categoryId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -288,7 +297,8 @@ exports.Prisma.ModelName = {
   Operation: 'Operation',
   RecurrenceConfig: 'RecurrenceConfig',
   Tag: 'Tag',
-  Category: 'Category'
+  Category: 'Category',
+  CategoryKeyword: 'CategoryKeyword'
 };
 
 /**

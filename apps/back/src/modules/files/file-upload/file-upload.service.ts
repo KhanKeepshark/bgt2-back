@@ -1,8 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { User } from '@prisma/generated';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import * as Upload from 'graphql-upload/Upload.js';
 import * as XLSX from 'xlsx';
 import { streamToBuffer } from '../ai-upload/utils/streamToBuffer';
 import { ExtractedOperation } from '@back/shared/types/ai-operations';
+import { fixEncoding } from '../ai-upload/utils/fixEncoding';
+import { getCellRawValue, getCellValue } from '../ai-upload/utils/getCellValue';
 
 type RequiredColumns =
   | 'amount'
@@ -13,7 +17,10 @@ type RequiredColumns =
 
 @Injectable()
 export class FileUploadService {
+  constructor(private readonly prismaService: PrismaService) {}
+
   public async parseOperationsFile(
+    user: User,
     file: Upload,
   ): Promise<ExtractedOperation[]> {
     try {
@@ -63,29 +70,44 @@ export class FileUploadService {
       const columnIndexMap = this.buildColumnIndexMap(headerRow);
       const operations: ExtractedOperation[] = [];
 
+      const categories = await this.prismaService.category.findMany({
+        where: { userId: user.id },
+        select: {
+          name: true,
+          type: true,
+          icon: true,
+          keywords: {
+            select: {
+              phrase: true,
+            },
+          },
+        },
+      });
+      const categoryIndex = this.buildCategoryIndex(categories);
+
       for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
         const row = rows[rowIndex];
         if (!row || row.every((cell) => `${cell ?? ''}`.trim() === '')) {
           continue;
         }
 
-        const amount = this.getCellValue(row, columnIndexMap.amount);
-        const date = this.getCellRawValue(row, columnIndexMap.date);
-        const description = this.fixEncoding(this.getCellValue(
+        const amount = getCellValue(row, columnIndexMap.amount);
+        const date = getCellRawValue(row, columnIndexMap.date);
+        const description = fixEncoding(getCellValue(
           row,
           columnIndexMap.description,
           true,
         ));
-        const type = this.getCellValue(row, columnIndexMap.type);
-        const categoryName = this.fixEncoding(this.getCellValue(row, columnIndexMap.category));
+        const type = getCellValue(row, columnIndexMap.type);
+        let categoryName = fixEncoding(getCellValue(row, columnIndexMap.category));
 
-        if (!amount || !date || !type || !categoryName) {
+        if (!amount || !date || !type) {
           throw new BadRequestException(
             `Row ${rowIndex + 1} contains empty required fields`,
           );
         }
 
-        const normalizedType = type.toUpperCase();
+        const normalizedType = type.trim().toUpperCase();
         if (
           normalizedType !== 'INCOME' &&
           normalizedType !== 'EXPENSE' &&
@@ -96,6 +118,40 @@ export class FileUploadService {
           );
         }
 
+        let matchedKeyword: boolean = false;
+        let categoryIcon: string | undefined = undefined;
+        
+        const normalizedDescription = description?.toLowerCase().trim() ?? '';
+        if (normalizedDescription && normalizedType !== 'TRANSFER') {
+          const autoCategory = this.findCategoryByKeywordsInIndex(
+            normalizedDescription,
+            normalizedType as 'INCOME' | 'EXPENSE',
+            categoryIndex,
+          );
+          if (autoCategory) {
+            categoryName = autoCategory.name;
+            categoryIcon = autoCategory.icon;
+            matchedKeyword = true;
+          }
+        }
+
+        const trimmedCategoryName = categoryName.trim();
+        if (!trimmedCategoryName) {
+          throw new BadRequestException(
+            `Row ${rowIndex + 1} contains empty category`,
+          );
+        }
+        categoryName = trimmedCategoryName;
+
+        // Если иконка еще не найдена (категория из файла), ищем по имени
+        if (!categoryIcon) {
+          const normalizedCategoryName = categoryName.toLowerCase();
+          categoryIcon =
+            categoryIndex.byTypeName[normalizedType as 'INCOME' | 'EXPENSE' | 'TRANSFER']?.get(
+              normalizedCategoryName,
+            ) || undefined;
+        }
+
         const normalizedDate = this.normalizeDateValue(date);
 
         operations.push({
@@ -104,6 +160,8 @@ export class FileUploadService {
           description: description || undefined,
           type: normalizedType as 'INCOME' | 'EXPENSE' | 'TRANSFER',
           categoryName,
+          categoryIcon,
+          containsKeyword: matchedKeyword,
         });
       }
 
@@ -153,21 +211,6 @@ export class FileUploadService {
     return indexMap;
   }
 
-  private getCellValue(
-    row: (string | number)[],
-    index: number,
-    optional = false,
-  ): string {
-    const raw = this.getCellRawValue(row, index);
-    if ((raw === undefined || raw === null || raw === '') && optional) {
-      return '';
-    }
-    return `${raw ?? ''}`.trim();
-  }
-
-  private getCellRawValue(row: (string | number)[], index: number) {
-    return row[index];
-  }
 
   private normalizeDateValue(value: unknown): string {
     if (value instanceof Date) {
@@ -210,6 +253,68 @@ export class FileUploadService {
     );
   }
 
+  private buildCategoryIndex(
+    categories: Array<{
+      name: string;
+      type: string;
+      icon: string;
+      keywords: Array<{ phrase: string }>;
+    }>,
+  ) {
+    const byTypeKeywords: Record<
+      'INCOME' | 'EXPENSE',
+      Array<{ keyword: string; name: string; icon: string }>
+    > = {
+      INCOME: [],
+      EXPENSE: [],
+    };
+    const byTypeName: Record<'INCOME' | 'EXPENSE' | 'TRANSFER', Map<string, string>> = {
+      INCOME: new Map(),
+      EXPENSE: new Map(),
+      TRANSFER: new Map(),
+    };
+
+    for (const category of categories) {
+      const normalizedType = category.type as 'INCOME' | 'EXPENSE';
+      const normalizedName = category.name.toLowerCase().trim();
+      if (normalizedName) {
+        byTypeName[normalizedType]?.set(normalizedName, category.icon);
+      }
+
+      for (const keyword of category.keywords) {
+        const normalizedKeyword = keyword.phrase.toLowerCase().trim();
+        if (normalizedKeyword) {
+          byTypeKeywords[normalizedType].push({
+            keyword: normalizedKeyword,
+            name: category.name,
+            icon: category.icon,
+          });
+        }
+      }
+    }
+
+    return { byTypeKeywords, byTypeName };
+  }
+
+  private findCategoryByKeywordsInIndex(
+    normalizedDescription: string,
+    type: 'INCOME' | 'EXPENSE',
+    categoryIndex: {
+      byTypeKeywords: Record<
+        'INCOME' | 'EXPENSE',
+        Array<{ keyword: string; name: string; icon: string }>
+      >;
+    },
+  ): { name: string; icon: string } | null {
+    for (const entry of categoryIndex.byTypeKeywords[type]) {
+      if (normalizedDescription.includes(entry.keyword)) {
+        return { name: entry.name, icon: entry.icon };
+      }
+    }
+
+    return null;
+  }
+
   private tryParseLocalizedDate(value: string): string | null {
     const match = value.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
     if (!match) {
@@ -223,26 +328,5 @@ export class FileUploadService {
 
     const date = new Date(Date.UTC(year, month - 1, day));
     return Number.isNaN(date.getTime()) ? null : date.toISOString();
-  }
-
-  private fixEncoding(str: string): string {
-    // If the string contains characters > 255, it is likely already correctly parsed Unicode
-    if (/[^\u0000-\u00FF]/.test(str)) {
-      return str;
-    }
-
-    try {
-      // Try to interpret the string as bytes (Latin-1) and decode as UTF-8
-      const decoded = Buffer.from(str, 'binary').toString('utf8');
-      
-      // If the result contains replacement characters, the "binary" assumption was probably wrong
-      if (decoded.includes('\ufffd')) {
-        return str;
-      }
-      
-      return decoded;
-    } catch {
-      return str;
-    }
   }
 }

@@ -6,5 +6,5 @@ export const createFilePart = (buffer: Buffer, mimetype: string): Part => {
             data: buffer.toString('base64'), // Кодирование буфера в Base64
             mimeType: mimetype,
         },
-    } as Part;
+    };
 }
