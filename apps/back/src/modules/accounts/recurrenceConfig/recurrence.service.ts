@@ -10,6 +10,7 @@ import {
   User,
   RecurrenceConfig,
 } from '@prisma/generated';
+import { Decimal } from '@prisma/client/runtime/library';
 import { RecurrenceConfigInput } from './inputs/recurrence-config.input';
 import { CreateOperationInput } from '../operation/inputs/create-operation.input';
 
@@ -142,6 +143,40 @@ export class RecurrenceService {
             recurrenceConfig: true,
           },
         });
+
+        const amount = new Decimal(input.amount);
+
+        if (input.type === OperationType.TRANSFER && input.transferAccountId) {
+          await tx.account.update({
+            where: { id: input.accountId },
+            data: {
+              balance: {
+                decrement: amount,
+              },
+            },
+          });
+
+          await tx.account.update({
+            where: { id: input.transferAccountId },
+            data: {
+              balance: {
+                increment: amount,
+              },
+            },
+          });
+        } else {
+          const balanceUpdate =
+            input.type === OperationType.INCOME
+              ? { increment: amount }
+              : { decrement: amount };
+
+          await tx.account.update({
+            where: { id: input.accountId },
+            data: {
+              balance: balanceUpdate,
+            },
+          });
+        }
 
         return firstOperation;
       });
@@ -393,6 +428,42 @@ export class RecurrenceService {
             recurrenceConfig: true,
           },
         });
+
+        const amount = new Decimal(recurrence.amount);
+
+        if (recurrence.type === OperationType.TRANSFER && recurrence.transferAccountId) {
+          if (recurrence.accountId) {
+            await tx.account.update({
+              where: { id: recurrence.accountId },
+              data: {
+                balance: {
+                  decrement: amount,
+                },
+              },
+            });
+          }
+
+          await tx.account.update({
+            where: { id: recurrence.transferAccountId },
+            data: {
+              balance: {
+                increment: amount,
+              },
+            },
+          });
+        } else if (recurrence.accountId) {
+          const balanceUpdate =
+            recurrence.type === OperationType.INCOME
+              ? { increment: amount }
+              : { decrement: amount };
+
+          await tx.account.update({
+            where: { id: recurrence.accountId },
+            data: {
+              balance: balanceUpdate,
+            },
+          });
+        }
 
         await tx.recurrenceConfig.update({
           where: { id: recurrenceId },

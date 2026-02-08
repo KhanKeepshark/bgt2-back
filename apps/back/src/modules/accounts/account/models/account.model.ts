@@ -11,6 +11,9 @@ export class AccountModel implements Account {
   name: string;
 
   @Field(() => String)
+  initialBalance: Decimal;
+
+  @Field(() => String)
   balance: Decimal;
 
   @Field(() => String)

@@ -1,10 +1,14 @@
+import { Prisma } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserInput } from './inputs/create-user.input';
+import { UserWhereInput } from './inputs/user-where.input';
+import { UserOrderByInput } from './inputs/user-order-by.input';
 import { hash } from 'argon2';
 import { VerificationService } from '../verification/verification.service';
 import { AccountService } from '../../accounts/account/account.service';
 import { CategoryService } from '../../accounts/category/category.service';
+
 @Injectable()
 export class UserService {
   public constructor(
@@ -14,14 +18,32 @@ export class UserService {
     private readonly verificationService: VerificationService,
   ) {}
 
-  public async findAll() {
-    const users = await this.prismaService.user.findMany({
-      include: {
-        subscriptionPlan: true,
-      },
-    });
+  public async findAll(
+    page = 1,
+    items = 10,
+    where?: UserWhereInput,
+    orderBy?: UserOrderByInput,
+  ) {
+    const skip = (page - 1) * items;
+    const whereCondition = where ? (where as Prisma.UserWhereInput) : undefined;
+    const orderByCondition = orderBy
+      ? (orderBy as Prisma.UserOrderByWithRelationInput)
+      : undefined;
 
-    return users;
+    const [users, total] = await Promise.all([
+      this.prismaService.user.findMany({
+        skip,
+        take: items,
+        where: whereCondition,
+        orderBy: orderByCondition,
+        include: {
+          subscriptionPlan: true,
+        },
+      }),
+      this.prismaService.user.count({ where: whereCondition }),
+    ]);
+
+    return { items: users, total };
   }
 
   public async me(id: string) {

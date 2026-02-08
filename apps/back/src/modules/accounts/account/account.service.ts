@@ -22,9 +22,16 @@ export class AccountService {
         throw new BadRequestException('Account with this name already exists');
       }
 
+      const initialBalance =  input.balance ?? '0';
+
       const created = await this.prismaService.account.create({
         data: {
-          ...input,
+          name: input.name,
+          currency: input.currency,
+          icon: input.icon,
+          iconColor: input.iconColor,
+          initialBalance,
+          balance: initialBalance,
           user: {
             connect: { id: user.id },
           },
@@ -48,6 +55,8 @@ export class AccountService {
           name: 'Default',
           icon: 'wallet',
           currency: 'USD',
+          initialBalance: '0',
+          balance: '0',
           user: {
             connect: { id: user.id },
           },

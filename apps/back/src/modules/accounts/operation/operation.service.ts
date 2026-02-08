@@ -80,29 +80,59 @@ export class OperationService {
           );
         }
 
-        const createTransferOperation =
-          await this.prismaService.operation.create({
-            data: {
-              amount: input.amount,
-              date: input.date,
-              description: input.description,
-              type: OperationType.TRANSFER,
-              user: {
-                connect: { id: user.id },
+        const amount = new Decimal(input.amount);
+
+        const createTransferOperation = await this.prismaService.$transaction(
+          async (tx) => {
+            const operation = await tx.operation.create({
+              data: {
+                amount: input.amount,
+                date: input.date,
+                description: input.description,
+                type: OperationType.TRANSFER,
+                user: {
+                  connect: { id: user.id },
+                },
+                transferAccount: {
+                  connect: { id: input.transferAccountId },
+                },
+                tags: input.tags
+                  ? {
+                      connect: input.tags.map((id) => ({ id })),
+                    }
+                  : undefined,
+                account: {
+                  connect: { id: input.accountId },
+                },
               },
-              transferAccount: {
-                connect: { id: input.transferAccountId },
+              include: {
+                account: true,
+                transferAccount: true,
+                tags: true,
               },
-              tags: input.tags
-                ? {
-                    connect: input.tags.map((id) => ({ id })),
-                  }
-                : undefined,
-              account: {
-                connect: { id: input.accountId },
+            });
+
+            await tx.account.update({
+              where: { id: input.accountId },
+              data: {
+                balance: {
+                  decrement: amount,
+                },
               },
-            },
-          });
+            });
+
+            await tx.account.update({
+              where: { id: input.transferAccountId },
+              data: {
+                balance: {
+                  increment: amount,
+                },
+              },
+            });
+
+            return operation;
+          },
+        );
 
         return createTransferOperation;
       }
@@ -115,32 +145,49 @@ export class OperationService {
         throw new BadRequestException('Category not found or access denied');
       }
 
-      const created = await this.prismaService.operation.create({
-        data: {
-          amount: input.amount,
-          date: input.date,
-          description: input.description,
-          type: input.type,
-          category: {
-            connect: { id: input.categoryId },
+      const amount = new Decimal(input.amount);
+      const balanceUpdate =
+        input.type === OperationType.INCOME
+          ? { increment: amount }
+          : { decrement: amount };
+
+      const created = await this.prismaService.$transaction(async (tx) => {
+        const operation = await tx.operation.create({
+          data: {
+            amount: input.amount,
+            date: input.date,
+            description: input.description,
+            type: input.type,
+            category: {
+              connect: { id: input.categoryId },
+            },
+            account: {
+              connect: { id: input.accountId },
+            },
+            user: {
+              connect: { id: user.id },
+            },
+            tags: input.tags
+              ? {
+                  connect: input.tags.map((id) => ({ id })),
+                }
+              : undefined,
           },
-          account: {
-            connect: { id: input.accountId },
+          include: {
+            category: true,
+            account: true,
+            tags: true,
           },
-          user: {
-            connect: { id: user.id },
+        });
+
+        await tx.account.update({
+          where: { id: input.accountId },
+          data: {
+            balance: balanceUpdate,
           },
-          tags: input.tags
-            ? {
-                connect: input.tags.map((id) => ({ id })),
-              }
-            : undefined,
-        },
-        include: {
-          category: true,
-          account: true,
-          tags: true,
-        },
+        });
+
+        return operation;
       });
 
       return created;
@@ -183,38 +230,107 @@ export class OperationService {
 
       const createdOperations: Operation[] = [];
 
-      for (const op of operations) {
-        if (op.type === OperationType.TRANSFER) {
-          // For transfers we interpret categoryName column as the target account name
-          const transferAccountName = op.categoryName?.toLowerCase();
-          if (!transferAccountName) {
-            throw new BadRequestException(
-              'Transfer operations must include target account name in categoryName field',
-            );
+      await this.prismaService.$transaction(async (tx) => {
+        for (const op of operations) {
+          if (op.type === OperationType.TRANSFER) {
+            // For transfers we interpret categoryName column as the target account name
+            const transferAccountName = op.categoryName?.toLowerCase();
+            if (!transferAccountName) {
+              throw new BadRequestException(
+                'Transfer operations must include target account name in categoryName field',
+              );
+            }
+
+            const transferAccount = accountMap.get(transferAccountName);
+
+            if (!transferAccount) {
+              throw new BadRequestException(
+                `Transfer account "${op.categoryName}" not found`,
+              );
+            }
+
+            if (transferAccount.id === accountId) {
+              throw new BadRequestException(
+                'Transfer account must differ from source account',
+              );
+            }
+
+            const amount = new Decimal(op.amount);
+
+            const transferOperation = await tx.operation.create({
+              data: {
+                amount: op.amount,
+                date: new Date(op.date),
+                description: op.description,
+                type: OperationType.TRANSFER,
+                account: { connect: { id: accountId } },
+                transferAccount: { connect: { id: transferAccount.id } },
+                user: { connect: { id: user.id } },
+              },
+              include: {
+                category: true,
+                account: true,
+                tags: true,
+                transferAccount: true,
+              },
+            });
+
+            await tx.account.update({
+              where: { id: accountId },
+              data: {
+                balance: {
+                  decrement: amount,
+                },
+              },
+            });
+
+            await tx.account.update({
+              where: { id: transferAccount.id },
+              data: {
+                balance: {
+                  increment: amount,
+                },
+              },
+            });
+
+            createdOperations.push(transferOperation);
+            continue;
           }
 
-          const transferAccount = accountMap.get(transferAccountName);
+          let category = categoryMap.get(op.categoryName.toLowerCase());
 
-          if (!transferAccount) {
-            throw new BadRequestException(
-              `Transfer account "${op.categoryName}" not found`,
-            );
+          if (!category) {
+            const catType =
+              op.type === OperationType.INCOME
+                ? CategoryType.INCOME
+                : CategoryType.EXPENSE;
+
+            category = await tx.category.create({
+              data: {
+                name: op.categoryName,
+                type: catType,
+                user: { connect: { id: user.id } },
+                icon: 'help-circle',
+                color: '#cccccc',
+              },
+            });
+            categoryMap.set(category.name.toLowerCase(), category);
           }
 
-          if (transferAccount.id === accountId) {
-            throw new BadRequestException(
-              'Transfer account must differ from source account',
-            );
-          }
+          const amount = new Decimal(op.amount);
+          const balanceUpdate =
+            op.type === OperationType.INCOME
+              ? { increment: amount }
+              : { decrement: amount };
 
-          const transferOperation = await this.prismaService.operation.create({
+          const newOp = await tx.operation.create({
             data: {
               amount: op.amount,
               date: new Date(op.date),
               description: op.description,
-              type: OperationType.TRANSFER,
+              type: op.type,
+              category: { connect: { id: category.id } },
               account: { connect: { id: accountId } },
-              transferAccount: { connect: { id: transferAccount.id } },
               user: { connect: { id: user.id } },
             },
             include: {
@@ -224,49 +340,17 @@ export class OperationService {
               transferAccount: true,
             },
           });
-          createdOperations.push(transferOperation);
-          continue;
-        }
 
-        let category = categoryMap.get(op.categoryName.toLowerCase());
-
-        if (!category) {
-          const catType =
-            op.type === OperationType.INCOME
-              ? CategoryType.INCOME
-              : CategoryType.EXPENSE;
-
-          category = await this.prismaService.category.create({
+          await tx.account.update({
+            where: { id: accountId },
             data: {
-              name: op.categoryName,
-              type: catType,
-              user: { connect: { id: user.id } },
-              icon: 'help-circle',
-              color: '#cccccc',
+              balance: balanceUpdate,
             },
           });
-          categoryMap.set(category.name.toLowerCase(), category);
-        }
 
-        const newOp = await this.prismaService.operation.create({
-          data: {
-            amount: op.amount,
-            date: new Date(op.date),
-            description: op.description,
-            type: op.type,
-            category: { connect: { id: category.id } },
-            account: { connect: { id: accountId } },
-            user: { connect: { id: user.id } },
-          },
-          include: {
-            category: true,
-            account: true,
-            tags: true,
-            transferAccount: true,
-          },
-        });
-        createdOperations.push(newOp);
-      }
+          createdOperations.push(newOp);
+        }
+      });
 
       return createdOperations;
     } catch (error) {

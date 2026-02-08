@@ -15,6 +15,7 @@ model User {
   name      String   @default("User")
 
   defaultAccountId String?
+  defaultAccount   Account? @relation("UserDefaultAccount", fields: [defaultAccountId], references: [id], onDelete: SetNull)
   
   isActive     Boolean @default(true)
   isEmailVerified Boolean @default(false)
@@ -36,6 +37,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      Role     @default(USER)
+  // Прочитанные глобальные уведомления (id из Notification)
+  readGlobalNotificationIds String[] @default([])
   
   tokens Token[]
   accounts Account[]
@@ -44,6 +47,10 @@ model User {
   categoryKeywords CategoryKeyword[]
   operations Operation[]
   recurrenceConfigs RecurrenceConfig[]
+  aiTokenUsages AiTokenUsage[]
+  notifications Notification[]
+  
+  @@index([subscriptionPlanId])
 }
 
 model SubscriptionPlan {
@@ -55,13 +62,28 @@ model SubscriptionPlan {
   tokensPerMonth Int?    // null = безлимит
   tokensOnPurchase Int   @default(0) // Токены при покупке плана
   
+  // Лимиты ресурсов (общие - всего)
+  maxOperations Int?    // null = безлимит (всего операций)
+  maxCategories Int?    // null = безлимит (всего категорий)
+  maxAccounts Int?      // null = безлимит (всего счетов/бюджетов)
+  maxTags Int?          // null = безлимит (всего тегов)
+  maxRecurrenceConfigs Int? // null = безлимит (всего повторяющихся операций)
+  
+  // Периодические лимиты (в месяц)
+  maxOperationsPerMonth Int? // null = безлимит (операций в месяц)
+  
+  // Лимиты на связи (на один родительский ресурс)
+  maxCategoryKeywordsPerCategory Int? // null = безлимит (ключевых слов на категорию)
+  
   // Цена и длительность
   price         Decimal?
   currency      String   @default("USD")
   durationDays  Int?     // null = бессрочно
   
-  // Дополнительные возможности
-  features      Json?    // {"aiOperations": true, "export": true, ...}
+  // Дополнительные возможности (типизированные Boolean поля)
+  canUseAiOperations Boolean @default(false)  // Загрузка операций через AI
+  canExportData      Boolean @default(false)  // Экспорт в Excel
+  canUseRecurring    Boolean @default(false)  // Повторяющиеся операции
   
   // Статус
   isActive      Boolean  @default(true)
@@ -92,6 +114,9 @@ model Token {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  @@index([userId, type, expiresAt])
+  @@index([expiresAt])
 }
 
 enum TokenType {
@@ -101,6 +126,7 @@ enum TokenType {
 model Account {
   id        String   @id @default(uuid())
   name      String
+  initialBalance   Decimal  @default(0)
   balance   Decimal  @default(0)
   currency  String
 
@@ -114,11 +140,13 @@ model Account {
   transferOperations        Operation[] @relation("OperationTransferAccount")
   recurrenceConfigs         RecurrenceConfig[] @relation("RecurrenceAccount")
   transferRecurrenceConfigs RecurrenceConfig[] @relation("RecurrenceTransferAccount")
+  defaultForUsers           User[] @relation("UserDefaultAccount")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([userId, name])
+  @@index([userId])
 }
 
 model Operation {
@@ -146,6 +174,13 @@ model Operation {
 
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  
+  @@index([userId])
+  @@index([userId, date])
+  @@index([userId, type])
+  @@index([date])
+  @@index([accountId])
+  @@index([categoryId])
 }
 
 model RecurrenceConfig {
@@ -175,6 +210,8 @@ model RecurrenceConfig {
   
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  
+  @@index([userId])
 }
 
 enum OperationType {
@@ -203,6 +240,7 @@ model Tag {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, name])
+  @@index([userId])
 }
 
 model Category {
@@ -227,6 +265,9 @@ model Category {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, name])
+  @@index([userId])
+  @@index([userId, type])
+  @@index([parentId])
 }
 
 model CategoryKeyword {
@@ -243,9 +284,75 @@ model CategoryKeyword {
   updatedAt  DateTime @updatedAt
 
   @@unique([userId, phrase])
+  @@index([userId])
+  @@index([categoryId])
 }
 
 enum CategoryType {
   INCOME
   EXPENSE
+}
+
+model AiTokenUsage {
+  id        String   @id @default(uuid())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  
+  // Сколько токенов планировалось потратить (оценка)
+  estimatedTokens Int
+  
+  // Сколько токенов потратили по факту
+  actualTokens Int
+  
+  // Сколько операций было создано в результате
+  operationsCreated Int @default(0)
+  
+  // Тип файла, который обрабатывался
+  fileType  String? // mimetype
+  
+  // Статус операции
+  status    AiUsageStatus @default(SUCCESS)
+  
+  // Ошибка, если была
+  error     String?
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([userId, createdAt])
+  @@index([createdAt])
+}
+
+enum AiUsageStatus {
+  SUCCESS
+  FAILED
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  link        String?
+  buttonText  String
+
+  // scope = USER -> персональное уведомление, scope = GLOBAL -> глобальное
+  scope       NotificationScope @default(USER)
+
+  // Для персональных уведомлений
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?
+
+  isRead      Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([createdAt])
+}
+
+enum NotificationScope {
+  GLOBAL
+  USER
 }

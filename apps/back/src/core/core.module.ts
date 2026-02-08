@@ -21,6 +21,7 @@ import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { AiUploadModule } from '../modules/files/ai-upload/ai-upload.module';
 import { FileUploadModule } from '../modules/files/file-upload/file-upload.module';
 import { FileDownloadModule } from '../modules/files/file-download/file-download.module';
+import { NotificationModule } from '../modules/notifications/notification.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { FileDownloadModule } from '../modules/files/file-download/file-download
     RabbitmqModule,
     FileUploadModule,
     FileDownloadModule,
+    NotificationModule,
   ],
 })
 export class CoreModule {}

@@ -31,6 +31,10 @@ export class AiUploadService {
     user: User, 
     file: Upload,
   ): Promise<{ operations: ExtractedOperation[] }> {
+    let estimatedTokens = 0;
+    let actualTokens = 0;
+    let operationsCreated = 0;
+
     try {      
       const buffer = await streamToBuffer(file.createReadStream());
       const categories = await this.getUserCategories(user.id);
@@ -38,19 +42,31 @@ export class AiUploadService {
       const filePart = createFilePart(buffer, file.mimetype);
       const prompt = buildOptimizedPrompt(categories);
 
+      // Получаем оценку токенов перед запросом
+      try {
+        const countResponse = await this.genAI.models.countTokens({
+          model: this.modelName,
+          contents: [filePart, prompt],
+        });
+        estimatedTokens = countResponse.totalTokens * 5; // Умножаем на 5 как в aiFileTokenCount
+      } catch (countError) {
+        this.logger.warn(`Failed to count tokens: ${countError.message}`);
+        // Продолжаем без оценки токенов
+      }
+
       const response = await this.genAI.models.generateContent({
         model: this.modelName,
         contents: [filePart, prompt],
       });
       
       const rawResult = response.text;
+      actualTokens = response.usageMetadata?.totalTokenCount || 0;
 
-      // TODO: use only for debug
-      // console.log(`Usage: ${response.usageMetadata}`);
-      // this.logger.debug(`AI Response: ${rawResult}`);
-       
+      this.logger.debug(`AI Response: ${rawResult}`);
+      this.logger.debug(`Token usage - Estimated: ${estimatedTokens}, Actual: ${actualTokens}`);
 
       const extractedOperations = parseToonResponse(rawResult);
+      operationsCreated = extractedOperations.length;
 
       const refinedOperations = extractedOperations.map(op => {
         if (op.description && op.type !== 'TRANSFER') {
@@ -66,15 +82,40 @@ export class AiUploadService {
         return op;
       });
 
+      // Логируем успешное использование токенов
+      await this.logTokenUsage({
+        userId: user.id,
+        estimatedTokens,
+        actualTokens,
+        operationsCreated,
+        fileType: file.mimetype,
+        status: 'SUCCESS',
+      });
+
       return {
         operations: refinedOperations,
       };
     } catch (error) {
-      this.logger.error(`Error processing file: ${error.message}`, error.stack);
+      const errorMessage = error.message || 'Failed to process uploaded file.';
+      this.logger.error(`Error processing file: ${errorMessage}`, error.stack);
+
+      // Логируем неудачное использование токенов
+      await this.logTokenUsage({
+        userId: user.id,
+        estimatedTokens,
+        actualTokens,
+        operationsCreated,
+        fileType: file.mimetype,
+        status: 'FAILED',
+        error: errorMessage,
+      }).catch((logError) => {
+        this.logger.error(`Failed to log token usage: ${logError.message}`);
+      });
+
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new BadRequestException(error.message || 'Failed to process uploaded file.');
+      throw new BadRequestException(errorMessage);
     }
   }
 
@@ -95,7 +136,7 @@ export class AiUploadService {
       });
 
       return {
-        tokenCount: countResponse.totalTokens,
+        tokenCount: countResponse.totalTokens * 5,
       };
     } catch (error) {
       this.logger.error(`Error counting tokens: ${error.message}`, error.stack);
@@ -143,5 +184,32 @@ export class AiUploadService {
       throw new BadRequestException('No categories found.');
     }
     return categories;
+  }
+
+  private async logTokenUsage(data: {
+    userId: string;
+    estimatedTokens: number;
+    actualTokens: number;
+    operationsCreated: number;
+    fileType: string | null;
+    status: 'SUCCESS' | 'FAILED';
+    error?: string;
+  }) {
+    try {
+      await this.prismaService.aiTokenUsage.create({
+        data: {
+          userId: data.userId,
+          estimatedTokens: data.estimatedTokens,
+          actualTokens: data.actualTokens,
+          operationsCreated: data.operationsCreated,
+          fileType: data.fileType,
+          status: data.status,
+          error: data.error,
+        },
+      });
+    } catch (error) {
+      this.logger.error(`Failed to log AI token usage: ${error.message}`, error.stack);
+      // Не пробрасываем ошибку, чтобы не сломать основной процесс
+    }
   }
 }

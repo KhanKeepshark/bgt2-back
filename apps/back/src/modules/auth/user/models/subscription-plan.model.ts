@@ -27,7 +27,35 @@ export class SubscriptionPlanModel implements SubscriptionPlan {
   @Field(() => Number, { nullable: true })
   durationDays: number | null;
 
-  features: any;
+  @Field(() => Number, { nullable: true })
+  maxOperations: number | null;
+
+  @Field(() => Number, { nullable: true })
+  maxCategories: number | null;
+
+  @Field(() => Number, { nullable: true })
+  maxAccounts: number | null;
+
+  @Field(() => Number, { nullable: true })
+  maxTags: number | null;
+
+  @Field(() => Number, { nullable: true })
+  maxRecurrenceConfigs: number | null;
+
+  @Field(() => Number, { nullable: true })
+  maxOperationsPerMonth: number | null;
+
+  @Field(() => Number, { nullable: true })
+  maxCategoryKeywordsPerCategory: number | null;
+
+  @Field(() => Boolean)
+  canUseAiOperations: boolean;
+
+  @Field(() => Boolean)
+  canExportData: boolean;
+
+  @Field(() => Boolean)
+  canUseRecurring: boolean;
 
   @Field(() => Boolean)
   isActive: boolean;

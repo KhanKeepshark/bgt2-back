@@ -9,6 +9,7 @@ type AccountModel {
   icon: String!
   iconColor: String!
   id: ID!
+  initialBalance: String!
   name: String!
   updatedAt: DateTime!
   userId: String!
@@ -32,6 +33,10 @@ type AveragesDataModel {
   monthAverage: String
   weekAverage: String
   yearAverage: String
+}
+
+input BooleanFilter {
+  equals: Boolean
 }
 
 type Categories {
@@ -91,6 +96,13 @@ input CreateCategoryKeywordInput {
   phrase: String!
 }
 
+input CreateNotificationInput {
+  buttonText: String!
+  description: String!
+  link: String
+  title: String!
+}
+
 input CreateOperationInput {
   accountId: String!
   amount: String!
@@ -111,6 +123,14 @@ input CreateTagInput {
 input CreateUserInput {
   email: String!
   password: String!
+}
+
+input DateFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  lt: DateTime
+  lte: DateTime
 }
 
 """
@@ -168,6 +188,15 @@ type IncomeExpenseDataModel {
   groupSize: Float!
 }
 
+input IntFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [IntFilter!]
+  lt: Float
+  lte: Float
+}
+
 type LocationModel {
   city: String!
   country: String!
@@ -189,12 +218,14 @@ type Mutation {
   createCategory(input: CreateCategoryInput!): CategoryModel!
   createCategoryKeyword(input: CreateCategoryKeywordInput!): CategoryKeywordModel!
   createExtractedOperations(accountId: String!, operations: [ExtractedOperationInput!]!): [OperationModel!]!
+  createNotification(input: CreateNotificationInput!): NotificationModel!
   createOperation(input: CreateOperationInput!): OperationModel!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
   deleteCategory(id: String!): Boolean!
   deleteCategoryKeyword(id: String!): Boolean!
+  deleteNotification(id: String!): Boolean!
   deleteOperation(id: String!): Boolean!
   deleteRecurrence(id: String!): Boolean!
   deleteTag(id: String!): Boolean!
@@ -203,6 +234,8 @@ type Mutation {
   exportOperationsToExcel(filter: OperationsExportFilterInput): FileDownloadModel!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
+  markAllNotificationsAsRead: Boolean!
+  markNotificationAsRead(id: String!): NotificationModel!
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
   removeSession(id: String!): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
@@ -212,6 +245,25 @@ type Mutation {
   updateRecurrence(input: UpdateRecurrenceInput!): RecurrenceConfigModel!
   updateTag(input: UpdateTagInput!): TagModel!
   verifyAccount(input: VerificationInput!): AuthModel!
+}
+
+type NotificationModel {
+  buttonText: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  isRead: Boolean!
+  link: String
+  scope: NotificationScope!
+  title: String!
+  updatedAt: DateTime!
+  userId: String
+}
+
+"""Scope of notification (GLOBAL or USER)"""
+enum NotificationScope {
+  GLOBAL
+  USER
 }
 
 type OperationChartDataModel {
@@ -276,6 +328,11 @@ input OperationsExportFilterInput {
   dateTo: DateTime
 }
 
+type PaginatedUsersModel {
+  items: [UserModel!]!
+  total: Int!
+}
+
 type Query {
   findAllAccounts: [AccountModel!]!
   findAllCategories: [CategoryModel!]!
@@ -284,16 +341,19 @@ type Query {
   findAllOperationsSortedByDays(filter: OperationFilterInput): [OperationDayGroupModel!]!
   findAllRecurrences: [RecurrenceConfigModel!]!
   findAllTags: [TagModel!]!
-  findAllUsers: [UserModel!]!
+  findAllUserNotifications: [NotificationModel!]!
+  findAllUsers(items: Int, orderBy: UserOrderByInput, page: Int, where: UserWhereInput): PaginatedUsersModel!
   findCategoriesByType(type: String!): [CategoryModel!]!
   findCurrentSession: SessionModel!
   findOneAccount(id: String!): AccountModel!
   findOneCategory(id: String!): CategoryModel!
+  findOneNotification(id: String!): NotificationModel!
   findOneOperation(id: String!): OperationModel!
   findOneRecurrence(id: String!): RecurrenceConfigModel!
   findOneTag(id: String!): TagModel!
   findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
+  findUnreadNotifications: [NotificationModel!]!
   generateTotpSecret: TotpModel!
 }
 
@@ -345,7 +405,25 @@ type SessionModel {
   userId: String!
 }
 
+enum SortOrder {
+  asc
+  desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  in: [String!]
+  mode: String
+  notIn: [String!]
+  startsWith: String
+}
+
 type SubscriptionPlanModel {
+  canExportData: Boolean!
+  canUseAiOperations: Boolean!
+  canUseRecurring: Boolean!
   createdAt: DateTime!
   currency: String!
   description: String
@@ -353,6 +431,13 @@ type SubscriptionPlanModel {
   id: ID!
   isActive: Boolean!
   isDefault: Boolean!
+  maxAccounts: Float
+  maxCategories: Float
+  maxCategoryKeywordsPerCategory: Float
+  maxOperations: Float
+  maxOperationsPerMonth: Float
+  maxRecurrenceConfigs: Float
+  maxTags: Float
   name: String!
   price: String
   tokensOnPurchase: Float!
@@ -444,6 +529,7 @@ type UserModel {
   loginCount: Float!
   name: String!
   password: String!
+  readGlobalNotificationIds: [String!]!
   role: String!
   subscriptionExpiresAt: DateTime
   subscriptionPlan: SubscriptionPlanModel!
@@ -453,6 +539,31 @@ type UserModel {
   tokensBalance: Float!
   totpSecret: String
   updatedAt: DateTime!
+}
+
+input UserOrderByInput {
+  createdAt: SortOrder
+  email: SortOrder
+  lastLoginAt: SortOrder
+  loginCount: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  createdAt: DateFilter
+  email: StringFilter
+  id: StringFilter
+  isActive: BooleanFilter
+  isEmailVerified: BooleanFilter
+  lastLoginAt: DateFilter
+  loginCount: IntFilter
+  name: StringFilter
+  role: StringFilter
+  updatedAt: DateFilter
 }
 
 input VerificationInput {

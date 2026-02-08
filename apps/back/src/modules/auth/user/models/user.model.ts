@@ -61,6 +61,9 @@ export class UserModel implements User {
   @Field(() => String)
   role: 'USER' | 'ADMIN';
 
+  @Field(() => [String])
+  readGlobalNotificationIds: string[];
+
   @Field(() => SubscriptionPlanModel)
   subscriptionPlan: SubscriptionPlanModel;
 
