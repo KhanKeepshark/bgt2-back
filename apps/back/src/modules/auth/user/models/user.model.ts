@@ -3,7 +3,8 @@ import type { User } from '@prisma/generated';
 import { AccountModel } from '../../../accounts/account/models/account.model';
 import { TagModel } from '../../../accounts/tag/model/tag.model';
 import { CategoryModel } from '../../../accounts/category/models/category.model';
-import { SubscriptionPlanModel } from './subscription-plan.model';
+import { SubscriptionPlanModel } from '../../../subscription-plan/models/subscription-plan.model';
+import { AiTokenUsageModel } from '../../../files/ai-upload/models/ai-token-usage.model';
 
 @ObjectType()
 export class UserModel implements User {
@@ -75,4 +76,7 @@ export class UserModel implements User {
 
   @Field(() => [CategoryModel], { nullable: true })
   categories?: CategoryModel[];
+
+  @Field(() => [AiTokenUsageModel], { nullable: true })
+  aiTokenUsages?: AiTokenUsageModel[];
 }

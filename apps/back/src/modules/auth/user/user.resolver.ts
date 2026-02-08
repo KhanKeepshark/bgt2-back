@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { UserModel } from './models/user.model';
 import { PaginatedUsersModel } from './models/paginated-users.model';
 import { CreateUserInput } from './inputs/create-user.input';
+import { UpdateUserInput } from './inputs/update-user.input';
 import { UserWhereInput } from './inputs/user-where.input';
 import { UserOrderByInput } from './inputs/user-order-by.input';
 import { AdminOnly, Authorization } from '@back/shared/decorators/auth.decorator';
@@ -34,5 +35,23 @@ export class UserResolver {
   @Mutation(() => Boolean, { name: 'createUser' })
   public async create(@Args('data') input: CreateUserInput) {
     return this.userService.create(input);
+  }
+
+  @Query(() => UserModel, { name: 'findUser' })
+  @AdminOnly()
+  public async findOne(@Args('id') id: string) {
+    return this.userService.findOne(id);
+  }
+
+  @Mutation(() => UserModel, { name: 'updateUser' })
+  @AdminOnly()
+  public async update(@Args('data') input: UpdateUserInput) {
+    return this.userService.update(input);
+  }
+
+  @Mutation(() => UserModel, { name: 'removeUser' })
+  @AdminOnly()
+  public async remove(@Args('id') id: string) {
+    return this.userService.remove(id);
   }
 }

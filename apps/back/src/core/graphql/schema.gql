@@ -19,8 +19,25 @@ type AiCountModel {
   tokenCount: Float!
 }
 
+type AiTokenUsageModel {
+  actualTokens: Float!
+  createdAt: DateTime!
+  error: String
+  estimatedTokens: Float!
+  fileType: String
+  id: ID!
+  operationsCreated: Float!
+  status: AiUsageStatus!
+  userId: String!
+}
+
 type AiUploadResultModel {
   operations: [ExtractedOperationModel!]!
+}
+
+enum AiUsageStatus {
+  FAILED
+  SUCCESS
 }
 
 type AuthModel {
@@ -113,6 +130,27 @@ input CreateOperationInput {
   tags: [String!]
   transferAccountId: String
   type: OperationType!
+}
+
+input CreateSubscriptionPlanInput {
+  canExportData: Boolean! = false
+  canUseAiOperations: Boolean! = false
+  canUseRecurring: Boolean! = false
+  currency: String! = "USD"
+  description: String
+  durationDays: Int
+  isActive: Boolean! = true
+  maxAccounts: Int
+  maxCategories: Int
+  maxCategoryKeywordsPerCategory: Int
+  maxOperations: Int
+  maxOperationsPerMonth: Int
+  maxRecurrenceConfigs: Int
+  maxTags: Int
+  name: String!
+  price: String
+  tokensOnPurchase: Int! = 0
+  tokensPerMonth: Int
 }
 
 input CreateTagInput {
@@ -220,6 +258,7 @@ type Mutation {
   createExtractedOperations(accountId: String!, operations: [ExtractedOperationInput!]!): [OperationModel!]!
   createNotification(input: CreateNotificationInput!): NotificationModel!
   createOperation(input: CreateOperationInput!): OperationModel!
+  createSubscriptionPlan(data: CreateSubscriptionPlanInput!): SubscriptionPlanModel!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
@@ -238,12 +277,16 @@ type Mutation {
   markNotificationAsRead(id: String!): NotificationModel!
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
   removeSession(id: String!): Boolean!
+  removeSubscriptionPlan(id: String!): SubscriptionPlanModel!
+  removeUser(id: String!): UserModel!
   updateAccount(input: UpdateAccountInput!): AccountModel!
   updateCategory(input: UpdateCategoryInput!): CategoryModel!
   updateCategoryKeyword(input: UpdateCategoryKeywordInput!): CategoryKeywordModel!
   updateOperation(input: UpdateOperationInput!): OperationModel!
   updateRecurrence(input: UpdateRecurrenceInput!): RecurrenceConfigModel!
+  updateSubscriptionPlan(data: UpdateSubscriptionPlanInput!): SubscriptionPlanModel!
   updateTag(input: UpdateTagInput!): TagModel!
+  updateUser(data: UpdateUserInput!): UserModel!
   verifyAccount(input: VerificationInput!): AuthModel!
 }
 
@@ -340,6 +383,7 @@ type Query {
   findAllOperationsForCharts(filter: OperationChartsFilterInput): OperationChartDataModel!
   findAllOperationsSortedByDays(filter: OperationFilterInput): [OperationDayGroupModel!]!
   findAllRecurrences: [RecurrenceConfigModel!]!
+  findAllSubscriptionPlans: [SubscriptionPlanModel!]!
   findAllTags: [TagModel!]!
   findAllUserNotifications: [NotificationModel!]!
   findAllUsers(items: Int, orderBy: UserOrderByInput, page: Int, where: UserWhereInput): PaginatedUsersModel!
@@ -353,7 +397,9 @@ type Query {
   findOneTag(id: String!): TagModel!
   findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
+  findSubscriptionPlan(id: String!): SubscriptionPlanModel!
   findUnreadNotifications: [NotificationModel!]!
+  findUser(id: String!): UserModel!
   generateTotpSecret: TotpModel!
 }
 
@@ -430,7 +476,6 @@ type SubscriptionPlanModel {
   durationDays: Float
   id: ID!
   isActive: Boolean!
-  isDefault: Boolean!
   maxAccounts: Float
   maxCategories: Float
   maxCategoryKeywordsPerCategory: Float
@@ -506,10 +551,41 @@ input UpdateRecurrenceInput {
   transferAccountId: String
 }
 
+input UpdateSubscriptionPlanInput {
+  canExportData: Boolean = false
+  canUseAiOperations: Boolean = false
+  canUseRecurring: Boolean = false
+  currency: String = "USD"
+  description: String
+  durationDays: Int
+  id: String!
+  isActive: Boolean = true
+  maxAccounts: Int
+  maxCategories: Int
+  maxCategoryKeywordsPerCategory: Int
+  maxOperations: Int
+  maxOperationsPerMonth: Int
+  maxRecurrenceConfigs: Int
+  maxTags: Int
+  name: String
+  price: String
+  tokensOnPurchase: Int = 0
+  tokensPerMonth: Int
+}
+
 input UpdateTagInput {
   color: String
   id: String!
   name: String
+}
+
+input UpdateUserInput {
+  email: String
+  id: String!
+  isActive: Boolean
+  password: String
+  role: String
+  tokensBalance: Float
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -517,6 +593,7 @@ scalar Upload
 
 type UserModel {
   accounts: [AccountModel!]
+  aiTokenUsages: [AiTokenUsageModel!]
   categories: [CategoryModel!]
   createdAt: DateTime!
   defaultAccountId: String

@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserInput } from './inputs/create-user.input';
+import { UpdateUserInput } from './inputs/update-user.input';
 import { UserWhereInput } from './inputs/user-where.input';
 import { UserOrderByInput } from './inputs/user-order-by.input';
 import { hash } from 'argon2';
@@ -117,5 +118,47 @@ export class UserService {
     // await this.verificationService.sendVerificationEmail(user);
 
     return true;
+  }
+
+  public async findOne(id: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      include: {
+        subscriptionPlan: true,
+        accounts: true,
+        categories: true,
+        aiTokenUsages: {
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    return user;
+  }
+
+  public async update(input: UpdateUserInput) {
+    const { id, ...data } = input;
+
+    if (data.password) {
+      data.password = await hash(data.password);
+    }
+
+    return this.prismaService.user.update({
+      where: { id },
+      data,
+      include: {
+        subscriptionPlan: true,
+      },
+    });
+  }
+
+  public async remove(id: string) {
+    return this.prismaService.user.delete({
+      where: { id },
+    });
   }
 }

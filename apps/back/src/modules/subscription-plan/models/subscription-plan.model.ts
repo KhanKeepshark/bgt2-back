@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Decimal } from '@prisma/client/runtime/library';
 import type { SubscriptionPlan, User } from '@prisma/generated';
 
 @ObjectType()
@@ -19,7 +20,7 @@ export class SubscriptionPlanModel implements SubscriptionPlan {
   tokensOnPurchase: number;
 
   @Field(() => String, { nullable: true })
-  price: any;
+  price: Decimal | null;
 
   @Field(() => String)
   currency: string;
@@ -59,9 +60,6 @@ export class SubscriptionPlanModel implements SubscriptionPlan {
 
   @Field(() => Boolean)
   isActive: boolean;
-
-  @Field(() => Boolean)
-  isDefault: boolean;
 
   users?: User[];
 
