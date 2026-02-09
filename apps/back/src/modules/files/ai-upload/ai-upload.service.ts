@@ -51,7 +51,20 @@ export class AiUploadService {
         estimatedTokens = countResponse.totalTokens * 5; // Умножаем на 5 как в aiFileTokenCount
       } catch (countError) {
         this.logger.warn(`Failed to count tokens: ${countError.message}`);
-        // Продолжаем без оценки токенов
+        // Продолжаем без оценки токенов, но установим дефолтное значение для проверки баланса
+        estimatedTokens = 100000; 
+      }
+
+      // Проверяем баланс пользователя
+      const freshUser = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        select: { tokensBalance: true },
+      });
+
+      if (!freshUser || freshUser.tokensBalance < estimatedTokens) {
+        throw new BadRequestException(
+          `Insufficient tokens. Required: ~${estimatedTokens}, Available: ${freshUser?.tokensBalance || 0}`,
+        );
       }
 
       const response = await this.genAI.models.generateContent({
@@ -61,6 +74,16 @@ export class AiUploadService {
       
       const rawResult = response.text;
       actualTokens = response.usageMetadata?.totalTokenCount || 0;
+
+      // Списываем токены
+      await this.prismaService.user.update({
+        where: { id: user.id },
+        data: {
+          tokensBalance: {
+            decrement: actualTokens,
+          },
+        },
+      });
 
       this.logger.debug(`AI Response: ${rawResult}`);
       this.logger.debug(`Token usage - Estimated: ${estimatedTokens}, Actual: ${actualTokens}`);

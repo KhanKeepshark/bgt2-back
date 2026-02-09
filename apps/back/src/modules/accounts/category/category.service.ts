@@ -28,6 +28,20 @@ export class CategoryService {
         throw new BadRequestException('Category with this name already exists');
       }
 
+      // Проверка лимитов плана
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true, _count: { select: { categories: true } } },
+      });
+
+      if (userWithPlan?.subscriptionPlan?.maxCategories !== null) {
+        if (userWithPlan._count.categories >= userWithPlan.subscriptionPlan.maxCategories) {
+          throw new BadRequestException(
+            `Plan limit reached. Max categories: ${userWithPlan.subscriptionPlan.maxCategories}`,
+          );
+        }
+      }
+
       if (input.parentId) {
         const parentCategory = await this.prismaService.category.findFirst({
           where: { id: input.parentId, userId: user.id },

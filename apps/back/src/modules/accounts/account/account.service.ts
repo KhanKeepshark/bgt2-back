@@ -22,6 +22,20 @@ export class AccountService {
         throw new BadRequestException('Account with this name already exists');
       }
 
+      // Проверка лимитов плана
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true, _count: { select: { accounts: true } } },
+      });
+
+      if (userWithPlan?.subscriptionPlan?.maxAccounts !== null) {
+        if (userWithPlan._count.accounts >= userWithPlan.subscriptionPlan.maxAccounts) {
+          throw new BadRequestException(
+            `Plan limit reached. Max accounts: ${userWithPlan.subscriptionPlan.maxAccounts}`,
+          );
+        }
+      }
+
       const initialBalance =  input.balance ?? '0';
 
       const created = await this.prismaService.account.create({

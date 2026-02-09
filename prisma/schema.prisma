@@ -87,6 +87,7 @@ model SubscriptionPlan {
   
   // Статус
   isActive      Boolean  @default(true)
+  isDefaultOnExpiration Boolean @default(false)
   
   // Связи
   users         User[]

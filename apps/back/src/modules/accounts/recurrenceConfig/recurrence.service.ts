@@ -23,6 +23,27 @@ export class RecurrenceService {
     user: User,
   ): Promise<Operation> {
     try {
+      // Проверка лимитов плана
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true, _count: { select: { recurrenceConfigs: true } } },
+      });
+
+      if (userWithPlan?.subscriptionPlan) {
+        if (!userWithPlan.subscriptionPlan.canUseRecurring) {
+          throw new BadRequestException('Your plan does not support recurring operations');
+        }
+
+        if (
+          userWithPlan.subscriptionPlan.maxRecurrenceConfigs !== null &&
+          userWithPlan._count.recurrenceConfigs >= userWithPlan.subscriptionPlan.maxRecurrenceConfigs
+        ) {
+          throw new BadRequestException(
+            `Plan limit reached. Max recurring operations: ${userWithPlan.subscriptionPlan.maxRecurrenceConfigs}`,
+          );
+        }
+      }
+
       const account = await this.prismaService.account.findFirst({
         where: { id: input.accountId, userId: user.id },
       });

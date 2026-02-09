@@ -86,7 +86,8 @@ model SubscriptionPlan {
   canUseRecurring    Boolean @default(false) // Повторяющиеся операции
 
   // Статус
-  isActive Boolean @default(true)
+  isActive              Boolean @default(true)
+  isDefaultOnExpiration Boolean @default(false)
 
   // Связи
   users User[]

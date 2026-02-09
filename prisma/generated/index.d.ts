@@ -3836,6 +3836,7 @@ export namespace Prisma {
     canExportData: boolean | null
     canUseRecurring: boolean | null
     isActive: boolean | null
+    isDefaultOnExpiration: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3860,6 +3861,7 @@ export namespace Prisma {
     canExportData: boolean | null
     canUseRecurring: boolean | null
     isActive: boolean | null
+    isDefaultOnExpiration: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3884,6 +3886,7 @@ export namespace Prisma {
     canExportData: number
     canUseRecurring: number
     isActive: number
+    isDefaultOnExpiration: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3938,6 +3941,7 @@ export namespace Prisma {
     canExportData?: true
     canUseRecurring?: true
     isActive?: true
+    isDefaultOnExpiration?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3962,6 +3966,7 @@ export namespace Prisma {
     canExportData?: true
     canUseRecurring?: true
     isActive?: true
+    isDefaultOnExpiration?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3986,6 +3991,7 @@ export namespace Prisma {
     canExportData?: true
     canUseRecurring?: true
     isActive?: true
+    isDefaultOnExpiration?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4097,6 +4103,7 @@ export namespace Prisma {
     canExportData: boolean
     canUseRecurring: boolean
     isActive: boolean
+    isDefaultOnExpiration: boolean
     createdAt: Date
     updatedAt: Date
     _count: SubscriptionPlanCountAggregateOutputType | null
@@ -4140,6 +4147,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     users?: boolean | SubscriptionPlan$usersArgs<ExtArgs>
@@ -4166,6 +4174,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["subscriptionPlan"]>
@@ -4190,6 +4199,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["subscriptionPlan"]>
@@ -4214,11 +4224,12 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SubscriptionPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "tokensPerMonth" | "tokensOnPurchase" | "maxOperations" | "maxCategories" | "maxAccounts" | "maxTags" | "maxRecurrenceConfigs" | "maxOperationsPerMonth" | "maxCategoryKeywordsPerCategory" | "price" | "currency" | "durationDays" | "canUseAiOperations" | "canExportData" | "canUseRecurring" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["subscriptionPlan"]>
+  export type SubscriptionPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "tokensPerMonth" | "tokensOnPurchase" | "maxOperations" | "maxCategories" | "maxAccounts" | "maxTags" | "maxRecurrenceConfigs" | "maxOperationsPerMonth" | "maxCategoryKeywordsPerCategory" | "price" | "currency" | "durationDays" | "canUseAiOperations" | "canExportData" | "canUseRecurring" | "isActive" | "isDefaultOnExpiration" | "createdAt" | "updatedAt", ExtArgs["result"]["subscriptionPlan"]>
   export type SubscriptionPlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | SubscriptionPlan$usersArgs<ExtArgs>
     _count?: boolean | SubscriptionPlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -4251,6 +4262,7 @@ export namespace Prisma {
       canExportData: boolean
       canUseRecurring: boolean
       isActive: boolean
+      isDefaultOnExpiration: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["subscriptionPlan"]>
@@ -4696,6 +4708,7 @@ export namespace Prisma {
     readonly canExportData: FieldRef<"SubscriptionPlan", 'Boolean'>
     readonly canUseRecurring: FieldRef<"SubscriptionPlan", 'Boolean'>
     readonly isActive: FieldRef<"SubscriptionPlan", 'Boolean'>
+    readonly isDefaultOnExpiration: FieldRef<"SubscriptionPlan", 'Boolean'>
     readonly createdAt: FieldRef<"SubscriptionPlan", 'DateTime'>
     readonly updatedAt: FieldRef<"SubscriptionPlan", 'DateTime'>
   }
@@ -15944,6 +15957,7 @@ export namespace Prisma {
     canExportData: 'canExportData',
     canUseRecurring: 'canUseRecurring',
     isActive: 'isActive',
+    isDefaultOnExpiration: 'isDefaultOnExpiration',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16475,6 +16489,7 @@ export namespace Prisma {
     canExportData?: BoolFilter<"SubscriptionPlan"> | boolean
     canUseRecurring?: BoolFilter<"SubscriptionPlan"> | boolean
     isActive?: BoolFilter<"SubscriptionPlan"> | boolean
+    isDefaultOnExpiration?: BoolFilter<"SubscriptionPlan"> | boolean
     createdAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
     updatedAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
     users?: UserListRelationFilter
@@ -16500,6 +16515,7 @@ export namespace Prisma {
     canExportData?: SortOrder
     canUseRecurring?: SortOrder
     isActive?: SortOrder
+    isDefaultOnExpiration?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
@@ -16528,6 +16544,7 @@ export namespace Prisma {
     canExportData?: BoolFilter<"SubscriptionPlan"> | boolean
     canUseRecurring?: BoolFilter<"SubscriptionPlan"> | boolean
     isActive?: BoolFilter<"SubscriptionPlan"> | boolean
+    isDefaultOnExpiration?: BoolFilter<"SubscriptionPlan"> | boolean
     createdAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
     updatedAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
     users?: UserListRelationFilter
@@ -16553,6 +16570,7 @@ export namespace Prisma {
     canExportData?: SortOrder
     canUseRecurring?: SortOrder
     isActive?: SortOrder
+    isDefaultOnExpiration?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SubscriptionPlanCountOrderByAggregateInput
@@ -16585,6 +16603,7 @@ export namespace Prisma {
     canExportData?: BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
     canUseRecurring?: BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
     isActive?: BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
+    isDefaultOnExpiration?: BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
   }
@@ -17557,6 +17576,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutSubscriptionPlanInput
@@ -17582,6 +17602,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutSubscriptionPlanInput
@@ -17607,6 +17628,7 @@ export namespace Prisma {
     canExportData?: BoolFieldUpdateOperationsInput | boolean
     canUseRecurring?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDefaultOnExpiration?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutSubscriptionPlanNestedInput
@@ -17632,6 +17654,7 @@ export namespace Prisma {
     canExportData?: BoolFieldUpdateOperationsInput | boolean
     canUseRecurring?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDefaultOnExpiration?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutSubscriptionPlanNestedInput
@@ -17657,6 +17680,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17681,6 +17705,7 @@ export namespace Prisma {
     canExportData?: BoolFieldUpdateOperationsInput | boolean
     canUseRecurring?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDefaultOnExpiration?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17705,6 +17730,7 @@ export namespace Prisma {
     canExportData?: BoolFieldUpdateOperationsInput | boolean
     canUseRecurring?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDefaultOnExpiration?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18921,6 +18947,7 @@ export namespace Prisma {
     canExportData?: SortOrder
     canUseRecurring?: SortOrder
     isActive?: SortOrder
+    isDefaultOnExpiration?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18959,6 +18986,7 @@ export namespace Prisma {
     canExportData?: SortOrder
     canUseRecurring?: SortOrder
     isActive?: SortOrder
+    isDefaultOnExpiration?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18983,6 +19011,7 @@ export namespace Prisma {
     canExportData?: SortOrder
     canUseRecurring?: SortOrder
     isActive?: SortOrder
+    isDefaultOnExpiration?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -21332,6 +21361,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21356,6 +21386,7 @@ export namespace Prisma {
     canExportData?: boolean
     canUseRecurring?: boolean
     isActive?: boolean
+    isDefaultOnExpiration?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21757,6 +21788,7 @@ export namespace Prisma {
     canExportData?: BoolFieldUpdateOperationsInput | boolean
     canUseRecurring?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDefaultOnExpiration?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21781,6 +21813,7 @@ export namespace Prisma {
     canExportData?: BoolFieldUpdateOperationsInput | boolean
     canUseRecurring?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isDefaultOnExpiration?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

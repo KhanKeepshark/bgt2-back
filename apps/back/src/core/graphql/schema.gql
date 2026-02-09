@@ -140,6 +140,7 @@ input CreateSubscriptionPlanInput {
   description: String
   durationDays: Int
   isActive: Boolean! = true
+  isDefaultOnExpiration: Boolean! = false
   maxAccounts: Int
   maxCategories: Int
   maxCategoryKeywordsPerCategory: Int
@@ -476,6 +477,7 @@ type SubscriptionPlanModel {
   durationDays: Float
   id: ID!
   isActive: Boolean!
+  isDefaultOnExpiration: Boolean!
   maxAccounts: Float
   maxCategories: Float
   maxCategoryKeywordsPerCategory: Float
@@ -560,6 +562,7 @@ input UpdateSubscriptionPlanInput {
   durationDays: Int
   id: String!
   isActive: Boolean = true
+  isDefaultOnExpiration: Boolean = false
   maxAccounts: Int
   maxCategories: Int
   maxCategoryKeywordsPerCategory: Int

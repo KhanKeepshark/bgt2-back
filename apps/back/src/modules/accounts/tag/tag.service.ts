@@ -22,6 +22,20 @@ export class TagService {
         throw new BadRequestException('Tag with this name already exists');
       }
 
+      // Проверка лимитов плана
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true, _count: { select: { tags: true } } },
+      });
+
+      if (userWithPlan?.subscriptionPlan?.maxTags !== null) {
+        if (userWithPlan._count.tags >= userWithPlan.subscriptionPlan.maxTags) {
+          throw new BadRequestException(
+            `Plan limit reached. Max tags: ${userWithPlan.subscriptionPlan.maxTags}`,
+          );
+        }
+      }
+
       const created = await this.prismaService.tag.create({
         data: { ...input, user: { connect: { id: user.id } } },
       });

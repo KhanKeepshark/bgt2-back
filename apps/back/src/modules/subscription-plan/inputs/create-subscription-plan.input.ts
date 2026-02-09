@@ -55,4 +55,7 @@ export class CreateSubscriptionPlanInput {
 
   @Field(() => Boolean, { defaultValue: true })
   isActive: boolean;
+
+  @Field(() => Boolean, { defaultValue: false })
+  isDefaultOnExpiration: boolean;
 }

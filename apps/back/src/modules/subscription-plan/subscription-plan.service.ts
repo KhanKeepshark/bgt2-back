@@ -36,6 +36,13 @@ export class SubscriptionPlanService {
       throw new ConflictException(`Subscription plan with name "${input.name}" already exists`);
     }
 
+    if (input.isDefaultOnExpiration) {
+      await this.prismaService.subscriptionPlan.updateMany({
+        where: { isDefaultOnExpiration: true },
+        data: { isDefaultOnExpiration: false },
+      });
+    }
+
     return this.prismaService.subscriptionPlan.create({
       data: input,
     });
@@ -53,6 +60,13 @@ export class SubscriptionPlanService {
       if (existing && existing.id !== id) {
         throw new ConflictException(`Subscription plan with name "${data.name}" already exists`);
       }
+    }
+
+    if (data.isDefaultOnExpiration) {
+      await this.prismaService.subscriptionPlan.updateMany({
+        where: { isDefaultOnExpiration: true, id: { not: id } },
+        data: { isDefaultOnExpiration: false },
+      });
     }
 
     return this.prismaService.subscriptionPlan.update({

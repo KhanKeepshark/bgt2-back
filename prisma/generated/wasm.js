@@ -159,6 +159,7 @@ exports.Prisma.SubscriptionPlanScalarFieldEnum = {
   canExportData: 'canExportData',
   canUseRecurring: 'canUseRecurring',
   isActive: 'isActive',
+  isDefaultOnExpiration: 'isDefaultOnExpiration',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

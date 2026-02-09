@@ -35,6 +35,44 @@ export class OperationService {
     user: User,
   ): Promise<Operation> {
     try {
+      // Проверка лимитов плана
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true, _count: { select: { operations: true } } },
+      });
+
+      if (userWithPlan?.subscriptionPlan) {
+        // 1. Общий лимит операций
+        if (
+          userWithPlan.subscriptionPlan.maxOperations !== null &&
+          userWithPlan._count.operations >= userWithPlan.subscriptionPlan.maxOperations
+        ) {
+          throw new BadRequestException(
+            `Plan limit reached. Max total operations: ${userWithPlan.subscriptionPlan.maxOperations}`,
+          );
+        }
+
+        // 2. Лимит операций в месяц
+        if (userWithPlan.subscriptionPlan.maxOperationsPerMonth !== null) {
+          const startOfMonth = new Date();
+          startOfMonth.setDate(1);
+          startOfMonth.setHours(0, 0, 0, 0);
+
+          const operationsThisMonth = await this.prismaService.operation.count({
+            where: {
+              userId: user.id,
+              date: { gte: startOfMonth },
+            },
+          });
+
+          if (operationsThisMonth >= userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
+            throw new BadRequestException(
+              `Plan limit reached. Max operations per month: ${userWithPlan.subscriptionPlan.maxOperationsPerMonth}`,
+            );
+          }
+        }
+      }
+
       if (input.recurrence) {
         return await this.recurrenceService.createRecurringOperation(
           input,

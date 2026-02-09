@@ -61,6 +61,9 @@ export class SubscriptionPlanModel implements SubscriptionPlan {
   @Field(() => Boolean)
   isActive: boolean;
 
+  @Field(() => Boolean)
+  isDefaultOnExpiration: boolean;
+
   users?: User[];
 
   @Field(() => Date)
