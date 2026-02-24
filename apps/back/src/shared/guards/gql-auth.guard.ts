@@ -28,6 +28,10 @@ export class GqlAuthGuard implements CanActivate {
       },
     });
 
+    if (!user) {
+      throw new UnauthorizedException('User not authorized');
+    }
+
     request.user = user;
 
     return true;

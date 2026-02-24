@@ -13,14 +13,25 @@ export class NotificationService {
 
   public async create(
     input: CreateNotificationInput,
-    user: User,
   ): Promise<Notification> {
     try {
+      const scope = input.scope ?? NotificationScope.USER;
+      const isGlobal = scope === NotificationScope.GLOBAL;
+
+      if (!isGlobal && !input.userId) {
+        throw new BadRequestException('userId is required for personal notifications');
+      }
+
       const created = await this.prismaService.notification.create({
         data: {
-          ...input,
-          scope: NotificationScope.USER,
-          user: { connect: { id: user.id } },
+          title: input.title,
+          description: input.description,
+          link: input.link,
+          buttonText: input.buttonText,
+          scope,
+          ...(isGlobal
+            ? { userId: null }
+            : { user: { connect: { id: input.userId } } }),
         },
       });
 
@@ -28,6 +39,20 @@ export class NotificationService {
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException('Failed to create notification');
+      }
+
+      throw error;
+    }
+  }
+
+  public async findAllAdmin(): Promise<Notification[]> {
+    try {
+      return this.prismaService.notification.findMany({
+        orderBy: { createdAt: 'desc' },
+      });
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException('Failed to find notifications');
       }
 
       throw error;

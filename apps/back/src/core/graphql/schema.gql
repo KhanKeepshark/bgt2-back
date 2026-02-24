@@ -117,7 +117,13 @@ input CreateNotificationInput {
   buttonText: String!
   description: String!
   link: String
+
+  """USER = personal, GLOBAL = for all users"""
+  scope: NotificationScope = USER
   title: String!
+
+  """Required when scope=USER, target user id"""
+  userId: String
 }
 
 input CreateOperationInput {
@@ -132,26 +138,12 @@ input CreateOperationInput {
   type: OperationType!
 }
 
-input CreateSubscriptionPlanInput {
-  canExportData: Boolean! = false
-  canUseAiOperations: Boolean! = false
-  canUseRecurring: Boolean! = false
+input CreateSubscriptionPriceInput {
   currency: String! = "USD"
-  description: String
   durationDays: Int
-  isActive: Boolean! = true
-  isDefaultOnExpiration: Boolean! = false
-  maxAccounts: Int
-  maxCategories: Int
-  maxCategoryKeywordsPerCategory: Int
-  maxOperations: Int
-  maxOperationsPerMonth: Int
-  maxRecurrenceConfigs: Int
-  maxTags: Int
+  id: String!
   name: String!
-  price: String
-  tokensOnPurchase: Int! = 0
-  tokensPerMonth: Int
+  price: String!
 }
 
 input CreateTagInput {
@@ -259,7 +251,6 @@ type Mutation {
   createExtractedOperations(accountId: String!, operations: [ExtractedOperationInput!]!): [OperationModel!]!
   createNotification(input: CreateNotificationInput!): NotificationModel!
   createOperation(input: CreateOperationInput!): OperationModel!
-  createSubscriptionPlan(data: CreateSubscriptionPlanInput!): SubscriptionPlanModel!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
@@ -278,7 +269,6 @@ type Mutation {
   markNotificationAsRead(id: String!): NotificationModel!
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
   removeSession(id: String!): Boolean!
-  removeSubscriptionPlan(id: String!): SubscriptionPlanModel!
   removeUser(id: String!): UserModel!
   updateAccount(input: UpdateAccountInput!): AccountModel!
   updateCategory(input: UpdateCategoryInput!): CategoryModel!
@@ -372,6 +362,11 @@ input OperationsExportFilterInput {
   dateTo: DateTime
 }
 
+type PaginatedSystemMetricsModel {
+  items: [SystemMetricModel!]!
+  total: Float!
+}
+
 type PaginatedUsersModel {
   items: [UserModel!]!
   total: Int!
@@ -379,12 +374,13 @@ type PaginatedUsersModel {
 
 type Query {
   findAllAccounts: [AccountModel!]!
+  findAllAdminNotifications: [NotificationModel!]!
   findAllCategories: [CategoryModel!]!
   findAllOperations: [OperationModel!]!
   findAllOperationsForCharts(filter: OperationChartsFilterInput): OperationChartDataModel!
   findAllOperationsSortedByDays(filter: OperationFilterInput): [OperationDayGroupModel!]!
   findAllRecurrences: [RecurrenceConfigModel!]!
-  findAllSubscriptionPlans: [SubscriptionPlanModel!]!
+  findAllSubscriptionPlans(type: SubscriptionType): [SubscriptionPlanModel!]!
   findAllTags: [TagModel!]!
   findAllUserNotifications: [NotificationModel!]!
   findAllUsers(items: Int, orderBy: UserOrderByInput, page: Int, where: UserWhereInput): PaginatedUsersModel!
@@ -402,6 +398,7 @@ type Query {
   findUnreadNotifications: [NotificationModel!]!
   findUser(id: String!): UserModel!
   generateTotpSecret: TotpModel!
+  systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
 }
 
 input RecurrenceConfigInput {
@@ -469,15 +466,11 @@ input StringFilter {
 
 type SubscriptionPlanModel {
   canExportData: Boolean!
-  canUseAiOperations: Boolean!
-  canUseRecurring: Boolean!
+  canUseAutoCategory: Boolean!
   createdAt: DateTime!
-  currency: String!
   description: String
-  durationDays: Float
   id: ID!
   isActive: Boolean!
-  isDefaultOnExpiration: Boolean!
   maxAccounts: Float
   maxCategories: Float
   maxCategoryKeywordsPerCategory: Float
@@ -485,11 +478,41 @@ type SubscriptionPlanModel {
   maxOperationsPerMonth: Float
   maxRecurrenceConfigs: Float
   maxTags: Float
-  name: String!
-  price: String
+  prices: [SubscriptionPriceModel!]
   tokensOnPurchase: Float!
   tokensPerMonth: Float
+  type: SubscriptionType!
   updatedAt: DateTime!
+}
+
+type SubscriptionPriceModel {
+  createdAt: DateTime!
+  currency: String!
+  durationDays: Int
+  id: ID!
+  name: String!
+  planId: String!
+  price: String!
+  updatedAt: DateTime!
+}
+
+enum SubscriptionType {
+  FREE
+  PREMIUM
+}
+
+type SystemMetricModel {
+  activeUsersDaily: Int!
+  activeUsersMonthly: Int!
+  aiTokensUsedDaily: Int!
+  createdAt: DateTime!
+  date: DateTime!
+  id: ID!
+  operationsCreatedDaily: Int!
+  totalAiTokensUsed: Int!
+  totalOperations: Int!
+  totalUsers: Int!
+  usersByPlan: [UsersByPlanItem!]!
 }
 
 type TagModel {
@@ -555,14 +578,10 @@ input UpdateRecurrenceInput {
 
 input UpdateSubscriptionPlanInput {
   canExportData: Boolean = false
-  canUseAiOperations: Boolean = false
-  canUseRecurring: Boolean = false
-  currency: String = "USD"
+  canUseAutoCategory: Boolean = false
   description: String
-  durationDays: Int
   id: String!
   isActive: Boolean = true
-  isDefaultOnExpiration: Boolean = false
   maxAccounts: Int
   maxCategories: Int
   maxCategoryKeywordsPerCategory: Int
@@ -570,10 +589,10 @@ input UpdateSubscriptionPlanInput {
   maxOperationsPerMonth: Int
   maxRecurrenceConfigs: Int
   maxTags: Int
-  name: String
-  price: String
+  prices: [CreateSubscriptionPriceInput!]
   tokensOnPurchase: Int = 0
   tokensPerMonth: Int
+  type: SubscriptionType
 }
 
 input UpdateTagInput {
@@ -586,8 +605,11 @@ input UpdateUserInput {
   email: String
   id: String!
   isActive: Boolean
+  isEmailVerified: Boolean
   password: String
   role: String
+  subscriptionPlanId: String
+  subscriptionPriceId: String
   tokensBalance: Float
 }
 
@@ -614,6 +636,8 @@ type UserModel {
   subscriptionExpiresAt: DateTime
   subscriptionPlan: SubscriptionPlanModel!
   subscriptionPlanId: String!
+  subscriptionPrice: SubscriptionPriceModel
+  subscriptionPriceId: String
   subscriptionStartedAt: DateTime!
   tags: [TagModel!]
   tokensBalance: Float!
@@ -644,6 +668,11 @@ input UserWhereInput {
   name: StringFilter
   role: StringFilter
   updatedAt: DateFilter
+}
+
+type UsersByPlanItem {
+  count: Int!
+  planName: String!
 }
 
 input VerificationInput {

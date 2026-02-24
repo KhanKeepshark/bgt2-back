@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   isActive: 'isActive',
   isEmailVerified: 'isEmailVerified',
   subscriptionPlanId: 'subscriptionPlanId',
+  subscriptionPriceId: 'subscriptionPriceId',
   subscriptionStartedAt: 'subscriptionStartedAt',
   subscriptionExpiresAt: 'subscriptionExpiresAt',
   isTotpEnabled: 'isTotpEnabled',
@@ -141,7 +142,7 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.SubscriptionPlanScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  type: 'type',
   description: 'description',
   tokensPerMonth: 'tokensPerMonth',
   tokensOnPurchase: 'tokensOnPurchase',
@@ -152,14 +153,20 @@ exports.Prisma.SubscriptionPlanScalarFieldEnum = {
   maxRecurrenceConfigs: 'maxRecurrenceConfigs',
   maxOperationsPerMonth: 'maxOperationsPerMonth',
   maxCategoryKeywordsPerCategory: 'maxCategoryKeywordsPerCategory',
+  canExportData: 'canExportData',
+  canUseAutoCategory: 'canUseAutoCategory',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubscriptionPriceScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  name: 'name',
   price: 'price',
   currency: 'currency',
   durationDays: 'durationDays',
-  canUseAiOperations: 'canUseAiOperations',
-  canExportData: 'canExportData',
-  canUseRecurring: 'canUseRecurring',
-  isActive: 'isActive',
-  isDefaultOnExpiration: 'isDefaultOnExpiration',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -274,9 +281,27 @@ exports.Prisma.NotificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SystemMetricScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  totalUsers: 'totalUsers',
+  activeUsersDaily: 'activeUsersDaily',
+  activeUsersMonthly: 'activeUsersMonthly',
+  usersByPlan: 'usersByPlan',
+  totalOperations: 'totalOperations',
+  operationsCreatedDaily: 'operationsCreatedDaily',
+  totalAiTokensUsed: 'totalAiTokensUsed',
+  aiTokensUsedDaily: 'aiTokensUsedDaily',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -288,9 +313,20 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN'
+};
+
+exports.SubscriptionType = exports.$Enums.SubscriptionType = {
+  FREE: 'FREE',
+  PREMIUM: 'PREMIUM'
 };
 
 exports.TokenType = exports.$Enums.TokenType = {
@@ -328,6 +364,7 @@ exports.NotificationScope = exports.$Enums.NotificationScope = {
 exports.Prisma.ModelName = {
   User: 'User',
   SubscriptionPlan: 'SubscriptionPlan',
+  SubscriptionPrice: 'SubscriptionPrice',
   Token: 'Token',
   Account: 'Account',
   Operation: 'Operation',
@@ -336,7 +373,8 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   CategoryKeyword: 'CategoryKeyword',
   AiTokenUsage: 'AiTokenUsage',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  SystemMetric: 'SystemMetric'
 };
 
 /**

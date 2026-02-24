@@ -10,9 +10,9 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String   @default("User")
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  name      String   @default("User") @db.VarChar(100)
 
   defaultAccountId String?
   defaultAccount   Account? @relation("UserDefaultAccount", fields: [defaultAccountId], references: [id], onDelete: SetNull)
@@ -23,6 +23,11 @@ model User {
   // Подписка - у пользователя всегда есть план
   subscriptionPlan   SubscriptionPlan @relation(fields: [subscriptionPlanId], references: [id], onDelete: Restrict)
   subscriptionPlanId String
+  
+  // Конкретный вариант цены/длительности, который выбрал пользователь
+  subscriptionPrice   SubscriptionPrice? @relation(fields: [subscriptionPriceId], references: [id], onDelete: SetNull)
+  subscriptionPriceId String?
+
   subscriptionStartedAt DateTime @default(now())
   subscriptionExpiresAt DateTime? // null = бессрочно
 
@@ -51,12 +56,18 @@ model User {
   notifications Notification[]
   
   @@index([subscriptionPlanId])
+  @@index([subscriptionPriceId])
+}
+
+enum SubscriptionType {
+  FREE
+  PREMIUM
 }
 
 model SubscriptionPlan {
   id            String   @id @default(uuid())
-  name          String   @unique // "Free", "Basic", "Premium", "Pro"
-  description   String?
+  type          SubscriptionType @unique
+  description   String? @db.VarChar(255)
   
   // Лимиты токенов
   tokensPerMonth Int?    // null = безлимит
@@ -75,27 +86,40 @@ model SubscriptionPlan {
   // Лимиты на связи (на один родительский ресурс)
   maxCategoryKeywordsPerCategory Int? // null = безлимит (ключевых слов на категорию)
   
-  // Цена и длительность
-  price         Decimal?
-  currency      String   @default("USD")
-  durationDays  Int?     // null = бессрочно
-  
   // Дополнительные возможности (типизированные Boolean поля)
-  canUseAiOperations Boolean @default(false)  // Загрузка операций через AI
   canExportData      Boolean @default(false)  // Экспорт в Excel
-  canUseRecurring    Boolean @default(false)  // Повторяющиеся операции
+  canUseAutoCategory Boolean @default(false)  // Автоматическая категория
   
   // Статус
   isActive      Boolean  @default(true)
-  isDefaultOnExpiration Boolean @default(false)
   
   // Связи
+  prices        SubscriptionPrice[]
   users         User[]
   
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   
   @@index([isActive])
+}
+
+model SubscriptionPrice {
+  id           String   @id @default(uuid())
+  
+  plan         SubscriptionPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  planId       String
+
+  name         String   @db.VarChar(50) // "Monthly", "Yearly", "Free"
+  price        Decimal
+  currency     String   @default("USD") @db.VarChar(5)
+  durationDays Int?     // null = бессрочно
+
+  users        User[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([planId])
 }
 
 enum Role {
@@ -126,13 +150,13 @@ enum TokenType {
 
 model Account {
   id        String   @id @default(uuid())
-  name      String
+  name      String   @db.VarChar(50)
   initialBalance   Decimal  @default(0)
   balance   Decimal  @default(0)
-  currency  String
+  currency  String   @db.VarChar(5)
 
-  icon      String @default("default")
-  iconColor String @default("#000000")
+  icon      String @default("default") @db.VarChar(50)
+  iconColor String @default("#000000") @db.VarChar(9)
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
@@ -154,7 +178,7 @@ model Operation {
   id          String      @id @default(uuid())
   amount      Decimal
   date        DateTime    @default(now())
-  description String?
+  description String?     @db.VarChar(255)
   type        OperationType
 
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -176,10 +200,10 @@ model Operation {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   
-  @@index([userId])
   @@index([userId, date])
   @@index([userId, type])
-  @@index([date])
+  @@index([userId, accountId])
+  @@index([userId, categoryId])
   @@index([accountId])
   @@index([categoryId])
 }
@@ -193,7 +217,7 @@ model RecurrenceConfig {
   
   date        DateTime
   amount      Decimal
-  description String?
+  description String? @db.VarChar(255)
   type        OperationType
   
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -230,8 +254,8 @@ enum RecurrenceFrequency {
 
 model Tag {
   id        String   @id @default(uuid())
-  name      String
-  color     String   @default("#cccccc")
+  name      String   @db.VarChar(50)
+  color     String   @default("#cccccc") @db.VarChar(9)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
@@ -246,10 +270,10 @@ model Tag {
 
 model Category {
   id        String   @id @default(uuid())
-  name      String
+  name      String   @db.VarChar(50)
   type      CategoryType
-  color     String   @default("#cccccc")
-  icon      String   @default("default")
+  color     String   @default("#cccccc") @db.VarChar(9)
+  icon      String   @default("default") @db.VarChar(50)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
@@ -273,7 +297,7 @@ model Category {
 
 model CategoryKeyword {
   id         String   @id @default(uuid())
-  phrase     String
+  phrase     String   @db.VarChar(100)
   
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
@@ -310,7 +334,7 @@ model AiTokenUsage {
   operationsCreated Int @default(0)
   
   // Тип файла, который обрабатывался
-  fileType  String? // mimetype
+  fileType  String? @db.VarChar(50) // mimetype
   
   // Статус операции
   status    AiUsageStatus @default(SUCCESS)
@@ -332,10 +356,10 @@ enum AiUsageStatus {
 
 model Notification {
   id          String   @id @default(uuid())
-  title       String
+  title       String   @db.VarChar(100)
   description String
-  link        String?
-  buttonText  String
+  link        String?  @db.VarChar(255)
+  buttonText  String   @db.VarChar(50)
 
   // scope = USER -> персональное уведомление, scope = GLOBAL -> глобальное
   scope       NotificationScope @default(USER)
@@ -356,4 +380,29 @@ model Notification {
 enum NotificationScope {
   GLOBAL
   USER
+}
+
+model SystemMetric {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now()) // Время снятия метрики
+
+  // Пользовательские метрики
+  totalUsers Int
+  activeUsersDaily Int    // За 24 часа
+  activeUsersMonthly Int  // За 30 дней
+  
+  // Метрики по подпискам (JSON: { "Free": 100, "Premium": 20 })
+  usersByPlan Json
+
+  // Метрики активности
+  totalOperations Int
+  operationsCreatedDaily Int
+
+  // AI метрики
+  totalAiTokensUsed Int
+  aiTokensUsedDaily Int
+  
+  createdAt DateTime @default(now())
+  
+  @@index([date])
 }

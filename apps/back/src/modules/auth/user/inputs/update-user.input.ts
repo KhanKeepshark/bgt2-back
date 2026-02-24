@@ -14,4 +14,13 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
 
   @Field(() => Number, { nullable: true })
   tokensBalance?: number;
+
+  @Field(() => String, { nullable: true })
+  subscriptionPlanId?: string;
+
+  @Field(() => String, { nullable: true })
+  subscriptionPriceId?: string;
+
+  @Field(() => Boolean, { nullable: true })
+  isEmailVerified?: boolean;
 }

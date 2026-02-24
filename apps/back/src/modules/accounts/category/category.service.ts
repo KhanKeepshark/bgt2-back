@@ -10,6 +10,7 @@ import { UpdateCategoryInput } from './inputs/update-category.input';
 import { defaultCategories } from './const/defaultCategories';
 import { CreateCategoryKeywordInput } from './inputs/create-category-keyword.input';
 import { UpdateCategoryKeywordInput } from './inputs/update-category-keyword.input';
+import { CategoryError, SubscriptionError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class CategoryService {
@@ -25,7 +26,7 @@ export class CategoryService {
       });
 
       if (existingCategory) {
-        throw new BadRequestException('Category with this name already exists');
+        throw new BadRequestException(CategoryError.ALREADY_EXISTS);
       }
 
       // Проверка лимитов плана
@@ -36,9 +37,10 @@ export class CategoryService {
 
       if (userWithPlan?.subscriptionPlan?.maxCategories !== null) {
         if (userWithPlan._count.categories >= userWithPlan.subscriptionPlan.maxCategories) {
-          throw new BadRequestException(
-            `Plan limit reached. Max categories: ${userWithPlan.subscriptionPlan.maxCategories}`,
-          );
+          throw new BadRequestException({
+            key: SubscriptionError.LIMIT_REACHED,
+            args: { max: userWithPlan.subscriptionPlan.maxCategories },
+          });
         }
       }
 
@@ -49,7 +51,7 @@ export class CategoryService {
 
         if (!parentCategory || parentCategory.parentId !== null) {
           throw new BadRequestException(
-            'Parent category not found or access denied',
+            CategoryError.NOT_FOUND,
           );
         }
 
@@ -80,7 +82,7 @@ export class CategoryService {
       return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create category');
+        throw new BadRequestException(CategoryError.CREATION_FAILED);
       }
 
       throw error;
@@ -105,7 +107,7 @@ export class CategoryService {
       }
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create default category');
+        throw new BadRequestException(CategoryError.CREATION_FAILED);
       }
 
       throw error;
@@ -127,7 +129,7 @@ export class CategoryService {
       return categories;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find categories');
+        throw new BadRequestException(CategoryError.NOT_FOUND);
       }
 
       throw error;
@@ -146,13 +148,13 @@ export class CategoryService {
       });
 
       if (!category) {
-        throw new NotFoundException('Category not found');
+        throw new NotFoundException(CategoryError.NOT_FOUND);
       }
 
       return category;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find category');
+        throw new BadRequestException(CategoryError.NOT_FOUND);
       }
 
       throw error;
@@ -175,7 +177,7 @@ export class CategoryService {
 
         if (existingCategory) {
           throw new BadRequestException(
-            'Category with this name already exists',
+            CategoryError.ALREADY_EXISTS,
           );
         }
       }
@@ -187,12 +189,12 @@ export class CategoryService {
 
         if (!parentCategory) {
           throw new BadRequestException(
-            'Parent category not found or access denied',
+            CategoryError.NOT_FOUND,
           );
         }
 
         if (input.parentId === input.id) {
-          throw new BadRequestException('Category cannot be its own parent');
+          throw new BadRequestException(CategoryError.SELF_PARENT);
         }
       }
 
@@ -209,7 +211,7 @@ export class CategoryService {
       return updated;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to update category');
+        throw new BadRequestException(CategoryError.UPDATE_FAILED);
       }
 
       throw error;
@@ -227,7 +229,7 @@ export class CategoryService {
 
       if (category.children && category.children.length > 0) {
         throw new BadRequestException(
-          'Cannot delete category with subcategories',
+          CategoryError.DELETION_FAILED,
         );
       }
 
@@ -238,7 +240,7 @@ export class CategoryService {
       return !!result;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to delete category');
+        throw new BadRequestException(CategoryError.DELETION_FAILED);
       }
 
       throw error;
@@ -263,7 +265,7 @@ export class CategoryService {
       return categories;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find categories');
+        throw new BadRequestException(CategoryError.NOT_FOUND);
       }
 
       throw error;
@@ -280,7 +282,7 @@ export class CategoryService {
       });
 
       if (!category) {
-        throw new NotFoundException('Category not found or access denied');
+        throw new NotFoundException(CategoryError.NOT_FOUND);
       }
 
       return await this.prismaService.categoryKeyword.create({
@@ -310,7 +312,7 @@ export class CategoryService {
       });
 
       if (!keyword) {
-        throw new NotFoundException('Keyword not found or access denied');
+        throw new NotFoundException(CategoryError.NOT_FOUND);
       }
 
       if (input.categoryId) {
@@ -318,7 +320,7 @@ export class CategoryService {
           where: { id: input.categoryId, userId: user.id },
         });
         if (!category) {
-          throw new NotFoundException('Target category not found');
+          throw new NotFoundException(CategoryError.NOT_FOUND);
         }
       }
 

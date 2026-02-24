@@ -161,17 +161,6 @@ export class SubscriptionLimitsChecker {
   }
 
   /**
-   * Проверяет возможность использования AI операций
-   */
-  checkAiOperationsFeature(): void {
-    if (!this.user.subscriptionPlan.canUseAiOperations) {
-      throw new ForbiddenException(
-        'AI operations are not available in your subscription plan.',
-      );
-    }
-  }
-
-  /**
    * Проверяет возможность экспорта данных
    */
   checkExportDataFeature(): void {
@@ -183,12 +172,12 @@ export class SubscriptionLimitsChecker {
   }
 
   /**
-   * Проверяет возможность использования повторяющихся операций
+   * Проверяет возможность использования автоматической категоризации
    */
-  checkRecurringFeature(): void {
-    if (!this.user.subscriptionPlan.canUseRecurring) {
+  checkAutoCategoryFeature(): void {
+    if (!this.user.subscriptionPlan.canUseAutoCategory) {
       throw new ForbiddenException(
-        'Recurring operations are not available in your subscription plan.',
+        'Auto category is not available in your subscription plan.',
       );
     }
   }

@@ -7,6 +7,7 @@ import { CreateTagInput } from './inputs/create-tag.input';
 import { Tag, User } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { UpdateTagInput } from './inputs/update-tag.input';
+import { TagError, SubscriptionError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class TagService {
@@ -19,7 +20,7 @@ export class TagService {
       });
 
       if (existingTag) {
-        throw new BadRequestException('Tag with this name already exists');
+        throw new BadRequestException(TagError.ALREADY_EXISTS);
       }
 
       // Проверка лимитов плана
@@ -30,9 +31,10 @@ export class TagService {
 
       if (userWithPlan?.subscriptionPlan?.maxTags !== null) {
         if (userWithPlan._count.tags >= userWithPlan.subscriptionPlan.maxTags) {
-          throw new BadRequestException(
-            `Plan limit reached. Max tags: ${userWithPlan.subscriptionPlan.maxTags}`,
-          );
+          throw new BadRequestException({
+            key: SubscriptionError.LIMIT_REACHED,
+            args: { max: userWithPlan.subscriptionPlan.maxTags },
+          });
         }
       }
 
@@ -43,7 +45,7 @@ export class TagService {
       return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create tag');
+        throw new BadRequestException(TagError.CREATION_FAILED);
       }
 
       throw error;
@@ -60,7 +62,7 @@ export class TagService {
       return tags;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find tags');
+        throw new BadRequestException(TagError.NOT_FOUND);
       }
 
       throw error;
@@ -74,13 +76,13 @@ export class TagService {
       });
 
       if (!tag) {
-        throw new NotFoundException('Tag not found');
+        throw new NotFoundException(TagError.NOT_FOUND);
       }
 
       return tag;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find tag');
+        throw new BadRequestException(TagError.NOT_FOUND);
       }
 
       throw error;
@@ -98,7 +100,7 @@ export class TagService {
         });
 
         if (existingTag) {
-          throw new BadRequestException('Tag with this name already exists');
+          throw new BadRequestException(TagError.ALREADY_EXISTS);
         }
       }
 
@@ -110,7 +112,7 @@ export class TagService {
       return updated;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to update tag');
+        throw new BadRequestException(TagError.UPDATE_FAILED);
       }
 
       throw error;
@@ -126,7 +128,7 @@ export class TagService {
       return !!result;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to delete tag');
+        throw new BadRequestException(TagError.DELETION_FAILED);
       }
 
       throw error;

@@ -7,6 +7,7 @@ import {
 import { CreateAccountInput } from './inputs/create-account.input';
 import { Account, User } from '@prisma/generated';
 import { UpdateAccountInput } from './inputs/update-account.input';
+import { AccountError, SubscriptionError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class AccountService {
@@ -19,7 +20,7 @@ export class AccountService {
       });
 
       if (existingAccount) {
-        throw new BadRequestException('Account with this name already exists');
+        throw new BadRequestException(AccountError.ALREADY_EXISTS);
       }
 
       // Проверка лимитов плана
@@ -30,9 +31,10 @@ export class AccountService {
 
       if (userWithPlan?.subscriptionPlan?.maxAccounts !== null) {
         if (userWithPlan._count.accounts >= userWithPlan.subscriptionPlan.maxAccounts) {
-          throw new BadRequestException(
-            `Plan limit reached. Max accounts: ${userWithPlan.subscriptionPlan.maxAccounts}`,
-          );
+          throw new BadRequestException({
+            key: SubscriptionError.LIMIT_REACHED,
+            args: { max: userWithPlan.subscriptionPlan.maxAccounts },
+          });
         }
       }
 
@@ -55,7 +57,7 @@ export class AccountService {
       return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create account');
+        throw new BadRequestException(AccountError.CREATION_FAILED);
       }
 
       throw error;
@@ -80,7 +82,7 @@ export class AccountService {
       return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create default account');
+        throw new BadRequestException(AccountError.CREATION_FAILED);
       }
 
       throw error;
@@ -97,7 +99,7 @@ export class AccountService {
       return accounts;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find accounts');
+        throw new BadRequestException(AccountError.NOT_FOUND);
       }
 
       throw error;
@@ -111,13 +113,13 @@ export class AccountService {
       });
 
       if (!account) {
-        throw new NotFoundException('Account not found');
+        throw new NotFoundException(AccountError.NOT_FOUND);
       }
 
       return account;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find account');
+        throw new BadRequestException(AccountError.NOT_FOUND);
       }
 
       throw error;
@@ -133,7 +135,7 @@ export class AccountService {
 
         if (existingAccount) {
           throw new BadRequestException(
-            'Account with this name already exists',
+            AccountError.ALREADY_EXISTS,
           );
         }
       }
@@ -146,7 +148,7 @@ export class AccountService {
       return updated;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to update account');
+        throw new BadRequestException(AccountError.UPDATE_FAILED);
       }
 
       throw error;
@@ -162,7 +164,7 @@ export class AccountService {
       return !!result;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to delete account');
+        throw new BadRequestException(AccountError.DELETION_FAILED);
       }
 
       throw error;

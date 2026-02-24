@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { AuthError } from '@back/shared/constants/errors.constants';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { encode } from 'hi-base32';
 import { User } from '@prisma/generated';
@@ -45,7 +46,7 @@ export class TotpService {
     const delta = totp.validate({ token: pin });
 
     if (delta === null) {
-      throw new BadRequestException('Invalid TOTP code');
+      throw new BadRequestException(AuthError.INVALID_TOTP);
     }
 
     await this.prismaService.user.update({

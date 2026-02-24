@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { AuthError } from '@back/shared/constants/errors.constants';
 import { MailService } from '../../libs/mail/mail.service';
 import { VerificationInput } from './inputs/verification.input';
 import { TokenType, User } from '@prisma/generated';
@@ -31,13 +32,13 @@ export class VerificationService {
     });
 
     if (!existingToken) {
-      throw new NotFoundException('Token not found');
+      throw new NotFoundException(AuthError.TOKEN_NOT_FOUND);
     }
 
     const hasExpired = new Date(existingToken.expiresAt) < new Date();
 
     if (hasExpired) {
-      throw new BadRequestException('Token expired');
+      throw new BadRequestException(AuthError.TOKEN_EXPIRED);
     }
 
     const user = await this.prismaService.user.update({

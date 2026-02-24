@@ -1,9 +1,11 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { SubscriptionType } from '@prisma/generated';
+import { CreateSubscriptionPriceInput } from './create-subscription-price.input';
 
 @InputType()
 export class CreateSubscriptionPlanInput {
-  @Field(() => String)
-  name: string;
+  @Field(() => SubscriptionType)
+  type: SubscriptionType;
 
   @Field(() => String, { nullable: true })
   description?: string;
@@ -13,15 +15,6 @@ export class CreateSubscriptionPlanInput {
 
   @Field(() => Int, { defaultValue: 0 })
   tokensOnPurchase: number;
-
-  @Field(() => String, { nullable: true }) // Decimal passed as string
-  price?: string | null;
-
-  @Field(() => String, { defaultValue: 'USD' })
-  currency: string;
-
-  @Field(() => Int, { nullable: true })
-  durationDays?: number | null;
 
   @Field(() => Int, { nullable: true })
   maxOperations?: number | null;
@@ -45,17 +38,14 @@ export class CreateSubscriptionPlanInput {
   maxCategoryKeywordsPerCategory?: number | null;
 
   @Field(() => Boolean, { defaultValue: false })
-  canUseAiOperations: boolean;
-
-  @Field(() => Boolean, { defaultValue: false })
   canExportData: boolean;
 
   @Field(() => Boolean, { defaultValue: false })
-  canUseRecurring: boolean;
+  canUseAutoCategory: boolean;
 
   @Field(() => Boolean, { defaultValue: true })
   isActive: boolean;
 
-  @Field(() => Boolean, { defaultValue: false })
-  isDefaultOnExpiration: boolean;
+  @Field(() => [CreateSubscriptionPriceInput], { nullable: true })
+  prices?: CreateSubscriptionPriceInput[];
 }

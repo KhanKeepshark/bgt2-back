@@ -91,19 +91,31 @@ export class AiUploadService {
       const extractedOperations = parseToonResponse(rawResult);
       operationsCreated = extractedOperations.length;
 
-      const refinedOperations = extractedOperations.map(op => {
-        if (op.description && op.type !== 'TRANSFER') {
-          const autoCategory = this.findCategoryByKeywords(
-            op.description,
-            op.type as 'INCOME' | 'EXPENSE',
-            categories,
-          );
-          if (autoCategory) {
-            return { ...op, categoryName: autoCategory.name, categoryIcon: autoCategory.icon };
-          }
-        }
-        return op;
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true },
       });
+
+      const refinedOperations =
+        userWithPlan?.subscriptionPlan.canUseAutoCategory
+          ? extractedOperations.map((op) => {
+              if (op.description && op.type !== 'TRANSFER') {
+                const autoCategory = this.findCategoryByKeywords(
+                  op.description,
+                  op.type as 'INCOME' | 'EXPENSE',
+                  categories,
+                );
+                if (autoCategory) {
+                  return {
+                    ...op,
+                    categoryName: autoCategory.name,
+                    categoryIcon: autoCategory.icon,
+                  };
+                }
+              }
+              return op;
+            })
+          : extractedOperations;
 
       // Логируем успешное использование токенов
       await this.logTokenUsage({

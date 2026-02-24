@@ -22,6 +22,7 @@ import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
 import { Prisma } from '@prisma/generated';
 import { calculateGroupSize, groupDays } from './utils/findAllForCharts.utils';
 import { Categories } from './models/operation-chart-data.model';
+import { AccountError, CategoryError, OperationError, SubscriptionError, TagError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class OperationService {
@@ -47,9 +48,10 @@ export class OperationService {
           userWithPlan.subscriptionPlan.maxOperations !== null &&
           userWithPlan._count.operations >= userWithPlan.subscriptionPlan.maxOperations
         ) {
-          throw new BadRequestException(
-            `Plan limit reached. Max total operations: ${userWithPlan.subscriptionPlan.maxOperations}`,
-          );
+          throw new BadRequestException({
+            key: SubscriptionError.LIMIT_REACHED,
+            args: { max: userWithPlan.subscriptionPlan.maxOperations },
+          });
         }
 
         // 2. Лимит операций в месяц
@@ -66,9 +68,10 @@ export class OperationService {
           });
 
           if (operationsThisMonth >= userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
-            throw new BadRequestException(
-              `Plan limit reached. Max operations per month: ${userWithPlan.subscriptionPlan.maxOperationsPerMonth}`,
-            );
+            throw new BadRequestException({
+              key: SubscriptionError.LIMIT_REACHED,
+              args: { max: userWithPlan.subscriptionPlan.maxOperationsPerMonth },
+            });
           }
         }
       }
@@ -85,7 +88,7 @@ export class OperationService {
       });
 
       if (!account) {
-        throw new BadRequestException('Account not found or access denied');
+        throw new BadRequestException(AccountError.NOT_FOUND);
       }
 
       if (input.tags && input.tags.length > 0) {
@@ -97,7 +100,7 @@ export class OperationService {
         });
 
         if (tags.length !== input.tags.length) {
-          throw new BadRequestException('Some tags not found or access denied');
+          throw new BadRequestException(TagError.NOT_FOUND);
         }
       }
 
@@ -108,7 +111,7 @@ export class OperationService {
 
         if (!transferAccount) {
           throw new BadRequestException(
-            'Transfer account not found or access denied',
+            AccountError.NOT_FOUND,
           );
         }
 
@@ -180,7 +183,7 @@ export class OperationService {
       });
 
       if (!category) {
-        throw new BadRequestException('Category not found or access denied');
+        throw new BadRequestException(CategoryError.NOT_FOUND);
       }
 
       const amount = new Decimal(input.amount);
@@ -231,7 +234,7 @@ export class OperationService {
       return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create operation');
+        throw new BadRequestException(OperationError.CREATION_FAILED);
       }
 
       throw error;
@@ -249,7 +252,7 @@ export class OperationService {
       });
 
       if (!account) {
-        throw new BadRequestException('Account not found or access denied');
+        throw new BadRequestException(AccountError.NOT_FOUND);
       }
 
       const [categories, accounts] = await Promise.all([
@@ -393,7 +396,7 @@ export class OperationService {
       return createdOperations;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create extracted operations');
+        throw new BadRequestException(OperationError.CREATION_FAILED);
       }
 
       throw error;
@@ -417,7 +420,7 @@ export class OperationService {
       return operations;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find operations');
+        throw new BadRequestException(OperationError.NOT_FOUND);
       }
 
       throw error;
@@ -539,7 +542,7 @@ export class OperationService {
       return groups;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find operations');
+        throw new BadRequestException(OperationError.NOT_FOUND);
       }
 
       throw error;
@@ -898,7 +901,7 @@ export class OperationService {
       };
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find operations');
+        throw new BadRequestException(OperationError.NOT_FOUND);
       }
 
       throw error;
@@ -920,13 +923,13 @@ export class OperationService {
       });
 
       if (!operation) {
-        throw new NotFoundException('Operation not found');
+        throw new NotFoundException(OperationError.NOT_FOUND);
       }
 
       return operation;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find operation');
+        throw new BadRequestException(OperationError.NOT_FOUND);
       }
 
       throw error;
@@ -944,8 +947,6 @@ export class OperationService {
           user,
         );
       }
-
-      await this.findOne(input.id, user);
 
       if (input.accountId) {
         const account = await this.prismaService.account.findFirst({
@@ -976,7 +977,7 @@ export class OperationService {
         });
 
         if (tags.length !== input.tags.length) {
-          throw new BadRequestException('Some tags not found or access denied');
+          throw new BadRequestException(TagError.NOT_FOUND);
         }
       }
 
@@ -987,7 +988,7 @@ export class OperationService {
 
         if (!transferAccount) {
           throw new BadRequestException(
-            'Transfer account not found or access denied',
+            AccountError.NOT_FOUND,
           );
         }
       }
@@ -998,46 +999,123 @@ export class OperationService {
         );
       }
 
-      const updated = await this.prismaService.operation.update({
-        where: { id: input.id },
-        data: {
-          amount: input.amount,
-          date: input.date,
-          description: input.description,
-          type: input.type,
-          category: input.categoryId
-            ? {
-                connect: { id: input.categoryId },
-              }
-            : undefined,
-          account: input.accountId
-            ? {
-                connect: { id: input.accountId },
-              }
-            : undefined,
-          transferAccount: input.transferAccountId
-            ? {
-                connect: { id: input.transferAccountId },
-              }
-            : undefined,
-          tags: input.tags
-            ? {
-                set: input.tags.map((id) => ({ id })),
-              }
-            : undefined,
+      const existingOperation = await this.prismaService.operation.findFirst({
+        where: {
+          id: input.id,
+          account: { userId: user.id },
         },
         include: {
-          category: true,
           account: true,
-          tags: true,
           transferAccount: true,
         },
+      });
+
+      if (!existingOperation) {
+        throw new NotFoundException(OperationError.NOT_FOUND);
+      }
+
+      const updated = await this.prismaService.$transaction(async (tx) => {
+        const oldAmount = new Decimal(existingOperation.amount);
+        const newAmount = new Decimal(input.amount ?? existingOperation.amount);
+        const oldType = existingOperation.type;
+        const newType = input.type ?? existingOperation.type;
+        const oldAccountId = existingOperation.accountId;
+        const newAccountId = input.accountId ?? existingOperation.accountId;
+        const oldTransferAccountId = existingOperation.transferAccountId;
+        const newTransferAccountId =
+          input.transferAccountId ?? existingOperation.transferAccountId;
+
+        // Revert old operation's effect on balance
+        if (oldType === OperationType.TRANSFER) {
+          if (oldAccountId) {
+            await tx.account.update({
+              where: { id: oldAccountId },
+              data: { balance: { increment: oldAmount } },
+            });
+          }
+          if (oldTransferAccountId) {
+            await tx.account.update({
+              where: { id: oldTransferAccountId },
+              data: { balance: { decrement: oldAmount } },
+            });
+          }
+        } else if (oldAccountId) {
+          const oldBalanceUpdate =
+            oldType === OperationType.INCOME
+              ? { decrement: oldAmount }
+              : { increment: oldAmount };
+          await tx.account.update({
+            where: { id: oldAccountId },
+            data: { balance: oldBalanceUpdate },
+          });
+        }
+
+        // Apply new operation's effect on balance
+        if (newType === OperationType.TRANSFER) {
+          if (newAccountId) {
+            await tx.account.update({
+              where: { id: newAccountId },
+              data: { balance: { decrement: newAmount } },
+            });
+          }
+          if (newTransferAccountId) {
+            await tx.account.update({
+              where: { id: newTransferAccountId },
+              data: { balance: { increment: newAmount } },
+            });
+          }
+        } else if (newAccountId) {
+          const newBalanceUpdate =
+            newType === OperationType.INCOME
+              ? { increment: newAmount }
+              : { decrement: newAmount };
+          await tx.account.update({
+            where: { id: newAccountId },
+            data: { balance: newBalanceUpdate },
+          });
+        }
+
+        return await tx.operation.update({
+          where: { id: input.id },
+          data: {
+            amount: input.amount,
+            date: input.date,
+            description: input.description,
+            type: input.type,
+            category: input.categoryId
+              ? {
+                  connect: { id: input.categoryId },
+                }
+              : undefined,
+            account: input.accountId
+              ? {
+                  connect: { id: input.accountId },
+                }
+              : undefined,
+            transferAccount: input.transferAccountId
+              ? {
+                  connect: { id: input.transferAccountId },
+                }
+              : undefined,
+            tags: input.tags
+              ? {
+                  set: input.tags.map((id) => ({ id })),
+                }
+              : undefined,
+          },
+          include: {
+            category: true,
+            account: true,
+            tags: true,
+            transferAccount: true,
+          },
+        });
       });
 
       return updated;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to update operation');
+        throw new BadRequestException(OperationError.UPDATE_FAILED);
       }
 
       throw error;
@@ -1046,16 +1124,57 @@ export class OperationService {
 
   public async delete(id: string, user: User): Promise<boolean> {
     try {
-      await this.findOne(id, user);
+      const operation = await this.prismaService.operation.findFirst({
+        where: {
+          id,
+          account: { userId: user.id },
+        },
+        include: {
+          account: true,
+          transferAccount: true,
+        },
+      });
 
-      const result = await this.prismaService.operation.delete({
-        where: { id },
+      if (!operation) {
+        throw new NotFoundException(OperationError.NOT_FOUND);
+      }
+
+      const result = await this.prismaService.$transaction(async (tx) => {
+        const amount = new Decimal(operation.amount);
+
+        if (operation.type === OperationType.TRANSFER) {
+          if (operation.accountId) {
+            await tx.account.update({
+              where: { id: operation.accountId },
+              data: { balance: { increment: amount } },
+            });
+          }
+          if (operation.transferAccountId) {
+            await tx.account.update({
+              where: { id: operation.transferAccountId },
+              data: { balance: { decrement: amount } },
+            });
+          }
+        } else if (operation.accountId) {
+          const balanceUpdate =
+            operation.type === OperationType.INCOME
+              ? { decrement: amount }
+              : { increment: amount };
+          await tx.account.update({
+            where: { id: operation.accountId },
+            data: { balance: balanceUpdate },
+          });
+        }
+
+        return await tx.operation.delete({
+          where: { id },
+        });
       });
 
       return !!result;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to delete operation');
+        throw new BadRequestException(OperationError.DELETION_FAILED);
       }
 
       throw error;

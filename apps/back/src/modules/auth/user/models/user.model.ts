@@ -4,6 +4,7 @@ import { AccountModel } from '../../../accounts/account/models/account.model';
 import { TagModel } from '../../../accounts/tag/model/tag.model';
 import { CategoryModel } from '../../../accounts/category/models/category.model';
 import { SubscriptionPlanModel } from '../../../subscription-plan/models/subscription-plan.model';
+import { SubscriptionPriceModel } from '../../../subscription-plan/models/subscription-price.model';
 import { AiTokenUsageModel } from '../../../files/ai-upload/models/ai-token-usage.model';
 
 @ObjectType()
@@ -31,6 +32,9 @@ export class UserModel implements User {
 
   @Field(() => String)
   subscriptionPlanId: string;
+
+  @Field(() => String, { nullable: true })
+  subscriptionPriceId: string | null;
 
   @Field(() => Date)
   subscriptionStartedAt: Date;
@@ -67,6 +71,9 @@ export class UserModel implements User {
 
   @Field(() => SubscriptionPlanModel)
   subscriptionPlan: SubscriptionPlanModel;
+
+  @Field(() => SubscriptionPriceModel, { nullable: true })
+  subscriptionPrice?: SubscriptionPriceModel;
 
   @Field(() => [AccountModel], { nullable: true })
   accounts?: AccountModel[];

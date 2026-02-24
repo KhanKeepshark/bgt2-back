@@ -23,6 +23,8 @@ import { FileUploadModule } from '../modules/files/file-upload/file-upload.modul
 import { FileDownloadModule } from '../modules/files/file-download/file-download.module';
 import { NotificationModule } from '../modules/notifications/notification.module';
 import { SubscriptionPlanModule } from '../modules/subscription-plan/subscription-plan.module';
+import { SystemMetricModule } from '../modules/system-metric/system-metric.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -30,6 +32,10 @@ import { SubscriptionPlanModule } from '../modules/subscription-plan/subscriptio
       ignoreEnvFile: !IS_DEV_ENV,
       isGlobal: true,
     }),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       imports: [ConfigModule],
@@ -54,6 +60,7 @@ import { SubscriptionPlanModule } from '../modules/subscription-plan/subscriptio
     FileDownloadModule,
     NotificationModule,
     SubscriptionPlanModule,
+    SystemMetricModule,
   ],
 })
 export class CoreModule {}

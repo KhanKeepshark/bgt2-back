@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { RecurrenceService } from '../accounts/recurrenceConfig/recurrence.service';
 import { PrismaService } from '@back/core/prisma/prisma.service';
+import { SubscriptionType } from '@prisma/generated';
 
 @Injectable()
 export class CronService {
@@ -51,8 +52,8 @@ export class CronService {
         return;
       }
 
-      const defaultPlan = await this.prismaService.subscriptionPlan.findFirst({
-        where: { isDefaultOnExpiration: true },
+      const defaultPlan = await this.prismaService.subscriptionPlan.findUnique({
+        where: { type: SubscriptionType.FREE },
       });
 
       if (!defaultPlan) {
@@ -60,7 +61,7 @@ export class CronService {
         return;
       }
 
-      this.logger.log(`Found ${expiredUsers.length} users with expired subscriptions. Downgrading to ${defaultPlan.name}...`);
+      this.logger.log(`Found ${expiredUsers.length} users with expired subscriptions. Downgrading to ${defaultPlan.type}...`);
 
       const result = await this.prismaService.user.updateMany({
         where: {
@@ -70,6 +71,7 @@ export class CronService {
         },
         data: {
           subscriptionPlanId: defaultPlan.id,
+          subscriptionPriceId: null, // Reset price selection
           subscriptionExpiresAt: null, // Бессрочный (или логика плана)
           tokensBalance: defaultPlan.tokensOnPurchase, // Сбрасываем токены до лимита бесплатного плана
         },
@@ -159,6 +161,82 @@ export class CronService {
 
     } catch (error) {
       this.logger.error('Cleanup failed:', error);
+    }
+  }
+
+  /**
+   * Сбор системной аналитики каждый день в 23:55
+   */
+  @Cron('55 23 * * *')
+  async handleSystemAnalytics() {
+    this.logger.log('Collecting system analytics...');
+
+    try {
+      const now = new Date();
+      const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+      const [
+        totalUsers,
+        activeUsersDaily,
+        activeUsersMonthly,
+        totalOperations,
+        operationsCreatedDaily,
+        totalAiTokensUsedRaw,
+        aiTokensUsedDailyRaw,
+        usersByPlanRaw
+      ] = await Promise.all([
+        this.prismaService.user.count(),
+        this.prismaService.user.count({
+          where: { lastLoginAt: { gte: oneDayAgo } },
+        }),
+        this.prismaService.user.count({
+          where: { lastLoginAt: { gte: thirtyDaysAgo } },
+        }),
+        this.prismaService.operation.count(),
+        this.prismaService.operation.count({
+          where: { createdAt: { gte: oneDayAgo } },
+        }),
+        this.prismaService.aiTokenUsage.aggregate({
+          _sum: { actualTokens: true },
+        }),
+        this.prismaService.aiTokenUsage.aggregate({
+          where: { createdAt: { gte: oneDayAgo } },
+          _sum: { actualTokens: true },
+        }),
+        this.prismaService.user.groupBy({
+          by: ['subscriptionPlanId'],
+          _count: { id: true },
+        }),
+      ]);
+
+      // Enrich plan data with names
+      const plans = await this.prismaService.subscriptionPlan.findMany();
+      const planMap = new Map(plans.map((p) => [p.id, p.type]));
+      
+      const usersByPlan: Record<string, number> = {};
+      usersByPlanRaw.forEach((item) => {
+        const planName = planMap.get(item.subscriptionPlanId) || 'Unknown';
+        usersByPlan[planName] = item._count.id;
+      });
+
+      // @ts-ignore - SystemMetric might not be in generated types yet during dev
+      await this.prismaService.systemMetric.create({
+        data: {
+          totalUsers,
+          activeUsersDaily,
+          activeUsersMonthly,
+          usersByPlan: usersByPlan as any,
+          totalOperations,
+          operationsCreatedDaily,
+          totalAiTokensUsed: totalAiTokensUsedRaw._sum.actualTokens || 0,
+          aiTokensUsedDaily: aiTokensUsedDailyRaw._sum.actualTokens || 0,
+        },
+      });
+
+      this.logger.log('System analytics collected successfully.');
+    } catch (error) {
+      this.logger.error('Failed to collect system analytics:', error);
     }
   }
 }

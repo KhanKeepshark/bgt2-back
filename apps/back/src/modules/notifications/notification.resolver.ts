@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { NotificationService } from './notification.service';
 import { NotificationModel } from './models/notification.model';
 import { CreateNotificationInput } from './inputs/create-notification.input';
-import { Authorization } from '@back/shared/decorators/auth.decorator';
+import { Authorization, AdminOnly } from '@back/shared/decorators/auth.decorator';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
 
@@ -10,13 +10,18 @@ import { User } from '@prisma/generated';
 export class NotificationResolver {
   constructor(private readonly notificationService: NotificationService) {}
 
-  @Authorization()
+  @AdminOnly()
+  @Query(() => [NotificationModel], { name: 'findAllAdminNotifications' })
+  public async findAllAdminNotifications() {
+    return this.notificationService.findAllAdmin();
+  }
+
+  @AdminOnly()
   @Mutation(() => NotificationModel, { name: 'createNotification' })
   public async createNotification(
     @Args('input') input: CreateNotificationInput,
-    @Authorized() user: User,
   ) {
-    return this.notificationService.create(input, user);
+    return this.notificationService.create(input);
   }
 
   @Authorization()
@@ -55,7 +60,7 @@ export class NotificationResolver {
     return this.notificationService.markAllAsRead(user);
   }
 
-  @Authorization()
+  @AdminOnly()
   @Mutation(() => Boolean, { name: 'deleteNotification' })
   public async deleteNotification(
     @Args('id') id: string,

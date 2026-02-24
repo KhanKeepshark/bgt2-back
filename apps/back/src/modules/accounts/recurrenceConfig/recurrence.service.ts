@@ -13,6 +13,7 @@ import {
 import { Decimal } from '@prisma/client/runtime/library';
 import { RecurrenceConfigInput } from './inputs/recurrence-config.input';
 import { CreateOperationInput } from '../operation/inputs/create-operation.input';
+import { AccountError, CategoryError, RecurrenceError, SubscriptionError, TagError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class RecurrenceService {
@@ -30,17 +31,14 @@ export class RecurrenceService {
       });
 
       if (userWithPlan?.subscriptionPlan) {
-        if (!userWithPlan.subscriptionPlan.canUseRecurring) {
-          throw new BadRequestException('Your plan does not support recurring operations');
-        }
-
         if (
           userWithPlan.subscriptionPlan.maxRecurrenceConfigs !== null &&
           userWithPlan._count.recurrenceConfigs >= userWithPlan.subscriptionPlan.maxRecurrenceConfigs
         ) {
-          throw new BadRequestException(
-            `Plan limit reached. Max recurring operations: ${userWithPlan.subscriptionPlan.maxRecurrenceConfigs}`,
-          );
+          throw new BadRequestException({
+            key: SubscriptionError.LIMIT_REACHED,
+            args: { max: userWithPlan.subscriptionPlan.maxRecurrenceConfigs },
+          });
         }
       }
 
@@ -49,7 +47,7 @@ export class RecurrenceService {
       });
 
       if (!account) {
-        throw new BadRequestException('Account not found or access denied');
+        throw new BadRequestException(AccountError.NOT_FOUND);
       }
 
       if (input.type !== OperationType.TRANSFER) {
@@ -57,9 +55,9 @@ export class RecurrenceService {
           where: { id: input.categoryId, userId: user.id },
         });
 
-        if (!category) {
-          throw new BadRequestException('Category not found or access denied');
-        }
+      if (!category) {
+        throw new BadRequestException(CategoryError.NOT_FOUND);
+      }
       }
 
       if (input.type === OperationType.TRANSFER) {
@@ -69,7 +67,7 @@ export class RecurrenceService {
 
         if (!transferAccount) {
           throw new BadRequestException(
-            'Transfer account not found or access denied',
+            AccountError.NOT_FOUND,
           );
         }
       }
@@ -83,7 +81,7 @@ export class RecurrenceService {
         });
 
         if (tags.length !== input.tags.length) {
-          throw new BadRequestException('Some tags not found or access denied');
+          throw new BadRequestException(TagError.NOT_FOUND);
         }
       }
 
@@ -205,7 +203,7 @@ export class RecurrenceService {
       return result;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create recurring operation');
+        throw new BadRequestException(RecurrenceError.CREATION_FAILED);
       }
 
       throw error;
@@ -233,7 +231,7 @@ export class RecurrenceService {
       return recurrences;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find recurrences');
+        throw new BadRequestException(RecurrenceError.NOT_FOUND);
       }
 
       throw error;
@@ -261,13 +259,13 @@ export class RecurrenceService {
       });
 
       if (!recurrence) {
-        throw new NotFoundException('Recurrence not found');
+        throw new NotFoundException(RecurrenceError.NOT_FOUND);
       }
 
       return recurrence;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find recurrence');
+        throw new BadRequestException(RecurrenceError.NOT_FOUND);
       }
 
       throw error;
@@ -304,9 +302,9 @@ export class RecurrenceService {
           where: { id: input.categoryId, userId: user.id },
         });
 
-        if (!category) {
-          throw new BadRequestException('Category not found or access denied');
-        }
+      if (!category) {
+        throw new BadRequestException(CategoryError.NOT_FOUND);
+      }
       }
 
       if (input.transferAccountId) {
@@ -316,7 +314,7 @@ export class RecurrenceService {
 
         if (!transferAccount) {
           throw new BadRequestException(
-            'Transfer account not found or access denied',
+            AccountError.NOT_FOUND,
           );
         }
       }
@@ -359,7 +357,7 @@ export class RecurrenceService {
       return updated;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to update recurrence');
+        throw new BadRequestException(RecurrenceError.UPDATE_FAILED);
       }
 
       throw error;
@@ -377,7 +375,7 @@ export class RecurrenceService {
       return !!result;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to delete recurrence');
+        throw new BadRequestException(RecurrenceError.DELETION_FAILED);
       }
 
       throw error;
@@ -393,7 +391,7 @@ export class RecurrenceService {
       });
 
       if (!recurrence) {
-        throw new NotFoundException('Recurrence not found');
+        throw new NotFoundException(RecurrenceError.NOT_FOUND);
       }
 
       const today = new Date();

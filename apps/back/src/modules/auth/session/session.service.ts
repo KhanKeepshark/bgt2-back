@@ -6,6 +6,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { AuthError } from '@back/shared/constants/errors.constants';
 import { LoginInput } from './inputs/login.inputs';
 import { verify } from 'argon2';
 import { Request } from 'express';
@@ -75,24 +76,22 @@ export class SessionService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(AuthError.USER_NOT_FOUND);
     }
 
     const isPasswordValid = await verify(user.password, password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid password');
+      throw new UnauthorizedException(AuthError.INVALID_PASSWORD);
     }
 
     if (!user.isEmailVerified) {
-      throw new UnauthorizedException('Email not verified');
+      throw new UnauthorizedException(AuthError.EMAIL_NOT_VERIFIED);
     }
 
     if (user.isTotpEnabled) {
       if (!pin) {
-        return {
-          message: 'pin is requred',
-        };
+        throw new ConflictException(AuthError.PIN_REQUIRED);
       }
 
       const totp = new TOTP({
@@ -106,7 +105,7 @@ export class SessionService {
       const delta = totp.validate({ token: pin });
 
       if (delta === null) {
-        throw new BadRequestException('Invalid TOTP code');
+        throw new BadRequestException(AuthError.INVALID_TOTP);
       }
     }
 
@@ -127,7 +126,7 @@ export class SessionService {
 
   public async remove(req: Request, id: string) {
     if (id === req.session.id) {
-      throw new ConflictException('Cannot remove current session');
+      throw new ConflictException(AuthError.SESSION_REMOVE_CURRENT);
     }
 
     await this.redisService.del(

@@ -1,14 +1,19 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Decimal } from '@prisma/client/runtime/library';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { SubscriptionType } from '@prisma/generated';
 import type { SubscriptionPlan, User } from '@prisma/generated';
+import { SubscriptionPriceModel } from './subscription-price.model';
+
+registerEnumType(SubscriptionType, {
+  name: 'SubscriptionType',
+});
 
 @ObjectType()
 export class SubscriptionPlanModel implements SubscriptionPlan {
   @Field(() => ID)
   id: string;
 
-  @Field(() => String)
-  name: string;
+  @Field(() => SubscriptionType)
+  type: SubscriptionType;
 
   @Field(() => String, { nullable: true })
   description: string | null;
@@ -18,15 +23,6 @@ export class SubscriptionPlanModel implements SubscriptionPlan {
 
   @Field(() => Number)
   tokensOnPurchase: number;
-
-  @Field(() => String, { nullable: true })
-  price: Decimal | null;
-
-  @Field(() => String)
-  currency: string;
-
-  @Field(() => Number, { nullable: true })
-  durationDays: number | null;
 
   @Field(() => Number, { nullable: true })
   maxOperations: number | null;
@@ -50,19 +46,16 @@ export class SubscriptionPlanModel implements SubscriptionPlan {
   maxCategoryKeywordsPerCategory: number | null;
 
   @Field(() => Boolean)
-  canUseAiOperations: boolean;
-
-  @Field(() => Boolean)
   canExportData: boolean;
 
   @Field(() => Boolean)
-  canUseRecurring: boolean;
+  canUseAutoCategory: boolean;
 
   @Field(() => Boolean)
   isActive: boolean;
 
-  @Field(() => Boolean)
-  isDefaultOnExpiration: boolean;
+  @Field(() => [SubscriptionPriceModel], { nullable: true })
+  prices?: SubscriptionPriceModel[];
 
   users?: User[];
 
