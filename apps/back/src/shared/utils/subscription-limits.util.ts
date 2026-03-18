@@ -12,24 +12,6 @@ export class SubscriptionLimitsChecker {
   ) {}
 
   /**
-   * Проверяет общий лимит операций
-   */
-  async checkOperationsLimit(): Promise<void> {
-    const plan = this.user.subscriptionPlan;
-    if (plan.maxOperations === null) return; // Безлимит
-
-    const count = await this.prisma.operation.count({
-      where: { userId: this.user.id },
-    });
-
-    if (count >= plan.maxOperations) {
-      throw new ForbiddenException(
-        `Operation limit reached. Maximum ${plan.maxOperations} operations allowed.`,
-      );
-    }
-  }
-
-  /**
    * Проверяет лимит операций в текущем месяце
    */
   async checkOperationsPerMonthLimit(): Promise<void> {
@@ -61,10 +43,7 @@ export class SubscriptionLimitsChecker {
    * Проверяет оба лимита операций (общий и месячный)
    */
   async checkAllOperationsLimits(): Promise<void> {
-    await Promise.all([
-      this.checkOperationsLimit(),
-      this.checkOperationsPerMonthLimit(),
-    ]);
+    await this.checkOperationsPerMonthLimit();
   }
 
   /**

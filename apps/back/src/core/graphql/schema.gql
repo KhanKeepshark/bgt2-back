@@ -10,6 +10,7 @@ type AccountModel {
   iconColor: String!
   id: ID!
   initialBalance: String!
+  isDefault: Boolean!
   name: String!
   updatedAt: DateTime!
   userId: String!
@@ -33,6 +34,7 @@ type AiTokenUsageModel {
 
 type AiUploadResultModel {
   operations: [ExtractedOperationModel!]!
+  tokensBalance: Float!
 }
 
 enum AiUsageStatus {
@@ -136,6 +138,10 @@ input CreateOperationInput {
   tags: [String!]
   transferAccountId: String
   type: OperationType!
+}
+
+input CreatePaymentInput {
+  subscriptionPriceId: String!
 }
 
 input CreateSubscriptionPriceInput {
@@ -242,18 +248,23 @@ input LoginInput {
 }
 
 type Mutation {
+  accountHasOperations(id: String!): Boolean!
   aiFileTokenCount(file: Upload!): AiCountModel!
   aiFileUpload(file: Upload!): AiUploadResultModel!
+  categoryHasOperations(id: String!): Boolean!
   clearSessionCookie: Boolean!
+  confirmPayment(paymentId: String!, transactionId: String!): PaymentModel!
   createAccount(input: CreateAccountInput!): AccountModel!
   createCategory(input: CreateCategoryInput!): CategoryModel!
   createCategoryKeyword(input: CreateCategoryKeywordInput!): CategoryKeywordModel!
   createExtractedOperations(accountId: String!, operations: [ExtractedOperationInput!]!): [OperationModel!]!
   createNotification(input: CreateNotificationInput!): NotificationModel!
   createOperation(input: CreateOperationInput!): OperationModel!
+  createPayment(input: CreatePaymentInput!): PaymentModel!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
+  deleteAllOperations: Boolean!
   deleteCategory(id: String!): Boolean!
   deleteCategoryKeyword(id: String!): Boolean!
   deleteNotification(id: String!): Boolean!
@@ -263,6 +274,7 @@ type Mutation {
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
   exportOperationsToExcel(filter: OperationsExportFilterInput): FileDownloadModel!
+  impersonateUser(userId: String!): AuthModel!
   loginUser(data: LoginInput!): AuthModel!
   logoutUser: Boolean!
   markAllNotificationsAsRead: Boolean!
@@ -272,7 +284,6 @@ type Mutation {
   removeUser(id: String!): UserModel!
   updateAccount(input: UpdateAccountInput!): AccountModel!
   updateCategory(input: UpdateCategoryInput!): CategoryModel!
-  updateCategoryKeyword(input: UpdateCategoryKeywordInput!): CategoryKeywordModel!
   updateOperation(input: UpdateOperationInput!): OperationModel!
   updateRecurrence(input: UpdateRecurrenceInput!): RecurrenceConfigModel!
   updateSubscriptionPlan(data: UpdateSubscriptionPlanInput!): SubscriptionPlanModel!
@@ -372,6 +383,22 @@ type PaginatedUsersModel {
   total: Int!
 }
 
+type PaymentModel {
+  amount: String!
+  createdAt: DateTime!
+  currency: String!
+  externalId: String
+  id: ID!
+  status: PaymentStatus!
+}
+
+enum PaymentStatus {
+  CANCELLED
+  FAILED
+  PENDING
+  SUCCESS
+}
+
 type Query {
   findAllAccounts: [AccountModel!]!
   findAllAdminNotifications: [NotificationModel!]!
@@ -392,12 +419,12 @@ type Query {
   findOneOperation(id: String!): OperationModel!
   findOneRecurrence(id: String!): RecurrenceConfigModel!
   findOneTag(id: String!): TagModel!
-  findProfile: UserModel!
   findSessionsByUser: [SessionModel!]!
   findSubscriptionPlan(id: String!): SubscriptionPlanModel!
   findUnreadNotifications: [NotificationModel!]!
   findUser(id: String!): UserModel!
   generateTotpSecret: TotpModel!
+  me: UserModel!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
 }
 
@@ -474,7 +501,6 @@ type SubscriptionPlanModel {
   maxAccounts: Float
   maxCategories: Float
   maxCategoryKeywordsPerCategory: Float
-  maxOperations: Float
   maxOperationsPerMonth: Float
   maxRecurrenceConfigs: Float
   maxTags: Float
@@ -503,13 +529,13 @@ enum SubscriptionType {
 
 type SystemMetricModel {
   activeUsersDaily: Int!
-  activeUsersMonthly: Int!
   aiTokensUsedDaily: Int!
   createdAt: DateTime!
   date: DateTime!
   id: ID!
   operationsCreatedDaily: Int!
-  totalAiTokensUsed: Int!
+  totalAccounts: Int!
+  totalCategories: Int!
   totalOperations: Int!
   totalUsers: Int!
   usersByPlan: [UsersByPlanItem!]!
@@ -547,12 +573,6 @@ input UpdateCategoryInput {
   type: CategoryType
 }
 
-input UpdateCategoryKeywordInput {
-  categoryId: String
-  id: String!
-  phrase: String
-}
-
 input UpdateOperationInput {
   accountId: String!
   amount: String!
@@ -585,7 +605,6 @@ input UpdateSubscriptionPlanInput {
   maxAccounts: Int
   maxCategories: Int
   maxCategoryKeywordsPerCategory: Int
-  maxOperations: Int
   maxOperationsPerMonth: Int
   maxRecurrenceConfigs: Int
   maxTags: Int
@@ -627,11 +646,11 @@ type UserModel {
   isActive: Boolean!
   isEmailVerified: Boolean!
   isTotpEnabled: Boolean!
+  lastGlobalNotificationReadAt: DateTime
   lastLoginAt: DateTime
   loginCount: Float!
   name: String!
   password: String!
-  readGlobalNotificationIds: [String!]!
   role: String!
   subscriptionExpiresAt: DateTime
   subscriptionPlan: SubscriptionPlanModel!

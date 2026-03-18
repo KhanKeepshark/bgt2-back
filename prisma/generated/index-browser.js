@@ -137,7 +137,7 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   role: 'role',
-  readGlobalNotificationIds: 'readGlobalNotificationIds'
+  lastGlobalNotificationReadAt: 'lastGlobalNotificationReadAt'
 };
 
 exports.Prisma.SubscriptionPlanScalarFieldEnum = {
@@ -146,7 +146,6 @@ exports.Prisma.SubscriptionPlanScalarFieldEnum = {
   description: 'description',
   tokensPerMonth: 'tokensPerMonth',
   tokensOnPurchase: 'tokensOnPurchase',
-  maxOperations: 'maxOperations',
   maxCategories: 'maxCategories',
   maxAccounts: 'maxAccounts',
   maxTags: 'maxTags',
@@ -286,13 +285,26 @@ exports.Prisma.SystemMetricScalarFieldEnum = {
   date: 'date',
   totalUsers: 'totalUsers',
   activeUsersDaily: 'activeUsersDaily',
-  activeUsersMonthly: 'activeUsersMonthly',
   usersByPlan: 'usersByPlan',
   totalOperations: 'totalOperations',
   operationsCreatedDaily: 'operationsCreatedDaily',
-  totalAiTokensUsed: 'totalAiTokensUsed',
+  totalCategories: 'totalCategories',
+  totalAccounts: 'totalAccounts',
   aiTokensUsedDaily: 'aiTokensUsedDaily',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  provider: 'provider',
+  externalId: 'externalId',
+  userId: 'userId',
+  subscriptionPriceId: 'subscriptionPriceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -361,6 +373,13 @@ exports.NotificationScope = exports.$Enums.NotificationScope = {
   USER: 'USER'
 };
 
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   SubscriptionPlan: 'SubscriptionPlan',
@@ -374,7 +393,8 @@ exports.Prisma.ModelName = {
   CategoryKeyword: 'CategoryKeyword',
   AiTokenUsage: 'AiTokenUsage',
   Notification: 'Notification',
-  SystemMetric: 'SystemMetric'
+  SystemMetric: 'SystemMetric',
+  Payment: 'Payment'
 };
 
 /**

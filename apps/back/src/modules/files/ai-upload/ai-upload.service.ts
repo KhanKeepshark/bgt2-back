@@ -9,12 +9,13 @@ import { buildOptimizedPrompt } from './utils/buildOptimizedPrompt';
 import { ExtractedOperation } from '@back/shared/types/ai-operations';
 import { GoogleGenAI } from '@google/genai';
 import { parseToonResponse } from './utils/parseToonResponse';
+import { AiUploadError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class AiUploadService {
   private readonly logger = new Logger(AiUploadService.name);
   private readonly genAI: GoogleGenAI;
-  private readonly modelName = 'gemini-2.5-flash-lite';
+  private readonly modelName = 'gemini-3.1-flash-lite-preview';
 
   constructor(
     configService: ConfigService,
@@ -30,7 +31,7 @@ export class AiUploadService {
   public async aiFileUpload(
     user: User, 
     file: Upload,
-  ): Promise<{ operations: ExtractedOperation[] }> {
+  ): Promise<{ operations: ExtractedOperation[], tokensBalance: number }> {
     let estimatedTokens = 0;
     let actualTokens = 0;
     let operationsCreated = 0;
@@ -42,17 +43,20 @@ export class AiUploadService {
       const filePart = createFilePart(buffer, file.mimetype);
       const prompt = buildOptimizedPrompt(categories);
 
+      this.logger.debug(`Prompt: ${prompt}`);
+
       // Получаем оценку токенов перед запросом
       try {
         const countResponse = await this.genAI.models.countTokens({
           model: this.modelName,
           contents: [filePart, prompt],
         });
-        estimatedTokens = countResponse.totalTokens * 5; // Умножаем на 5 как в aiFileTokenCount
+        // Умножаем на 2 для безопасности (input + output)
+        estimatedTokens = Math.ceil(countResponse.totalTokens * 2); 
       } catch (countError) {
         this.logger.warn(`Failed to count tokens: ${countError.message}`);
         // Продолжаем без оценки токенов, но установим дефолтное значение для проверки баланса
-        estimatedTokens = 100000; 
+        estimatedTokens = 10000; 
       }
 
       // Проверяем баланс пользователя
@@ -63,7 +67,13 @@ export class AiUploadService {
 
       if (!freshUser || freshUser.tokensBalance < estimatedTokens) {
         throw new BadRequestException(
-          `Insufficient tokens. Required: ~${estimatedTokens}, Available: ${freshUser?.tokensBalance || 0}`,
+          JSON.stringify({
+            code: AiUploadError.INSUFFICIENT_TOKENS,
+            params: {
+              required: estimatedTokens,
+              available: freshUser?.tokensBalance ?? 0,
+            },
+          }),
         );
       }
 
@@ -75,18 +85,9 @@ export class AiUploadService {
       const rawResult = response.text;
       actualTokens = response.usageMetadata?.totalTokenCount || 0;
 
-      // Списываем токены
-      await this.prismaService.user.update({
-        where: { id: user.id },
-        data: {
-          tokensBalance: {
-            decrement: actualTokens,
-          },
-        },
-      });
-
       this.logger.debug(`AI Response: ${rawResult}`);
       this.logger.debug(`Token usage - Estimated: ${estimatedTokens}, Actual: ${actualTokens}`);
+
 
       const extractedOperations = parseToonResponse(rawResult);
       operationsCreated = extractedOperations.length;
@@ -117,40 +118,84 @@ export class AiUploadService {
             })
           : extractedOperations;
 
-      // Логируем успешное использование токенов
-      await this.logTokenUsage({
-        userId: user.id,
-        estimatedTokens,
-        actualTokens,
-        operationsCreated,
-        fileType: file.mimetype,
-        status: 'SUCCESS',
+      // Транзакция: списание и логирование (списываем estimatedTokens)
+      const updatedUser = await this.prismaService.$transaction(async (tx) => {
+        const updated = await tx.user.update({
+          where: { id: user.id },
+          data: {
+            tokensBalance: {
+              decrement: estimatedTokens,
+            },
+          },
+          select: { tokensBalance: true },
+        });
+
+        await tx.aiTokenUsage.create({
+          data: {
+            userId: user.id,
+            estimatedTokens,
+            actualTokens,
+            operationsCreated,
+            fileType: file.mimetype,
+            status: 'SUCCESS',
+            error: null,
+          },
+        });
+        
+        return updated;
       });
 
       return {
         operations: refinedOperations,
+        tokensBalance: updatedUser.tokensBalance,
       };
     } catch (error) {
       const errorMessage = error.message || 'Failed to process uploaded file.';
       this.logger.error(`Error processing file: ${errorMessage}`, error.stack);
 
-      // Логируем неудачное использование токенов
-      await this.logTokenUsage({
-        userId: user.id,
-        estimatedTokens,
-        actualTokens,
-        operationsCreated,
-        fileType: file.mimetype,
-        status: 'FAILED',
-        error: errorMessage,
-      }).catch((logError) => {
-        this.logger.error(`Failed to log token usage: ${logError.message}`);
-      });
+      // Если токены были потрачены (был выполнен AI-запрос), списываем estimatedTokens и логируем ошибку
+      if (actualTokens > 0 && estimatedTokens > 0) {
+        try {
+            await this.prismaService.$transaction(async (tx) => {
+                await tx.user.update({
+                    where: { id: user.id },
+                    data: { tokensBalance: { decrement: estimatedTokens } },
+                });
+
+                await tx.aiTokenUsage.create({
+                    data: {
+                        userId: user.id,
+                        estimatedTokens,
+                        actualTokens,
+                        operationsCreated,
+                        fileType: file.mimetype,
+                        status: 'FAILED',
+                        error: errorMessage,
+                    }
+                });
+            });
+        } catch (logError) {
+            this.logger.error(`Failed to charge/log failed usage: ${logError.message}`);
+        }
+      } else {
+          // Логируем неудачную попытку без списания
+          await this.logTokenUsage({
+            userId: user.id,
+            estimatedTokens,
+            actualTokens: 0,
+            operationsCreated: 0,
+            fileType: file.mimetype,
+            status: 'FAILED',
+            error: errorMessage,
+          }).catch((logError) => {
+            this.logger.error(`Failed to log token usage: ${logError.message}`);
+          });
+      }
 
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new BadRequestException(errorMessage);
+      throw new BadRequestException(AiUploadError.PROCESS_FAILED);
     }
   }
 
@@ -171,14 +216,14 @@ export class AiUploadService {
       });
 
       return {
-        tokenCount: countResponse.totalTokens * 5,
+        tokenCount: Math.ceil(countResponse.totalTokens * 2),
       };
     } catch (error) {
       this.logger.error(`Error counting tokens: ${error.message}`, error.stack);
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new BadRequestException(error.message || 'Failed to count tokens.');
+      throw new BadRequestException(AiUploadError.TOKEN_COUNT_FAILED);
     }
   }
 
@@ -216,7 +261,7 @@ export class AiUploadService {
     });
 
     if (categories.length === 0) {
-      throw new BadRequestException('No categories found.');
+      throw new BadRequestException(AiUploadError.NO_CATEGORIES);
     }
     return categories;
   }

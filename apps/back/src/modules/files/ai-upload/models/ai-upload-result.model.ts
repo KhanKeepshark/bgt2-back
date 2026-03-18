@@ -7,5 +7,7 @@ export class AiUploadResultModel {
 
   @Field(() => [ExtractedOperationModel])
   operations: ExtractedOperation[];
-}
 
+  @Field(() => Number)
+  tokensBalance: number;
+}

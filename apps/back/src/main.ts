@@ -48,8 +48,6 @@ async function bootstrap() {
     }),
   );
 
-  console.log(config.getOrThrow<string>('RABBITMQ_URI'));
-
   app.use(
     session({
       secret: config.getOrThrow<string>('SESSION_SECRET'),
@@ -71,7 +69,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: config.getOrThrow<string>('ALLOWED_ORIGINS'),
+    origin: config.getOrThrow<string>('ALLOWED_ORIGINS').split(',').map(s => s.trim()),
     credentials: true,
     exposedHeaders: ['set-cookie'],
   });

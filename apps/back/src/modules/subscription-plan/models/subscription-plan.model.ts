@@ -25,9 +25,6 @@ export class SubscriptionPlanModel implements SubscriptionPlan {
   tokensOnPurchase: number;
 
   @Field(() => Number, { nullable: true })
-  maxOperations: number | null;
-
-  @Field(() => Number, { nullable: true })
   maxCategories: number | null;
 
   @Field(() => Number, { nullable: true })

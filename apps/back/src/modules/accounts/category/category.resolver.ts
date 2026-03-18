@@ -74,14 +74,15 @@ export class CategoryResolver {
     return this.categoryService.createKeyword(input, user);
   }
 
-  @Authorization()
-  @Mutation(() => CategoryKeywordModel, { name: 'updateCategoryKeyword' })
-  public async updateCategoryKeyword(
-    @Args('input') input: UpdateCategoryKeywordInput,
-    @Authorized() user: User,
-  ) {
-    return this.categoryService.updateKeyword(input, user);
-  }
+  // TODO: Uncomment when update keyword will be implemented
+  // @Authorization()
+  // @Mutation(() => CategoryKeywordModel, { name: 'updateCategoryKeyword' })
+  // public async updateCategoryKeyword(
+  //   @Args('input') input: UpdateCategoryKeywordInput,
+  //   @Authorized() user: User,
+  // ) {
+  //   return this.categoryService.updateKeyword(input, user);
+  // }
 
   @Authorization()
   @Mutation(() => Boolean, { name: 'deleteCategoryKeyword' })
@@ -90,5 +91,14 @@ export class CategoryResolver {
     @Authorized() user: User,
   ) {
     return this.categoryService.deleteKeyword(id, user);
+  }
+
+  @Authorization()
+  @Mutation(() => Boolean, { name: 'categoryHasOperations' })
+  public async categoryHasOperations(
+    @Args('id') id: string,
+    @Authorized() user: User,
+  ) {
+    return this.categoryService.hasOperations(id, user);
   }
 }

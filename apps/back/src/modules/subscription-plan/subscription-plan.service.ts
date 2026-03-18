@@ -114,10 +114,7 @@ export class SubscriptionPlanService {
     });
 
     if (usersCount > 0) {
-      throw new ConflictException({
-        key: SubscriptionError.CANNOT_DELETE_ASSIGNED_PLAN,
-        args: { count: usersCount },
-      });
+      throw new ConflictException(SubscriptionError.CANNOT_DELETE_ASSIGNED_PLAN);
     }
 
     return this.prismaService.subscriptionPlan.delete({

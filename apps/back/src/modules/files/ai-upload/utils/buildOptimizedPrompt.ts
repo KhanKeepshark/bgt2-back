@@ -1,35 +1,31 @@
   export const buildOptimizedPrompt = (
     categories: Array<{ id: string; name: string; type: string }>,
   ): string => {
+    const sanitize = (name: string) => name.replace(/[|\n]/g, ' ').trim();
+
     const incomeCategories = categories
       .filter(c => c.type === 'INCOME')
-      .map(c => c.name)
+      .map(c => sanitize(c.name))
       .join(',');
     const expenseCategories = categories
       .filter(c => c.type === 'EXPENSE')
-      .map(c => c.name)
+      .map(c => sanitize(c.name))
       .join(',');
 
-    return `Извлеки операции из файла. 
+    return `Task: Extract financial operations from the provided file (image, document, or spreadsheet).
+Output: Plain text only. No JSON/Markdown.
+Format: amount|date|type|category|description
+Types: I=Income, E=Expense
+Date: YYYY-MM-DD
+Income Cats: ${incomeCategories}
+Expense Cats: ${expenseCategories}
 
-ВАЖНО: Используй ТОЛЬКО текстовый формат с разделителями |. НЕ используй JSON, НЕ используй markdown код блоки. НЕ добавляй префиксы перед строками.
+Error Handling:
+If file is NOT a financial document (receipt, invoice, bank statement, report) -> return "ERR_NR"
+If content is unreadable, corrupted, or empty -> return "ERR_UR"
+If no financial data (amount/date) found -> return "ERR_ND"
 
-Формат ответа (каждая строка - одна операция):
-amount|date|type|category|description
-
-Правила:
-- amount: число без валюты
-- date: YYYY-MM-DD
-- type: I (INCOME) или E (EXPENSE)
-- category: из списка ниже (точное или ближайшее)
-- description: до 50 символов
-
-Доходы: ${incomeCategories}
-Расходы: ${expenseCategories}
-
-Пример правильного ответа:
-787|2025-11-11|E|Food|IP SAUDAGER
-1847|2025-11-11|E|Food|TOO SALEKZ
-
-НЕ используй JSON формат. Только строки с разделителями | как в примере выше.`;
+Example:
+100|2025-01-01|I|Salary|Salary Jan
+50.5|2025-01-02|E|Food|Lunch`;
   }

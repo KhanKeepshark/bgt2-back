@@ -1,14 +1,16 @@
 import type { PipeTransform } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common';
 import type * as Upload from 'graphql-upload/Upload.js';
+import { FileError } from '../constants/errors.constants';
 import { validateFileFormat, validateFileSize } from '../utils/file.util';
 
+const MAX_FILE_SIZE = 1024 * 1024 * 2;
 export class AiFileValidationPipe implements PipeTransform {
   public async transform(value: Upload) {
     const { createReadStream, filename } = value;
 
     if (!filename) {
-      throw new BadRequestException('File not found');
+      throw new BadRequestException(FileError.NOT_FOUND);
     }
 
     const fileStream = createReadStream();
@@ -17,14 +19,19 @@ export class AiFileValidationPipe implements PipeTransform {
     const isValidFormat = validateFileFormat(filename, allowedFileFormats);
 
     if (!isValidFormat) {
-      throw new BadRequestException('Invalid file format');
+      throw new BadRequestException(FileError.INVALID_FORMAT);
     }
 
-    // 1mb
-    const isValidSize = await validateFileSize(fileStream, 1024 * 1024 * 1);
+    // 2mb
+    const isValidSize = await validateFileSize(fileStream, 1024 * 1024 * 2);
 
     if (!isValidSize) {
-      throw new BadRequestException('File size is too large');
+      throw new BadRequestException(
+        JSON.stringify({
+          code: FileError.SIZE_TOO_LARGE,
+          params: { maxSize: '2 MB' },
+        }),
+      );
     }
 
     return value;

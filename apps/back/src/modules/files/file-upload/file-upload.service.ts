@@ -7,6 +7,7 @@ import { streamToBuffer } from '../ai-upload/utils/streamToBuffer';
 import { ExtractedOperation } from '@back/shared/types/ai-operations';
 import { fixEncoding } from '../ai-upload/utils/fixEncoding';
 import { getCellRawValue, getCellValue } from '../ai-upload/utils/getCellValue';
+import { FileError } from '@back/shared/constants/errors.constants';
 
 type RequiredColumns =
   | 'amount'
@@ -33,7 +34,9 @@ export class FileUploadService {
       });
 
       if (!workbook.SheetNames.length) {
-        throw new BadRequestException('Spreadsheet does not contain sheets');
+        throw new BadRequestException(
+          JSON.stringify({ code: FileError.SHEET_MISSING }),
+        );
       }
 
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -60,7 +63,9 @@ export class FileUploadService {
       }
 
       if (!rows.length) {
-        throw new BadRequestException('Spreadsheet is empty');
+        throw new BadRequestException(
+          JSON.stringify({ code: FileError.SHEET_EMPTY }),
+        );
       }
 
       const headerRow = rows[0].map((cell) =>
@@ -103,7 +108,10 @@ export class FileUploadService {
 
         if (!amount || !date || !type) {
           throw new BadRequestException(
-            `Row ${rowIndex + 1} contains empty required fields`,
+            JSON.stringify({
+              code: FileError.ROW_EMPTY_REQUIRED_FIELDS,
+              params: { row: rowIndex + 1 },
+            }),
           );
         }
 
@@ -114,7 +122,10 @@ export class FileUploadService {
           normalizedType !== 'TRANSFER'
         ) {
           throw new BadRequestException(
-            `Row ${rowIndex + 1} has invalid type "${type}". Allowed values: INCOME, EXPENSE, TRANSFER`,
+            JSON.stringify({
+              code: FileError.ROW_INVALID_TYPE,
+              params: { row: rowIndex + 1, type },
+            }),
           );
         }
 
@@ -138,7 +149,10 @@ export class FileUploadService {
         const trimmedCategoryName = categoryName.trim();
         if (!trimmedCategoryName) {
           throw new BadRequestException(
-            `Row ${rowIndex + 1} contains empty category`,
+            JSON.stringify({
+              code: FileError.ROW_EMPTY_CATEGORY,
+              params: { row: rowIndex + 1 },
+            }),
           );
         }
         categoryName = trimmedCategoryName;
@@ -153,9 +167,11 @@ export class FileUploadService {
         }
 
         const normalizedDate = this.normalizeDateValue(date);
+        const normalizedAmount = amount.replace(/\s/g, '').replace(',', '.');
 
         operations.push({
-          amount: Math.abs(parseFloat(amount)).toString(),
+          amount: Math.abs(parseFloat(normalizedAmount)).toString(),
+
           date: normalizedDate,
           description: description || undefined,
           type: normalizedType as 'INCOME' | 'EXPENSE' | 'TRANSFER',
@@ -166,7 +182,9 @@ export class FileUploadService {
       }
 
       if (!operations.length) {
-        throw new BadRequestException('No rows with operations were found');
+        throw new BadRequestException(
+          JSON.stringify({ code: FileError.NO_ROWS }),
+        );
       }
 
       return operations;
@@ -175,7 +193,7 @@ export class FileUploadService {
         throw error;
       }
       throw new BadRequestException(
-        'Failed to parse operations from the provided file',
+        JSON.stringify({ code: FileError.PARSE_ERROR }),
       );
     }
   }
@@ -201,7 +219,10 @@ export class FileUploadService {
 
       if (headerIndex === -1) {
         throw new BadRequestException(
-          `Column "${column}" was not found in header row`,
+          JSON.stringify({
+            code: FileError.COLUMN_MISSING,
+            params: { column },
+          }),
         );
       }
 
@@ -234,22 +255,27 @@ export class FileUploadService {
     if (typeof value === 'string') {
       const trimmed = value.trim();
       if (!trimmed) {
-        throw new BadRequestException('Date value cannot be empty');
-      }
-
-      const direct = new Date(trimmed);
-      if (!Number.isNaN(direct.getTime())) {
-        return direct.toISOString();
+        throw new BadRequestException(
+          JSON.stringify({ code: FileError.DATE_EMPTY }),
+        );
       }
 
       const localized = this.tryParseLocalizedDate(trimmed);
       if (localized) {
         return localized;
       }
+
+      const direct = new Date(trimmed);
+      if (!Number.isNaN(direct.getTime())) {
+        return direct.toISOString();
+      }
     }
 
     throw new BadRequestException(
-      `Unable to parse date value "${value as string}"`,
+      JSON.stringify({
+        code: FileError.DATE_PARSE_ERROR,
+        params: { value: value as string },
+      }),
     );
   }
 

@@ -88,4 +88,10 @@ export class OperationResolver {
   ) {
     return this.operationService.delete(id, user);
   }
+
+  @Authorization()
+  @Mutation(() => Boolean, { name: 'deleteAllOperations' })
+  public async deleteAllOperations(@Authorized() user: User) {
+    return this.operationService.deleteAll(user);
+  }
 }

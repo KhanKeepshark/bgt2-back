@@ -31,10 +31,7 @@ export class AccountService {
 
       if (userWithPlan?.subscriptionPlan?.maxAccounts !== null) {
         if (userWithPlan._count.accounts >= userWithPlan.subscriptionPlan.maxAccounts) {
-          throw new BadRequestException({
-            key: SubscriptionError.LIMIT_REACHED,
-            args: { max: userWithPlan.subscriptionPlan.maxAccounts },
-          });
+          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
         }
       }
 
@@ -53,6 +50,14 @@ export class AccountService {
           },
         },
       });
+
+      // Если это первый аккаунт пользователя — делаем его defaultAccount
+      if (userWithPlan._count.accounts === 0) {
+        await this.prismaService.user.update({
+          where: { id: user.id },
+          data: { defaultAccountId: created.id },
+        });
+      }
 
       return created;
     } catch (error) {
@@ -89,14 +94,17 @@ export class AccountService {
     }
   }
 
-  public async findAll(user: User): Promise<Account[]> {
+  public async findAll(user: User): Promise<(Account & { isDefault: boolean })[]> {
     try {
       const accounts = await this.prismaService.account.findMany({
         where: { userId: user.id },
         orderBy: { createdAt: 'desc' },
       });
 
-      return accounts;
+      return accounts.map((account) => ({
+        ...account,
+        isDefault: account.id === user.defaultAccountId,
+      }));
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(AccountError.NOT_FOUND);
@@ -157,17 +165,70 @@ export class AccountService {
 
   public async delete(id: string, user: User): Promise<boolean> {
     try {
+      const accountsCount = await this.prismaService.account.count({
+        where: { userId: user.id },
+      });
+
+      if (accountsCount <= 1) {
+        throw new BadRequestException(AccountError.CANNOT_DELETE_LAST);
+      }
+
+      const accountToDelete = await this.prismaService.account.findFirst({
+        where: { id, userId: user.id },
+      });
+
+      if (!accountToDelete) {
+        throw new NotFoundException(AccountError.NOT_FOUND);
+      }
+
+      const isDeletingDefault = user.defaultAccountId === id;
+
+      if (isDeletingDefault) {
+        const nextDefaultAccount = await this.prismaService.account.findFirst({
+          where: { userId: user.id, id: { not: id } },
+          orderBy: { createdAt: 'asc' },
+        });
+
+        if (nextDefaultAccount) {
+          await this.prismaService.user.update({
+            where: { id: user.id },
+            data: { defaultAccountId: nextDefaultAccount.id },
+          });
+        }
+      }
+
       const result = await this.prismaService.account.delete({
         where: { id, userId: user.id },
       });
 
       return !!result;
     } catch (error) {
+      if (error instanceof BadRequestException || error instanceof NotFoundException) {
+        throw error;
+      }
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(AccountError.DELETION_FAILED);
       }
 
       throw error;
     }
+  }
+
+  public async hasOperations(id: string, user: User): Promise<boolean> {
+    const operationsCount = await this.prismaService.operation.count({
+      where: {
+        OR: [{ accountId: id }, { transferAccountId: id }],
+        userId: user.id,
+      },
+    });
+
+    const recurrencesCount = await this.prismaService.recurrenceConfig.count({
+      where: {
+        OR: [{ accountId: id }, { transferAccountId: id }],
+        userId: user.id,
+      },
+    });
+
+    return operationsCount > 0 || recurrencesCount > 0;
   }
 }

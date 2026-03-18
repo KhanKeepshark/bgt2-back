@@ -35,10 +35,7 @@ export class RecurrenceService {
           userWithPlan.subscriptionPlan.maxRecurrenceConfigs !== null &&
           userWithPlan._count.recurrenceConfigs >= userWithPlan.subscriptionPlan.maxRecurrenceConfigs
         ) {
-          throw new BadRequestException({
-            key: SubscriptionError.LIMIT_REACHED,
-            args: { max: userWithPlan.subscriptionPlan.maxRecurrenceConfigs },
-          });
+          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
         }
       }
 
@@ -402,6 +399,32 @@ export class RecurrenceService {
 
       if (recurrenceDate > today) {
         throw new BadRequestException('Recurrence date has not arrived yet');
+      }
+
+      // Проверка лимитов плана на операции
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: recurrence.userId },
+        include: { subscriptionPlan: true, _count: { select: { operations: true } } },
+      });
+
+      if (userWithPlan?.subscriptionPlan) {
+        // Лимит операций в месяц
+        if (userWithPlan.subscriptionPlan.maxOperationsPerMonth !== null) {
+          const startOfMonth = new Date();
+          startOfMonth.setDate(1);
+          startOfMonth.setHours(0, 0, 0, 0);
+
+          const operationsThisMonth = await this.prismaService.operation.count({
+            where: {
+              userId: recurrence.userId,
+              createdAt: { gte: startOfMonth },
+            },
+          });
+
+          if (operationsThisMonth >= userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
+            throw new BadRequestException(SubscriptionError.MONTHLY_LIMIT_REACHED);
+          }
+        }
       }
 
       const nextDate = this.calculateNextDate(

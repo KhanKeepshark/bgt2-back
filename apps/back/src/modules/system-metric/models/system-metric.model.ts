@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType, Float } from '@nestjs/graphql';
 
 @ObjectType()
 export class UsersByPlanItem {
@@ -23,9 +23,6 @@ export class SystemMetricModel {
   @Field(() => Int)
   activeUsersDaily: number;
 
-  @Field(() => Int)
-  activeUsersMonthly: number;
-
   @Field(() => [UsersByPlanItem])
   usersByPlan: UsersByPlanItem[];
 
@@ -36,7 +33,10 @@ export class SystemMetricModel {
   operationsCreatedDaily: number;
 
   @Field(() => Int)
-  totalAiTokensUsed: number;
+  totalCategories: number;
+
+  @Field(() => Int)
+  totalAccounts: number;
 
   @Field(() => Int)
   aiTokensUsedDaily: number;

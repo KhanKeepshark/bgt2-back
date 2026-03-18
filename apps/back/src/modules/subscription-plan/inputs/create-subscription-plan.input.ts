@@ -17,9 +17,6 @@ export class CreateSubscriptionPlanInput {
   tokensOnPurchase: number;
 
   @Field(() => Int, { nullable: true })
-  maxOperations?: number | null;
-
-  @Field(() => Int, { nullable: true })
   maxCategories?: number | null;
 
   @Field(() => Int, { nullable: true })

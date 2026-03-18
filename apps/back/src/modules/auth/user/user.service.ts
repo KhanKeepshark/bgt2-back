@@ -62,7 +62,11 @@ export class UserService {
             children: true,
           },
         },
-        subscriptionPlan: true,
+        subscriptionPlan: {
+          include: {
+            prices: true,
+          },
+        },
         subscriptionPrice: true,
       },
     });
@@ -114,12 +118,10 @@ export class UserService {
       },
     });
 
-    const defaultAccount = await this.accountService.createDefault(user);
-    user.defaultAccountId = defaultAccount.id;
-    await this.prismaService.user.update({
-      where: { id: user.id },
-      data: { defaultAccountId: defaultAccount.id },
-    });
+    await this.accountService.create(
+      { name: 'Default', currency: 'USD', icon: 'wallet' },
+      user,
+    );
     await this.categoryService.createDefault(user);
 
     // await this.verificationService.sendVerificationEmail(user);

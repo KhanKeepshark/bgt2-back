@@ -50,4 +50,13 @@ export class AccountResolver {
   public async deleteAccount(@Args('id') id: string, @Authorized() user: User) {
     return this.accountService.delete(id, user);
   }
+
+  @Authorization()
+  @Mutation(() => Boolean, { name: 'accountHasOperations' })
+  public async accountHasOperations(
+    @Args('id') id: string,
+    @Authorized() user: User,
+  ) {
+    return this.accountService.hasOperations(id, user);
+  }
 }

@@ -76,13 +76,13 @@ export class SessionService {
     });
 
     if (!user) {
-      throw new NotFoundException(AuthError.USER_NOT_FOUND);
+      throw new UnauthorizedException(AuthError.BAD_CREDENTIALS);
     }
 
     const isPasswordValid = await verify(user.password, password);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException(AuthError.INVALID_PASSWORD);
+      throw new UnauthorizedException(AuthError.BAD_CREDENTIALS);
     }
 
     if (!user.isEmailVerified) {
@@ -134,5 +134,29 @@ export class SessionService {
     );
 
     return true;
+  }
+
+  public async impersonate(req: Request, userId: string, userAgent: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      include: {
+        accounts: true,
+        tags: true,
+        categories: {
+          include: {
+            children: true,
+            keywords: true,
+          },
+        },
+        subscriptionPlan: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const metadata = getSessionMetadata(req, userAgent);
+    return await saveSession(req, user, metadata);
   }
 }

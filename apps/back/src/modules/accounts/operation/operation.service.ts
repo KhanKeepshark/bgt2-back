@@ -22,7 +22,7 @@ import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
 import { Prisma } from '@prisma/generated';
 import { calculateGroupSize, groupDays } from './utils/findAllForCharts.utils';
 import { Categories } from './models/operation-chart-data.model';
-import { AccountError, CategoryError, OperationError, SubscriptionError, TagError } from '@back/shared/constants/errors.constants';
+import { AccountError, CategoryError, OperationError, RecurrenceError, SubscriptionError, TagError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class OperationService {
@@ -42,19 +42,9 @@ export class OperationService {
         include: { subscriptionPlan: true, _count: { select: { operations: true } } },
       });
 
-      if (userWithPlan?.subscriptionPlan) {
-        // 1. Общий лимит операций
-        if (
-          userWithPlan.subscriptionPlan.maxOperations !== null &&
-          userWithPlan._count.operations >= userWithPlan.subscriptionPlan.maxOperations
-        ) {
-          throw new BadRequestException({
-            key: SubscriptionError.LIMIT_REACHED,
-            args: { max: userWithPlan.subscriptionPlan.maxOperations },
-          });
-        }
 
-        // 2. Лимит операций в месяц
+      if (userWithPlan?.subscriptionPlan) {
+        // Лимит операций в месяц
         if (userWithPlan.subscriptionPlan.maxOperationsPerMonth !== null) {
           const startOfMonth = new Date();
           startOfMonth.setDate(1);
@@ -63,15 +53,12 @@ export class OperationService {
           const operationsThisMonth = await this.prismaService.operation.count({
             where: {
               userId: user.id,
-              date: { gte: startOfMonth },
+              createdAt: { gte: startOfMonth },
             },
           });
 
           if (operationsThisMonth >= userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
-            throw new BadRequestException({
-              key: SubscriptionError.LIMIT_REACHED,
-              args: { max: userWithPlan.subscriptionPlan.maxOperationsPerMonth },
-            });
+            throw new BadRequestException(SubscriptionError.MONTHLY_LIMIT_REACHED);
           }
         }
       }
@@ -116,9 +103,7 @@ export class OperationService {
         }
 
         if (input.accountId === input.transferAccountId) {
-          throw new BadRequestException(
-            'You cannot transfer money to the same account',
-          );
+          throw new BadRequestException(OperationError.TRANSFER_SAME_ACCOUNT);
         }
 
         const amount = new Decimal(input.amount);
@@ -247,6 +232,32 @@ export class OperationService {
     user: User,
   ): Promise<Operation[]> {
     try {
+      // Проверка лимитов плана
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true, _count: { select: { operations: true } } },
+      });
+
+      if (userWithPlan?.subscriptionPlan) {
+        // Лимит операций в месяц
+        if (userWithPlan.subscriptionPlan.maxOperationsPerMonth !== null) {
+          const startOfMonth = new Date();
+          startOfMonth.setDate(1);
+          startOfMonth.setHours(0, 0, 0, 0);
+
+          const operationsThisMonth = await this.prismaService.operation.count({
+            where: {
+              userId: user.id,
+              createdAt: { gte: startOfMonth },
+            },
+          });
+
+          if (operationsThisMonth + operations.length > userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
+            throw new BadRequestException(SubscriptionError.MONTHLY_LIMIT_REACHED);
+          }
+        }
+      }
+
       const account = await this.prismaService.account.findFirst({
         where: { id: accountId, userId: user.id },
       });
@@ -277,23 +288,17 @@ export class OperationService {
             // For transfers we interpret categoryName column as the target account name
             const transferAccountName = op.categoryName?.toLowerCase();
             if (!transferAccountName) {
-              throw new BadRequestException(
-                'Transfer operations must include target account name in categoryName field',
-              );
+              throw new BadRequestException(OperationError.TRANSFER_TARGET_REQUIRED);
             }
 
             const transferAccount = accountMap.get(transferAccountName);
 
             if (!transferAccount) {
-              throw new BadRequestException(
-                `Transfer account "${op.categoryName}" not found`,
-              );
+              throw new BadRequestException(AccountError.NOT_FOUND);
             }
 
             if (transferAccount.id === accountId) {
-              throw new BadRequestException(
-                'Transfer account must differ from source account',
-              );
+              throw new BadRequestException(OperationError.TRANSFER_ACCOUNT_MUST_DIFFER);
             }
 
             const amount = new Decimal(op.amount);
@@ -942,10 +947,7 @@ export class OperationService {
   ): Promise<Operation> {
     try {
       if (input.recurrence) {
-        return await this.recurrenceService.createRecurringOperation(
-          input,
-          user,
-        );
+        throw new BadRequestException(RecurrenceError.UPDATE_NOT_ALLOWED);
       }
 
       if (input.accountId) {
@@ -954,7 +956,7 @@ export class OperationService {
         });
 
         if (!account) {
-          throw new BadRequestException('Account not found or access denied');
+          throw new BadRequestException(AccountError.NOT_FOUND);
         }
       }
 
@@ -964,7 +966,7 @@ export class OperationService {
         });
 
         if (!category) {
-          throw new BadRequestException('Category not found or access denied');
+          throw new BadRequestException(CategoryError.NOT_FOUND);
         }
       }
 
@@ -994,9 +996,7 @@ export class OperationService {
       }
 
       if (input.accountId === input.transferAccountId) {
-        throw new BadRequestException(
-          'You cannot transfer money to the same account',
-        );
+        throw new BadRequestException(OperationError.TRANSFER_SAME_ACCOUNT);
       }
 
       const existingOperation = await this.prismaService.operation.findFirst({
@@ -1172,6 +1172,37 @@ export class OperationService {
       });
 
       return !!result;
+    } catch (error) {
+      if (error?.code?.startsWith('P')) {
+        throw new BadRequestException(OperationError.DELETION_FAILED);
+      }
+
+      throw error;
+    }
+  }
+
+  public async deleteAll(user: User): Promise<boolean> {
+    try {
+      await this.prismaService.$transaction(async (tx) => {
+        // 1. Delete all operations
+        await tx.operation.deleteMany({
+          where: { userId: user.id },
+        });
+
+        // 2. Reset all accounts to initial balance
+        const accounts = await tx.account.findMany({
+          where: { userId: user.id },
+        });
+
+        for (const account of accounts) {
+          await tx.account.update({
+            where: { id: account.id },
+            data: { balance: account.initialBalance },
+          });
+        }
+      });
+
+      return true;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(OperationError.DELETION_FAILED);

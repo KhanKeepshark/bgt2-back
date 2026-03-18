@@ -33,4 +33,7 @@ export class AccountModel implements Account {
 
   @Field(() => Date)
   updatedAt: Date;
+
+  @Field(() => Boolean)
+  isDefault: boolean;
 }

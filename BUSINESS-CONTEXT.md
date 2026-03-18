@@ -47,7 +47,7 @@
 ### Каскады
 
 - Удаление User → каскад на Account, Operation, Category, Tag и т.д.
-- Удаление Account/Category → Operation.accountId/categoryId → SetNull (операция остаётся, связь обнуляется)
+- Удаление Account/Category → каскад на Operation (Cascade), связанные операции удаляются.
 
 ---
 
@@ -67,7 +67,6 @@
 
 | Ресурс | Поле плана | Где проверяется |
 |--------|------------|-----------------|
-| Операции (всего) | maxOperations | operation.service:48–56 |
 | Операции в месяц | maxOperationsPerMonth | operation.service:59–77 |
 | Счета | maxAccounts | account.service:26–38 |
 | Категории | maxCategories | category.service:32–44 |
@@ -101,7 +100,7 @@
 
 ### Создание операции
 
-1. Проверка лимитов: maxOperations, maxOperationsPerMonth
+1. Проверка лимитов: maxOperationsPerMonth
 2. Если `input.recurrence` → RecurrenceService.createRecurringOperation (создаётся RecurrenceConfig + первая операция)
 3. Иначе: валидация account, category (для INCOME/EXPENSE), tags, transferAccount (для TRANSFER)
 4. Создание Operation в транзакции + обновление balance счёта

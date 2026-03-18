@@ -179,10 +179,8 @@ export class CronService {
       const [
         totalUsers,
         activeUsersDaily,
-        activeUsersMonthly,
         totalOperations,
         operationsCreatedDaily,
-        totalAiTokensUsedRaw,
         aiTokensUsedDailyRaw,
         usersByPlanRaw
       ] = await Promise.all([
@@ -190,15 +188,9 @@ export class CronService {
         this.prismaService.user.count({
           where: { lastLoginAt: { gte: oneDayAgo } },
         }),
-        this.prismaService.user.count({
-          where: { lastLoginAt: { gte: thirtyDaysAgo } },
-        }),
         this.prismaService.operation.count(),
         this.prismaService.operation.count({
           where: { createdAt: { gte: oneDayAgo } },
-        }),
-        this.prismaService.aiTokenUsage.aggregate({
-          _sum: { actualTokens: true },
         }),
         this.prismaService.aiTokenUsage.aggregate({
           where: { createdAt: { gte: oneDayAgo } },
@@ -225,11 +217,9 @@ export class CronService {
         data: {
           totalUsers,
           activeUsersDaily,
-          activeUsersMonthly,
           usersByPlan: usersByPlan as any,
           totalOperations,
           operationsCreatedDaily,
-          totalAiTokensUsed: totalAiTokensUsedRaw._sum.actualTokens || 0,
           aiTokensUsedDaily: aiTokensUsedDailyRaw._sum.actualTokens || 0,
         },
       });

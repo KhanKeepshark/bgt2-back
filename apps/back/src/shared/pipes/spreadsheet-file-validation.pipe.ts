@@ -1,6 +1,7 @@
 import type { PipeTransform } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common';
 import type * as Upload from 'graphql-upload/Upload.js';
+import { FileError } from '../constants/errors.constants';
 import { validateFileFormat, validateFileSize } from '../utils/file.util';
 
 export class SpreadsheetFileValidationPipe implements PipeTransform {
@@ -8,7 +9,7 @@ export class SpreadsheetFileValidationPipe implements PipeTransform {
     const { createReadStream, filename } = value;
 
     if (!filename) {
-      throw new BadRequestException('File not found');
+      throw new BadRequestException(FileError.NOT_FOUND);
     }
 
     const fileStream = createReadStream();
@@ -17,14 +18,19 @@ export class SpreadsheetFileValidationPipe implements PipeTransform {
     const isValidFormat = validateFileFormat(filename, allowedFileFormats);
 
     if (!isValidFormat) {
-      throw new BadRequestException('Invalid file format. Allowed: csv, xlsx, xls');
+      throw new BadRequestException(FileError.INVALID_FORMAT_SPREADSHEET);
     }
 
     // 5MB limit
     const isValidSize = await validateFileSize(fileStream, 1024 * 1024 * 5);
 
     if (!isValidSize) {
-      throw new BadRequestException('File size is too large');
+      throw new BadRequestException(
+        JSON.stringify({
+          code: FileError.SIZE_TOO_LARGE,
+          params: { maxSize: '5 MB' },
+        }),
+      );
     }
 
     return value;

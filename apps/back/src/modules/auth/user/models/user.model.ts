@@ -66,8 +66,8 @@ export class UserModel implements User {
   @Field(() => String)
   role: 'USER' | 'ADMIN';
 
-  @Field(() => [String])
-  readGlobalNotificationIds: string[];
+  @Field(() => Date, { nullable: true })
+  lastGlobalNotificationReadAt: Date | null;
 
   @Field(() => SubscriptionPlanModel)
   subscriptionPlan: SubscriptionPlanModel;

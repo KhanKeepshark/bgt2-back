@@ -6,6 +6,7 @@ import {
 import { CreateNotificationInput } from './inputs/create-notification.input';
 import { Notification, NotificationScope, User } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
+import { NotificationError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class NotificationService {
@@ -19,7 +20,7 @@ export class NotificationService {
       const isGlobal = scope === NotificationScope.GLOBAL;
 
       if (!isGlobal && !input.userId) {
-        throw new BadRequestException('userId is required for personal notifications');
+        throw new BadRequestException(NotificationError.USER_ID_REQUIRED);
       }
 
       const created = await this.prismaService.notification.create({
@@ -38,7 +39,7 @@ export class NotificationService {
       return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to create notification');
+        throw new BadRequestException(NotificationError.CREATION_FAILED);
       }
 
       throw error;
@@ -52,7 +53,7 @@ export class NotificationService {
       });
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find notifications');
+        throw new BadRequestException(NotificationError.FIND_FAILED);
       }
 
       throw error;
@@ -79,18 +80,16 @@ export class NotificationService {
         }),
       ]);
 
-      const readGlobalIds = new Set(user.readGlobalNotificationIds ?? []);
-
       const globalWithReadState = global.map((n) => ({
         ...n,
-        isRead: readGlobalIds.has(n.id),
+        isRead: user.lastGlobalNotificationReadAt ? n.createdAt <= user.lastGlobalNotificationReadAt : false,
       }));
 
       // Сначала персональные, потом глобальные (или наоборот — по вкусу)
       return [...personal, ...globalWithReadState];
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find notifications');
+        throw new BadRequestException(NotificationError.FIND_FAILED);
       }
 
       throw error;
@@ -114,10 +113,8 @@ export class NotificationService {
         }),
       ]);
 
-      const readGlobalIds = new Set(user.readGlobalNotificationIds ?? []);
-
       const globalUnread = global
-        .filter((n) => !readGlobalIds.has(n.id))
+        .filter((n) => !user.lastGlobalNotificationReadAt || n.createdAt > user.lastGlobalNotificationReadAt)
         .map((n) => ({
           ...n,
           isRead: false,
@@ -126,7 +123,7 @@ export class NotificationService {
       return [...personalUnread, ...globalUnread];
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find unread notifications');
+        throw new BadRequestException(NotificationError.FIND_FAILED);
       }
 
       throw error;
@@ -140,20 +137,20 @@ export class NotificationService {
       });
 
       if (!notification) {
-        throw new NotFoundException('Notification not found');
+        throw new NotFoundException(NotificationError.NOT_FOUND);
       }
 
       if (
         notification.scope === NotificationScope.USER &&
         notification.userId !== user.id
       ) {
-        throw new NotFoundException('Notification not found');
+        throw new NotFoundException(NotificationError.NOT_FOUND);
       }
 
       return notification;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to find notification');
+        throw new BadRequestException(NotificationError.FIND_FAILED);
       }
 
       throw error;
@@ -177,14 +174,12 @@ export class NotificationService {
         return updated;
       }
 
-      // GLOBAL: помечаем как прочитанное, добавив id в readGlobalNotificationIds
-      const currentIds = new Set(user.readGlobalNotificationIds ?? []);
-      if (!currentIds.has(notification.id)) {
-        currentIds.add(notification.id);
+      // GLOBAL: обновляем lastGlobalNotificationReadAt, если дата этого уведомления новее
+      if (!user.lastGlobalNotificationReadAt || notification.createdAt > user.lastGlobalNotificationReadAt) {
         await this.prismaService.user.update({
           where: { id: user.id },
           data: {
-            readGlobalNotificationIds: Array.from(currentIds),
+            lastGlobalNotificationReadAt: notification.createdAt,
           },
         });
       }
@@ -195,7 +190,7 @@ export class NotificationService {
       } as Notification;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to mark notification as read');
+        throw new BadRequestException(NotificationError.MARK_READ_FAILED);
       }
 
       throw error;
@@ -215,27 +210,17 @@ export class NotificationService {
       });
 
       // Глобальные уведомления
-      const global = await this.prismaService.notification.findMany({
-        where: { scope: NotificationScope.GLOBAL },
-        select: { id: true },
-      });
-
-      const existing = new Set(user.readGlobalNotificationIds ?? []);
-      for (const n of global) {
-        existing.add(n.id);
-      }
-
       await this.prismaService.user.update({
         where: { id: user.id },
         data: {
-          readGlobalNotificationIds: Array.from(existing),
+          lastGlobalNotificationReadAt: new Date(),
         },
       });
 
       return true;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to mark all notifications as read');
+        throw new BadRequestException(NotificationError.MARK_ALL_READ_FAILED);
       }
 
       throw error;
@@ -253,7 +238,7 @@ export class NotificationService {
       return true;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
-        throw new BadRequestException('Failed to delete notification');
+        throw new BadRequestException(NotificationError.DELETION_FAILED);
       }
 
       throw error;

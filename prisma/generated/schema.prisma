@@ -14,7 +14,7 @@ model User {
   password String @db.VarChar(255)
   name     String @default("User") @db.VarChar(100)
 
-  defaultAccountId String?
+  defaultAccountId String?  @unique // Аккаунт может быть дефолтным только для одного пользователя
   defaultAccount   Account? @relation("UserDefaultAccount", fields: [defaultAccountId], references: [id], onDelete: SetNull)
 
   isActive        Boolean @default(true)
@@ -39,11 +39,11 @@ model User {
 
   tokensBalance Int @default(0)
 
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
-  role                      Role     @default(USER)
-  // Прочитанные глобальные уведомления (id из Notification)
-  readGlobalNotificationIds String[] @default([])
+  createdAt                    DateTime  @default(now())
+  updatedAt                    DateTime  @updatedAt
+  role                         Role      @default(USER)
+  // Время, до которого глобальные уведомления считаются прочитанными
+  lastGlobalNotificationReadAt DateTime?
 
   tokens            Token[]
   accounts          Account[]
@@ -54,6 +54,7 @@ model User {
   recurrenceConfigs RecurrenceConfig[]
   aiTokenUsages     AiTokenUsage[]
   notifications     Notification[]
+  payments          Payment[]
 
   @@index([subscriptionPlanId])
   @@index([subscriptionPriceId])
@@ -74,7 +75,6 @@ model SubscriptionPlan {
   tokensOnPurchase Int  @default(0) // Токены при покупке плана
 
   // Лимиты ресурсов (общие - всего)
-  maxOperations        Int? // null = безлимит (всего операций)
   maxCategories        Int? // null = безлимит (всего категорий)
   maxAccounts          Int? // null = безлимит (всего счетов/бюджетов)
   maxTags              Int? // null = безлимит (всего тегов)
@@ -114,7 +114,8 @@ model SubscriptionPrice {
   currency     String  @default("USD") @db.VarChar(5)
   durationDays Int? // null = бессрочно
 
-  users User[]
+  users    User[]
+  payments Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -165,7 +166,7 @@ model Account {
   transferOperations        Operation[]        @relation("OperationTransferAccount")
   recurrenceConfigs         RecurrenceConfig[] @relation("RecurrenceAccount")
   transferRecurrenceConfigs RecurrenceConfig[] @relation("RecurrenceTransferAccount")
-  defaultForUsers           User[]             @relation("UserDefaultAccount")
+  defaultForUser            User?              @relation("UserDefaultAccount")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -184,12 +185,12 @@ model Operation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  account           Account? @relation("OperationAccount", fields: [accountId], references: [id], onDelete: SetNull)
+  account           Account? @relation("OperationAccount", fields: [accountId], references: [id], onDelete: Cascade)
   accountId         String?
-  transferAccount   Account? @relation("OperationTransferAccount", fields: [transferAccountId], references: [id], onDelete: SetNull)
+  transferAccount   Account? @relation("OperationTransferAccount", fields: [transferAccountId], references: [id], onDelete: Cascade)
   transferAccountId String?
 
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String?
 
   recurrenceConfig   RecurrenceConfig? @relation(fields: [recurrenceConfigId], references: [id], onDelete: SetNull)
@@ -223,12 +224,12 @@ model RecurrenceConfig {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  account           Account? @relation("RecurrenceAccount", fields: [accountId], references: [id], onDelete: SetNull)
+  account           Account? @relation("RecurrenceAccount", fields: [accountId], references: [id], onDelete: Cascade)
   accountId         String?
-  transferAccount   Account? @relation("RecurrenceTransferAccount", fields: [transferAccountId], references: [id], onDelete: SetNull)
+  transferAccount   Account? @relation("RecurrenceTransferAccount", fields: [transferAccountId], references: [id], onDelete: Cascade)
   transferAccountId String?
 
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String?
 
   operations Operation[]
@@ -387,9 +388,8 @@ model SystemMetric {
   date DateTime @default(now()) // Время снятия метрики
 
   // Пользовательские метрики
-  totalUsers         Int
-  activeUsersDaily   Int // За 24 часа
-  activeUsersMonthly Int // За 30 дней
+  totalUsers       Int
+  activeUsersDaily Int // За 24 часа
 
   // Метрики по подпискам (JSON: { "Free": 100, "Premium": 20 })
   usersByPlan Json
@@ -398,11 +398,41 @@ model SystemMetric {
   totalOperations        Int
   operationsCreatedDaily Int
 
+  totalCategories Int @default(0)
+  totalAccounts   Int @default(0)
+
   // AI метрики
-  totalAiTokensUsed Int
   aiTokensUsedDaily Int
 
   createdAt DateTime @default(now())
 
   @@index([date])
+}
+
+model Payment {
+  id         String        @id @default(uuid())
+  amount     Decimal
+  currency   String        @default("RUB")
+  status     PaymentStatus @default(PENDING)
+  provider   String        @default("CLOUDPAYMENTS")
+  externalId String? // Transaction ID from CloudPayments
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  subscriptionPrice   SubscriptionPrice? @relation(fields: [subscriptionPriceId], references: [id])
+  subscriptionPriceId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([externalId])
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
 }

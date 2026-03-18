@@ -37,10 +37,7 @@ export class CategoryService {
 
       if (userWithPlan?.subscriptionPlan?.maxCategories !== null) {
         if (userWithPlan._count.categories >= userWithPlan.subscriptionPlan.maxCategories) {
-          throw new BadRequestException({
-            key: SubscriptionError.LIMIT_REACHED,
-            args: { max: userWithPlan.subscriptionPlan.maxCategories },
-          });
+          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
         }
       }
 
@@ -91,9 +88,9 @@ export class CategoryService {
 
   public async createDefault(user: User): Promise<void> {
     try {
-      for (const category of defaultCategories) {
-        await Promise.all([
-          await this.prismaService.category.create({
+      await Promise.all(
+        defaultCategories.map((category) =>
+          this.prismaService.category.create({
             data: {
               name: category.name,
               icon: category.icon,
@@ -103,8 +100,8 @@ export class CategoryService {
               type: category.type,
             },
           }),
-        ]);
-      }
+        ),
+      );
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(CategoryError.CREATION_FAILED);
@@ -285,6 +282,25 @@ export class CategoryService {
         throw new NotFoundException(CategoryError.NOT_FOUND);
       }
 
+      // Проверка лимитов плана на ключевые слова
+      const userWithPlan = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        include: { subscriptionPlan: true },
+      });
+
+      if (userWithPlan?.subscriptionPlan?.maxCategoryKeywordsPerCategory !== null) {
+        const keywordCount = await this.prismaService.categoryKeyword.count({
+          where: {
+            categoryId: input.categoryId,
+            userId: user.id,
+          },
+        });
+
+        if (keywordCount >= userWithPlan.subscriptionPlan.maxCategoryKeywordsPerCategory) {
+          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
+        }
+      }
+
       return await this.prismaService.categoryKeyword.create({
         data: {
           phrase: input.phrase,
@@ -322,6 +338,27 @@ export class CategoryService {
         if (!category) {
           throw new NotFoundException(CategoryError.NOT_FOUND);
         }
+
+        if (input.categoryId !== keyword.categoryId) {
+          // Проверка лимитов плана при смене категории
+          const userWithPlan = await this.prismaService.user.findUnique({
+            where: { id: user.id },
+            include: { subscriptionPlan: true },
+          });
+
+          if (userWithPlan?.subscriptionPlan?.maxCategoryKeywordsPerCategory !== null) {
+            const keywordCount = await this.prismaService.categoryKeyword.count({
+              where: {
+                categoryId: input.categoryId,
+                userId: user.id,
+              },
+            });
+
+            if (keywordCount >= userWithPlan.subscriptionPlan.maxCategoryKeywordsPerCategory) {
+              throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
+            }
+          }
+        }
       }
 
       return await this.prismaService.categoryKeyword.update({
@@ -347,5 +384,23 @@ export class CategoryService {
     });
 
     return result.count > 0;
+  }
+
+  public async hasOperations(id: string, user: User): Promise<boolean> {
+    const operationsCount = await this.prismaService.operation.count({
+      where: {
+        categoryId: id,
+        userId: user.id,
+      },
+    });
+
+    const recurrencesCount = await this.prismaService.recurrenceConfig.count({
+      where: {
+        categoryId: id,
+        userId: user.id,
+      },
+    });
+
+    return operationsCount > 0 || recurrencesCount > 0;
   }
 }

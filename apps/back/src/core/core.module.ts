@@ -23,6 +23,7 @@ import { FileUploadModule } from '../modules/files/file-upload/file-upload.modul
 import { FileDownloadModule } from '../modules/files/file-download/file-download.module';
 import { NotificationModule } from '../modules/notifications/notification.module';
 import { SubscriptionPlanModule } from '../modules/subscription-plan/subscription-plan.module';
+import { PaymentsModule } from '../modules/payments/payments.module';
 import { SystemMetricModule } from '../modules/system-metric/system-metric.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 
@@ -60,6 +61,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     FileDownloadModule,
     NotificationModule,
     SubscriptionPlanModule,
+    PaymentsModule,
     SystemMetricModule,
   ],
 })

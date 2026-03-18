@@ -29,7 +29,7 @@ export class UserResolver {
     return this.userService.findAll(pageNum, itemsPerPage, where, orderBy);
   }
 
-  @Query(() => UserModel, { name: 'findProfile' })
+  @Query(() => UserModel, { name: 'me' })
   @Authorization()
   public async me(@Authorized('id') id: string) {
     return this.userService.me(id);
