@@ -1,13 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUrl,
-  MinLength,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { NotificationScope } from '@prisma/generated';
+import { LocalizedStringInput } from './localized-string.input';
 
 @InputType()
 export class CreateNotificationInput {
@@ -29,26 +24,23 @@ export class CreateNotificationInput {
   @IsNotEmpty()
   userId?: string;
 
-  @Field(() => String)
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(1)
-  title: string;
+  @Field(() => LocalizedStringInput)
+  @ValidateNested()
+  @Type(() => LocalizedStringInput)
+  title: LocalizedStringInput;
 
-  @Field(() => String)
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(1)
-  description: string;
+  @Field(() => LocalizedStringInput)
+  @ValidateNested()
+  @Type(() => LocalizedStringInput)
+  description: LocalizedStringInput;
 
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
   link?: string;
 
-  @Field(() => String)
-  @IsString()
-  @IsOptional()
-  @MinLength(1)
-  buttonText: string;
+  @Field(() => LocalizedStringInput)
+  @ValidateNested()
+  @Type(() => LocalizedStringInput)
+  buttonText: LocalizedStringInput;
 }

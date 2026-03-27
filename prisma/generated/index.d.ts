@@ -16314,10 +16314,7 @@ export namespace Prisma {
 
   export type NotificationMinAggregateOutputType = {
     id: string | null
-    title: string | null
-    description: string | null
     link: string | null
-    buttonText: string | null
     scope: $Enums.NotificationScope | null
     userId: string | null
     isRead: boolean | null
@@ -16327,10 +16324,7 @@ export namespace Prisma {
 
   export type NotificationMaxAggregateOutputType = {
     id: string | null
-    title: string | null
-    description: string | null
     link: string | null
-    buttonText: string | null
     scope: $Enums.NotificationScope | null
     userId: string | null
     isRead: boolean | null
@@ -16355,10 +16349,7 @@ export namespace Prisma {
 
   export type NotificationMinAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
     link?: true
-    buttonText?: true
     scope?: true
     userId?: true
     isRead?: true
@@ -16368,10 +16359,7 @@ export namespace Prisma {
 
   export type NotificationMaxAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
     link?: true
-    buttonText?: true
     scope?: true
     userId?: true
     isRead?: true
@@ -16467,10 +16455,10 @@ export namespace Prisma {
 
   export type NotificationGroupByOutputType = {
     id: string
-    title: string
-    description: string
+    title: JsonValue
+    description: JsonValue
     link: string | null
-    buttonText: string
+    buttonText: JsonValue
     scope: $Enums.NotificationScope
     userId: string | null
     isRead: boolean
@@ -16568,10 +16556,10 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      title: string
-      description: string
+      title: Prisma.JsonValue
+      description: Prisma.JsonValue
       link: string | null
-      buttonText: string
+      buttonText: Prisma.JsonValue
       scope: $Enums.NotificationScope
       userId: string | null
       isRead: boolean
@@ -17002,10 +16990,10 @@ export namespace Prisma {
    */ 
   interface NotificationFieldRefs {
     readonly id: FieldRef<"Notification", 'String'>
-    readonly title: FieldRef<"Notification", 'String'>
-    readonly description: FieldRef<"Notification", 'String'>
+    readonly title: FieldRef<"Notification", 'Json'>
+    readonly description: FieldRef<"Notification", 'Json'>
     readonly link: FieldRef<"Notification", 'String'>
-    readonly buttonText: FieldRef<"Notification", 'String'>
+    readonly buttonText: FieldRef<"Notification", 'Json'>
     readonly scope: FieldRef<"Notification", 'NotificationScope'>
     readonly userId: FieldRef<"Notification", 'String'>
     readonly isRead: FieldRef<"Notification", 'Boolean'>
@@ -20208,20 +20196,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'NotificationScope'
-   */
-  export type EnumNotificationScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationScope'>
-    
-
-
-  /**
-   * Reference to a field of type 'NotificationScope[]'
-   */
-  export type ListEnumNotificationScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationScope[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -20232,6 +20206,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'NotificationScope'
+   */
+  export type EnumNotificationScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationScope'>
+    
+
+
+  /**
+   * Reference to a field of type 'NotificationScope[]'
+   */
+  export type ListEnumNotificationScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationScope[]'>
     
 
 
@@ -21312,10 +21300,10 @@ export namespace Prisma {
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     id?: StringFilter<"Notification"> | string
-    title?: StringFilter<"Notification"> | string
-    description?: StringFilter<"Notification"> | string
+    title?: JsonFilter<"Notification">
+    description?: JsonFilter<"Notification">
     link?: StringNullableFilter<"Notification"> | string | null
-    buttonText?: StringFilter<"Notification"> | string
+    buttonText?: JsonFilter<"Notification">
     scope?: EnumNotificationScopeFilter<"Notification"> | $Enums.NotificationScope
     userId?: StringNullableFilter<"Notification"> | string | null
     isRead?: BoolFilter<"Notification"> | boolean
@@ -21343,10 +21331,10 @@ export namespace Prisma {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
-    title?: StringFilter<"Notification"> | string
-    description?: StringFilter<"Notification"> | string
+    title?: JsonFilter<"Notification">
+    description?: JsonFilter<"Notification">
     link?: StringNullableFilter<"Notification"> | string | null
-    buttonText?: StringFilter<"Notification"> | string
+    buttonText?: JsonFilter<"Notification">
     scope?: EnumNotificationScopeFilter<"Notification"> | $Enums.NotificationScope
     userId?: StringNullableFilter<"Notification"> | string | null
     isRead?: BoolFilter<"Notification"> | boolean
@@ -21376,10 +21364,10 @@ export namespace Prisma {
     OR?: NotificationScalarWhereWithAggregatesInput[]
     NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Notification"> | string
-    title?: StringWithAggregatesFilter<"Notification"> | string
-    description?: StringWithAggregatesFilter<"Notification"> | string
+    title?: JsonWithAggregatesFilter<"Notification">
+    description?: JsonWithAggregatesFilter<"Notification">
     link?: StringNullableWithAggregatesFilter<"Notification"> | string | null
-    buttonText?: StringWithAggregatesFilter<"Notification"> | string
+    buttonText?: JsonWithAggregatesFilter<"Notification">
     scope?: EnumNotificationScopeWithAggregatesFilter<"Notification"> | $Enums.NotificationScope
     userId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
@@ -22691,10 +22679,10 @@ export namespace Prisma {
 
   export type NotificationCreateInput = {
     id?: string
-    title: string
-    description: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
     link?: string | null
-    buttonText: string
+    buttonText: JsonNullValueInput | InputJsonValue
     scope?: $Enums.NotificationScope
     isRead?: boolean
     createdAt?: Date | string
@@ -22704,10 +22692,10 @@ export namespace Prisma {
 
   export type NotificationUncheckedCreateInput = {
     id?: string
-    title: string
-    description: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
     link?: string | null
-    buttonText: string
+    buttonText: JsonNullValueInput | InputJsonValue
     scope?: $Enums.NotificationScope
     userId?: string | null
     isRead?: boolean
@@ -22717,10 +22705,10 @@ export namespace Prisma {
 
   export type NotificationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
     link?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonText?: StringFieldUpdateOperationsInput | string
+    buttonText?: JsonNullValueInput | InputJsonValue
     scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22730,10 +22718,10 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
     link?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonText?: StringFieldUpdateOperationsInput | string
+    buttonText?: JsonNullValueInput | InputJsonValue
     scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     isRead?: BoolFieldUpdateOperationsInput | boolean
@@ -22743,10 +22731,10 @@ export namespace Prisma {
 
   export type NotificationCreateManyInput = {
     id?: string
-    title: string
-    description: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
     link?: string | null
-    buttonText: string
+    buttonText: JsonNullValueInput | InputJsonValue
     scope?: $Enums.NotificationScope
     userId?: string | null
     isRead?: boolean
@@ -22756,10 +22744,10 @@ export namespace Prisma {
 
   export type NotificationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
     link?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonText?: StringFieldUpdateOperationsInput | string
+    buttonText?: JsonNullValueInput | InputJsonValue
     scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22768,10 +22756,10 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
     link?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonText?: StringFieldUpdateOperationsInput | string
+    buttonText?: JsonNullValueInput | InputJsonValue
     scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     isRead?: BoolFieldUpdateOperationsInput | boolean
@@ -24019,6 +24007,29 @@ export namespace Prisma {
     _min?: NestedEnumAiUsageStatusFilter<$PrismaModel>
     _max?: NestedEnumAiUsageStatusFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type EnumNotificationScopeFilter<$PrismaModel = never> = {
     equals?: $Enums.NotificationScope | EnumNotificationScopeFieldRefInput<$PrismaModel>
@@ -24042,10 +24053,7 @@ export namespace Prisma {
 
   export type NotificationMaxOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
     link?: SortOrder
-    buttonText?: SortOrder
     scope?: SortOrder
     userId?: SortOrder
     isRead?: SortOrder
@@ -24055,34 +24063,21 @@ export namespace Prisma {
 
   export type NotificationMinOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
     link?: SortOrder
-    buttonText?: SortOrder
     scope?: SortOrder
     userId?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
-
-  export type EnumNotificationScopeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.NotificationScope | EnumNotificationScopeFieldRefInput<$PrismaModel>
-    in?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
-    not?: NestedEnumNotificationScopeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationScope
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumNotificationScopeFilter<$PrismaModel>
-    _max?: NestedEnumNotificationScopeFilter<$PrismaModel>
-  }
-  export type JsonFilter<$PrismaModel = never> = 
+  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonFilterBase<$PrismaModel = never> = {
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string[]
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -24097,6 +24092,19 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type EnumNotificationScopeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationScope | EnumNotificationScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationScopeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationScope
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationScopeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationScopeFilter<$PrismaModel>
   }
 
   export type SystemMetricCountOrderByAggregateInput = {
@@ -24157,32 +24165,6 @@ export namespace Prisma {
     totalCategories?: SortOrder
     totalAccounts?: SortOrder
     aiTokensUsedDaily?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type EnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -26125,16 +26107,6 @@ export namespace Prisma {
     notIn?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
     not?: NestedEnumNotificationScopeFilter<$PrismaModel> | $Enums.NotificationScope
   }
-
-  export type NestedEnumNotificationScopeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.NotificationScope | EnumNotificationScopeFieldRefInput<$PrismaModel>
-    in?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
-    not?: NestedEnumNotificationScopeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationScope
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumNotificationScopeFilter<$PrismaModel>
-    _max?: NestedEnumNotificationScopeFilter<$PrismaModel>
-  }
   export type NestedJsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -26157,6 +26129,16 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumNotificationScopeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationScope | EnumNotificationScopeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationScope[] | ListEnumNotificationScopeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationScopeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationScope
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationScopeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationScopeFilter<$PrismaModel>
   }
 
   export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -26573,10 +26555,10 @@ export namespace Prisma {
 
   export type NotificationCreateWithoutUserInput = {
     id?: string
-    title: string
-    description: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
     link?: string | null
-    buttonText: string
+    buttonText: JsonNullValueInput | InputJsonValue
     scope?: $Enums.NotificationScope
     isRead?: boolean
     createdAt?: Date | string
@@ -26585,10 +26567,10 @@ export namespace Prisma {
 
   export type NotificationUncheckedCreateWithoutUserInput = {
     id?: string
-    title: string
-    description: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
     link?: string | null
-    buttonText: string
+    buttonText: JsonNullValueInput | InputJsonValue
     scope?: $Enums.NotificationScope
     isRead?: boolean
     createdAt?: Date | string
@@ -27040,10 +27022,10 @@ export namespace Prisma {
     OR?: NotificationScalarWhereInput[]
     NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
     id?: StringFilter<"Notification"> | string
-    title?: StringFilter<"Notification"> | string
-    description?: StringFilter<"Notification"> | string
+    title?: JsonFilter<"Notification">
+    description?: JsonFilter<"Notification">
     link?: StringNullableFilter<"Notification"> | string | null
-    buttonText?: StringFilter<"Notification"> | string
+    buttonText?: JsonFilter<"Notification">
     scope?: EnumNotificationScopeFilter<"Notification"> | $Enums.NotificationScope
     userId?: StringNullableFilter<"Notification"> | string | null
     isRead?: BoolFilter<"Notification"> | boolean
@@ -30554,10 +30536,10 @@ export namespace Prisma {
 
   export type NotificationCreateManyUserInput = {
     id?: string
-    title: string
-    description: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
     link?: string | null
-    buttonText: string
+    buttonText: JsonNullValueInput | InputJsonValue
     scope?: $Enums.NotificationScope
     isRead?: boolean
     createdAt?: Date | string
@@ -30869,10 +30851,10 @@ export namespace Prisma {
 
   export type NotificationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
     link?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonText?: StringFieldUpdateOperationsInput | string
+    buttonText?: JsonNullValueInput | InputJsonValue
     scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30881,10 +30863,10 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
     link?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonText?: StringFieldUpdateOperationsInput | string
+    buttonText?: JsonNullValueInput | InputJsonValue
     scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30893,10 +30875,10 @@ export namespace Prisma {
 
   export type NotificationUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
     link?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonText?: StringFieldUpdateOperationsInput | string
+    buttonText?: JsonNullValueInput | InputJsonValue
     scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

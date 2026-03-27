@@ -23,12 +23,34 @@ export class NotificationService {
         throw new BadRequestException(NotificationError.USER_ID_REQUIRED);
       }
 
+      const hasAtLeastOne = (obj: { en?: string; ru?: string; kz?: string }) =>
+        [obj.en, obj.ru, obj.kz].some((v) => v != null && String(v).trim().length > 0);
+      if (!hasAtLeastOne(input.title) || !hasAtLeastOne(input.description) || !hasAtLeastOne(input.buttonText)) {
+        throw new BadRequestException(NotificationError.AT_LEAST_ONE_LANGUAGE_REQUIRED);
+      }
+
+      const titleJson = {
+        en: input.title.en ?? null,
+        ru: input.title.ru ?? null,
+        kz: input.title.kz ?? null,
+      };
+      const descriptionJson = {
+        en: input.description.en ?? null,
+        ru: input.description.ru ?? null,
+        kz: input.description.kz ?? null,
+      };
+      const buttonTextJson = {
+        en: input.buttonText.en ?? null,
+        ru: input.buttonText.ru ?? null,
+        kz: input.buttonText.kz ?? null,
+      };
+
       const created = await this.prismaService.notification.create({
         data: {
-          title: input.title,
-          description: input.description,
+          title: titleJson,
+          description: descriptionJson,
           link: input.link,
-          buttonText: input.buttonText,
+          buttonText: buttonTextJson,
           scope,
           ...(isGlobal
             ? { userId: null }

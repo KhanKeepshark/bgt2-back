@@ -116,13 +116,13 @@ input CreateCategoryKeywordInput {
 }
 
 input CreateNotificationInput {
-  buttonText: String!
-  description: String!
+  buttonText: LocalizedStringInput!
+  description: LocalizedStringInput!
   link: String
 
   """USER = personal, GLOBAL = for all users"""
   scope: NotificationScope = USER
-  title: String!
+  title: LocalizedStringInput!
 
   """Required when scope=USER, target user id"""
   userId: String
@@ -234,6 +234,18 @@ input IntFilter {
   lte: Float
 }
 
+input LocalizedStringInput {
+  en: String
+  kz: String
+  ru: String
+}
+
+type LocalizedStringModel {
+  en: String
+  kz: String
+  ru: String
+}
+
 type LocationModel {
   city: String!
   country: String!
@@ -293,14 +305,14 @@ type Mutation {
 }
 
 type NotificationModel {
-  buttonText: String!
+  buttonText: LocalizedStringModel!
   createdAt: DateTime!
-  description: String!
+  description: LocalizedStringModel!
   id: ID!
   isRead: Boolean!
   link: String
   scope: NotificationScope!
-  title: String!
+  title: LocalizedStringModel!
   updatedAt: DateTime!
   userId: String
 }

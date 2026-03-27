@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Notification, NotificationScope } from '@prisma/generated';
+import { NotificationScope } from '@prisma/generated';
+import { LocalizedStringModel } from './localized-string.model';
 
 registerEnumType(NotificationScope, {
   name: 'NotificationScope',
@@ -7,21 +8,21 @@ registerEnumType(NotificationScope, {
 });
 
 @ObjectType()
-export class NotificationModel implements Notification {
+export class NotificationModel {
   @Field(() => ID)
   id: string;
 
-  @Field(() => String)
-  title: string;
+  @Field(() => LocalizedStringModel)
+  title: LocalizedStringModel;
 
-  @Field(() => String)
-  description: string;
+  @Field(() => LocalizedStringModel)
+  description: LocalizedStringModel;
 
   @Field(() => String, { nullable: true })
   link: string | null;
 
-  @Field(() => String)
-  buttonText: string;
+  @Field(() => LocalizedStringModel)
+  buttonText: LocalizedStringModel;
 
   @Field(() => NotificationScope)
   scope: NotificationScope;
