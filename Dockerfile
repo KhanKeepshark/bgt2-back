@@ -52,4 +52,4 @@ RUN mkdir -p uploads
 EXPOSE 8080
 
 # Start the application
-CMD ["yarn", "start:prod"]
+CMD ["sh", "-c", "yarn prisma generate && yarn start:prod"]
