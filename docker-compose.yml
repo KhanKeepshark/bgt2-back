@@ -1,23 +1,23 @@
 version: '3.7'
 services:
 
-  # backend:
-  #   container_name: bgt2-backend
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - ./uploads:/app/uploads
-  #   depends_on:
-  #     - db
-  #     - redis
-  #   networks:
-  #     - bgt2-network
+  backend:
+    container_name: bgt2-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - db
+      - redis
+    networks:
+      - bgt2-network
 
   db:
     container_name: bgt2-db
