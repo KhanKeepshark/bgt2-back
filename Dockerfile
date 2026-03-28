@@ -12,7 +12,10 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
 
 # Install dependencies
-RUN yarn install
+RUN yarn config set supportedArchitectures.os "linux" && \
+    yarn config set supportedArchitectures.cpu "x64" && \
+    yarn config set supportedArchitectures.libc "glibc" && \
+    yarn install
 
 # Copy source code
 COPY . .
@@ -34,7 +37,10 @@ COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
 
 # Install production dependencies only
-RUN yarn install --production
+RUN yarn config set supportedArchitectures.os "linux" && \
+    yarn config set supportedArchitectures.cpu "x64" && \
+    yarn config set supportedArchitectures.libc "glibc" && \
+    yarn install --production
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
