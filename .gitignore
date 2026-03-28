@@ -54,7 +54,7 @@ pids
 *.pid.lock
 
 # rules
-.cursor/rules/projectOverview.mdc
+.cursor
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
