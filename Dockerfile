@@ -21,6 +21,11 @@ COPY . .
 # Build the application
 RUN yarn build
 
+# One-off: ensure-admin / prisma scripts (full dev deps + ts-node)
+FROM builder AS ensure-admin
+RUN yarn prisma generate
+CMD ["yarn", "db:ensure-admin"]
+
 # Production stage
 FROM node:20
 
@@ -51,5 +56,5 @@ RUN mkdir -p uploads
 # Expose the port your app runs on
 EXPOSE 8080
 
-# Start the application
-CMD ["sh", "-c", "yarn prisma generate && yarn start:prod"]
+# Sync DB schema from prisma/schema.prisma, then start
+CMD ["sh", "-c", "yarn prisma generate && yarn prisma db push && yarn start:prod"]
