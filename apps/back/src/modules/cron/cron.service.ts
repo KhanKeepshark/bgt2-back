@@ -165,6 +165,45 @@ export class CronService {
   }
 
   /**
+   * Создание бэкапа базы данных каждый день в 03:00
+   */
+  @Cron('0 3 * * *')
+  async handleDatabaseBackup() {
+    this.logger.log('Starting database backup...');
+
+    try {
+      const { exec } = require('child_process');
+      const util = require('util');
+      const execPromise = util.promisify(exec);
+
+      const dbUser = process.env.POSTGRES_USER;
+      const dbName = process.env.POSTGRES_DB;
+      const dbHost = process.env.POSTGRES_HOST;
+      const dbPassword = process.env.POSTGRES_PASSWORD;
+      
+      const date = new Date().toISOString().replace(/[:.]/g, '-');
+      // Поскольку бэкенд запущен в докере и у нас проброшен volume ./backups:/app/backups
+      // мы можем сохранять бэкап прямо в папку /app/backups внутри контейнера
+      const backupFile = `/app/backups/db_backup_${date}.sql`;
+
+      // Создаем папку, если ее нет
+      await execPromise('mkdir -p /app/backups');
+
+      // Выполняем pg_dump
+      // PGPASSWORD передается через переменную окружения для безопасности
+      await execPromise(`PGPASSWORD="${dbPassword}" pg_dump -h ${dbHost} -U ${dbUser} -d ${dbName} -F c -f ${backupFile}`);
+
+      this.logger.log(`Database backup created successfully: ${backupFile}`);
+
+      // Удаляем старые бэкапы (старше 7 дней)
+      await execPromise('find /app/backups -type f -name "*.sql" -mtime +7 -delete');
+      this.logger.log('Old backups cleaned up.');
+
+    } catch (error) {
+      this.logger.error('Failed to create database backup:', error);
+    }
+  }
+  /**
    * Сбор системной аналитики каждый день в 23:55
    */
   @Cron('55 23 * * *')

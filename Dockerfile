@@ -53,6 +53,9 @@ RUN yarn prisma generate
 # Create uploads directory
 RUN mkdir -p uploads
 
+# Install PostgreSQL client for backups
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
 # Expose the port your app runs on
 EXPOSE 8080
 
