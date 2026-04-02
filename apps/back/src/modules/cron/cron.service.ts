@@ -3,6 +3,8 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { RecurrenceService } from '../accounts/recurrenceConfig/recurrence.service';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { SubscriptionType } from '@prisma/generated';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
 @Injectable()
 export class CronService {
@@ -186,9 +188,7 @@ export class CronService {
     this.logger.log('Starting database backup...');
 
     try {
-      const { exec } = require('child_process');
-      const util = require('util');
-      const execPromise = util.promisify(exec);
+      const execPromise = promisify(exec);
 
       const dbUser = process.env.POSTGRES_USER;
       const dbName = process.env.POSTGRES_DB;
@@ -230,7 +230,6 @@ export class CronService {
     try {
       const now = new Date();
       const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
       const [
         totalUsers,
@@ -268,7 +267,6 @@ export class CronService {
         usersByPlan[planName] = item._count.id;
       });
 
-      // @ts-ignore - SystemMetric might not be in generated types yet during dev
       await this.prismaService.systemMetric.create({
         data: {
           totalUsers,

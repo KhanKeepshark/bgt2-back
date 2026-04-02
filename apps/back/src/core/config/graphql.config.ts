@@ -21,10 +21,12 @@ export function getGraphqlConfig(
     formatError: (error: GraphQLFormattedError) => {
       // В production окружении скрываем stacktrace и детали внутренних ошибок
       if (!devMode) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { extensions, locations, path, ...rest } = error;
 
         // Удаляем stacktrace из extensions
         if (extensions) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { stacktrace, exception, ...safeExtensions } = extensions;
 
           return {

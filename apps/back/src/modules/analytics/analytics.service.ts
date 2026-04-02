@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@back/core/prisma/prisma.service';
-import { SubscriptionType } from '@prisma/generated';
 
 @Injectable()
 export class AnalyticsService {

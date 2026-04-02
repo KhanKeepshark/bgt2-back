@@ -4,6 +4,7 @@ import type * as Upload from 'graphql-upload/Upload.js';
 import { FileError } from '../constants/errors.constants';
 import { validateFileFormat, validateFileSize } from '../utils/file.util';
 
+// 2mb
 const MAX_FILE_SIZE = 1024 * 1024 * 2;
 export class AiFileValidationPipe implements PipeTransform {
   public async transform(value: Upload) {
@@ -35,8 +36,7 @@ export class AiFileValidationPipe implements PipeTransform {
       throw new BadRequestException(FileError.INVALID_FORMAT);
     }
 
-    // 2mb
-    const isValidSize = await validateFileSize(fileStream, 1024 * 1024 * 2);
+    const isValidSize = await validateFileSize(fileStream, MAX_FILE_SIZE);
 
     if (!isValidSize) {
       throw new BadRequestException(

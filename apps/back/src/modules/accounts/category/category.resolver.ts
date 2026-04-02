@@ -8,7 +8,6 @@ import { CategoryType, User } from '@prisma/generated';
 import { UpdateCategoryInput } from './inputs/update-category.input';
 import { CategoryKeywordModel } from './models/category-keyword.model';
 import { CreateCategoryKeywordInput } from './inputs/create-category-keyword.input';
-import { UpdateCategoryKeywordInput } from './inputs/update-category-keyword.input';
 
 @Resolver('Category')
 export class CategoryResolver {
