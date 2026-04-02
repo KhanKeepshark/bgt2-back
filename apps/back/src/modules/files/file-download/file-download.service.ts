@@ -15,7 +15,7 @@ export class FileDownloadService {
   ): Promise<{ filename: string; base64: string; mimeType: string }> {
     // Создаем фильтр для получения операций
     // Если даты не указаны, передаем undefined для получения всех операций
-    const operationFilter: OperationFilterInput | undefined = 
+    const operationFilter: OperationFilterInput | undefined =
       filter.dateFrom || filter.dateTo
         ? {
             dateFrom: filter.dateFrom,
@@ -74,7 +74,8 @@ export class FileDownloadService {
     return {
       filename,
       base64,
-      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      mimeType:
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     };
   }
 }

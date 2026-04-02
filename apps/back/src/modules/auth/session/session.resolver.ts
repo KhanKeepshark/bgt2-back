@@ -3,7 +3,10 @@ import { SessionService } from './session.service';
 import { LoginInput } from './inputs/login.inputs';
 import { GqlContext } from '@back/shared/types/gql-context.types';
 import { UserAgent } from '@back/shared/decorators/user-agent.decorator';
-import { Authorization, AdminOnly } from '@back/shared/decorators/auth.decorator';
+import {
+  Authorization,
+  AdminOnly,
+} from '@back/shared/decorators/auth.decorator';
 import { SessionModel } from './models/session.model';
 import { AuthModel } from '../user/models/auth.model';
 @Resolver('Session')

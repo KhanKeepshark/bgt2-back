@@ -11,4 +11,3 @@ export class FileDownloadModel {
   @Field(() => String)
   mimeType: string;
 }
-

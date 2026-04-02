@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { CoreModule } from './core/core.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
@@ -21,7 +21,7 @@ if (!globalThis.crypto) {
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(CoreModule);
-  
+
   app.set('trust proxy', 1);
 
   const config = app.get(ConfigService);
@@ -72,7 +72,10 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: config.getOrThrow<string>('ALLOWED_ORIGINS').split(',').map(s => s.trim()),
+    origin: config
+      .getOrThrow<string>('ALLOWED_ORIGINS')
+      .split(',')
+      .map((s) => s.trim()),
     credentials: true,
     exposedHeaders: ['set-cookie'],
   });

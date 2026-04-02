@@ -13,4 +13,3 @@ export class OperationsExportFilterInput {
   @IsDate()
   dateTo?: Date;
 }
-

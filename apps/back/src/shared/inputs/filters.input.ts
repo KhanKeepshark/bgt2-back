@@ -1,5 +1,12 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional, IsString, IsArray, IsBoolean, IsInt, IsDate } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsArray,
+  IsBoolean,
+  IsInt,
+  IsDate,
+} from 'class-validator';
 
 @InputType()
 export class StringFilter {

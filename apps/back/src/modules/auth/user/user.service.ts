@@ -1,8 +1,15 @@
 import { Prisma, SubscriptionType, Role } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserInput } from './inputs/create-user.input';
-import { AuthError, SubscriptionError } from '@back/shared/constants/errors.constants';
+import {
+  AuthError,
+  SubscriptionError,
+} from '@back/shared/constants/errors.constants';
 import { UpdateUserInput } from './inputs/update-user.input';
 import { UserWhereInput } from './inputs/user-where.input';
 import { UserOrderByInput } from './inputs/user-order-by.input';
@@ -97,12 +104,12 @@ export class UserService {
     const price = plan.prices[0];
 
     const subscriptionStartedAt = new Date();
-    const subscriptionExpiresAt =
-      price?.durationDays
-        ? new Date(
-            subscriptionStartedAt.getTime() + price.durationDays * 24 * 60 * 60 * 1000,
-          )
-        : null;
+    const subscriptionExpiresAt = price?.durationDays
+      ? new Date(
+          subscriptionStartedAt.getTime() +
+            price.durationDays * 24 * 60 * 60 * 1000,
+        )
+      : null;
 
     const user = await this.prismaService.user.create({
       data: {
@@ -172,11 +179,15 @@ export class UserService {
       if (!plan) {
         throw new BadRequestException(SubscriptionError.PLAN_NOT_FOUND);
       }
-      
+
       if (data.subscriptionPriceId) {
-        const price = plan.prices.find(p => p.id === data.subscriptionPriceId);
+        const price = plan.prices.find(
+          (p) => p.id === data.subscriptionPriceId,
+        );
         if (!price) {
-           throw new BadRequestException(SubscriptionError.PRICE_DOES_NOT_BELONG_TO_PLAN);
+          throw new BadRequestException(
+            SubscriptionError.PRICE_DOES_NOT_BELONG_TO_PLAN,
+          );
         }
       }
     }

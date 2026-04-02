@@ -4,7 +4,6 @@ import { ExtractedOperationModel } from './extracted-operation.model';
 
 @ObjectType()
 export class AiUploadResultModel {
-
   @Field(() => [ExtractedOperationModel])
   operations: ExtractedOperation[];
 

@@ -5,7 +5,10 @@ import { PaginatedUsersModel } from './models/paginated-users.model';
 import { UpdateUserInput } from './inputs/update-user.input';
 import { UserWhereInput } from './inputs/user-where.input';
 import { UserOrderByInput } from './inputs/user-order-by.input';
-import { AdminOnly, Authorization } from '@back/shared/decorators/auth.decorator';
+import {
+  AdminOnly,
+  Authorization,
+} from '@back/shared/decorators/auth.decorator';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UseGuards } from '@nestjs/common';

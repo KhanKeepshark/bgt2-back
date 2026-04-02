@@ -19,7 +19,7 @@ export class PaymentModel {
 
   @Field(() => PaymentStatus)
   status: PaymentStatus;
-  
+
   @Field(() => String, { nullable: true })
   externalId: string | null;
 

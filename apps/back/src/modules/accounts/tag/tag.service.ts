@@ -7,7 +7,10 @@ import { CreateTagInput } from './inputs/create-tag.input';
 import { Tag, User } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { UpdateTagInput } from './inputs/update-tag.input';
-import { TagError, SubscriptionError } from '@back/shared/constants/errors.constants';
+import {
+  TagError,
+  SubscriptionError,
+} from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class TagService {

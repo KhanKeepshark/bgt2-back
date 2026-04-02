@@ -21,9 +21,13 @@ export class PaymentsResolver {
   @Authorization()
   @Mutation(() => PaymentModel)
   async confirmPayment(
-      @Args('paymentId') paymentId: string,
-      @Args('transactionId') transactionId: string,
+    @Args('paymentId') paymentId: string,
+    @Args('transactionId') transactionId: string,
   ) {
-      return this.paymentsService.updatePaymentStatus(paymentId, 'SUCCESS', transactionId);
+    return this.paymentsService.updatePaymentStatus(
+      paymentId,
+      'SUCCESS',
+      transactionId,
+    );
   }
 }

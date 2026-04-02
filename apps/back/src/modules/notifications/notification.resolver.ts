@@ -2,7 +2,10 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { NotificationService } from './notification.service';
 import { NotificationModel } from './models/notification.model';
 import { CreateNotificationInput } from './inputs/create-notification.input';
-import { Authorization, AdminOnly } from '@back/shared/decorators/auth.decorator';
+import {
+  Authorization,
+  AdminOnly,
+} from '@back/shared/decorators/auth.decorator';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
 

@@ -22,7 +22,14 @@ import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
 import { Prisma } from '@prisma/generated';
 import { calculateGroupSize, groupDays } from './utils/findAllForCharts.utils';
 import { Categories } from './models/operation-chart-data.model';
-import { AccountError, CategoryError, OperationError, RecurrenceError, SubscriptionError, TagError } from '@back/shared/constants/errors.constants';
+import {
+  AccountError,
+  CategoryError,
+  OperationError,
+  RecurrenceError,
+  SubscriptionError,
+  TagError,
+} from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class OperationService {
@@ -39,9 +46,11 @@ export class OperationService {
       // Проверка лимитов плана
       const userWithPlan = await this.prismaService.user.findUnique({
         where: { id: user.id },
-        include: { subscriptionPlan: true, _count: { select: { operations: true } } },
+        include: {
+          subscriptionPlan: true,
+          _count: { select: { operations: true } },
+        },
       });
-
 
       if (userWithPlan?.subscriptionPlan) {
         // Лимит операций в месяц
@@ -57,8 +66,13 @@ export class OperationService {
             },
           });
 
-          if (operationsThisMonth >= userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
-            throw new BadRequestException(SubscriptionError.MONTHLY_LIMIT_REACHED);
+          if (
+            operationsThisMonth >=
+            userWithPlan.subscriptionPlan.maxOperationsPerMonth
+          ) {
+            throw new BadRequestException(
+              SubscriptionError.MONTHLY_LIMIT_REACHED,
+            );
           }
         }
       }
@@ -97,9 +111,7 @@ export class OperationService {
         });
 
         if (!transferAccount) {
-          throw new BadRequestException(
-            AccountError.NOT_FOUND,
-          );
+          throw new BadRequestException(AccountError.NOT_FOUND);
         }
 
         if (input.accountId === input.transferAccountId) {
@@ -235,7 +247,10 @@ export class OperationService {
       // Проверка лимитов плана
       const userWithPlan = await this.prismaService.user.findUnique({
         where: { id: user.id },
-        include: { subscriptionPlan: true, _count: { select: { operations: true } } },
+        include: {
+          subscriptionPlan: true,
+          _count: { select: { operations: true } },
+        },
       });
 
       if (userWithPlan?.subscriptionPlan) {
@@ -252,8 +267,13 @@ export class OperationService {
             },
           });
 
-          if (operationsThisMonth + operations.length > userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
-            throw new BadRequestException(SubscriptionError.MONTHLY_LIMIT_REACHED);
+          if (
+            operationsThisMonth + operations.length >
+            userWithPlan.subscriptionPlan.maxOperationsPerMonth
+          ) {
+            throw new BadRequestException(
+              SubscriptionError.MONTHLY_LIMIT_REACHED,
+            );
           }
         }
       }
@@ -288,7 +308,9 @@ export class OperationService {
             // For transfers we interpret categoryName column as the target account name
             const transferAccountName = op.categoryName?.toLowerCase();
             if (!transferAccountName) {
-              throw new BadRequestException(OperationError.TRANSFER_TARGET_REQUIRED);
+              throw new BadRequestException(
+                OperationError.TRANSFER_TARGET_REQUIRED,
+              );
             }
 
             const transferAccount = accountMap.get(transferAccountName);
@@ -298,7 +320,9 @@ export class OperationService {
             }
 
             if (transferAccount.id === accountId) {
-              throw new BadRequestException(OperationError.TRANSFER_ACCOUNT_MUST_DIFFER);
+              throw new BadRequestException(
+                OperationError.TRANSFER_ACCOUNT_MUST_DIFFER,
+              );
             }
 
             const amount = new Decimal(op.amount);
@@ -620,14 +644,18 @@ export class OperationService {
       const diffTime = dateTo.getTime() - dateFrom.getTime();
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-      const byDays = operations.reduce((acc, operation) => {
-        const day = operation.date.toISOString().split('T')[0];
-        acc[operation.type][day] = (acc[operation.type][day] || 0) + operation.amount.toNumber();
-        return acc;
-      }, {
-        [OperationType.INCOME]: {},
-        [OperationType.EXPENSE]: {},
-      });
+      const byDays = operations.reduce(
+        (acc, operation) => {
+          const day = operation.date.toISOString().split('T')[0];
+          acc[operation.type][day] =
+            (acc[operation.type][day] || 0) + operation.amount.toNumber();
+          return acc;
+        },
+        {
+          [OperationType.INCOME]: {},
+          [OperationType.EXPENSE]: {},
+        },
+      );
 
       const incomeDays = Object.keys(byDays[OperationType.INCOME]).length;
       const expenseDays = Object.keys(byDays[OperationType.EXPENSE]).length;
@@ -643,17 +671,21 @@ export class OperationService {
         expenseGroupSize,
       );
 
-      const incomeAll = Object.values(byDays[OperationType.INCOME] as Record<string, number>).reduce(
-        (sum: number, amount: number) => sum + amount,
-        0,
-      );
-      const expenseAll = Object.values(byDays[OperationType.EXPENSE] as Record<string, number>).reduce(
-        (sum: number, amount: number) => sum + amount,
-        0,
-      );
+      const incomeAll = Object.values(
+        byDays[OperationType.INCOME] as Record<string, number>,
+      ).reduce((sum: number, amount: number) => sum + amount, 0);
+      const expenseAll = Object.values(
+        byDays[OperationType.EXPENSE] as Record<string, number>,
+      ).reduce((sum: number, amount: number) => sum + amount, 0);
 
-      const incomeByCategories = new Map<string, { category: any; amount: number }>();
-      const expenseByCategories = new Map<string, { category: any; amount: number }>();
+      const incomeByCategories = new Map<
+        string,
+        { category: any; amount: number }
+      >();
+      const expenseByCategories = new Map<
+        string,
+        { category: any; amount: number }
+      >();
 
       operations.forEach((operation) => {
         if (!operation.category) return;
@@ -689,8 +721,8 @@ export class OperationService {
       let expenseChangePercent: string | undefined;
       let previousIncomeAll = 0;
       let previousExpenseAll = 0;
-      let previousIncomeByCategories = new Map<string, number>();
-      let previousExpenseByCategories = new Map<string, number>();
+      const previousIncomeByCategories = new Map<string, number>();
+      const previousExpenseByCategories = new Map<string, number>();
 
       if (filter?.type && filter.type !== 'custom') {
         // Вычисляем предыдущий период в зависимости от типа
@@ -760,13 +792,17 @@ export class OperationService {
         });
 
         // Вычисляем суммы для предыдущего периода
-        const previousByDays = previousOperations.reduce((acc, operation) => {
-          acc[operation.type] = (acc[operation.type] || 0) + operation.amount.toNumber();
-          return acc;
-        }, {
-          [OperationType.INCOME]: 0,
-          [OperationType.EXPENSE]: 0,
-        });
+        const previousByDays = previousOperations.reduce(
+          (acc, operation) => {
+            acc[operation.type] =
+              (acc[operation.type] || 0) + operation.amount.toNumber();
+            return acc;
+          },
+          {
+            [OperationType.INCOME]: 0,
+            [OperationType.EXPENSE]: 0,
+          },
+        );
 
         previousIncomeAll = previousByDays[OperationType.INCOME];
         previousExpenseAll = previousByDays[OperationType.EXPENSE];
@@ -789,7 +825,10 @@ export class OperationService {
       }
 
       // Функция для вычисления процента изменения
-      const calculateChangePercent = (current: number, previous: number): string | undefined => {
+      const calculateChangePercent = (
+        current: number,
+        previous: number,
+      ): string | undefined => {
         if (previous === 0) {
           return current > 0 ? '100' : current < 0 ? '-100' : '0';
         }
@@ -799,21 +838,27 @@ export class OperationService {
 
       // Вычисляем процент изменения для общих сумм
       if (filter?.type && filter.type !== 'custom') {
-        incomeChangePercent = calculateChangePercent(incomeAll, previousIncomeAll);
-        expenseChangePercent = calculateChangePercent(expenseAll, previousExpenseAll);
+        incomeChangePercent = calculateChangePercent(
+          incomeAll,
+          previousIncomeAll,
+        );
+        expenseChangePercent = calculateChangePercent(
+          expenseAll,
+          previousExpenseAll,
+        );
       }
 
       // Вычисляем средние значения в зависимости от длительности периода
       const calculateAverages = (total: number, days: number) => {
         const dayAverage = days > 0 ? (total / days).toFixed(2) : '0';
-        
+
         // от недели до 2 недель: только средний за день
         if (days < 15) {
           return {
             dayAverage,
           };
         }
-        
+
         // от 2 недель до 2 месяцев: + средний за неделю
         const weekAverage = days > 0 ? (total / (days / 7)).toFixed(2) : '0';
         if (days < 61) {
@@ -822,7 +867,7 @@ export class OperationService {
             weekAverage,
           };
         }
-        
+
         // от 2 месяцев до 2 лет: + средний за месяц
         const monthAverage = days > 0 ? (total / (days / 30)).toFixed(2) : '0';
         if (days < 731) {
@@ -832,7 +877,7 @@ export class OperationService {
             monthAverage,
           };
         }
-        
+
         // от 2 лет и более: + средний за год
         const yearAverage = days > 0 ? (total / (days / 365)).toFixed(2) : '0';
         return {
@@ -847,15 +892,20 @@ export class OperationService {
       const expenseAverages = calculateAverages(expenseAll, diffDays);
 
       // Формируем массив категорий для доходов
-      const incomeCategories: Categories[] = Array.from(incomeByCategories.values())
+      const incomeCategories: Categories[] = Array.from(
+        incomeByCategories.values(),
+      )
         .map(({ category, amount }) => {
-          const percent = incomeAll > 0 ? ((amount / incomeAll) * 100).toFixed(2) : '0';
-          const previousAmount = filter.type && filter.type !== 'custom' 
-            ? (previousIncomeByCategories.get(category.id) || 0)
-            : 0;
-          const changePercent = filter.type && filter.type !== 'custom'
-            ? calculateChangePercent(amount, previousAmount)
-            : undefined;
+          const percent =
+            incomeAll > 0 ? ((amount / incomeAll) * 100).toFixed(2) : '0';
+          const previousAmount =
+            filter.type && filter.type !== 'custom'
+              ? previousIncomeByCategories.get(category.id) || 0
+              : 0;
+          const changePercent =
+            filter.type && filter.type !== 'custom'
+              ? calculateChangePercent(amount, previousAmount)
+              : undefined;
 
           return {
             category,
@@ -867,15 +917,20 @@ export class OperationService {
         .sort((a, b) => b.all.toNumber() - a.all.toNumber()); // Сортируем по убыванию суммы
 
       // Формируем массив категорий для расходов
-      const expenseCategories: Categories[] = Array.from(expenseByCategories.values())
+      const expenseCategories: Categories[] = Array.from(
+        expenseByCategories.values(),
+      )
         .map(({ category, amount }) => {
-          const percent = expenseAll > 0 ? ((amount / expenseAll) * 100).toFixed(2) : '0';
-          const previousAmount = filter.type && filter.type !== 'custom'
-            ? (previousExpenseByCategories.get(category.id) || 0)
-            : 0;
-          const changePercent = filter.type && filter.type !== 'custom'
-            ? calculateChangePercent(amount, previousAmount)
-            : undefined;
+          const percent =
+            expenseAll > 0 ? ((amount / expenseAll) * 100).toFixed(2) : '0';
+          const previousAmount =
+            filter.type && filter.type !== 'custom'
+              ? previousExpenseByCategories.get(category.id) || 0
+              : 0;
+          const changePercent =
+            filter.type && filter.type !== 'custom'
+              ? calculateChangePercent(amount, previousAmount)
+              : undefined;
 
           return {
             category,
@@ -989,9 +1044,7 @@ export class OperationService {
         });
 
         if (!transferAccount) {
-          throw new BadRequestException(
-            AccountError.NOT_FOUND,
-          );
+          throw new BadRequestException(AccountError.NOT_FOUND);
         }
       }
 

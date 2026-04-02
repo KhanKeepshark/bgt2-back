@@ -57,11 +57,15 @@ export class CronService {
       });
 
       if (!defaultPlan) {
-        this.logger.error('Default subscription plan not found! Cannot downgrade users.');
+        this.logger.error(
+          'Default subscription plan not found! Cannot downgrade users.',
+        );
         return;
       }
 
-      this.logger.log(`Found ${expiredUsers.length} users with expired subscriptions. Downgrading to ${defaultPlan.type}...`);
+      this.logger.log(
+        `Found ${expiredUsers.length} users with expired subscriptions. Downgrading to ${defaultPlan.type}...`,
+      );
 
       const result = await this.prismaService.user.updateMany({
         where: {
@@ -98,19 +102,25 @@ export class CronService {
       const currentDay = today.getDate();
 
       // Получаем всех пользователей (для продакшена лучше чанками, но для MVP ок)
-      // В Prisma нет простого способа выбрать "WHERE DAY(subscriptionStartedAt) = X", 
+      // В Prisma нет простого способа выбрать "WHERE DAY(subscriptionStartedAt) = X",
       // поэтому выберем активных пользователей и отфильтруем в коде или используем raw query
-      
+
       // Используем raw query для производительности
-      const usersToUpdate = await this.prismaService.$queryRaw`
+      const usersToUpdate = (await this.prismaService.$queryRaw`
         SELECT u.id, u."subscriptionPlanId", sp."tokensPerMonth"
         FROM "User" u
         JOIN "SubscriptionPlan" sp ON u."subscriptionPlanId" = sp.id
         WHERE EXTRACT(DAY FROM u."subscriptionStartedAt") = ${currentDay}
         AND sp."tokensPerMonth" IS NOT NULL
-      ` as Array<{ id: string, subscriptionPlanId: string, tokensPerMonth: number }>;
+      `) as Array<{
+        id: string;
+        subscriptionPlanId: string;
+        tokensPerMonth: number;
+      }>;
 
-      this.logger.log(`Found ${usersToUpdate.length} users for token replenishment.`);
+      this.logger.log(
+        `Found ${usersToUpdate.length} users for token replenishment.`,
+      );
 
       for (const user of usersToUpdate) {
         await this.prismaService.user.update({
@@ -143,22 +153,26 @@ export class CronService {
           },
         },
       });
-      this.logger.log(`Deleted ${deletedTokens.count} expired verification tokens.`);
+      this.logger.log(
+        `Deleted ${deletedTokens.count} expired verification tokens.`,
+      );
 
       // 2. Удаляем старые уведомления (старше 3 месяцев)
       const threeMonthsAgo = new Date();
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-      const deletedNotifications = await this.prismaService.notification.deleteMany({
-        where: {
-          createdAt: {
-            lt: threeMonthsAgo,
+      const deletedNotifications =
+        await this.prismaService.notification.deleteMany({
+          where: {
+            createdAt: {
+              lt: threeMonthsAgo,
+            },
+            isRead: true, // Удаляем только прочитанные
           },
-          isRead: true, // Удаляем только прочитанные
-        },
-      });
-      this.logger.log(`Deleted ${deletedNotifications.count} old read notifications.`);
-
+        });
+      this.logger.log(
+        `Deleted ${deletedNotifications.count} old read notifications.`,
+      );
     } catch (error) {
       this.logger.error('Cleanup failed:', error);
     }
@@ -180,7 +194,7 @@ export class CronService {
       const dbName = process.env.POSTGRES_DB;
       const dbHost = process.env.POSTGRES_HOST;
       const dbPassword = process.env.POSTGRES_PASSWORD;
-      
+
       const date = new Date().toISOString().replace(/[:.]/g, '-');
       // Поскольку бэкенд запущен в докере и у нас проброшен volume ./backups:/app/backups
       // мы можем сохранять бэкап прямо в папку /app/backups внутри контейнера
@@ -191,14 +205,17 @@ export class CronService {
 
       // Выполняем pg_dump
       // PGPASSWORD передается через переменную окружения для безопасности
-      await execPromise(`PGPASSWORD="${dbPassword}" pg_dump -h ${dbHost} -U ${dbUser} -d ${dbName} -F c -f ${backupFile}`);
+      await execPromise(
+        `PGPASSWORD="${dbPassword}" pg_dump -h ${dbHost} -U ${dbUser} -d ${dbName} -F c -f ${backupFile}`,
+      );
 
       this.logger.log(`Database backup created successfully: ${backupFile}`);
 
       // Удаляем старые бэкапы (старше 7 дней)
-      await execPromise('find /app/backups -type f -name "*.sql" -mtime +7 -delete');
+      await execPromise(
+        'find /app/backups -type f -name "*.sql" -mtime +7 -delete',
+      );
       this.logger.log('Old backups cleaned up.');
-
     } catch (error) {
       this.logger.error('Failed to create database backup:', error);
     }
@@ -221,7 +238,7 @@ export class CronService {
         totalOperations,
         operationsCreatedDaily,
         aiTokensUsedDailyRaw,
-        usersByPlanRaw
+        usersByPlanRaw,
       ] = await Promise.all([
         this.prismaService.user.count(),
         this.prismaService.user.count({
@@ -244,7 +261,7 @@ export class CronService {
       // Enrich plan data with names
       const plans = await this.prismaService.subscriptionPlan.findMany();
       const planMap = new Map(plans.map((p) => [p.id, p.type]));
-      
+
       const usersByPlan: Record<string, number> = {};
       usersByPlanRaw.forEach((item) => {
         const planName = planMap.get(item.subscriptionPlanId) || 'Unknown';

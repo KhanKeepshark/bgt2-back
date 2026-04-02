@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { SubscriptionType } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { CreateSubscriptionPlanInput } from './inputs/create-subscription-plan.input';
@@ -53,9 +57,11 @@ export class SubscriptionPlanService {
     return this.prismaService.subscriptionPlan.create({
       data: {
         ...data,
-        prices: prices ? {
-          create: prices,
-        } : undefined,
+        prices: prices
+          ? {
+              create: prices,
+            }
+          : undefined,
       },
       include: {
         prices: true,
@@ -87,9 +93,10 @@ export class SubscriptionPlanService {
     if (prices) {
       for (const priceInput of prices) {
         // Try to find existing price by name for this plan
-        const existingPrice = await this.prismaService.subscriptionPrice.findFirst({
-          where: { planId: id, id: priceInput.id },
-        });
+        const existingPrice =
+          await this.prismaService.subscriptionPrice.findFirst({
+            where: { planId: id, id: priceInput.id },
+          });
 
         if (existingPrice) {
           await this.prismaService.subscriptionPrice.update({
@@ -114,7 +121,9 @@ export class SubscriptionPlanService {
     });
 
     if (usersCount > 0) {
-      throw new ConflictException(SubscriptionError.CANNOT_DELETE_ASSIGNED_PLAN);
+      throw new ConflictException(
+        SubscriptionError.CANNOT_DELETE_ASSIGNED_PLAN,
+      );
     }
 
     return this.prismaService.subscriptionPlan.delete({

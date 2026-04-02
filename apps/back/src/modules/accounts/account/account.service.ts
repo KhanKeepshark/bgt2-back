@@ -7,7 +7,10 @@ import {
 import { CreateAccountInput } from './inputs/create-account.input';
 import { Account, User } from '@prisma/generated';
 import { UpdateAccountInput } from './inputs/update-account.input';
-import { AccountError, SubscriptionError } from '@back/shared/constants/errors.constants';
+import {
+  AccountError,
+  SubscriptionError,
+} from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class AccountService {
@@ -26,16 +29,22 @@ export class AccountService {
       // Проверка лимитов плана
       const userWithPlan = await this.prismaService.user.findUnique({
         where: { id: user.id },
-        include: { subscriptionPlan: true, _count: { select: { accounts: true } } },
+        include: {
+          subscriptionPlan: true,
+          _count: { select: { accounts: true } },
+        },
       });
 
       if (userWithPlan?.subscriptionPlan?.maxAccounts !== null) {
-        if (userWithPlan._count.accounts >= userWithPlan.subscriptionPlan.maxAccounts) {
+        if (
+          userWithPlan._count.accounts >=
+          userWithPlan.subscriptionPlan.maxAccounts
+        ) {
           throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
         }
       }
 
-      const initialBalance =  input.balance ?? '0';
+      const initialBalance = input.balance ?? '0';
 
       const created = await this.prismaService.account.create({
         data: {
@@ -94,7 +103,9 @@ export class AccountService {
     }
   }
 
-  public async findAll(user: User): Promise<(Account & { isDefault: boolean })[]> {
+  public async findAll(
+    user: User,
+  ): Promise<(Account & { isDefault: boolean })[]> {
     try {
       const accounts = await this.prismaService.account.findMany({
         where: { userId: user.id },
@@ -142,9 +153,7 @@ export class AccountService {
         });
 
         if (existingAccount) {
-          throw new BadRequestException(
-            AccountError.ALREADY_EXISTS,
-          );
+          throw new BadRequestException(AccountError.ALREADY_EXISTS);
         }
       }
 
@@ -203,7 +212,10 @@ export class AccountService {
 
       return !!result;
     } catch (error) {
-      if (error instanceof BadRequestException || error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException
+      ) {
         throw error;
       }
       if (error?.code?.startsWith('P')) {

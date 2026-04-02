@@ -9,12 +9,7 @@ import { fixEncoding } from '../ai-upload/utils/fixEncoding';
 import { getCellRawValue, getCellValue } from '../ai-upload/utils/getCellValue';
 import { FileError } from '@back/shared/constants/errors.constants';
 
-type RequiredColumns =
-  | 'amount'
-  | 'date'
-  | 'description'
-  | 'type'
-  | 'category';
+type RequiredColumns = 'amount' | 'date' | 'description' | 'type' | 'category';
 
 @Injectable()
 export class FileUploadService {
@@ -26,7 +21,7 @@ export class FileUploadService {
   ): Promise<ExtractedOperation[]> {
     try {
       const buffer = await streamToBuffer(file.createReadStream());
-      const workbook = XLSX.read(buffer, { 
+      const workbook = XLSX.read(buffer, {
         type: 'buffer',
         codepage: 65001, // Try to enforce UTF-8
         cellText: false,
@@ -40,11 +35,11 @@ export class FileUploadService {
       }
 
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      
+
       // Получаем диапазон ячеек
       const range = XLSX.utils.decode_range(worksheet['!ref'] || 'A1');
       const rows: (string | number)[][] = [];
-      
+
       // Читаем строки напрямую из ячеек, сохраняя исходную кодировку
       for (let R = range.s.r; R <= range.e.r; R++) {
         const row: (string | number)[] = [];
@@ -53,7 +48,12 @@ export class FileUploadService {
           const cell = worksheet[cellAddress];
           if (cell) {
             // Используем w (formatted text) если доступен, иначе v (raw value)
-            const value = cell.w !== undefined ? cell.w : (cell.v !== undefined ? cell.v : '');
+            const value =
+              cell.w !== undefined
+                ? cell.w
+                : cell.v !== undefined
+                  ? cell.v
+                  : '';
             row.push(value);
           } else {
             row.push('');
@@ -98,13 +98,13 @@ export class FileUploadService {
 
         const amount = getCellValue(row, columnIndexMap.amount);
         const date = getCellRawValue(row, columnIndexMap.date);
-        const description = fixEncoding(getCellValue(
-          row,
-          columnIndexMap.description,
-          true,
-        ));
+        const description = fixEncoding(
+          getCellValue(row, columnIndexMap.description, true),
+        );
         const type = getCellValue(row, columnIndexMap.type);
-        let categoryName = fixEncoding(getCellValue(row, columnIndexMap.category));
+        let categoryName = fixEncoding(
+          getCellValue(row, columnIndexMap.category),
+        );
 
         if (!amount || !date || !type) {
           throw new BadRequestException(
@@ -131,7 +131,7 @@ export class FileUploadService {
 
         let matchedKeyword: boolean = false;
         let categoryIcon: string | undefined = undefined;
-        
+
         const normalizedDescription = description?.toLowerCase().trim() ?? '';
         if (normalizedDescription && normalizedType !== 'TRANSFER') {
           const autoCategory = this.findCategoryByKeywordsInIndex(
@@ -161,9 +161,9 @@ export class FileUploadService {
         if (!categoryIcon) {
           const normalizedCategoryName = categoryName.toLowerCase();
           categoryIcon =
-            categoryIndex.byTypeName[normalizedType as 'INCOME' | 'EXPENSE' | 'TRANSFER']?.get(
-              normalizedCategoryName,
-            ) || undefined;
+            categoryIndex.byTypeName[
+              normalizedType as 'INCOME' | 'EXPENSE' | 'TRANSFER'
+            ]?.get(normalizedCategoryName) || undefined;
         }
 
         const normalizedDate = this.normalizeDateValue(date);
@@ -232,7 +232,6 @@ export class FileUploadService {
     return indexMap;
   }
 
-
   private normalizeDateValue(value: unknown): string {
     if (value instanceof Date) {
       return value.toISOString();
@@ -242,11 +241,20 @@ export class FileUploadService {
       const parsed = XLSX.SSF.parse_date_code(value);
       if (parsed) {
         const date = new Date(
-          Date.UTC(parsed.y, parsed.m - 1, parsed.d, parsed.H, parsed.M, parsed.S),
+          Date.UTC(
+            parsed.y,
+            parsed.m - 1,
+            parsed.d,
+            parsed.H,
+            parsed.M,
+            parsed.S,
+          ),
         );
         return date.toISOString();
       }
-      const dateFromSerial = new Date(Math.round((value - 25569) * 86400 * 1000));
+      const dateFromSerial = new Date(
+        Math.round((value - 25569) * 86400 * 1000),
+      );
       if (!Number.isNaN(dateFromSerial.getTime())) {
         return dateFromSerial.toISOString();
       }
@@ -294,7 +302,10 @@ export class FileUploadService {
       INCOME: [],
       EXPENSE: [],
     };
-    const byTypeName: Record<'INCOME' | 'EXPENSE' | 'TRANSFER', Map<string, string>> = {
+    const byTypeName: Record<
+      'INCOME' | 'EXPENSE' | 'TRANSFER',
+      Map<string, string>
+    > = {
       INCOME: new Map(),
       EXPENSE: new Map(),
       TRANSFER: new Map(),

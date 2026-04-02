@@ -21,4 +21,3 @@ export class CategoryKeywordModel implements CategoryKeyword {
   @Field(() => Date)
   updatedAt: Date;
 }
-

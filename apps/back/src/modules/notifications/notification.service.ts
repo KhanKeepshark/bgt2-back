@@ -12,9 +12,7 @@ import { NotificationError } from '@back/shared/constants/errors.constants';
 export class NotificationService {
   public constructor(private readonly prismaService: PrismaService) {}
 
-  public async create(
-    input: CreateNotificationInput,
-  ): Promise<Notification> {
+  public async create(input: CreateNotificationInput): Promise<Notification> {
     try {
       const scope = input.scope ?? NotificationScope.USER;
       const isGlobal = scope === NotificationScope.GLOBAL;
@@ -24,9 +22,17 @@ export class NotificationService {
       }
 
       const hasAtLeastOne = (obj: { en?: string; ru?: string; kz?: string }) =>
-        [obj.en, obj.ru, obj.kz].some((v) => v != null && String(v).trim().length > 0);
-      if (!hasAtLeastOne(input.title) || !hasAtLeastOne(input.description) || !hasAtLeastOne(input.buttonText)) {
-        throw new BadRequestException(NotificationError.AT_LEAST_ONE_LANGUAGE_REQUIRED);
+        [obj.en, obj.ru, obj.kz].some(
+          (v) => v != null && String(v).trim().length > 0,
+        );
+      if (
+        !hasAtLeastOne(input.title) ||
+        !hasAtLeastOne(input.description) ||
+        !hasAtLeastOne(input.buttonText)
+      ) {
+        throw new BadRequestException(
+          NotificationError.AT_LEAST_ONE_LANGUAGE_REQUIRED,
+        );
       }
 
       const titleJson = {
@@ -104,7 +110,9 @@ export class NotificationService {
 
       const globalWithReadState = global.map((n) => ({
         ...n,
-        isRead: user.lastGlobalNotificationReadAt ? n.createdAt <= user.lastGlobalNotificationReadAt : false,
+        isRead: user.lastGlobalNotificationReadAt
+          ? n.createdAt <= user.lastGlobalNotificationReadAt
+          : false,
       }));
 
       // Сначала персональные, потом глобальные (или наоборот — по вкусу)
@@ -136,7 +144,11 @@ export class NotificationService {
       ]);
 
       const globalUnread = global
-        .filter((n) => !user.lastGlobalNotificationReadAt || n.createdAt > user.lastGlobalNotificationReadAt)
+        .filter(
+          (n) =>
+            !user.lastGlobalNotificationReadAt ||
+            n.createdAt > user.lastGlobalNotificationReadAt,
+        )
         .map((n) => ({
           ...n,
           isRead: false,
@@ -197,7 +209,10 @@ export class NotificationService {
       }
 
       // GLOBAL: обновляем lastGlobalNotificationReadAt, если дата этого уведомления новее
-      if (!user.lastGlobalNotificationReadAt || notification.createdAt > user.lastGlobalNotificationReadAt) {
+      if (
+        !user.lastGlobalNotificationReadAt ||
+        notification.createdAt > user.lastGlobalNotificationReadAt
+      ) {
         await this.prismaService.user.update({
           where: { id: user.id },
           data: {

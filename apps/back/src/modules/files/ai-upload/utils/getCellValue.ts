@@ -1,15 +1,15 @@
 export const getCellRawValue = (row: (string | number)[], index: number) => {
- return row[index];
-}
+  return row[index];
+};
 
 export const getCellValue = (
-    row: (string | number)[],
-    index: number,
-    optional = false,
+  row: (string | number)[],
+  index: number,
+  optional = false,
 ): string => {
-    const raw = getCellRawValue(row, index);
-    if ((raw === undefined || raw === null || raw === '') && optional) {
-        return '';
-    }
-    return `${raw ?? ''}`.trim();
-}
+  const raw = getCellRawValue(row, index);
+  if ((raw === undefined || raw === null || raw === '') && optional) {
+    return '';
+  }
+  return `${raw ?? ''}`.trim();
+};

@@ -31,41 +31,48 @@ export class PaymentsService {
 
     return payment;
   }
-  
-  async updatePaymentStatus(paymentId: string, status: 'SUCCESS' | 'FAILED', externalId?: string) {
-     const payment = await this.prisma.payment.update({
-        where: { id: paymentId },
+
+  async updatePaymentStatus(
+    paymentId: string,
+    status: 'SUCCESS' | 'FAILED',
+    externalId?: string,
+  ) {
+    const payment = await this.prisma.payment.update({
+      where: { id: paymentId },
+      data: {
+        status: status === 'SUCCESS' ? 'SUCCESS' : 'FAILED',
+        externalId,
+      },
+      include: { subscriptionPrice: { include: { plan: true } } },
+    });
+
+    if (status === 'SUCCESS' && payment.subscriptionPrice) {
+      // Activate subscription for user
+      const now = new Date();
+      let expiresAt: Date | null = null;
+
+      if (payment.subscriptionPrice.durationDays) {
+        expiresAt = new Date(
+          now.getTime() +
+            payment.subscriptionPrice.durationDays * 24 * 60 * 60 * 1000,
+        );
+      }
+
+      await this.prisma.user.update({
+        where: { id: payment.userId },
         data: {
-            status: status === 'SUCCESS' ? 'SUCCESS' : 'FAILED',
-            externalId
+          subscriptionPlanId: payment.subscriptionPrice.planId,
+          subscriptionPriceId: payment.subscriptionPrice.id,
+          subscriptionStartedAt: now,
+          subscriptionExpiresAt: expiresAt,
+          // Add tokens if plan has them
+          tokensBalance: {
+            increment: payment.subscriptionPrice.plan.tokensOnPurchase,
+          },
         },
-        include: { subscriptionPrice: { include: { plan: true } } }
-     });
-     
-     if (status === 'SUCCESS' && payment.subscriptionPrice) {
-         // Activate subscription for user
-         const now = new Date();
-         let expiresAt: Date | null = null;
-         
-         if (payment.subscriptionPrice.durationDays) {
-             expiresAt = new Date(now.getTime() + payment.subscriptionPrice.durationDays * 24 * 60 * 60 * 1000);
-         }
-         
-         await this.prisma.user.update({
-             where: { id: payment.userId },
-             data: {
-                 subscriptionPlanId: payment.subscriptionPrice.planId,
-                 subscriptionPriceId: payment.subscriptionPrice.id,
-                 subscriptionStartedAt: now,
-                 subscriptionExpiresAt: expiresAt,
-                 // Add tokens if plan has them
-                 tokensBalance: {
-                     increment: payment.subscriptionPrice.plan.tokensOnPurchase
-                 }
-             }
-         });
-     }
-     
-     return payment;
+      });
+    }
+
+    return payment;
   }
 }

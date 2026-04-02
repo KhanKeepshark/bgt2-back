@@ -19,4 +19,3 @@ export class UpdateCategoryKeywordInput {
   @IsOptional()
   categoryId?: string;
 }
-

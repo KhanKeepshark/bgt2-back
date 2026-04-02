@@ -17,7 +17,8 @@ export class AiUploadResolver {
   @Mutation(() => AiUploadResultModel, { name: 'aiFileUpload' })
   public async aiFileUpload(
     @Authorized() user: User,
-    @Args({ name: 'file', type: () => GraphQLUpload }, AiFileValidationPipe) file: Upload,
+    @Args({ name: 'file', type: () => GraphQLUpload }, AiFileValidationPipe)
+    file: Upload,
   ): Promise<AiUploadResultModel> {
     return await this.uploadService.aiFileUpload(user, file);
   }
@@ -26,7 +27,8 @@ export class AiUploadResolver {
   @Mutation(() => AiCountModel, { name: 'aiFileTokenCount' })
   public async aiFileTokenCount(
     @Authorized() user: User,
-    @Args({ name: 'file', type: () => GraphQLUpload }, AiFileValidationPipe) file: Upload,
+    @Args({ name: 'file', type: () => GraphQLUpload }, AiFileValidationPipe)
+    file: Upload,
   ): Promise<{ tokenCount: number }> {
     return await this.uploadService.aiFileTokenCount(user, file);
   }

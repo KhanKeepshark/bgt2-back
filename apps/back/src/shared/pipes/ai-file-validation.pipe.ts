@@ -15,7 +15,20 @@ export class AiFileValidationPipe implements PipeTransform {
 
     const fileStream = createReadStream();
 
-    const allowedFileFormats = ['csv', 'xlsx', 'xls', 'pdf', 'doc', 'docx', 'txt', 'json', 'png', 'jpg', 'jpeg', 'webp'];
+    const allowedFileFormats = [
+      'csv',
+      'xlsx',
+      'xls',
+      'pdf',
+      'doc',
+      'docx',
+      'txt',
+      'json',
+      'png',
+      'jpg',
+      'jpeg',
+      'webp',
+    ];
     const isValidFormat = validateFileFormat(filename, allowedFileFormats);
 
     if (!isValidFormat) {

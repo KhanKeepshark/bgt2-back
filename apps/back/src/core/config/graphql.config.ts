@@ -9,8 +9,6 @@ export function getGraphqlConfig(
 ): ApolloDriverConfig {
   const devMode = isDev(configService);
 
-  
-
   return {
     playground: devMode,
     path: configService.getOrThrow<string>('GRAPHQL_PREFIX'),
@@ -24,11 +22,11 @@ export function getGraphqlConfig(
       // В production окружении скрываем stacktrace и детали внутренних ошибок
       if (!devMode) {
         const { extensions, locations, path, ...rest } = error;
-        
+
         // Удаляем stacktrace из extensions
         if (extensions) {
           const { stacktrace, exception, ...safeExtensions } = extensions;
-          
+
           return {
             ...rest,
             extensions: {
@@ -38,7 +36,7 @@ export function getGraphqlConfig(
             },
           };
         }
-        
+
         return {
           ...rest,
           extensions: {
@@ -46,7 +44,7 @@ export function getGraphqlConfig(
           },
         };
       }
-      
+
       // В development окружении возвращаем полную информацию об ошибке
       return error;
     },

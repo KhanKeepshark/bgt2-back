@@ -13,7 +13,13 @@ import {
 import { Decimal } from '@prisma/client/runtime/library';
 import { RecurrenceConfigInput } from './inputs/recurrence-config.input';
 import { CreateOperationInput } from '../operation/inputs/create-operation.input';
-import { AccountError, CategoryError, RecurrenceError, SubscriptionError, TagError } from '@back/shared/constants/errors.constants';
+import {
+  AccountError,
+  CategoryError,
+  RecurrenceError,
+  SubscriptionError,
+  TagError,
+} from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class RecurrenceService {
@@ -27,13 +33,17 @@ export class RecurrenceService {
       // Проверка лимитов плана
       const userWithPlan = await this.prismaService.user.findUnique({
         where: { id: user.id },
-        include: { subscriptionPlan: true, _count: { select: { recurrenceConfigs: true } } },
+        include: {
+          subscriptionPlan: true,
+          _count: { select: { recurrenceConfigs: true } },
+        },
       });
 
       if (userWithPlan?.subscriptionPlan) {
         if (
           userWithPlan.subscriptionPlan.maxRecurrenceConfigs !== null &&
-          userWithPlan._count.recurrenceConfigs >= userWithPlan.subscriptionPlan.maxRecurrenceConfigs
+          userWithPlan._count.recurrenceConfigs >=
+            userWithPlan.subscriptionPlan.maxRecurrenceConfigs
         ) {
           throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
         }
@@ -52,9 +62,9 @@ export class RecurrenceService {
           where: { id: input.categoryId, userId: user.id },
         });
 
-      if (!category) {
-        throw new BadRequestException(CategoryError.NOT_FOUND);
-      }
+        if (!category) {
+          throw new BadRequestException(CategoryError.NOT_FOUND);
+        }
       }
 
       if (input.type === OperationType.TRANSFER) {
@@ -63,9 +73,7 @@ export class RecurrenceService {
         });
 
         if (!transferAccount) {
-          throw new BadRequestException(
-            AccountError.NOT_FOUND,
-          );
+          throw new BadRequestException(AccountError.NOT_FOUND);
         }
       }
 
@@ -299,9 +307,9 @@ export class RecurrenceService {
           where: { id: input.categoryId, userId: user.id },
         });
 
-      if (!category) {
-        throw new BadRequestException(CategoryError.NOT_FOUND);
-      }
+        if (!category) {
+          throw new BadRequestException(CategoryError.NOT_FOUND);
+        }
       }
 
       if (input.transferAccountId) {
@@ -310,9 +318,7 @@ export class RecurrenceService {
         });
 
         if (!transferAccount) {
-          throw new BadRequestException(
-            AccountError.NOT_FOUND,
-          );
+          throw new BadRequestException(AccountError.NOT_FOUND);
         }
       }
 
@@ -404,7 +410,10 @@ export class RecurrenceService {
       // Проверка лимитов плана на операции
       const userWithPlan = await this.prismaService.user.findUnique({
         where: { id: recurrence.userId },
-        include: { subscriptionPlan: true, _count: { select: { operations: true } } },
+        include: {
+          subscriptionPlan: true,
+          _count: { select: { operations: true } },
+        },
       });
 
       if (userWithPlan?.subscriptionPlan) {
@@ -421,8 +430,13 @@ export class RecurrenceService {
             },
           });
 
-          if (operationsThisMonth >= userWithPlan.subscriptionPlan.maxOperationsPerMonth) {
-            throw new BadRequestException(SubscriptionError.MONTHLY_LIMIT_REACHED);
+          if (
+            operationsThisMonth >=
+            userWithPlan.subscriptionPlan.maxOperationsPerMonth
+          ) {
+            throw new BadRequestException(
+              SubscriptionError.MONTHLY_LIMIT_REACHED,
+            );
           }
         }
       }
@@ -473,7 +487,10 @@ export class RecurrenceService {
 
         const amount = new Decimal(recurrence.amount);
 
-        if (recurrence.type === OperationType.TRANSFER && recurrence.transferAccountId) {
+        if (
+          recurrence.type === OperationType.TRANSFER &&
+          recurrence.transferAccountId
+        ) {
           if (recurrence.accountId) {
             await tx.account.update({
               where: { id: recurrence.accountId },

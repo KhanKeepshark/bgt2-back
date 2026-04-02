@@ -29,7 +29,7 @@ export class AveragesDataModel {
 @ObjectType()
 export class Categories {
   @Field(() => CategoryModel)
-  category: CategoryModel
+  category: CategoryModel;
 
   @Field(() => String)
   all: Decimal;
@@ -70,4 +70,3 @@ export class OperationChartDataModel {
   @Field(() => IncomeExpenseDataModel)
   expense: IncomeExpenseDataModel;
 }
-

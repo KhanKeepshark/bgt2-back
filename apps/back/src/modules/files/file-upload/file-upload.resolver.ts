@@ -8,7 +8,6 @@ import { ExtractedOperationModel } from '../ai-upload/models/extracted-operation
 import { User } from '@prisma/generated';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 
-
 @Resolver('FileUpload')
 export class FileUploadResolver {
   constructor(private readonly fileUploadService: FileUploadService) {}
@@ -16,7 +15,10 @@ export class FileUploadResolver {
   @Authorization()
   @Mutation(() => [ExtractedOperationModel], { name: 'parseOperationsFile' })
   public async parseOperationsFile(
-    @Args({ name: 'file', type: () => GraphQLUpload }, SpreadsheetFileValidationPipe)
+    @Args(
+      { name: 'file', type: () => GraphQLUpload },
+      SpreadsheetFileValidationPipe,
+    )
     file: Upload,
     @Authorized() user: User,
   ) {

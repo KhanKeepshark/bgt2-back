@@ -3,11 +3,16 @@ import { SubscriptionType } from '@prisma/generated';
 import { SubscriptionPlanService } from './subscription-plan.service';
 import { SubscriptionPlanModel } from './models/subscription-plan.model';
 import { UpdateSubscriptionPlanInput } from './inputs/update-subscription-plan.input';
-import { AdminOnly, Authorization } from '@back/shared/decorators/auth.decorator';
+import {
+  AdminOnly,
+  Authorization,
+} from '@back/shared/decorators/auth.decorator';
 
 @Resolver(() => SubscriptionPlanModel)
 export class SubscriptionPlanResolver {
-  constructor(private readonly subscriptionPlanService: SubscriptionPlanService) {}
+  constructor(
+    private readonly subscriptionPlanService: SubscriptionPlanService,
+  ) {}
 
   @Query(() => [SubscriptionPlanModel], { name: 'findAllSubscriptionPlans' })
   @Authorization()

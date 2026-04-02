@@ -13,4 +13,3 @@ export class CreateCategoryKeywordInput {
   @IsNotEmpty()
   categoryId: string;
 }
-
