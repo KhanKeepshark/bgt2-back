@@ -17,6 +17,23 @@ services:
     depends_on:
       - db
       - redis
+      - rabbitmq
+    networks:
+      - bgt2-network
+
+  rabbitmq-worker:
+    container_name: bgt2-rabbitmq-worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    command: ["sh", "-c", "yarn start:rabbitmq:prod"]
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
     networks:
       - bgt2-network
 

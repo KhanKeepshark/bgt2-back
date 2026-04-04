@@ -43,7 +43,7 @@ export class AiUploadService {
       const filePart = createFilePart(buffer, file.mimetype);
       const prompt = buildOptimizedPrompt(categories);
 
-      this.logger.debug(`Prompt: ${prompt}`);
+      // this.logger.debug(`Prompt: ${prompt}`);
 
       // Получаем оценку токенов перед запросом
       try {
@@ -85,10 +85,10 @@ export class AiUploadService {
       const rawResult = response.text;
       actualTokens = response.usageMetadata?.totalTokenCount || 0;
 
-      this.logger.debug(`AI Response: ${rawResult}`);
-      this.logger.debug(
-        `Token usage - Estimated: ${estimatedTokens}, Actual: ${actualTokens}`,
-      );
+      // this.logger.debug(`AI Response: ${rawResult}`);
+      // this.logger.debug(
+      //   `Token usage - Estimated: ${estimatedTokens}, Actual: ${actualTokens}`,
+      // );
 
       const extractedOperations = parseToonResponse(rawResult);
       operationsCreated = extractedOperations.length;
