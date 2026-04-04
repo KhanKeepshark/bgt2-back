@@ -13,7 +13,7 @@ export function getMailerConfig(configService: ConfigService): MailerOptions {
       },
     },
     defaults: {
-      from: `"No-Reply" <${configService.getOrThrow<string>('MAILER_LOGIN')}>`,
+      from: `"Artyq Support" <${configService.getOrThrow<string>('MAILER_FROM')}>`,
     },
   };
 }

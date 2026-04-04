@@ -131,7 +131,7 @@ export class UserService {
     );
     await this.categoryService.createDefault(user);
 
-    // await this.verificationService.sendVerificationEmail(user);
+    await this.verificationService.sendVerificationEmail(user);
 
     return true;
   }
