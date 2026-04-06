@@ -8,9 +8,6 @@ import { AuthError } from '@back/shared/constants/errors.constants';
 import { MailService } from '../../libs/mail/mail.service';
 import { VerificationInput } from './inputs/verification.input';
 import { TokenType, User } from '@prisma/generated';
-import { getSessionMetadata } from '@back/shared/utils/session-metadata.util';
-import { saveSession } from '@back/shared/utils/session.util';
-import { Request } from 'express';
 import { generateToken } from '@back/shared/utils/generate-token.util';
 
 @Injectable()
@@ -22,8 +19,6 @@ export class VerificationService {
 
   public async verify(
     input: VerificationInput,
-    req: Request,
-    userAgent: string,
   ) {
     const { token } = input;
 
@@ -41,7 +36,7 @@ export class VerificationService {
       throw new BadRequestException(AuthError.TOKEN_EXPIRED);
     }
 
-    const user = await this.prismaService.user.update({
+    await this.prismaService.user.update({
       where: { id: existingToken.userId },
       data: {
         isEmailVerified: true,
@@ -52,9 +47,7 @@ export class VerificationService {
       where: { id: existingToken.id, type: TokenType.EMAIL_VERIFY },
     });
 
-    const metadata = getSessionMetadata(req, userAgent);
-
-    return saveSession(req, user, metadata);
+    return true;
   }
 
   public async sendVerificationEmail(user: User, language?: string) {

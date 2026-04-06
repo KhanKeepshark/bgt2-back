@@ -46,7 +46,7 @@ export const VerificationTemplate = ({
   token,
   language = 'ru',
 }: VerificationTemplateProps) => {
-  const verificationUrl = `${domain}/auth/verify?token=${token}`;
+  const verificationUrl = `${domain}/auth/verify-token?token=${token}`;
   const t = translations[language as keyof typeof translations] || translations.ru;
 
   return (

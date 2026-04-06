@@ -302,7 +302,7 @@ type Mutation {
   updateSubscriptionPlan(data: UpdateSubscriptionPlanInput!): SubscriptionPlanModel!
   updateTag(input: UpdateTagInput!): TagModel!
   updateUser(data: UpdateUserInput!): UserModel!
-  verifyAccount(input: VerificationInput!): AuthModel!
+  verifyAccount(input: VerificationInput!): Boolean!
 }
 
 type NotificationModel {
