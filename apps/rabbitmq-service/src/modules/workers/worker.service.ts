@@ -17,6 +17,7 @@ export class QueueWorkerService {
 
     try {
       await this.mailService.sendMailDirect(data.to, data.subject, data.html);
+      this.logger.debug(`Successfully sent email to ${data.to}`);
     } catch (error) {
       this.logger.error(`Error sending email to ${data.to}: ${error}`);
     }

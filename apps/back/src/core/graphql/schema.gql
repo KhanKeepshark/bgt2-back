@@ -159,6 +159,7 @@ input CreateTagInput {
 
 input CreateUserInput {
   email: String!
+  language: String
   password: String!
 }
 
@@ -637,6 +638,7 @@ input UpdateUserInput {
   id: String!
   isActive: Boolean
   isEmailVerified: Boolean
+  language: String
   password: String
   role: String
   subscriptionPlanId: String

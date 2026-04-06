@@ -11,13 +11,25 @@ export class MailService {
     private readonly rabbitmqService: RabbitmqService,
   ) {}
 
-  public async sendVerificationEmail(email: string, token: string) {
-    const domain = this.configService.getOrThrow<string>('ALLOWED_ORIGINS');
-    const html = await render(VerificationTemplate({ domain, token }));
+  public async sendVerificationEmail(
+    email: string,
+    token: string,
+    language?: string,
+  ) {
+    const allowedOrigins = this.configService.getOrThrow<string>('ALLOWED_ORIGINS');
+    const domain = allowedOrigins.split(',')[0];
+    const html = await render(VerificationTemplate({ domain, token, language }));
+
+    let subject = 'Verify your email';
+    if (language === 'ru') {
+      subject = 'Подтвердите вашу электронную почту';
+    } else if (language === 'kz') {
+      subject = 'Электрондық поштаңызды растаңыз';
+    }
 
     this.rabbitmqService.addEmailJob({
       to: email,
-      subject: 'Verify your email',
+      subject,
       html,
     });
 

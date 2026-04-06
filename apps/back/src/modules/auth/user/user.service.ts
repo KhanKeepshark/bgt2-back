@@ -82,7 +82,7 @@ export class UserService {
   }
 
   public async create(input: CreateUserInput) {
-    const { email, password } = input;
+    const { email, password, language } = input;
 
     const isEmailExists = await this.prismaService.user.findUnique({
       where: { email },
@@ -131,7 +131,7 @@ export class UserService {
     );
     await this.categoryService.createDefault(user);
 
-    await this.verificationService.sendVerificationEmail(user);
+    await this.verificationService.sendVerificationEmail(user, language);
 
     return true;
   }
