@@ -1,6 +1,7 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { SessionService } from './session.service';
 import { LoginInput } from './inputs/login.inputs';
+import { LoginWithGoogleInput } from './inputs/login-with-google.input';
 import { GqlContext } from '@back/shared/types/gql-context.types';
 import { UserAgent } from '@back/shared/decorators/user-agent.decorator';
 import {
@@ -42,6 +43,15 @@ export class SessionResolver {
     @UserAgent() userAgent: string,
   ) {
     return await this.sessionService.login(req, input, userAgent);
+  }
+
+  @Mutation(() => AuthModel, { name: 'loginWithGoogle' })
+  public async loginWithGoogle(
+    @Context() { req }: GqlContext,
+    @Args('data') input: LoginWithGoogleInput,
+    @UserAgent() userAgent: string,
+  ) {
+    return await this.sessionService.loginWithGoogle(req, input, userAgent);
   }
 
   @Authorization()

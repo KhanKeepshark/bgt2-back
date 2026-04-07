@@ -260,6 +260,10 @@ input LoginInput {
   pin: String
 }
 
+input LoginWithGoogleInput {
+  token: String!
+}
+
 type Mutation {
   accountHasOperations(id: String!): Boolean!
   aiFileTokenCount(file: Upload!): AiCountModel!
@@ -289,6 +293,7 @@ type Mutation {
   exportOperationsToExcel(filter: OperationsExportFilterInput): FileDownloadModel!
   impersonateUser(userId: String!): AuthModel!
   loginUser(data: LoginInput!): AuthModel!
+  loginWithGoogle(data: LoginWithGoogleInput!): AuthModel!
   logoutUser: Boolean!
   markAllNotificationsAsRead: Boolean!
   markNotificationAsRead(id: String!): NotificationModel!

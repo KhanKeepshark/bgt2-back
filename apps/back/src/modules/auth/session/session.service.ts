@@ -15,12 +15,16 @@ import { getSessionMetadata } from '@back/shared/utils/session-metadata.util';
 import { RedisService } from '@back/core/redis/redis.service';
 import { TOTP } from 'otpauth';
 import { clearSession, saveSession } from '@back/shared/utils/session.util';
+import { UserService } from '../user/user.service';
+import { LoginWithGoogleInput } from './inputs/login-with-google.input';
+
 @Injectable()
 export class SessionService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly redisService: RedisService,
     private readonly configService: ConfigService,
+    private readonly userService: UserService,
   ) {}
 
   public async findSessionsByUser(req: Request) {
@@ -107,6 +111,73 @@ export class SessionService {
       if (delta === null) {
         throw new BadRequestException(AuthError.INVALID_TOTP);
       }
+    }
+
+    const metadata = getSessionMetadata(req, userAgent);
+
+    return await saveSession(req, user, metadata);
+  }
+
+  public async loginWithGoogle(
+    req: Request,
+    input: LoginWithGoogleInput,
+    userAgent: string,
+  ) {
+    const { token } = input;
+
+    const response = await fetch(
+      'https://www.googleapis.com/oauth2/v3/userinfo',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new UnauthorizedException('Invalid Google token');
+    }
+
+    const googleUser = await response.json();
+    const { email, name } = googleUser;
+
+    if (!email) {
+      throw new UnauthorizedException('Email not provided by Google');
+    }
+
+    let user = await this.prismaService.user.findFirst({
+      where: { email: { equals: email } },
+      include: {
+        accounts: true,
+        tags: true,
+        categories: {
+          include: {
+            children: true,
+            keywords: true,
+          },
+        },
+        subscriptionPlan: true,
+      },
+    });
+
+    if (!user) {
+      user = await this.userService.createFromGoogle(email, name || 'User');
+    } else if (!user.isEmailVerified) {
+      user = await this.prismaService.user.update({
+        where: { id: user.id },
+        data: { isEmailVerified: true },
+        include: {
+          accounts: true,
+          tags: true,
+          categories: {
+            include: {
+              children: true,
+              keywords: true,
+            },
+          },
+          subscriptionPlan: true,
+        },
+      });
     }
 
     const metadata = getSessionMetadata(req, userAgent);

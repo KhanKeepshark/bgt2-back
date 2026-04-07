@@ -8,5 +8,6 @@ import { CategoryModule } from '../../accounts/category/category.module';
 @Module({
   imports: [AccountModule, CategoryModule],
   providers: [UserResolver, UserService, VerificationService],
+  exports: [UserService],
 })
 export class UserModule {}

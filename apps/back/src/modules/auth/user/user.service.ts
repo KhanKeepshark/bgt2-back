@@ -136,6 +136,87 @@ export class UserService {
     return true;
   }
 
+  public async createFromGoogle(email: string, name: string) {
+    const isEmailExists = await this.prismaService.user.findUnique({
+      where: { email },
+      include: {
+        accounts: true,
+        tags: true,
+        categories: {
+          include: {
+            children: true,
+            keywords: true,
+          },
+        },
+        subscriptionPlan: true,
+      },
+    });
+
+    if (isEmailExists) {
+      return isEmailExists;
+    }
+
+    const plan = await this.prismaService.subscriptionPlan.findUnique({
+      where: { type: SubscriptionType.FREE },
+      include: { prices: true },
+    });
+
+    if (!plan) {
+      throw new BadRequestException(SubscriptionError.PLAN_NOT_FOUND);
+    }
+
+    const price = plan.prices[0];
+
+    const subscriptionStartedAt = new Date();
+    const subscriptionExpiresAt = price?.durationDays
+      ? new Date(
+          subscriptionStartedAt.getTime() +
+            price.durationDays * 24 * 60 * 60 * 1000,
+        )
+      : null;
+
+    const randomPassword =
+      Math.random().toString(36).slice(-10) +
+      Math.random().toString(36).slice(-10);
+
+    const user = await this.prismaService.user.create({
+      data: {
+        email,
+        name,
+        password: await hash(randomPassword),
+        role: 'USER',
+        isEmailVerified: true,
+        lastLoginAt: subscriptionStartedAt,
+        subscriptionPlanId: plan.id,
+        subscriptionPriceId: price?.id,
+        subscriptionStartedAt,
+        subscriptionExpiresAt,
+        tokensBalance: plan.tokensOnPurchase ?? 0,
+      },
+    });
+
+    await this.accountService.create(
+      { name: 'Default', currency: 'USD', icon: 'wallet' },
+      user,
+    );
+    await this.categoryService.createDefault(user);
+
+    return await this.prismaService.user.findUnique({
+      where: { id: user.id },
+      include: {
+        accounts: true,
+        tags: true,
+        categories: {
+          include: {
+            children: true,
+            keywords: true,
+          },
+        },
+        subscriptionPlan: true,
+      },
+    });
+  }
+
   public async findOne(id: string) {
     const user = await this.prismaService.user.findUnique({
       where: { id },
