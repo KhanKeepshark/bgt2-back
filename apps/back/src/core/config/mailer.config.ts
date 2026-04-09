@@ -13,7 +13,7 @@ export function getMailerConfig(configService: ConfigService): MailerOptions {
       },
     },
     defaults: {
-      from: `"Artyq Support" <${configService.getOrThrow<string>('MAILER_FROM')}>`,
+      from: `"support@artyq.kz" <${configService.getOrThrow<string>('MAILER_FROM')}>`,
     },
   };
 }
