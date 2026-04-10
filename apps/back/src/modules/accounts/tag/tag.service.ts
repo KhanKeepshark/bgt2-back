@@ -99,6 +99,7 @@ export class TagService {
           where: {
             userId: user.id,
             name: input.name,
+            id: { not: input.id },
           },
         });
 

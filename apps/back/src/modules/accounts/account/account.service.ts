@@ -149,7 +149,11 @@ export class AccountService {
     try {
       if (input.name) {
         const existingAccount = await this.prismaService.account.findFirst({
-          where: { name: input.name, userId: user.id },
+          where: {
+            name: input.name,
+            userId: user.id,
+            id: { not: input.id },
+          },
         });
 
         if (existingAccount) {
