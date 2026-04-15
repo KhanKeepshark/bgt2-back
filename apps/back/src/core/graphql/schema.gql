@@ -94,6 +94,11 @@ enum CategoryType {
   INCOME
 }
 
+input ChangePasswordInput {
+  newPassword: String!
+  oldPassword: String!
+}
+
 input CreateAccountInput {
   balance: String
   currency: String!
@@ -269,6 +274,7 @@ type Mutation {
   aiFileTokenCount(file: Upload!): AiCountModel!
   aiFileUpload(file: Upload!): AiUploadResultModel!
   categoryHasOperations(id: String!): Boolean!
+  changePassword(data: ChangePasswordInput!): UserModel!
   clearSessionCookie: Boolean!
   confirmPayment(paymentId: String!, transactionId: String!): PaymentModel!
   createAccount(input: CreateAccountInput!): AccountModel!
@@ -300,6 +306,8 @@ type Mutation {
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
   removeSession(id: String!): Boolean!
   removeUser(id: String!): UserModel!
+  resetPassword(data: ResetPasswordInput!): Boolean!
+  sendPasswordResetEmail(language: String): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
   updateCategory(input: UpdateCategoryInput!): CategoryModel!
   updateOperation(input: UpdateOperationInput!): OperationModel!
@@ -479,6 +487,11 @@ enum RecurrenceFrequency {
   MONTHLY
   WEEKLY
   YEARLY
+}
+
+input ResetPasswordInput {
+  newPassword: String!
+  token: String!
 }
 
 type SessionMetadataModel {

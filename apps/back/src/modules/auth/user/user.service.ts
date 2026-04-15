@@ -11,12 +11,17 @@ import {
   SubscriptionError,
 } from '@back/shared/constants/errors.constants';
 import { UpdateUserInput } from './inputs/update-user.input';
+import { ChangePasswordInput } from './inputs/change-password.input';
 import { UserWhereInput } from './inputs/user-where.input';
 import { UserOrderByInput } from './inputs/user-order-by.input';
-import { hash } from 'argon2';
+import { hash, verify } from 'argon2';
 import { VerificationService } from '../verification/verification.service';
 import { AccountService } from '../../accounts/account/account.service';
 import { CategoryService } from '../../accounts/category/category.service';
+import { MailService } from '../../libs/mail/mail.service';
+import { generateToken } from '@back/shared/utils/generate-token.util';
+import { TokenType } from '@prisma/generated';
+import { ResetPasswordInput } from './inputs/reset-password.input';
 
 @Injectable()
 export class UserService {
@@ -25,6 +30,7 @@ export class UserService {
     private readonly accountService: AccountService,
     private readonly categoryService: CategoryService,
     private readonly verificationService: VerificationService,
+    private readonly mailService: MailService,
   ) {}
 
   public async findAll(
@@ -281,6 +287,88 @@ export class UserService {
         subscriptionPrice: true,
       },
     });
+  }
+
+  public async changePassword(id: string, input: ChangePasswordInput) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new BadRequestException(AuthError.USER_NOT_FOUND);
+    }
+
+    if (!user.password) {
+      throw new BadRequestException(AuthError.INVALID_PASSWORD);
+    }
+
+    const isPasswordValid = await verify(user.password, input.oldPassword);
+    if (!isPasswordValid) {
+      throw new BadRequestException(AuthError.INVALID_PASSWORD);
+    }
+
+    const hashedPassword = await hash(input.newPassword);
+
+    return this.prismaService.user.update({
+      where: { id },
+      data: { password: hashedPassword },
+    });
+  }
+
+  public async sendPasswordResetEmail(id: string, language?: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new BadRequestException(AuthError.USER_NOT_FOUND);
+    }
+
+    const resetToken = await generateToken(
+      this.prismaService,
+      TokenType.PASSWORD_RESET,
+      user,
+      true,
+    );
+
+    await this.mailService.sendPasswordResetEmail(
+      user.email,
+      resetToken.token,
+      language,
+    );
+
+    return true;
+  }
+
+  public async resetPassword(input: ResetPasswordInput) {
+    const { token, newPassword } = input;
+
+    const existingToken = await this.prismaService.token.findUnique({
+      where: { token, type: TokenType.PASSWORD_RESET },
+    });
+
+    if (!existingToken) {
+      throw new BadRequestException(AuthError.TOKEN_NOT_FOUND);
+    }
+
+    const hasExpired = new Date(existingToken.expiresAt) < new Date();
+
+    if (hasExpired) {
+      throw new BadRequestException(AuthError.TOKEN_EXPIRED);
+    }
+
+    const hashedPassword = await hash(newPassword);
+
+    await this.prismaService.user.update({
+      where: { id: existingToken.userId },
+      data: { password: hashedPassword },
+    });
+
+    await this.prismaService.token.delete({
+      where: { id: existingToken.id, type: TokenType.PASSWORD_RESET },
+    });
+
+    return true;
   }
 
   public async remove(id: string) {

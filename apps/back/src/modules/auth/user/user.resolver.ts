@@ -11,6 +11,8 @@ import {
 } from '@back/shared/decorators/auth.decorator';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { CreateUserInput } from './inputs/create-user.input';
+import { ChangePasswordInput } from './inputs/change-password.input';
+import { ResetPasswordInput } from './inputs/reset-password.input';
 import { UseGuards } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { GqlThrottlerGuard } from '../../../shared/guards/gql-throttler.guard';
@@ -55,6 +57,29 @@ export class UserResolver {
   @AdminOnly()
   public async update(@Args('data') input: UpdateUserInput) {
     return this.userService.update(input);
+  }
+
+  @Mutation(() => UserModel, { name: 'changePassword' })
+  @Authorization()
+  public async changePassword(
+    @Authorized('id') id: string,
+    @Args('data') input: ChangePasswordInput,
+  ) {
+    return this.userService.changePassword(id, input);
+  }
+
+  @Mutation(() => Boolean, { name: 'sendPasswordResetEmail' })
+  @Authorization()
+  public async sendPasswordResetEmail(
+    @Authorized('id') id: string,
+    @Args('language', { nullable: true }) language?: string,
+  ) {
+    return this.userService.sendPasswordResetEmail(id, language);
+  }
+
+  @Mutation(() => Boolean, { name: 'resetPassword' })
+  public async resetPassword(@Args('data') input: ResetPasswordInput) {
+    return this.userService.resetPassword(input);
   }
 
   @Mutation(() => UserModel, { name: 'removeUser' })
