@@ -118,13 +118,13 @@ export class OperationService {
           throw new BadRequestException(OperationError.TRANSFER_SAME_ACCOUNT);
         }
 
-        const amount = new Decimal(input.amount);
+        const amount = new Decimal(input.amount).abs();
 
         const createTransferOperation = await this.prismaService.$transaction(
           async (tx) => {
             const operation = await tx.operation.create({
               data: {
-                amount: input.amount,
+                amount: amount,
                 date: input.date,
                 description: input.description,
                 type: OperationType.TRANSFER,
@@ -183,7 +183,7 @@ export class OperationService {
         throw new BadRequestException(CategoryError.NOT_FOUND);
       }
 
-      const amount = new Decimal(input.amount);
+      const amount = new Decimal(input.amount).abs();
       const balanceUpdate =
         input.type === OperationType.INCOME
           ? { increment: amount }
@@ -192,7 +192,7 @@ export class OperationService {
       const created = await this.prismaService.$transaction(async (tx) => {
         const operation = await tx.operation.create({
           data: {
-            amount: input.amount,
+            amount: amount,
             date: input.date,
             description: input.description,
             type: input.type,
@@ -325,11 +325,11 @@ export class OperationService {
               );
             }
 
-            const amount = new Decimal(op.amount);
+            const amount = new Decimal(op.amount).abs();
 
             const transferOperation = await tx.operation.create({
               data: {
-                amount: op.amount,
+                amount: amount,
                 date: new Date(op.date),
                 description: op.description,
                 type: OperationType.TRANSFER,
@@ -387,7 +387,7 @@ export class OperationService {
             categoryMap.set(category.name.toLowerCase(), category);
           }
 
-          const amount = new Decimal(op.amount);
+          const amount = new Decimal(op.amount).abs();
           const balanceUpdate =
             op.type === OperationType.INCOME
               ? { increment: amount }
@@ -395,7 +395,7 @@ export class OperationService {
 
           const newOp = await tx.operation.create({
             data: {
-              amount: op.amount,
+              amount: amount,
               date: new Date(op.date),
               description: op.description,
               type: op.type,
@@ -1068,8 +1068,8 @@ export class OperationService {
       }
 
       const updated = await this.prismaService.$transaction(async (tx) => {
-        const oldAmount = new Decimal(existingOperation.amount);
-        const newAmount = new Decimal(input.amount ?? existingOperation.amount);
+        const oldAmount = new Decimal(existingOperation.amount).abs();
+        const newAmount = new Decimal(input.amount ?? existingOperation.amount).abs();
         const oldType = existingOperation.type;
         const newType = input.type ?? existingOperation.type;
         const oldAccountId = existingOperation.accountId;
@@ -1131,7 +1131,7 @@ export class OperationService {
         return await tx.operation.update({
           where: { id: input.id },
           data: {
-            amount: input.amount,
+            amount: newAmount,
             date: input.date,
             description: input.description,
             type: input.type,
@@ -1193,7 +1193,7 @@ export class OperationService {
       }
 
       const result = await this.prismaService.$transaction(async (tx) => {
-        const amount = new Decimal(operation.amount);
+        const amount = new Decimal(operation.amount).abs();
 
         if (operation.type === OperationType.TRANSFER) {
           if (operation.accountId) {
