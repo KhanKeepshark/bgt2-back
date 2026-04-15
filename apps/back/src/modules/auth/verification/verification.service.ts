@@ -17,9 +17,7 @@ export class VerificationService {
     private readonly mailService: MailService,
   ) {}
 
-  public async verify(
-    input: VerificationInput,
-  ) {
+  public async verify(input: VerificationInput) {
     const { token } = input;
 
     const existingToken = await this.prismaService.token.findUnique({

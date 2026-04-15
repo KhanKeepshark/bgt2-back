@@ -17,9 +17,12 @@ export class MailService {
     token: string,
     language?: string,
   ) {
-    const allowedOrigins = this.configService.getOrThrow<string>('ALLOWED_ORIGINS');
+    const allowedOrigins =
+      this.configService.getOrThrow<string>('ALLOWED_ORIGINS');
     const domain = allowedOrigins.split(',')[0];
-    const html = await render(VerificationTemplate({ domain, token, language }));
+    const html = await render(
+      VerificationTemplate({ domain, token, language }),
+    );
 
     let subject = 'Verify your email';
     if (language === 'ru') {
@@ -42,9 +45,12 @@ export class MailService {
     token: string,
     language?: string,
   ) {
-    const allowedOrigins = this.configService.getOrThrow<string>('ALLOWED_ORIGINS');
+    const allowedOrigins =
+      this.configService.getOrThrow<string>('ALLOWED_ORIGINS');
     const domain = allowedOrigins.split(',')[0];
-    const html = await render(PasswordResetTemplate({ domain, token, language }));
+    const html = await render(
+      PasswordResetTemplate({ domain, token, language }),
+    );
 
     let subject = 'Reset your password';
     if (language === 'ru') {

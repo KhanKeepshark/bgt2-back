@@ -77,6 +77,16 @@ export class UserResolver {
     return this.userService.sendPasswordResetEmail(id, language);
   }
 
+  @Mutation(() => Boolean, { name: 'forgotPassword' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 3, ttl: 86400000 } })
+  public async forgotPassword(
+    @Args('email') email: string,
+    @Args('language', { nullable: true }) language?: string,
+  ) {
+    return this.userService.forgotPassword(email, language);
+  }
+
   @Mutation(() => Boolean, { name: 'resetPassword' })
   public async resetPassword(@Args('data') input: ResetPasswordInput) {
     return this.userService.resetPassword(input);

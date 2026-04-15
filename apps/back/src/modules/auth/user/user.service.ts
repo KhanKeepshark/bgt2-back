@@ -340,6 +340,31 @@ export class UserService {
     return true;
   }
 
+  public async forgotPassword(email: string, language?: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return true;
+    }
+
+    const resetToken = await generateToken(
+      this.prismaService,
+      TokenType.PASSWORD_RESET,
+      user,
+      true,
+    );
+
+    await this.mailService.sendPasswordResetEmail(
+      user.email,
+      resetToken.token,
+      language,
+    );
+
+    return true;
+  }
+
   public async resetPassword(input: ResetPasswordInput) {
     const { token, newPassword } = input;
 

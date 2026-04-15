@@ -9,9 +9,7 @@ export class VerificationResolver {
   ) {}
 
   @Mutation(() => Boolean, { name: 'verifyAccount' })
-  public async verify(
-    @Args('input') input: VerificationInput,
-  ) {
+  public async verify(@Args('input') input: VerificationInput) {
     return this.verificationService.verify(input);
   }
 }

@@ -297,6 +297,7 @@ type Mutation {
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
   exportOperationsToExcel(filter: OperationsExportFilterInput): FileDownloadModel!
+  forgotPassword(email: String!, language: String): Boolean!
   impersonateUser(userId: String!): AuthModel!
   loginUser(data: LoginInput!): AuthModel!
   loginWithGoogle(data: LoginWithGoogleInput!): AuthModel!

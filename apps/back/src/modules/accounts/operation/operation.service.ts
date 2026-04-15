@@ -1069,7 +1069,9 @@ export class OperationService {
 
       const updated = await this.prismaService.$transaction(async (tx) => {
         const oldAmount = new Decimal(existingOperation.amount).abs();
-        const newAmount = new Decimal(input.amount ?? existingOperation.amount).abs();
+        const newAmount = new Decimal(
+          input.amount ?? existingOperation.amount,
+        ).abs();
         const oldType = existingOperation.type;
         const newType = input.type ?? existingOperation.type;
         const oldAccountId = existingOperation.accountId;
