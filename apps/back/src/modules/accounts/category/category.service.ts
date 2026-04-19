@@ -321,9 +321,7 @@ export class CategoryService {
       });
     } catch (error) {
       if (error?.code === 'P2002') {
-        throw new BadRequestException(
-          'This keyword phrase already exists for this user',
-        );
+        throw new BadRequestException(CategoryError.KEYWORD_ALREADY_EXISTS);
       }
       throw error;
     }
@@ -389,9 +387,7 @@ export class CategoryService {
       });
     } catch (error) {
       if (error?.code === 'P2002') {
-        throw new BadRequestException(
-          'This keyword phrase already exists for this user',
-        );
+        throw new BadRequestException(CategoryError.KEYWORD_ALREADY_EXISTS);
       }
       throw error;
     }
