@@ -367,6 +367,10 @@ export class OperationService {
             continue;
           }
 
+          if (!op.categoryName || op.categoryName.trim() === '') {
+            throw new BadRequestException(OperationError.CATEGORY_REQUIRED);
+          }
+
           let category = categoryMap.get(op.categoryName.toLowerCase());
 
           if (!category) {

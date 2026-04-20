@@ -120,6 +120,11 @@ input CreateCategoryKeywordInput {
   phrase: String!
 }
 
+input CreateKeywordFilterInput {
+  phrase: String!
+  type: KeywordFilterType!
+}
+
 input CreateNotificationInput {
   buttonText: LocalizedStringInput!
   description: LocalizedStringInput!
@@ -213,6 +218,7 @@ type ExtractedOperationModel {
   containsKeyword: Boolean
   date: String!
   description: String
+  isDeleted: Boolean
   type: String!
 }
 
@@ -238,6 +244,20 @@ input IntFilter {
   in: [IntFilter!]
   lt: Float
   lte: Float
+}
+
+type KeywordFilterModel {
+  createdAt: DateTime!
+  id: ID!
+  phrase: String!
+  type: KeywordFilterType!
+  updatedAt: DateTime!
+  userId: String!
+}
+
+"""Type of keyword filter (IGNORE or DELETE)"""
+enum KeywordFilterType {
+  DELETE
 }
 
 input LocalizedStringInput {
@@ -281,6 +301,7 @@ type Mutation {
   createCategory(input: CreateCategoryInput!): CategoryModel!
   createCategoryKeyword(input: CreateCategoryKeywordInput!): CategoryKeywordModel!
   createExtractedOperations(accountId: String!, operations: [ExtractedOperationInput!]!): [OperationModel!]!
+  createKeywordFilter(input: CreateKeywordFilterInput!): KeywordFilterModel!
   createNotification(input: CreateNotificationInput!): NotificationModel!
   createOperation(input: CreateOperationInput!): OperationModel!
   createPayment(input: CreatePaymentInput!): PaymentModel!
@@ -290,6 +311,7 @@ type Mutation {
   deleteAllOperations: Boolean!
   deleteCategory(id: String!): Boolean!
   deleteCategoryKeyword(id: String!): Boolean!
+  deleteKeywordFilter(id: String!): Boolean!
   deleteNotification(id: String!): Boolean!
   deleteOperation(id: String!): Boolean!
   deleteRecurrence(id: String!): Boolean!
@@ -451,6 +473,7 @@ type Query {
   findUnreadNotifications: [NotificationModel!]!
   findUser(id: String!): UserModel!
   generateTotpSecret: TotpModel!
+  getKeywordFilters: [KeywordFilterModel!]!
   me: UserModel!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
 }

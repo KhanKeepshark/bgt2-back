@@ -34,7 +34,7 @@ export const parseToonResponse = (text: string): ExtractedOperation[] => {
       .split('\n')
       .filter((row) => {
         const trimmed = row.trim();
-        // Строка должна содержать хотя бы 4 разделителя | для 5 полей
+        // Строка должна содержать хотя бы 3 разделителя | для 4 полей
         // И не должна начинаться с // (комментарий)
         // И не должна быть заголовком таблицы (если AI решит добавить)
         if (
@@ -44,7 +44,7 @@ export const parseToonResponse = (text: string): ExtractedOperation[] => {
         )
           return false;
 
-        return (trimmed.match(/\|/g) || []).length >= 4;
+        return (trimmed.match(/\|/g) || []).length >= 3;
       });
 
     if (rows.length === 0) {
@@ -66,9 +66,8 @@ export const parseToonResponse = (text: string): ExtractedOperation[] => {
 
       const date = (parts[1] || '').trim();
       const typeStr = (parts[2] || '').trim().toUpperCase();
-      const categoryName = (parts[3] || '').trim();
       // Описание может содержать | поэтому объединяем остаток
-      const description = parts.slice(4).join('|').trim();
+      const description = parts.slice(3).join('|').trim();
 
       // Конвертируем тип: I -> INCOME, E -> EXPENSE
       let operationType: 'INCOME' | 'EXPENSE' = 'EXPENSE';
@@ -80,7 +79,7 @@ export const parseToonResponse = (text: string): ExtractedOperation[] => {
         amount,
         date,
         type: operationType,
-        categoryName,
+        categoryName: '',
         description: description || '',
         containsKeyword: false,
       } as ExtractedOperation;

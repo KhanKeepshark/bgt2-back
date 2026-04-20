@@ -50,6 +50,7 @@ model User {
   tags Tag[]
   categories Category[]
   categoryKeywords CategoryKeyword[]
+  keywordFilters   KeywordFilter[]
   operations Operation[]
   recurrenceConfigs RecurrenceConfig[]
   aiTokenUsages AiTokenUsage[]
@@ -313,6 +314,25 @@ model CategoryKeyword {
   @@unique([userId, phrase])
   @@index([userId])
   @@index([categoryId])
+}
+
+model KeywordFilter {
+  id         String   @id @default(uuid())
+  phrase     String   @db.VarChar(100)
+  type       KeywordFilterType
+  
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, phrase, type])
+  @@index([userId])
+}
+
+enum KeywordFilterType {
+  DELETE
 }
 
 enum CategoryType {

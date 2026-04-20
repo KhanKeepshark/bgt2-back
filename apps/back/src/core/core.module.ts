@@ -17,6 +17,7 @@ import { AccountModule } from '../modules/accounts/account/account.module';
 import { TagModule } from '../modules/accounts/tag/tag.module';
 import { OperationModule } from '../modules/accounts/operation/operation.module';
 import { CategoryModule } from '../modules/accounts/category/category.module';
+import { KeywordFilterModule } from '../modules/accounts/keyword-filter/keyword-filter.module';
 import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { AiUploadModule } from '../modules/files/ai-upload/ai-upload.module';
 import { FileUploadModule } from '../modules/files/file-upload/file-upload.module';
@@ -58,6 +59,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     TagModule,
     OperationModule,
     CategoryModule,
+    KeywordFilterModule,
     RabbitmqModule,
     FileUploadModule,
     FileDownloadModule,

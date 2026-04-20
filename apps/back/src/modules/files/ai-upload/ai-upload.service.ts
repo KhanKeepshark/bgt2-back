@@ -39,9 +39,12 @@ export class AiUploadService {
     try {
       const buffer = await streamToBuffer(file.createReadStream());
       const categories = await this.getUserCategories(user.id);
+      const deleteFilters = await this.prismaService.keywordFilter.findMany({
+        where: { userId: user.id, type: 'DELETE' },
+      });
 
       const filePart = createFilePart(buffer, file.mimetype);
-      const prompt = buildOptimizedPrompt(categories);
+      const prompt = buildOptimizedPrompt();
 
       // this.logger.debug(`Prompt: ${prompt}`);
 
@@ -79,19 +82,35 @@ export class AiUploadService {
 
       const response = await this.genAI.models.generateContent({
         model: this.modelName,
-        contents: [filePart, prompt],
+        contents: [filePart],
+        config: {
+          systemInstruction: prompt,
+          temperature: 0,
+        },
       });
 
       const rawResult = response.text;
       actualTokens = response.usageMetadata?.totalTokenCount || 0;
 
-      // this.logger.debug(`AI Response: ${rawResult}`);
-      // this.logger.debug(
-      //   `Token usage - Estimated: ${estimatedTokens}, Actual: ${actualTokens}`,
-      // );
-
       const extractedOperations = parseToonResponse(rawResult);
-      operationsCreated = extractedOperations.length;
+
+      // Помечаем операции, которые подпадают под DELETE фильтры
+      const processedOperations = extractedOperations.map((op) => {
+        if (!op.description) return op;
+        const desc = op.description.toLowerCase().trim();
+
+        const isDeleted = deleteFilters.some((filter) =>
+          desc.includes(filter.phrase.toLowerCase().trim()),
+        );
+
+        if (isDeleted) {
+          return { ...op, isDeleted: true };
+        }
+
+        return op;
+      });
+
+      operationsCreated = processedOperations.length;
 
       const userWithPlan = await this.prismaService.user.findUnique({
         where: { id: user.id },
@@ -100,8 +119,8 @@ export class AiUploadService {
 
       const refinedOperations = userWithPlan?.subscriptionPlan
         .canUseAutoCategory
-        ? extractedOperations.map((op) => {
-            if (op.description && op.type !== 'TRANSFER') {
+        ? processedOperations.map((op) => {
+            if (op.description && op.type !== 'TRANSFER' && !op.isDeleted) {
               const autoCategory = this.findCategoryByKeywords(
                 op.description,
                 op.type as 'INCOME' | 'EXPENSE',
@@ -117,7 +136,7 @@ export class AiUploadService {
             }
             return op;
           })
-        : extractedOperations;
+        : processedOperations;
 
       // Транзакция: списание и логирование (списываем estimatedTokens)
       const updatedUser = await this.prismaService.$transaction(async (tx) => {
@@ -208,10 +227,9 @@ export class AiUploadService {
   ): Promise<{ tokenCount: number }> {
     try {
       const buffer = await streamToBuffer(file.createReadStream());
-      const categories = await this.getUserCategories(user.id);
 
       const filePart = createFilePart(buffer, file.mimetype);
-      const prompt = buildOptimizedPrompt(categories);
+      const prompt = buildOptimizedPrompt();
 
       const countResponse = await this.genAI.models.countTokens({
         model: this.modelName,

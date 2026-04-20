@@ -64,6 +64,11 @@ export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
  */
 export type CategoryKeyword = $Result.DefaultSelection<Prisma.$CategoryKeywordPayload>
 /**
+ * Model KeywordFilter
+ * 
+ */
+export type KeywordFilter = $Result.DefaultSelection<Prisma.$KeywordFilterPayload>
+/**
  * Model AiTokenUsage
  * 
  */
@@ -131,6 +136,13 @@ export const RecurrenceFrequency: {
 export type RecurrenceFrequency = (typeof RecurrenceFrequency)[keyof typeof RecurrenceFrequency]
 
 
+export const KeywordFilterType: {
+  DELETE: 'DELETE'
+};
+
+export type KeywordFilterType = (typeof KeywordFilterType)[keyof typeof KeywordFilterType]
+
+
 export const CategoryType: {
   INCOME: 'INCOME',
   EXPENSE: 'EXPENSE'
@@ -185,6 +197,10 @@ export const OperationType: typeof $Enums.OperationType
 export type RecurrenceFrequency = $Enums.RecurrenceFrequency
 
 export const RecurrenceFrequency: typeof $Enums.RecurrenceFrequency
+
+export type KeywordFilterType = $Enums.KeywordFilterType
+
+export const KeywordFilterType: typeof $Enums.KeywordFilterType
 
 export type CategoryType = $Enums.CategoryType
 
@@ -426,6 +442,16 @@ export class PrismaClient<
     * ```
     */
   get categoryKeyword(): Prisma.CategoryKeywordDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.keywordFilter`: Exposes CRUD operations for the **KeywordFilter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KeywordFilters
+    * const keywordFilters = await prisma.keywordFilter.findMany()
+    * ```
+    */
+  get keywordFilter(): Prisma.KeywordFilterDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.aiTokenUsage`: Exposes CRUD operations for the **AiTokenUsage** model.
@@ -916,6 +942,7 @@ export namespace Prisma {
     Tag: 'Tag',
     Category: 'Category',
     CategoryKeyword: 'CategoryKeyword',
+    KeywordFilter: 'KeywordFilter',
     AiTokenUsage: 'AiTokenUsage',
     Notification: 'Notification',
     SystemMetric: 'SystemMetric',
@@ -938,7 +965,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "aiTokenUsage" | "notification" | "systemMetric" | "payment"
+      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiTokenUsage" | "notification" | "systemMetric" | "payment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1682,6 +1709,80 @@ export namespace Prisma {
           }
         }
       }
+      KeywordFilter: {
+        payload: Prisma.$KeywordFilterPayload<ExtArgs>
+        fields: Prisma.KeywordFilterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KeywordFilterFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KeywordFilterFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>
+          }
+          findFirst: {
+            args: Prisma.KeywordFilterFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KeywordFilterFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>
+          }
+          findMany: {
+            args: Prisma.KeywordFilterFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>[]
+          }
+          create: {
+            args: Prisma.KeywordFilterCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>
+          }
+          createMany: {
+            args: Prisma.KeywordFilterCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KeywordFilterCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>[]
+          }
+          delete: {
+            args: Prisma.KeywordFilterDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>
+          }
+          update: {
+            args: Prisma.KeywordFilterUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>
+          }
+          deleteMany: {
+            args: Prisma.KeywordFilterDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KeywordFilterUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KeywordFilterUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>[]
+          }
+          upsert: {
+            args: Prisma.KeywordFilterUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeywordFilterPayload>
+          }
+          aggregate: {
+            args: Prisma.KeywordFilterAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKeywordFilter>
+          }
+          groupBy: {
+            args: Prisma.KeywordFilterGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KeywordFilterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KeywordFilterCountArgs<ExtArgs>
+            result: $Utils.Optional<KeywordFilterCountAggregateOutputType> | number
+          }
+        }
+      }
       AiTokenUsage: {
         payload: Prisma.$AiTokenUsagePayload<ExtArgs>
         fields: Prisma.AiTokenUsageFieldRefs
@@ -2072,6 +2173,7 @@ export namespace Prisma {
     tag?: TagOmit
     category?: CategoryOmit
     categoryKeyword?: CategoryKeywordOmit
+    keywordFilter?: KeywordFilterOmit
     aiTokenUsage?: AiTokenUsageOmit
     notification?: NotificationOmit
     systemMetric?: SystemMetricOmit
@@ -2175,6 +2277,7 @@ export namespace Prisma {
     tags: number
     categories: number
     categoryKeywords: number
+    keywordFilters: number
     operations: number
     recurrenceConfigs: number
     aiTokenUsages: number
@@ -2188,6 +2291,7 @@ export namespace Prisma {
     tags?: boolean | UserCountOutputTypeCountTagsArgs
     categories?: boolean | UserCountOutputTypeCountCategoriesArgs
     categoryKeywords?: boolean | UserCountOutputTypeCountCategoryKeywordsArgs
+    keywordFilters?: boolean | UserCountOutputTypeCountKeywordFiltersArgs
     operations?: boolean | UserCountOutputTypeCountOperationsArgs
     recurrenceConfigs?: boolean | UserCountOutputTypeCountRecurrenceConfigsArgs
     aiTokenUsages?: boolean | UserCountOutputTypeCountAiTokenUsagesArgs
@@ -2239,6 +2343,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCategoryKeywordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CategoryKeywordWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountKeywordFiltersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KeywordFilterWhereInput
   }
 
   /**
@@ -2900,6 +3011,7 @@ export namespace Prisma {
     tags?: boolean | User$tagsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     categoryKeywords?: boolean | User$categoryKeywordsArgs<ExtArgs>
+    keywordFilters?: boolean | User$keywordFiltersArgs<ExtArgs>
     operations?: boolean | User$operationsArgs<ExtArgs>
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
@@ -2993,6 +3105,7 @@ export namespace Prisma {
     tags?: boolean | User$tagsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     categoryKeywords?: boolean | User$categoryKeywordsArgs<ExtArgs>
+    keywordFilters?: boolean | User$keywordFiltersArgs<ExtArgs>
     operations?: boolean | User$operationsArgs<ExtArgs>
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
@@ -3022,6 +3135,7 @@ export namespace Prisma {
       tags: Prisma.$TagPayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       categoryKeywords: Prisma.$CategoryKeywordPayload<ExtArgs>[]
+      keywordFilters: Prisma.$KeywordFilterPayload<ExtArgs>[]
       operations: Prisma.$OperationPayload<ExtArgs>[]
       recurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
       aiTokenUsages: Prisma.$AiTokenUsagePayload<ExtArgs>[]
@@ -3451,6 +3565,7 @@ export namespace Prisma {
     tags<T extends User$tagsArgs<ExtArgs> = {}>(args?: Subset<T, User$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends User$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categoryKeywords<T extends User$categoryKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, User$categoryKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryKeywordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    keywordFilters<T extends User$keywordFiltersArgs<ExtArgs> = {}>(args?: Subset<T, User$keywordFiltersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     operations<T extends User$operationsArgs<ExtArgs> = {}>(args?: Subset<T, User$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recurrenceConfigs<T extends User$recurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, User$recurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiTokenUsages<T extends User$aiTokenUsagesArgs<ExtArgs> = {}>(args?: Subset<T, User$aiTokenUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiTokenUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4056,6 +4171,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CategoryKeywordScalarFieldEnum | CategoryKeywordScalarFieldEnum[]
+  }
+
+  /**
+   * User.keywordFilters
+   */
+  export type User$keywordFiltersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    where?: KeywordFilterWhereInput
+    orderBy?: KeywordFilterOrderByWithRelationInput | KeywordFilterOrderByWithRelationInput[]
+    cursor?: KeywordFilterWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KeywordFilterScalarFieldEnum | KeywordFilterScalarFieldEnum[]
   }
 
   /**
@@ -15152,6 +15291,1077 @@ export namespace Prisma {
 
 
   /**
+   * Model KeywordFilter
+   */
+
+  export type AggregateKeywordFilter = {
+    _count: KeywordFilterCountAggregateOutputType | null
+    _min: KeywordFilterMinAggregateOutputType | null
+    _max: KeywordFilterMaxAggregateOutputType | null
+  }
+
+  export type KeywordFilterMinAggregateOutputType = {
+    id: string | null
+    phrase: string | null
+    type: $Enums.KeywordFilterType | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KeywordFilterMaxAggregateOutputType = {
+    id: string | null
+    phrase: string | null
+    type: $Enums.KeywordFilterType | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KeywordFilterCountAggregateOutputType = {
+    id: number
+    phrase: number
+    type: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type KeywordFilterMinAggregateInputType = {
+    id?: true
+    phrase?: true
+    type?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KeywordFilterMaxAggregateInputType = {
+    id?: true
+    phrase?: true
+    type?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KeywordFilterCountAggregateInputType = {
+    id?: true
+    phrase?: true
+    type?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type KeywordFilterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KeywordFilter to aggregate.
+     */
+    where?: KeywordFilterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeywordFilters to fetch.
+     */
+    orderBy?: KeywordFilterOrderByWithRelationInput | KeywordFilterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KeywordFilterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeywordFilters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeywordFilters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KeywordFilters
+    **/
+    _count?: true | KeywordFilterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KeywordFilterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KeywordFilterMaxAggregateInputType
+  }
+
+  export type GetKeywordFilterAggregateType<T extends KeywordFilterAggregateArgs> = {
+        [P in keyof T & keyof AggregateKeywordFilter]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKeywordFilter[P]>
+      : GetScalarType<T[P], AggregateKeywordFilter[P]>
+  }
+
+
+
+
+  export type KeywordFilterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KeywordFilterWhereInput
+    orderBy?: KeywordFilterOrderByWithAggregationInput | KeywordFilterOrderByWithAggregationInput[]
+    by: KeywordFilterScalarFieldEnum[] | KeywordFilterScalarFieldEnum
+    having?: KeywordFilterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KeywordFilterCountAggregateInputType | true
+    _min?: KeywordFilterMinAggregateInputType
+    _max?: KeywordFilterMaxAggregateInputType
+  }
+
+  export type KeywordFilterGroupByOutputType = {
+    id: string
+    phrase: string
+    type: $Enums.KeywordFilterType
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: KeywordFilterCountAggregateOutputType | null
+    _min: KeywordFilterMinAggregateOutputType | null
+    _max: KeywordFilterMaxAggregateOutputType | null
+  }
+
+  type GetKeywordFilterGroupByPayload<T extends KeywordFilterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KeywordFilterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KeywordFilterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KeywordFilterGroupByOutputType[P]>
+            : GetScalarType<T[P], KeywordFilterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KeywordFilterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phrase?: boolean
+    type?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["keywordFilter"]>
+
+  export type KeywordFilterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phrase?: boolean
+    type?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["keywordFilter"]>
+
+  export type KeywordFilterSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phrase?: boolean
+    type?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["keywordFilter"]>
+
+  export type KeywordFilterSelectScalar = {
+    id?: boolean
+    phrase?: boolean
+    type?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type KeywordFilterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "phrase" | "type" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["keywordFilter"]>
+  export type KeywordFilterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type KeywordFilterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type KeywordFilterIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $KeywordFilterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KeywordFilter"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      phrase: string
+      type: $Enums.KeywordFilterType
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["keywordFilter"]>
+    composites: {}
+  }
+
+  type KeywordFilterGetPayload<S extends boolean | null | undefined | KeywordFilterDefaultArgs> = $Result.GetResult<Prisma.$KeywordFilterPayload, S>
+
+  type KeywordFilterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KeywordFilterFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KeywordFilterCountAggregateInputType | true
+    }
+
+  export interface KeywordFilterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KeywordFilter'], meta: { name: 'KeywordFilter' } }
+    /**
+     * Find zero or one KeywordFilter that matches the filter.
+     * @param {KeywordFilterFindUniqueArgs} args - Arguments to find a KeywordFilter
+     * @example
+     * // Get one KeywordFilter
+     * const keywordFilter = await prisma.keywordFilter.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KeywordFilterFindUniqueArgs>(args: SelectSubset<T, KeywordFilterFindUniqueArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KeywordFilter that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KeywordFilterFindUniqueOrThrowArgs} args - Arguments to find a KeywordFilter
+     * @example
+     * // Get one KeywordFilter
+     * const keywordFilter = await prisma.keywordFilter.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KeywordFilterFindUniqueOrThrowArgs>(args: SelectSubset<T, KeywordFilterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KeywordFilter that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeywordFilterFindFirstArgs} args - Arguments to find a KeywordFilter
+     * @example
+     * // Get one KeywordFilter
+     * const keywordFilter = await prisma.keywordFilter.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KeywordFilterFindFirstArgs>(args?: SelectSubset<T, KeywordFilterFindFirstArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KeywordFilter that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeywordFilterFindFirstOrThrowArgs} args - Arguments to find a KeywordFilter
+     * @example
+     * // Get one KeywordFilter
+     * const keywordFilter = await prisma.keywordFilter.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KeywordFilterFindFirstOrThrowArgs>(args?: SelectSubset<T, KeywordFilterFindFirstOrThrowArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KeywordFilters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeywordFilterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KeywordFilters
+     * const keywordFilters = await prisma.keywordFilter.findMany()
+     * 
+     * // Get first 10 KeywordFilters
+     * const keywordFilters = await prisma.keywordFilter.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const keywordFilterWithIdOnly = await prisma.keywordFilter.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KeywordFilterFindManyArgs>(args?: SelectSubset<T, KeywordFilterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KeywordFilter.
+     * @param {KeywordFilterCreateArgs} args - Arguments to create a KeywordFilter.
+     * @example
+     * // Create one KeywordFilter
+     * const KeywordFilter = await prisma.keywordFilter.create({
+     *   data: {
+     *     // ... data to create a KeywordFilter
+     *   }
+     * })
+     * 
+     */
+    create<T extends KeywordFilterCreateArgs>(args: SelectSubset<T, KeywordFilterCreateArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KeywordFilters.
+     * @param {KeywordFilterCreateManyArgs} args - Arguments to create many KeywordFilters.
+     * @example
+     * // Create many KeywordFilters
+     * const keywordFilter = await prisma.keywordFilter.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KeywordFilterCreateManyArgs>(args?: SelectSubset<T, KeywordFilterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KeywordFilters and returns the data saved in the database.
+     * @param {KeywordFilterCreateManyAndReturnArgs} args - Arguments to create many KeywordFilters.
+     * @example
+     * // Create many KeywordFilters
+     * const keywordFilter = await prisma.keywordFilter.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KeywordFilters and only return the `id`
+     * const keywordFilterWithIdOnly = await prisma.keywordFilter.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KeywordFilterCreateManyAndReturnArgs>(args?: SelectSubset<T, KeywordFilterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KeywordFilter.
+     * @param {KeywordFilterDeleteArgs} args - Arguments to delete one KeywordFilter.
+     * @example
+     * // Delete one KeywordFilter
+     * const KeywordFilter = await prisma.keywordFilter.delete({
+     *   where: {
+     *     // ... filter to delete one KeywordFilter
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KeywordFilterDeleteArgs>(args: SelectSubset<T, KeywordFilterDeleteArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KeywordFilter.
+     * @param {KeywordFilterUpdateArgs} args - Arguments to update one KeywordFilter.
+     * @example
+     * // Update one KeywordFilter
+     * const keywordFilter = await prisma.keywordFilter.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KeywordFilterUpdateArgs>(args: SelectSubset<T, KeywordFilterUpdateArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KeywordFilters.
+     * @param {KeywordFilterDeleteManyArgs} args - Arguments to filter KeywordFilters to delete.
+     * @example
+     * // Delete a few KeywordFilters
+     * const { count } = await prisma.keywordFilter.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KeywordFilterDeleteManyArgs>(args?: SelectSubset<T, KeywordFilterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KeywordFilters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeywordFilterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KeywordFilters
+     * const keywordFilter = await prisma.keywordFilter.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KeywordFilterUpdateManyArgs>(args: SelectSubset<T, KeywordFilterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KeywordFilters and returns the data updated in the database.
+     * @param {KeywordFilterUpdateManyAndReturnArgs} args - Arguments to update many KeywordFilters.
+     * @example
+     * // Update many KeywordFilters
+     * const keywordFilter = await prisma.keywordFilter.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KeywordFilters and only return the `id`
+     * const keywordFilterWithIdOnly = await prisma.keywordFilter.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KeywordFilterUpdateManyAndReturnArgs>(args: SelectSubset<T, KeywordFilterUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KeywordFilter.
+     * @param {KeywordFilterUpsertArgs} args - Arguments to update or create a KeywordFilter.
+     * @example
+     * // Update or create a KeywordFilter
+     * const keywordFilter = await prisma.keywordFilter.upsert({
+     *   create: {
+     *     // ... data to create a KeywordFilter
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KeywordFilter we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KeywordFilterUpsertArgs>(args: SelectSubset<T, KeywordFilterUpsertArgs<ExtArgs>>): Prisma__KeywordFilterClient<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KeywordFilters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeywordFilterCountArgs} args - Arguments to filter KeywordFilters to count.
+     * @example
+     * // Count the number of KeywordFilters
+     * const count = await prisma.keywordFilter.count({
+     *   where: {
+     *     // ... the filter for the KeywordFilters we want to count
+     *   }
+     * })
+    **/
+    count<T extends KeywordFilterCountArgs>(
+      args?: Subset<T, KeywordFilterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KeywordFilterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KeywordFilter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeywordFilterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KeywordFilterAggregateArgs>(args: Subset<T, KeywordFilterAggregateArgs>): Prisma.PrismaPromise<GetKeywordFilterAggregateType<T>>
+
+    /**
+     * Group by KeywordFilter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeywordFilterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KeywordFilterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KeywordFilterGroupByArgs['orderBy'] }
+        : { orderBy?: KeywordFilterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KeywordFilterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKeywordFilterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KeywordFilter model
+   */
+  readonly fields: KeywordFilterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KeywordFilter.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KeywordFilterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KeywordFilter model
+   */ 
+  interface KeywordFilterFieldRefs {
+    readonly id: FieldRef<"KeywordFilter", 'String'>
+    readonly phrase: FieldRef<"KeywordFilter", 'String'>
+    readonly type: FieldRef<"KeywordFilter", 'KeywordFilterType'>
+    readonly userId: FieldRef<"KeywordFilter", 'String'>
+    readonly createdAt: FieldRef<"KeywordFilter", 'DateTime'>
+    readonly updatedAt: FieldRef<"KeywordFilter", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KeywordFilter findUnique
+   */
+  export type KeywordFilterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * Filter, which KeywordFilter to fetch.
+     */
+    where: KeywordFilterWhereUniqueInput
+  }
+
+  /**
+   * KeywordFilter findUniqueOrThrow
+   */
+  export type KeywordFilterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * Filter, which KeywordFilter to fetch.
+     */
+    where: KeywordFilterWhereUniqueInput
+  }
+
+  /**
+   * KeywordFilter findFirst
+   */
+  export type KeywordFilterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * Filter, which KeywordFilter to fetch.
+     */
+    where?: KeywordFilterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeywordFilters to fetch.
+     */
+    orderBy?: KeywordFilterOrderByWithRelationInput | KeywordFilterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KeywordFilters.
+     */
+    cursor?: KeywordFilterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeywordFilters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeywordFilters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KeywordFilters.
+     */
+    distinct?: KeywordFilterScalarFieldEnum | KeywordFilterScalarFieldEnum[]
+  }
+
+  /**
+   * KeywordFilter findFirstOrThrow
+   */
+  export type KeywordFilterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * Filter, which KeywordFilter to fetch.
+     */
+    where?: KeywordFilterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeywordFilters to fetch.
+     */
+    orderBy?: KeywordFilterOrderByWithRelationInput | KeywordFilterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KeywordFilters.
+     */
+    cursor?: KeywordFilterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeywordFilters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeywordFilters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KeywordFilters.
+     */
+    distinct?: KeywordFilterScalarFieldEnum | KeywordFilterScalarFieldEnum[]
+  }
+
+  /**
+   * KeywordFilter findMany
+   */
+  export type KeywordFilterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * Filter, which KeywordFilters to fetch.
+     */
+    where?: KeywordFilterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeywordFilters to fetch.
+     */
+    orderBy?: KeywordFilterOrderByWithRelationInput | KeywordFilterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KeywordFilters.
+     */
+    cursor?: KeywordFilterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeywordFilters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeywordFilters.
+     */
+    skip?: number
+    distinct?: KeywordFilterScalarFieldEnum | KeywordFilterScalarFieldEnum[]
+  }
+
+  /**
+   * KeywordFilter create
+   */
+  export type KeywordFilterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KeywordFilter.
+     */
+    data: XOR<KeywordFilterCreateInput, KeywordFilterUncheckedCreateInput>
+  }
+
+  /**
+   * KeywordFilter createMany
+   */
+  export type KeywordFilterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KeywordFilters.
+     */
+    data: KeywordFilterCreateManyInput | KeywordFilterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KeywordFilter createManyAndReturn
+   */
+  export type KeywordFilterCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * The data used to create many KeywordFilters.
+     */
+    data: KeywordFilterCreateManyInput | KeywordFilterCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KeywordFilter update
+   */
+  export type KeywordFilterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KeywordFilter.
+     */
+    data: XOR<KeywordFilterUpdateInput, KeywordFilterUncheckedUpdateInput>
+    /**
+     * Choose, which KeywordFilter to update.
+     */
+    where: KeywordFilterWhereUniqueInput
+  }
+
+  /**
+   * KeywordFilter updateMany
+   */
+  export type KeywordFilterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KeywordFilters.
+     */
+    data: XOR<KeywordFilterUpdateManyMutationInput, KeywordFilterUncheckedUpdateManyInput>
+    /**
+     * Filter which KeywordFilters to update
+     */
+    where?: KeywordFilterWhereInput
+    /**
+     * Limit how many KeywordFilters to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KeywordFilter updateManyAndReturn
+   */
+  export type KeywordFilterUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * The data used to update KeywordFilters.
+     */
+    data: XOR<KeywordFilterUpdateManyMutationInput, KeywordFilterUncheckedUpdateManyInput>
+    /**
+     * Filter which KeywordFilters to update
+     */
+    where?: KeywordFilterWhereInput
+    /**
+     * Limit how many KeywordFilters to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KeywordFilter upsert
+   */
+  export type KeywordFilterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KeywordFilter to update in case it exists.
+     */
+    where: KeywordFilterWhereUniqueInput
+    /**
+     * In case the KeywordFilter found by the `where` argument doesn't exist, create a new KeywordFilter with this data.
+     */
+    create: XOR<KeywordFilterCreateInput, KeywordFilterUncheckedCreateInput>
+    /**
+     * In case the KeywordFilter was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KeywordFilterUpdateInput, KeywordFilterUncheckedUpdateInput>
+  }
+
+  /**
+   * KeywordFilter delete
+   */
+  export type KeywordFilterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+    /**
+     * Filter which KeywordFilter to delete.
+     */
+    where: KeywordFilterWhereUniqueInput
+  }
+
+  /**
+   * KeywordFilter deleteMany
+   */
+  export type KeywordFilterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KeywordFilters to delete
+     */
+    where?: KeywordFilterWhereInput
+    /**
+     * Limit how many KeywordFilters to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KeywordFilter without action
+   */
+  export type KeywordFilterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeywordFilter
+     */
+    select?: KeywordFilterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeywordFilter
+     */
+    omit?: KeywordFilterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeywordFilterInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AiTokenUsage
    */
 
@@ -19926,6 +21136,18 @@ export namespace Prisma {
   export type CategoryKeywordScalarFieldEnum = (typeof CategoryKeywordScalarFieldEnum)[keyof typeof CategoryKeywordScalarFieldEnum]
 
 
+  export const KeywordFilterScalarFieldEnum: {
+    id: 'id',
+    phrase: 'phrase',
+    type: 'type',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type KeywordFilterScalarFieldEnum = (typeof KeywordFilterScalarFieldEnum)[keyof typeof KeywordFilterScalarFieldEnum]
+
+
   export const AiTokenUsageScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -20183,6 +21405,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'KeywordFilterType'
+   */
+  export type EnumKeywordFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeywordFilterType'>
+    
+
+
+  /**
+   * Reference to a field of type 'KeywordFilterType[]'
+   */
+  export type ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeywordFilterType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'AiUsageStatus'
    */
   export type EnumAiUsageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiUsageStatus'>
@@ -20287,6 +21523,7 @@ export namespace Prisma {
     tags?: TagListRelationFilter
     categories?: CategoryListRelationFilter
     categoryKeywords?: CategoryKeywordListRelationFilter
+    keywordFilters?: KeywordFilterListRelationFilter
     operations?: OperationListRelationFilter
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
@@ -20323,6 +21560,7 @@ export namespace Prisma {
     tags?: TagOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     categoryKeywords?: CategoryKeywordOrderByRelationAggregateInput
+    keywordFilters?: KeywordFilterOrderByRelationAggregateInput
     operations?: OperationOrderByRelationAggregateInput
     recurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
     aiTokenUsages?: AiTokenUsageOrderByRelationAggregateInput
@@ -20362,6 +21600,7 @@ export namespace Prisma {
     tags?: TagListRelationFilter
     categories?: CategoryListRelationFilter
     categoryKeywords?: CategoryKeywordListRelationFilter
+    keywordFilters?: KeywordFilterListRelationFilter
     operations?: OperationListRelationFilter
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
@@ -21219,6 +22458,67 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"CategoryKeyword"> | Date | string
   }
 
+  export type KeywordFilterWhereInput = {
+    AND?: KeywordFilterWhereInput | KeywordFilterWhereInput[]
+    OR?: KeywordFilterWhereInput[]
+    NOT?: KeywordFilterWhereInput | KeywordFilterWhereInput[]
+    id?: StringFilter<"KeywordFilter"> | string
+    phrase?: StringFilter<"KeywordFilter"> | string
+    type?: EnumKeywordFilterTypeFilter<"KeywordFilter"> | $Enums.KeywordFilterType
+    userId?: StringFilter<"KeywordFilter"> | string
+    createdAt?: DateTimeFilter<"KeywordFilter"> | Date | string
+    updatedAt?: DateTimeFilter<"KeywordFilter"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type KeywordFilterOrderByWithRelationInput = {
+    id?: SortOrder
+    phrase?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type KeywordFilterWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_phrase_type?: KeywordFilterUserIdPhraseTypeCompoundUniqueInput
+    AND?: KeywordFilterWhereInput | KeywordFilterWhereInput[]
+    OR?: KeywordFilterWhereInput[]
+    NOT?: KeywordFilterWhereInput | KeywordFilterWhereInput[]
+    phrase?: StringFilter<"KeywordFilter"> | string
+    type?: EnumKeywordFilterTypeFilter<"KeywordFilter"> | $Enums.KeywordFilterType
+    userId?: StringFilter<"KeywordFilter"> | string
+    createdAt?: DateTimeFilter<"KeywordFilter"> | Date | string
+    updatedAt?: DateTimeFilter<"KeywordFilter"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_phrase_type">
+
+  export type KeywordFilterOrderByWithAggregationInput = {
+    id?: SortOrder
+    phrase?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: KeywordFilterCountOrderByAggregateInput
+    _max?: KeywordFilterMaxOrderByAggregateInput
+    _min?: KeywordFilterMinOrderByAggregateInput
+  }
+
+  export type KeywordFilterScalarWhereWithAggregatesInput = {
+    AND?: KeywordFilterScalarWhereWithAggregatesInput | KeywordFilterScalarWhereWithAggregatesInput[]
+    OR?: KeywordFilterScalarWhereWithAggregatesInput[]
+    NOT?: KeywordFilterScalarWhereWithAggregatesInput | KeywordFilterScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"KeywordFilter"> | string
+    phrase?: StringWithAggregatesFilter<"KeywordFilter"> | string
+    type?: EnumKeywordFilterTypeWithAggregatesFilter<"KeywordFilter"> | $Enums.KeywordFilterType
+    userId?: StringWithAggregatesFilter<"KeywordFilter"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"KeywordFilter"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"KeywordFilter"> | Date | string
+  }
+
   export type AiTokenUsageWhereInput = {
     AND?: AiTokenUsageWhereInput | AiTokenUsageWhereInput[]
     OR?: AiTokenUsageWhereInput[]
@@ -21571,6 +22871,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -21604,6 +22905,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -21637,6 +22939,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -21670,6 +22973,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -22595,6 +23899,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type KeywordFilterCreateInput = {
+    id?: string
+    phrase: string
+    type: $Enums.KeywordFilterType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutKeywordFiltersInput
+  }
+
+  export type KeywordFilterUncheckedCreateInput = {
+    id?: string
+    phrase: string
+    type: $Enums.KeywordFilterType
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeywordFilterUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phrase?: StringFieldUpdateOperationsInput | string
+    type?: EnumKeywordFilterTypeFieldUpdateOperationsInput | $Enums.KeywordFilterType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutKeywordFiltersNestedInput
+  }
+
+  export type KeywordFilterUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phrase?: StringFieldUpdateOperationsInput | string
+    type?: EnumKeywordFilterTypeFieldUpdateOperationsInput | $Enums.KeywordFilterType
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeywordFilterCreateManyInput = {
+    id?: string
+    phrase: string
+    type: $Enums.KeywordFilterType
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeywordFilterUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phrase?: StringFieldUpdateOperationsInput | string
+    type?: EnumKeywordFilterTypeFieldUpdateOperationsInput | $Enums.KeywordFilterType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeywordFilterUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phrase?: StringFieldUpdateOperationsInput | string
+    type?: EnumKeywordFilterTypeFieldUpdateOperationsInput | $Enums.KeywordFilterType
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AiTokenUsageCreateInput = {
     id?: string
     estimatedTokens: number
@@ -23075,6 +24441,12 @@ export namespace Prisma {
     none?: CategoryKeywordWhereInput
   }
 
+  export type KeywordFilterListRelationFilter = {
+    every?: KeywordFilterWhereInput
+    some?: KeywordFilterWhereInput
+    none?: KeywordFilterWhereInput
+  }
+
   export type OperationListRelationFilter = {
     every?: OperationWhereInput
     some?: OperationWhereInput
@@ -23127,6 +24499,10 @@ export namespace Prisma {
   }
 
   export type CategoryKeywordOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type KeywordFilterOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23944,6 +25320,56 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumKeywordFilterTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordFilterType | EnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordFilterTypeFilter<$PrismaModel> | $Enums.KeywordFilterType
+  }
+
+  export type KeywordFilterUserIdPhraseTypeCompoundUniqueInput = {
+    userId: string
+    phrase: string
+    type: $Enums.KeywordFilterType
+  }
+
+  export type KeywordFilterCountOrderByAggregateInput = {
+    id?: SortOrder
+    phrase?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KeywordFilterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    phrase?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KeywordFilterMinOrderByAggregateInput = {
+    id?: SortOrder
+    phrase?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumKeywordFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordFilterType | EnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.KeywordFilterType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKeywordFilterTypeFilter<$PrismaModel>
+    _max?: NestedEnumKeywordFilterTypeFilter<$PrismaModel>
+  }
+
   export type EnumAiUsageStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.AiUsageStatus | EnumAiUsageStatusFieldRefInput<$PrismaModel>
     in?: $Enums.AiUsageStatus[] | ListEnumAiUsageStatusFieldRefInput<$PrismaModel>
@@ -24285,6 +25711,13 @@ export namespace Prisma {
     connect?: CategoryKeywordWhereUniqueInput | CategoryKeywordWhereUniqueInput[]
   }
 
+  export type KeywordFilterCreateNestedManyWithoutUserInput = {
+    create?: XOR<KeywordFilterCreateWithoutUserInput, KeywordFilterUncheckedCreateWithoutUserInput> | KeywordFilterCreateWithoutUserInput[] | KeywordFilterUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KeywordFilterCreateOrConnectWithoutUserInput | KeywordFilterCreateOrConnectWithoutUserInput[]
+    createMany?: KeywordFilterCreateManyUserInputEnvelope
+    connect?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+  }
+
   export type OperationCreateNestedManyWithoutUserInput = {
     create?: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput> | OperationCreateWithoutUserInput[] | OperationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
@@ -24353,6 +25786,13 @@ export namespace Prisma {
     connectOrCreate?: CategoryKeywordCreateOrConnectWithoutUserInput | CategoryKeywordCreateOrConnectWithoutUserInput[]
     createMany?: CategoryKeywordCreateManyUserInputEnvelope
     connect?: CategoryKeywordWhereUniqueInput | CategoryKeywordWhereUniqueInput[]
+  }
+
+  export type KeywordFilterUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<KeywordFilterCreateWithoutUserInput, KeywordFilterUncheckedCreateWithoutUserInput> | KeywordFilterCreateWithoutUserInput[] | KeywordFilterUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KeywordFilterCreateOrConnectWithoutUserInput | KeywordFilterCreateOrConnectWithoutUserInput[]
+    createMany?: KeywordFilterCreateManyUserInputEnvelope
+    connect?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
   }
 
   export type OperationUncheckedCreateNestedManyWithoutUserInput = {
@@ -24520,6 +25960,20 @@ export namespace Prisma {
     deleteMany?: CategoryKeywordScalarWhereInput | CategoryKeywordScalarWhereInput[]
   }
 
+  export type KeywordFilterUpdateManyWithoutUserNestedInput = {
+    create?: XOR<KeywordFilterCreateWithoutUserInput, KeywordFilterUncheckedCreateWithoutUserInput> | KeywordFilterCreateWithoutUserInput[] | KeywordFilterUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KeywordFilterCreateOrConnectWithoutUserInput | KeywordFilterCreateOrConnectWithoutUserInput[]
+    upsert?: KeywordFilterUpsertWithWhereUniqueWithoutUserInput | KeywordFilterUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: KeywordFilterCreateManyUserInputEnvelope
+    set?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    disconnect?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    delete?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    connect?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    update?: KeywordFilterUpdateWithWhereUniqueWithoutUserInput | KeywordFilterUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: KeywordFilterUpdateManyWithWhereWithoutUserInput | KeywordFilterUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: KeywordFilterScalarWhereInput | KeywordFilterScalarWhereInput[]
+  }
+
   export type OperationUpdateManyWithoutUserNestedInput = {
     create?: XOR<OperationCreateWithoutUserInput, OperationUncheckedCreateWithoutUserInput> | OperationCreateWithoutUserInput[] | OperationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
@@ -24658,6 +26112,20 @@ export namespace Prisma {
     update?: CategoryKeywordUpdateWithWhereUniqueWithoutUserInput | CategoryKeywordUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CategoryKeywordUpdateManyWithWhereWithoutUserInput | CategoryKeywordUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CategoryKeywordScalarWhereInput | CategoryKeywordScalarWhereInput[]
+  }
+
+  export type KeywordFilterUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<KeywordFilterCreateWithoutUserInput, KeywordFilterUncheckedCreateWithoutUserInput> | KeywordFilterCreateWithoutUserInput[] | KeywordFilterUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KeywordFilterCreateOrConnectWithoutUserInput | KeywordFilterCreateOrConnectWithoutUserInput[]
+    upsert?: KeywordFilterUpsertWithWhereUniqueWithoutUserInput | KeywordFilterUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: KeywordFilterCreateManyUserInputEnvelope
+    set?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    disconnect?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    delete?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    connect?: KeywordFilterWhereUniqueInput | KeywordFilterWhereUniqueInput[]
+    update?: KeywordFilterUpdateWithWhereUniqueWithoutUserInput | KeywordFilterUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: KeywordFilterUpdateManyWithWhereWithoutUserInput | KeywordFilterUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: KeywordFilterScalarWhereInput | KeywordFilterScalarWhereInput[]
   }
 
   export type OperationUncheckedUpdateManyWithoutUserNestedInput = {
@@ -25683,6 +27151,24 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCategoryKeywordsInput, UserUpdateWithoutCategoryKeywordsInput>, UserUncheckedUpdateWithoutCategoryKeywordsInput>
   }
 
+  export type UserCreateNestedOneWithoutKeywordFiltersInput = {
+    create?: XOR<UserCreateWithoutKeywordFiltersInput, UserUncheckedCreateWithoutKeywordFiltersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutKeywordFiltersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumKeywordFilterTypeFieldUpdateOperationsInput = {
+    set?: $Enums.KeywordFilterType
+  }
+
+  export type UserUpdateOneRequiredWithoutKeywordFiltersNestedInput = {
+    create?: XOR<UserCreateWithoutKeywordFiltersInput, UserUncheckedCreateWithoutKeywordFiltersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutKeywordFiltersInput
+    upsert?: UserUpsertWithoutKeywordFiltersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutKeywordFiltersInput, UserUpdateWithoutKeywordFiltersInput>, UserUncheckedUpdateWithoutKeywordFiltersInput>
+  }
+
   export type UserCreateNestedOneWithoutAiTokenUsagesInput = {
     create?: XOR<UserCreateWithoutAiTokenUsagesInput, UserUncheckedCreateWithoutAiTokenUsagesInput>
     connectOrCreate?: UserCreateOrConnectWithoutAiTokenUsagesInput
@@ -26085,6 +27571,23 @@ export namespace Prisma {
     _max?: NestedEnumCategoryTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumKeywordFilterTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordFilterType | EnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordFilterTypeFilter<$PrismaModel> | $Enums.KeywordFilterType
+  }
+
+  export type NestedEnumKeywordFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeywordFilterType | EnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.KeywordFilterType[] | ListEnumKeywordFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumKeywordFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.KeywordFilterType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumKeywordFilterTypeFilter<$PrismaModel>
+    _max?: NestedEnumKeywordFilterTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumAiUsageStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.AiUsageStatus | EnumAiUsageStatusFieldRefInput<$PrismaModel>
     in?: $Enums.AiUsageStatus[] | ListEnumAiUsageStatusFieldRefInput<$PrismaModel>
@@ -26435,6 +27938,32 @@ export namespace Prisma {
 
   export type CategoryKeywordCreateManyUserInputEnvelope = {
     data: CategoryKeywordCreateManyUserInput | CategoryKeywordCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type KeywordFilterCreateWithoutUserInput = {
+    id?: string
+    phrase: string
+    type: $Enums.KeywordFilterType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeywordFilterUncheckedCreateWithoutUserInput = {
+    id?: string
+    phrase: string
+    type: $Enums.KeywordFilterType
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeywordFilterCreateOrConnectWithoutUserInput = {
+    where: KeywordFilterWhereUniqueInput
+    create: XOR<KeywordFilterCreateWithoutUserInput, KeywordFilterUncheckedCreateWithoutUserInput>
+  }
+
+  export type KeywordFilterCreateManyUserInputEnvelope = {
+    data: KeywordFilterCreateManyUserInput | KeywordFilterCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -26901,6 +28430,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"CategoryKeyword"> | Date | string
   }
 
+  export type KeywordFilterUpsertWithWhereUniqueWithoutUserInput = {
+    where: KeywordFilterWhereUniqueInput
+    update: XOR<KeywordFilterUpdateWithoutUserInput, KeywordFilterUncheckedUpdateWithoutUserInput>
+    create: XOR<KeywordFilterCreateWithoutUserInput, KeywordFilterUncheckedCreateWithoutUserInput>
+  }
+
+  export type KeywordFilterUpdateWithWhereUniqueWithoutUserInput = {
+    where: KeywordFilterWhereUniqueInput
+    data: XOR<KeywordFilterUpdateWithoutUserInput, KeywordFilterUncheckedUpdateWithoutUserInput>
+  }
+
+  export type KeywordFilterUpdateManyWithWhereWithoutUserInput = {
+    where: KeywordFilterScalarWhereInput
+    data: XOR<KeywordFilterUpdateManyMutationInput, KeywordFilterUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type KeywordFilterScalarWhereInput = {
+    AND?: KeywordFilterScalarWhereInput | KeywordFilterScalarWhereInput[]
+    OR?: KeywordFilterScalarWhereInput[]
+    NOT?: KeywordFilterScalarWhereInput | KeywordFilterScalarWhereInput[]
+    id?: StringFilter<"KeywordFilter"> | string
+    phrase?: StringFilter<"KeywordFilter"> | string
+    type?: EnumKeywordFilterTypeFilter<"KeywordFilter"> | $Enums.KeywordFilterType
+    userId?: StringFilter<"KeywordFilter"> | string
+    createdAt?: DateTimeFilter<"KeywordFilter"> | Date | string
+    updatedAt?: DateTimeFilter<"KeywordFilter"> | Date | string
+  }
+
   export type OperationUpsertWithWhereUniqueWithoutUserInput = {
     where: OperationWhereUniqueInput
     update: XOR<OperationUpdateWithoutUserInput, OperationUncheckedUpdateWithoutUserInput>
@@ -27125,6 +28682,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -27157,6 +28715,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -27316,6 +28875,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -27348,6 +28908,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -27507,6 +29068,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -27539,6 +29101,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -27587,6 +29150,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -27619,6 +29183,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -27651,6 +29216,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -27683,6 +29249,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -27888,6 +29455,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -27920,6 +29488,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -27968,6 +29537,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -28000,6 +29570,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -28107,6 +29678,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -28139,6 +29711,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -28172,6 +29745,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
@@ -28204,6 +29778,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -28427,6 +30002,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
@@ -28459,6 +30035,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -28683,6 +30260,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
@@ -28715,6 +30293,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -28916,6 +30495,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
@@ -28948,6 +30528,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -29126,6 +30707,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -29158,6 +30740,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -29241,6 +30824,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -29273,6 +30857,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -29321,6 +30906,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -29353,6 +30939,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -29586,6 +31173,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -29618,6 +31206,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -29790,6 +31379,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -29822,6 +31412,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -29911,6 +31502,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -29943,6 +31535,155 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutKeywordFiltersInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
+    subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
+    subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutKeywordFiltersInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    defaultAccountId?: string | null
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionPlanId: string
+    subscriptionPriceId?: string | null
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutKeywordFiltersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutKeywordFiltersInput, UserUncheckedCreateWithoutKeywordFiltersInput>
+  }
+
+  export type UserUpsertWithoutKeywordFiltersInput = {
+    update: XOR<UserUpdateWithoutKeywordFiltersInput, UserUncheckedUpdateWithoutKeywordFiltersInput>
+    create: XOR<UserCreateWithoutKeywordFiltersInput, UserUncheckedCreateWithoutKeywordFiltersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutKeywordFiltersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutKeywordFiltersInput, UserUncheckedUpdateWithoutKeywordFiltersInput>
+  }
+
+  export type UserUpdateWithoutKeywordFiltersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
+    subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutKeywordFiltersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    defaultAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionPlanId?: StringFieldUpdateOperationsInput | string
+    subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -29976,6 +31717,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
@@ -30008,6 +31750,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -30056,6 +31799,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
@@ -30088,6 +31832,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -30120,6 +31865,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -30152,6 +31898,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -30200,6 +31947,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -30232,6 +31980,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -30264,6 +32013,7 @@ export namespace Prisma {
     tags?: TagCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
@@ -30296,6 +32046,7 @@ export namespace Prisma {
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
@@ -30373,6 +32124,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -30405,6 +32157,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -30490,6 +32243,14 @@ export namespace Prisma {
     id?: string
     phrase: string
     categoryId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeywordFilterCreateManyUserInput = {
+    id?: string
+    phrase: string
+    type: $Enums.KeywordFilterType
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30719,6 +32480,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     phrase?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeywordFilterUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phrase?: StringFieldUpdateOperationsInput | string
+    type?: EnumKeywordFilterTypeFieldUpdateOperationsInput | $Enums.KeywordFilterType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeywordFilterUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phrase?: StringFieldUpdateOperationsInput | string
+    type?: EnumKeywordFilterTypeFieldUpdateOperationsInput | $Enums.KeywordFilterType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeywordFilterUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phrase?: StringFieldUpdateOperationsInput | string
+    type?: EnumKeywordFilterTypeFieldUpdateOperationsInput | $Enums.KeywordFilterType
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31013,6 +32798,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -31045,6 +32831,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -31133,6 +32920,7 @@ export namespace Prisma {
     tags?: TagUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
@@ -31165,6 +32953,7 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput

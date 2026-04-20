@@ -255,6 +255,15 @@ exports.Prisma.CategoryKeywordScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.KeywordFilterScalarFieldEnum = {
+  id: 'id',
+  phrase: 'phrase',
+  type: 'type',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AiTokenUsageScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -364,6 +373,10 @@ exports.CategoryType = exports.$Enums.CategoryType = {
   EXPENSE: 'EXPENSE'
 };
 
+exports.KeywordFilterType = exports.$Enums.KeywordFilterType = {
+  DELETE: 'DELETE'
+};
+
 exports.AiUsageStatus = exports.$Enums.AiUsageStatus = {
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED'
@@ -392,6 +405,7 @@ exports.Prisma.ModelName = {
   Tag: 'Tag',
   Category: 'Category',
   CategoryKeyword: 'CategoryKeyword',
+  KeywordFilter: 'KeywordFilter',
   AiTokenUsage: 'AiTokenUsage',
   Notification: 'Notification',
   SystemMetric: 'SystemMetric',

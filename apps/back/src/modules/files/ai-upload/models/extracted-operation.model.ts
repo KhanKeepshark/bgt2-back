@@ -23,4 +23,7 @@ export class ExtractedOperationModel implements ExtractedOperation {
 
   @Field(() => Boolean, { nullable: true })
   containsKeyword?: boolean;
+
+  @Field(() => Boolean, { nullable: true })
+  isDeleted?: boolean;
 }

@@ -6,4 +6,5 @@ export interface ExtractedOperation {
   categoryName: string;
   categoryIcon?: string;
   containsKeyword?: boolean;
+  isDeleted?: boolean;
 }
