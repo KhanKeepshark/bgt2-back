@@ -135,14 +135,14 @@ export class UserService {
       { name: 'Default', currency: 'USD', icon: 'wallet' },
       user,
     );
-    await this.categoryService.createDefault(user);
+    await this.categoryService.createDefault(user, language);
 
     await this.verificationService.sendVerificationEmail(user, language);
 
     return true;
   }
 
-  public async createFromGoogle(email: string, name: string) {
+  public async createFromGoogle(email: string, name: string, language?: string) {
     const isEmailExists = await this.prismaService.user.findUnique({
       where: { email },
       include: {
@@ -205,7 +205,7 @@ export class UserService {
       { name: 'Default', currency: 'USD', icon: 'wallet' },
       user,
     );
-    await this.categoryService.createDefault(user);
+    await this.categoryService.createDefault(user, language);
 
     return await this.prismaService.user.findUnique({
       where: { id: user.id },

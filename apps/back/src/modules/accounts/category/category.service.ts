@@ -12,7 +12,7 @@ import {
 } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { UpdateCategoryInput } from './inputs/update-category.input';
-import { defaultCategories } from './const/defaultCategories';
+import { getDefaultCategories } from './const/defaultCategories';
 import { CreateCategoryKeywordInput } from './inputs/create-category-keyword.input';
 import { UpdateCategoryKeywordInput } from './inputs/update-category-keyword.input';
 import {
@@ -98,10 +98,11 @@ export class CategoryService {
     }
   }
 
-  public async createDefault(user: User): Promise<void> {
+  public async createDefault(user: User, language?: string): Promise<void> {
     try {
+      const categories = getDefaultCategories(language);
       await Promise.all(
-        defaultCategories.map((category) =>
+        categories.map((category) =>
           this.prismaService.category.create({
             data: {
               name: category.name,

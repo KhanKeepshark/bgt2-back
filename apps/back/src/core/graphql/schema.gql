@@ -286,6 +286,7 @@ input LoginInput {
 }
 
 input LoginWithGoogleInput {
+  language: String
   token: String!
 }
 

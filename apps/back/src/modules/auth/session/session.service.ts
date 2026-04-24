@@ -123,7 +123,7 @@ export class SessionService {
     input: LoginWithGoogleInput,
     userAgent: string,
   ) {
-    const { token } = input;
+    const { token, language } = input;
 
     const response = await fetch(
       'https://www.googleapis.com/oauth2/v3/userinfo',
@@ -161,7 +161,7 @@ export class SessionService {
     });
 
     if (!user) {
-      user = await this.userService.createFromGoogle(email, name || 'User');
+      user = await this.userService.createFromGoogle(email, name || 'User', language);
     } else if (!user.isEmailVerified) {
       user = await this.prismaService.user.update({
         where: { id: user.id },
