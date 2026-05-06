@@ -54,6 +54,7 @@ model User {
   operations        Operation[]
   recurrenceConfigs RecurrenceConfig[]
   aiTokenUsages     AiTokenUsage[]
+  aiUploadTasks     AiUploadTask[]
   notifications     Notification[]
   payments          Payment[]
   supportTickets    SupportTicket[]
@@ -339,6 +340,24 @@ enum KeywordFilterType {
 enum CategoryType {
   INCOME
   EXPENSE
+}
+
+model AiUploadTask {
+  id        String             @id @default(uuid())
+  userId    String
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    AiUploadTaskStatus @default(PENDING)
+  result    Json?
+  error     String?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+enum AiUploadTaskStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
 }
 
 model AiTokenUsage {

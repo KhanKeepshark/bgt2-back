@@ -13,6 +13,7 @@ import { parseBoolean } from './shared/utils/parse-boolean.util';
 import { RedisService } from './core/redis/redis.service';
 import { RedisStore } from 'connect-redis';
 import { webcrypto } from 'crypto';
+import { Transport } from '@nestjs/microservices';
 
 if (!globalThis.crypto) {
   // @ts-expect-error switch to using the crypto module
@@ -25,6 +26,21 @@ async function bootstrap() {
   app.set('trust proxy', 1);
 
   const config = app.get(ConfigService);
+
+  const rabbitName = config.get<string>('RABBITMQ_NAME');
+  const rabbitUser = config.get<string>('RABBITMQ_USER');
+  const rabbitPassword = config.get<string>('RABBITMQ_PASSWORD');
+
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: [`amqp://${rabbitUser}:${rabbitPassword}@${rabbitName}:5672`],
+      queue: 'ai_upload_queue',
+      queueOptions: {
+        durable: true,
+      },
+    },
+  });
 
   const redis = app.get(RedisService);
   app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
@@ -80,6 +96,7 @@ async function bootstrap() {
     exposedHeaders: ['set-cookie'],
   });
 
+  await app.startAllMicroservices();
   await app.listen(config.getOrThrow<number>('APPLICATION_PORT'));
 }
 bootstrap();

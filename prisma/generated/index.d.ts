@@ -69,6 +69,11 @@ export type CategoryKeyword = $Result.DefaultSelection<Prisma.$CategoryKeywordPa
  */
 export type KeywordFilter = $Result.DefaultSelection<Prisma.$KeywordFilterPayload>
 /**
+ * Model AiUploadTask
+ * 
+ */
+export type AiUploadTask = $Result.DefaultSelection<Prisma.$AiUploadTaskPayload>
+/**
  * Model AiTokenUsage
  * 
  */
@@ -156,6 +161,16 @@ export const CategoryType: {
 export type CategoryType = (typeof CategoryType)[keyof typeof CategoryType]
 
 
+export const AiUploadTaskStatus: {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type AiUploadTaskStatus = (typeof AiUploadTaskStatus)[keyof typeof AiUploadTaskStatus]
+
+
 export const AiUsageStatus: {
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED'
@@ -218,6 +233,10 @@ export const KeywordFilterType: typeof $Enums.KeywordFilterType
 export type CategoryType = $Enums.CategoryType
 
 export const CategoryType: typeof $Enums.CategoryType
+
+export type AiUploadTaskStatus = $Enums.AiUploadTaskStatus
+
+export const AiUploadTaskStatus: typeof $Enums.AiUploadTaskStatus
 
 export type AiUsageStatus = $Enums.AiUsageStatus
 
@@ -469,6 +488,16 @@ export class PrismaClient<
     * ```
     */
   get keywordFilter(): Prisma.KeywordFilterDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.aiUploadTask`: Exposes CRUD operations for the **AiUploadTask** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AiUploadTasks
+    * const aiUploadTasks = await prisma.aiUploadTask.findMany()
+    * ```
+    */
+  get aiUploadTask(): Prisma.AiUploadTaskDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.aiTokenUsage`: Exposes CRUD operations for the **AiTokenUsage** model.
@@ -970,6 +999,7 @@ export namespace Prisma {
     Category: 'Category',
     CategoryKeyword: 'CategoryKeyword',
     KeywordFilter: 'KeywordFilter',
+    AiUploadTask: 'AiUploadTask',
     AiTokenUsage: 'AiTokenUsage',
     Notification: 'Notification',
     SystemMetric: 'SystemMetric',
@@ -993,7 +1023,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiTokenUsage" | "notification" | "systemMetric" | "payment" | "supportTicket"
+      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "notification" | "systemMetric" | "payment" | "supportTicket"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1811,6 +1841,80 @@ export namespace Prisma {
           }
         }
       }
+      AiUploadTask: {
+        payload: Prisma.$AiUploadTaskPayload<ExtArgs>
+        fields: Prisma.AiUploadTaskFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AiUploadTaskFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AiUploadTaskFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>
+          }
+          findFirst: {
+            args: Prisma.AiUploadTaskFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AiUploadTaskFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>
+          }
+          findMany: {
+            args: Prisma.AiUploadTaskFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>[]
+          }
+          create: {
+            args: Prisma.AiUploadTaskCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>
+          }
+          createMany: {
+            args: Prisma.AiUploadTaskCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AiUploadTaskCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>[]
+          }
+          delete: {
+            args: Prisma.AiUploadTaskDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>
+          }
+          update: {
+            args: Prisma.AiUploadTaskUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>
+          }
+          deleteMany: {
+            args: Prisma.AiUploadTaskDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AiUploadTaskUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AiUploadTaskUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>[]
+          }
+          upsert: {
+            args: Prisma.AiUploadTaskUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiUploadTaskPayload>
+          }
+          aggregate: {
+            args: Prisma.AiUploadTaskAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAiUploadTask>
+          }
+          groupBy: {
+            args: Prisma.AiUploadTaskGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AiUploadTaskGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AiUploadTaskCountArgs<ExtArgs>
+            result: $Utils.Optional<AiUploadTaskCountAggregateOutputType> | number
+          }
+        }
+      }
       AiTokenUsage: {
         payload: Prisma.$AiTokenUsagePayload<ExtArgs>
         fields: Prisma.AiTokenUsageFieldRefs
@@ -2276,6 +2380,7 @@ export namespace Prisma {
     category?: CategoryOmit
     categoryKeyword?: CategoryKeywordOmit
     keywordFilter?: KeywordFilterOmit
+    aiUploadTask?: AiUploadTaskOmit
     aiTokenUsage?: AiTokenUsageOmit
     notification?: NotificationOmit
     systemMetric?: SystemMetricOmit
@@ -2384,6 +2489,7 @@ export namespace Prisma {
     operations: number
     recurrenceConfigs: number
     aiTokenUsages: number
+    aiUploadTasks: number
     notifications: number
     payments: number
     supportTickets: number
@@ -2399,6 +2505,7 @@ export namespace Prisma {
     operations?: boolean | UserCountOutputTypeCountOperationsArgs
     recurrenceConfigs?: boolean | UserCountOutputTypeCountRecurrenceConfigsArgs
     aiTokenUsages?: boolean | UserCountOutputTypeCountAiTokenUsagesArgs
+    aiUploadTasks?: boolean | UserCountOutputTypeCountAiUploadTasksArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     payments?: boolean | UserCountOutputTypeCountPaymentsArgs
     supportTickets?: boolean | UserCountOutputTypeCountSupportTicketsArgs
@@ -2476,6 +2583,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAiTokenUsagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AiTokenUsageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAiUploadTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiUploadTaskWhereInput
   }
 
   /**
@@ -3127,6 +3241,7 @@ export namespace Prisma {
     operations?: boolean | User$operationsArgs<ExtArgs>
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
+    aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
@@ -3222,6 +3337,7 @@ export namespace Prisma {
     operations?: boolean | User$operationsArgs<ExtArgs>
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
+    aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
@@ -3253,6 +3369,7 @@ export namespace Prisma {
       operations: Prisma.$OperationPayload<ExtArgs>[]
       recurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
       aiTokenUsages: Prisma.$AiTokenUsagePayload<ExtArgs>[]
+      aiUploadTasks: Prisma.$AiUploadTaskPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       supportTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
@@ -3684,6 +3801,7 @@ export namespace Prisma {
     operations<T extends User$operationsArgs<ExtArgs> = {}>(args?: Subset<T, User$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recurrenceConfigs<T extends User$recurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, User$recurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiTokenUsages<T extends User$aiTokenUsagesArgs<ExtArgs> = {}>(args?: Subset<T, User$aiTokenUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiTokenUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    aiUploadTasks<T extends User$aiUploadTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$aiUploadTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends User$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportTickets<T extends User$supportTicketsArgs<ExtArgs> = {}>(args?: Subset<T, User$supportTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4383,6 +4501,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AiTokenUsageScalarFieldEnum | AiTokenUsageScalarFieldEnum[]
+  }
+
+  /**
+   * User.aiUploadTasks
+   */
+  export type User$aiUploadTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    where?: AiUploadTaskWhereInput
+    orderBy?: AiUploadTaskOrderByWithRelationInput | AiUploadTaskOrderByWithRelationInput[]
+    cursor?: AiUploadTaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AiUploadTaskScalarFieldEnum | AiUploadTaskScalarFieldEnum[]
   }
 
   /**
@@ -16502,6 +16644,1086 @@ export namespace Prisma {
 
 
   /**
+   * Model AiUploadTask
+   */
+
+  export type AggregateAiUploadTask = {
+    _count: AiUploadTaskCountAggregateOutputType | null
+    _min: AiUploadTaskMinAggregateOutputType | null
+    _max: AiUploadTaskMaxAggregateOutputType | null
+  }
+
+  export type AiUploadTaskMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    status: $Enums.AiUploadTaskStatus | null
+    error: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AiUploadTaskMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    status: $Enums.AiUploadTaskStatus | null
+    error: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AiUploadTaskCountAggregateOutputType = {
+    id: number
+    userId: number
+    status: number
+    result: number
+    error: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AiUploadTaskMinAggregateInputType = {
+    id?: true
+    userId?: true
+    status?: true
+    error?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AiUploadTaskMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    status?: true
+    error?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AiUploadTaskCountAggregateInputType = {
+    id?: true
+    userId?: true
+    status?: true
+    result?: true
+    error?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AiUploadTaskAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiUploadTask to aggregate.
+     */
+    where?: AiUploadTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUploadTasks to fetch.
+     */
+    orderBy?: AiUploadTaskOrderByWithRelationInput | AiUploadTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AiUploadTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUploadTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUploadTasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AiUploadTasks
+    **/
+    _count?: true | AiUploadTaskCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AiUploadTaskMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AiUploadTaskMaxAggregateInputType
+  }
+
+  export type GetAiUploadTaskAggregateType<T extends AiUploadTaskAggregateArgs> = {
+        [P in keyof T & keyof AggregateAiUploadTask]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAiUploadTask[P]>
+      : GetScalarType<T[P], AggregateAiUploadTask[P]>
+  }
+
+
+
+
+  export type AiUploadTaskGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiUploadTaskWhereInput
+    orderBy?: AiUploadTaskOrderByWithAggregationInput | AiUploadTaskOrderByWithAggregationInput[]
+    by: AiUploadTaskScalarFieldEnum[] | AiUploadTaskScalarFieldEnum
+    having?: AiUploadTaskScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AiUploadTaskCountAggregateInputType | true
+    _min?: AiUploadTaskMinAggregateInputType
+    _max?: AiUploadTaskMaxAggregateInputType
+  }
+
+  export type AiUploadTaskGroupByOutputType = {
+    id: string
+    userId: string
+    status: $Enums.AiUploadTaskStatus
+    result: JsonValue | null
+    error: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AiUploadTaskCountAggregateOutputType | null
+    _min: AiUploadTaskMinAggregateOutputType | null
+    _max: AiUploadTaskMaxAggregateOutputType | null
+  }
+
+  type GetAiUploadTaskGroupByPayload<T extends AiUploadTaskGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AiUploadTaskGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AiUploadTaskGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AiUploadTaskGroupByOutputType[P]>
+            : GetScalarType<T[P], AiUploadTaskGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AiUploadTaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    status?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiUploadTask"]>
+
+  export type AiUploadTaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    status?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiUploadTask"]>
+
+  export type AiUploadTaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    status?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiUploadTask"]>
+
+  export type AiUploadTaskSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    status?: boolean
+    result?: boolean
+    error?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AiUploadTaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "result" | "error" | "createdAt" | "updatedAt", ExtArgs["result"]["aiUploadTask"]>
+  export type AiUploadTaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AiUploadTaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AiUploadTaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AiUploadTaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AiUploadTask"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      status: $Enums.AiUploadTaskStatus
+      result: Prisma.JsonValue | null
+      error: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["aiUploadTask"]>
+    composites: {}
+  }
+
+  type AiUploadTaskGetPayload<S extends boolean | null | undefined | AiUploadTaskDefaultArgs> = $Result.GetResult<Prisma.$AiUploadTaskPayload, S>
+
+  type AiUploadTaskCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AiUploadTaskFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AiUploadTaskCountAggregateInputType | true
+    }
+
+  export interface AiUploadTaskDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AiUploadTask'], meta: { name: 'AiUploadTask' } }
+    /**
+     * Find zero or one AiUploadTask that matches the filter.
+     * @param {AiUploadTaskFindUniqueArgs} args - Arguments to find a AiUploadTask
+     * @example
+     * // Get one AiUploadTask
+     * const aiUploadTask = await prisma.aiUploadTask.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AiUploadTaskFindUniqueArgs>(args: SelectSubset<T, AiUploadTaskFindUniqueArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AiUploadTask that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AiUploadTaskFindUniqueOrThrowArgs} args - Arguments to find a AiUploadTask
+     * @example
+     * // Get one AiUploadTask
+     * const aiUploadTask = await prisma.aiUploadTask.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AiUploadTaskFindUniqueOrThrowArgs>(args: SelectSubset<T, AiUploadTaskFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiUploadTask that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUploadTaskFindFirstArgs} args - Arguments to find a AiUploadTask
+     * @example
+     * // Get one AiUploadTask
+     * const aiUploadTask = await prisma.aiUploadTask.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AiUploadTaskFindFirstArgs>(args?: SelectSubset<T, AiUploadTaskFindFirstArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiUploadTask that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUploadTaskFindFirstOrThrowArgs} args - Arguments to find a AiUploadTask
+     * @example
+     * // Get one AiUploadTask
+     * const aiUploadTask = await prisma.aiUploadTask.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AiUploadTaskFindFirstOrThrowArgs>(args?: SelectSubset<T, AiUploadTaskFindFirstOrThrowArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AiUploadTasks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUploadTaskFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AiUploadTasks
+     * const aiUploadTasks = await prisma.aiUploadTask.findMany()
+     * 
+     * // Get first 10 AiUploadTasks
+     * const aiUploadTasks = await prisma.aiUploadTask.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aiUploadTaskWithIdOnly = await prisma.aiUploadTask.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AiUploadTaskFindManyArgs>(args?: SelectSubset<T, AiUploadTaskFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AiUploadTask.
+     * @param {AiUploadTaskCreateArgs} args - Arguments to create a AiUploadTask.
+     * @example
+     * // Create one AiUploadTask
+     * const AiUploadTask = await prisma.aiUploadTask.create({
+     *   data: {
+     *     // ... data to create a AiUploadTask
+     *   }
+     * })
+     * 
+     */
+    create<T extends AiUploadTaskCreateArgs>(args: SelectSubset<T, AiUploadTaskCreateArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AiUploadTasks.
+     * @param {AiUploadTaskCreateManyArgs} args - Arguments to create many AiUploadTasks.
+     * @example
+     * // Create many AiUploadTasks
+     * const aiUploadTask = await prisma.aiUploadTask.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AiUploadTaskCreateManyArgs>(args?: SelectSubset<T, AiUploadTaskCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AiUploadTasks and returns the data saved in the database.
+     * @param {AiUploadTaskCreateManyAndReturnArgs} args - Arguments to create many AiUploadTasks.
+     * @example
+     * // Create many AiUploadTasks
+     * const aiUploadTask = await prisma.aiUploadTask.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AiUploadTasks and only return the `id`
+     * const aiUploadTaskWithIdOnly = await prisma.aiUploadTask.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AiUploadTaskCreateManyAndReturnArgs>(args?: SelectSubset<T, AiUploadTaskCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AiUploadTask.
+     * @param {AiUploadTaskDeleteArgs} args - Arguments to delete one AiUploadTask.
+     * @example
+     * // Delete one AiUploadTask
+     * const AiUploadTask = await prisma.aiUploadTask.delete({
+     *   where: {
+     *     // ... filter to delete one AiUploadTask
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AiUploadTaskDeleteArgs>(args: SelectSubset<T, AiUploadTaskDeleteArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AiUploadTask.
+     * @param {AiUploadTaskUpdateArgs} args - Arguments to update one AiUploadTask.
+     * @example
+     * // Update one AiUploadTask
+     * const aiUploadTask = await prisma.aiUploadTask.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AiUploadTaskUpdateArgs>(args: SelectSubset<T, AiUploadTaskUpdateArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AiUploadTasks.
+     * @param {AiUploadTaskDeleteManyArgs} args - Arguments to filter AiUploadTasks to delete.
+     * @example
+     * // Delete a few AiUploadTasks
+     * const { count } = await prisma.aiUploadTask.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AiUploadTaskDeleteManyArgs>(args?: SelectSubset<T, AiUploadTaskDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiUploadTasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUploadTaskUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AiUploadTasks
+     * const aiUploadTask = await prisma.aiUploadTask.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AiUploadTaskUpdateManyArgs>(args: SelectSubset<T, AiUploadTaskUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiUploadTasks and returns the data updated in the database.
+     * @param {AiUploadTaskUpdateManyAndReturnArgs} args - Arguments to update many AiUploadTasks.
+     * @example
+     * // Update many AiUploadTasks
+     * const aiUploadTask = await prisma.aiUploadTask.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AiUploadTasks and only return the `id`
+     * const aiUploadTaskWithIdOnly = await prisma.aiUploadTask.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AiUploadTaskUpdateManyAndReturnArgs>(args: SelectSubset<T, AiUploadTaskUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AiUploadTask.
+     * @param {AiUploadTaskUpsertArgs} args - Arguments to update or create a AiUploadTask.
+     * @example
+     * // Update or create a AiUploadTask
+     * const aiUploadTask = await prisma.aiUploadTask.upsert({
+     *   create: {
+     *     // ... data to create a AiUploadTask
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AiUploadTask we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AiUploadTaskUpsertArgs>(args: SelectSubset<T, AiUploadTaskUpsertArgs<ExtArgs>>): Prisma__AiUploadTaskClient<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AiUploadTasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUploadTaskCountArgs} args - Arguments to filter AiUploadTasks to count.
+     * @example
+     * // Count the number of AiUploadTasks
+     * const count = await prisma.aiUploadTask.count({
+     *   where: {
+     *     // ... the filter for the AiUploadTasks we want to count
+     *   }
+     * })
+    **/
+    count<T extends AiUploadTaskCountArgs>(
+      args?: Subset<T, AiUploadTaskCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AiUploadTaskCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AiUploadTask.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUploadTaskAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AiUploadTaskAggregateArgs>(args: Subset<T, AiUploadTaskAggregateArgs>): Prisma.PrismaPromise<GetAiUploadTaskAggregateType<T>>
+
+    /**
+     * Group by AiUploadTask.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiUploadTaskGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AiUploadTaskGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AiUploadTaskGroupByArgs['orderBy'] }
+        : { orderBy?: AiUploadTaskGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AiUploadTaskGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAiUploadTaskGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AiUploadTask model
+   */
+  readonly fields: AiUploadTaskFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AiUploadTask.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AiUploadTaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AiUploadTask model
+   */ 
+  interface AiUploadTaskFieldRefs {
+    readonly id: FieldRef<"AiUploadTask", 'String'>
+    readonly userId: FieldRef<"AiUploadTask", 'String'>
+    readonly status: FieldRef<"AiUploadTask", 'AiUploadTaskStatus'>
+    readonly result: FieldRef<"AiUploadTask", 'Json'>
+    readonly error: FieldRef<"AiUploadTask", 'String'>
+    readonly createdAt: FieldRef<"AiUploadTask", 'DateTime'>
+    readonly updatedAt: FieldRef<"AiUploadTask", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AiUploadTask findUnique
+   */
+  export type AiUploadTaskFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUploadTask to fetch.
+     */
+    where: AiUploadTaskWhereUniqueInput
+  }
+
+  /**
+   * AiUploadTask findUniqueOrThrow
+   */
+  export type AiUploadTaskFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUploadTask to fetch.
+     */
+    where: AiUploadTaskWhereUniqueInput
+  }
+
+  /**
+   * AiUploadTask findFirst
+   */
+  export type AiUploadTaskFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUploadTask to fetch.
+     */
+    where?: AiUploadTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUploadTasks to fetch.
+     */
+    orderBy?: AiUploadTaskOrderByWithRelationInput | AiUploadTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiUploadTasks.
+     */
+    cursor?: AiUploadTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUploadTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUploadTasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiUploadTasks.
+     */
+    distinct?: AiUploadTaskScalarFieldEnum | AiUploadTaskScalarFieldEnum[]
+  }
+
+  /**
+   * AiUploadTask findFirstOrThrow
+   */
+  export type AiUploadTaskFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUploadTask to fetch.
+     */
+    where?: AiUploadTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUploadTasks to fetch.
+     */
+    orderBy?: AiUploadTaskOrderByWithRelationInput | AiUploadTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiUploadTasks.
+     */
+    cursor?: AiUploadTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUploadTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUploadTasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiUploadTasks.
+     */
+    distinct?: AiUploadTaskScalarFieldEnum | AiUploadTaskScalarFieldEnum[]
+  }
+
+  /**
+   * AiUploadTask findMany
+   */
+  export type AiUploadTaskFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * Filter, which AiUploadTasks to fetch.
+     */
+    where?: AiUploadTaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiUploadTasks to fetch.
+     */
+    orderBy?: AiUploadTaskOrderByWithRelationInput | AiUploadTaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AiUploadTasks.
+     */
+    cursor?: AiUploadTaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiUploadTasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiUploadTasks.
+     */
+    skip?: number
+    distinct?: AiUploadTaskScalarFieldEnum | AiUploadTaskScalarFieldEnum[]
+  }
+
+  /**
+   * AiUploadTask create
+   */
+  export type AiUploadTaskCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AiUploadTask.
+     */
+    data: XOR<AiUploadTaskCreateInput, AiUploadTaskUncheckedCreateInput>
+  }
+
+  /**
+   * AiUploadTask createMany
+   */
+  export type AiUploadTaskCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AiUploadTasks.
+     */
+    data: AiUploadTaskCreateManyInput | AiUploadTaskCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AiUploadTask createManyAndReturn
+   */
+  export type AiUploadTaskCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * The data used to create many AiUploadTasks.
+     */
+    data: AiUploadTaskCreateManyInput | AiUploadTaskCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AiUploadTask update
+   */
+  export type AiUploadTaskUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AiUploadTask.
+     */
+    data: XOR<AiUploadTaskUpdateInput, AiUploadTaskUncheckedUpdateInput>
+    /**
+     * Choose, which AiUploadTask to update.
+     */
+    where: AiUploadTaskWhereUniqueInput
+  }
+
+  /**
+   * AiUploadTask updateMany
+   */
+  export type AiUploadTaskUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AiUploadTasks.
+     */
+    data: XOR<AiUploadTaskUpdateManyMutationInput, AiUploadTaskUncheckedUpdateManyInput>
+    /**
+     * Filter which AiUploadTasks to update
+     */
+    where?: AiUploadTaskWhereInput
+    /**
+     * Limit how many AiUploadTasks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiUploadTask updateManyAndReturn
+   */
+  export type AiUploadTaskUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * The data used to update AiUploadTasks.
+     */
+    data: XOR<AiUploadTaskUpdateManyMutationInput, AiUploadTaskUncheckedUpdateManyInput>
+    /**
+     * Filter which AiUploadTasks to update
+     */
+    where?: AiUploadTaskWhereInput
+    /**
+     * Limit how many AiUploadTasks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AiUploadTask upsert
+   */
+  export type AiUploadTaskUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AiUploadTask to update in case it exists.
+     */
+    where: AiUploadTaskWhereUniqueInput
+    /**
+     * In case the AiUploadTask found by the `where` argument doesn't exist, create a new AiUploadTask with this data.
+     */
+    create: XOR<AiUploadTaskCreateInput, AiUploadTaskUncheckedCreateInput>
+    /**
+     * In case the AiUploadTask was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AiUploadTaskUpdateInput, AiUploadTaskUncheckedUpdateInput>
+  }
+
+  /**
+   * AiUploadTask delete
+   */
+  export type AiUploadTaskDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+    /**
+     * Filter which AiUploadTask to delete.
+     */
+    where: AiUploadTaskWhereUniqueInput
+  }
+
+  /**
+   * AiUploadTask deleteMany
+   */
+  export type AiUploadTaskDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiUploadTasks to delete
+     */
+    where?: AiUploadTaskWhereInput
+    /**
+     * Limit how many AiUploadTasks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiUploadTask without action
+   */
+  export type AiUploadTaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiUploadTask
+     */
+    select?: AiUploadTaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiUploadTask
+     */
+    omit?: AiUploadTaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiUploadTaskInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AiTokenUsage
    */
 
@@ -22404,6 +23626,19 @@ export namespace Prisma {
   export type KeywordFilterScalarFieldEnum = (typeof KeywordFilterScalarFieldEnum)[keyof typeof KeywordFilterScalarFieldEnum]
 
 
+  export const AiUploadTaskScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    status: 'status',
+    result: 'result',
+    error: 'error',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AiUploadTaskScalarFieldEnum = (typeof AiUploadTaskScalarFieldEnum)[keyof typeof AiUploadTaskScalarFieldEnum]
+
+
   export const AiTokenUsageScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -22488,6 +23723,14 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const JsonNullValueInput: {
@@ -22689,16 +23932,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'AiUsageStatus'
+   * Reference to a field of type 'AiUploadTaskStatus'
    */
-  export type EnumAiUsageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiUsageStatus'>
+  export type EnumAiUploadTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiUploadTaskStatus'>
     
 
 
   /**
-   * Reference to a field of type 'AiUsageStatus[]'
+   * Reference to a field of type 'AiUploadTaskStatus[]'
    */
-  export type ListEnumAiUsageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiUsageStatus[]'>
+  export type ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiUploadTaskStatus[]'>
     
 
 
@@ -22713,6 +23956,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'AiUsageStatus'
+   */
+  export type EnumAiUsageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiUsageStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AiUsageStatus[]'
+   */
+  export type ListEnumAiUsageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiUsageStatus[]'>
     
 
 
@@ -22811,6 +24068,7 @@ export namespace Prisma {
     operations?: OperationListRelationFilter
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
+    aiUploadTasks?: AiUploadTaskListRelationFilter
     notifications?: NotificationListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
@@ -22849,6 +24107,7 @@ export namespace Prisma {
     operations?: OperationOrderByRelationAggregateInput
     recurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
     aiTokenUsages?: AiTokenUsageOrderByRelationAggregateInput
+    aiUploadTasks?: AiUploadTaskOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     supportTickets?: SupportTicketOrderByRelationAggregateInput
@@ -22890,6 +24149,7 @@ export namespace Prisma {
     operations?: OperationListRelationFilter
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
+    aiUploadTasks?: AiUploadTaskListRelationFilter
     notifications?: NotificationListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
@@ -23806,6 +25066,71 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"KeywordFilter"> | Date | string
   }
 
+  export type AiUploadTaskWhereInput = {
+    AND?: AiUploadTaskWhereInput | AiUploadTaskWhereInput[]
+    OR?: AiUploadTaskWhereInput[]
+    NOT?: AiUploadTaskWhereInput | AiUploadTaskWhereInput[]
+    id?: StringFilter<"AiUploadTask"> | string
+    userId?: StringFilter<"AiUploadTask"> | string
+    status?: EnumAiUploadTaskStatusFilter<"AiUploadTask"> | $Enums.AiUploadTaskStatus
+    result?: JsonNullableFilter<"AiUploadTask">
+    error?: StringNullableFilter<"AiUploadTask"> | string | null
+    createdAt?: DateTimeFilter<"AiUploadTask"> | Date | string
+    updatedAt?: DateTimeFilter<"AiUploadTask"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AiUploadTaskOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    result?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AiUploadTaskWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AiUploadTaskWhereInput | AiUploadTaskWhereInput[]
+    OR?: AiUploadTaskWhereInput[]
+    NOT?: AiUploadTaskWhereInput | AiUploadTaskWhereInput[]
+    userId?: StringFilter<"AiUploadTask"> | string
+    status?: EnumAiUploadTaskStatusFilter<"AiUploadTask"> | $Enums.AiUploadTaskStatus
+    result?: JsonNullableFilter<"AiUploadTask">
+    error?: StringNullableFilter<"AiUploadTask"> | string | null
+    createdAt?: DateTimeFilter<"AiUploadTask"> | Date | string
+    updatedAt?: DateTimeFilter<"AiUploadTask"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AiUploadTaskOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    result?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AiUploadTaskCountOrderByAggregateInput
+    _max?: AiUploadTaskMaxOrderByAggregateInput
+    _min?: AiUploadTaskMinOrderByAggregateInput
+  }
+
+  export type AiUploadTaskScalarWhereWithAggregatesInput = {
+    AND?: AiUploadTaskScalarWhereWithAggregatesInput | AiUploadTaskScalarWhereWithAggregatesInput[]
+    OR?: AiUploadTaskScalarWhereWithAggregatesInput[]
+    NOT?: AiUploadTaskScalarWhereWithAggregatesInput | AiUploadTaskScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AiUploadTask"> | string
+    userId?: StringWithAggregatesFilter<"AiUploadTask"> | string
+    status?: EnumAiUploadTaskStatusWithAggregatesFilter<"AiUploadTask"> | $Enums.AiUploadTaskStatus
+    result?: JsonNullableWithAggregatesFilter<"AiUploadTask">
+    error?: StringNullableWithAggregatesFilter<"AiUploadTask"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AiUploadTask"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AiUploadTask"> | Date | string
+  }
+
   export type AiTokenUsageWhereInput = {
     AND?: AiTokenUsageWhereInput | AiTokenUsageWhereInput[]
     OR?: AiTokenUsageWhereInput[]
@@ -24232,6 +25557,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -24267,6 +25593,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -24302,6 +25629,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -24337,6 +25665,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -25322,6 +26651,75 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AiUploadTaskCreateInput = {
+    id?: string
+    status?: $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAiUploadTasksInput
+  }
+
+  export type AiUploadTaskUncheckedCreateInput = {
+    id?: string
+    userId: string
+    status?: $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiUploadTaskUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumAiUploadTaskStatusFieldUpdateOperationsInput | $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAiUploadTasksNestedInput
+  }
+
+  export type AiUploadTaskUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumAiUploadTaskStatusFieldUpdateOperationsInput | $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUploadTaskCreateManyInput = {
+    id?: string
+    userId: string
+    status?: $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiUploadTaskUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumAiUploadTaskStatusFieldUpdateOperationsInput | $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUploadTaskUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumAiUploadTaskStatusFieldUpdateOperationsInput | $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AiTokenUsageCreateInput = {
     id?: string
     estimatedTokens: number
@@ -25902,6 +27300,12 @@ export namespace Prisma {
     none?: AiTokenUsageWhereInput
   }
 
+  export type AiUploadTaskListRelationFilter = {
+    every?: AiUploadTaskWhereInput
+    some?: AiUploadTaskWhereInput
+    none?: AiUploadTaskWhereInput
+  }
+
   export type NotificationListRelationFilter = {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
@@ -25958,6 +27362,10 @@ export namespace Prisma {
   }
 
   export type AiTokenUsageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AiUploadTaskOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -26817,6 +28225,100 @@ export namespace Prisma {
     _max?: NestedEnumKeywordFilterTypeFilter<$PrismaModel>
   }
 
+  export type EnumAiUploadTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiUploadTaskStatus | EnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiUploadTaskStatusFilter<$PrismaModel> | $Enums.AiUploadTaskStatus
+  }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type AiUploadTaskCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    result?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AiUploadTaskMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AiUploadTaskMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumAiUploadTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiUploadTaskStatus | EnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiUploadTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.AiUploadTaskStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAiUploadTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumAiUploadTaskStatusFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type EnumAiUsageStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.AiUsageStatus | EnumAiUsageStatusFieldRefInput<$PrismaModel>
     in?: $Enums.AiUsageStatus[] | ListEnumAiUsageStatusFieldRefInput<$PrismaModel>
@@ -27236,6 +28738,13 @@ export namespace Prisma {
     connect?: AiTokenUsageWhereUniqueInput | AiTokenUsageWhereUniqueInput[]
   }
 
+  export type AiUploadTaskCreateNestedManyWithoutUserInput = {
+    create?: XOR<AiUploadTaskCreateWithoutUserInput, AiUploadTaskUncheckedCreateWithoutUserInput> | AiUploadTaskCreateWithoutUserInput[] | AiUploadTaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiUploadTaskCreateOrConnectWithoutUserInput | AiUploadTaskCreateOrConnectWithoutUserInput[]
+    createMany?: AiUploadTaskCreateManyUserInputEnvelope
+    connect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+  }
+
   export type NotificationCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -27318,6 +28827,13 @@ export namespace Prisma {
     connectOrCreate?: AiTokenUsageCreateOrConnectWithoutUserInput | AiTokenUsageCreateOrConnectWithoutUserInput[]
     createMany?: AiTokenUsageCreateManyUserInputEnvelope
     connect?: AiTokenUsageWhereUniqueInput | AiTokenUsageWhereUniqueInput[]
+  }
+
+  export type AiUploadTaskUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AiUploadTaskCreateWithoutUserInput, AiUploadTaskUncheckedCreateWithoutUserInput> | AiUploadTaskCreateWithoutUserInput[] | AiUploadTaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiUploadTaskCreateOrConnectWithoutUserInput | AiUploadTaskCreateOrConnectWithoutUserInput[]
+    createMany?: AiUploadTaskCreateManyUserInputEnvelope
+    connect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
@@ -27527,6 +29043,20 @@ export namespace Prisma {
     deleteMany?: AiTokenUsageScalarWhereInput | AiTokenUsageScalarWhereInput[]
   }
 
+  export type AiUploadTaskUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AiUploadTaskCreateWithoutUserInput, AiUploadTaskUncheckedCreateWithoutUserInput> | AiUploadTaskCreateWithoutUserInput[] | AiUploadTaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiUploadTaskCreateOrConnectWithoutUserInput | AiUploadTaskCreateOrConnectWithoutUserInput[]
+    upsert?: AiUploadTaskUpsertWithWhereUniqueWithoutUserInput | AiUploadTaskUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AiUploadTaskCreateManyUserInputEnvelope
+    set?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    disconnect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    delete?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    connect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    update?: AiUploadTaskUpdateWithWhereUniqueWithoutUserInput | AiUploadTaskUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AiUploadTaskUpdateManyWithWhereWithoutUserInput | AiUploadTaskUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AiUploadTaskScalarWhereInput | AiUploadTaskScalarWhereInput[]
+  }
+
   export type NotificationUpdateManyWithoutUserNestedInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -27693,6 +29223,20 @@ export namespace Prisma {
     update?: AiTokenUsageUpdateWithWhereUniqueWithoutUserInput | AiTokenUsageUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AiTokenUsageUpdateManyWithWhereWithoutUserInput | AiTokenUsageUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AiTokenUsageScalarWhereInput | AiTokenUsageScalarWhereInput[]
+  }
+
+  export type AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AiUploadTaskCreateWithoutUserInput, AiUploadTaskUncheckedCreateWithoutUserInput> | AiUploadTaskCreateWithoutUserInput[] | AiUploadTaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiUploadTaskCreateOrConnectWithoutUserInput | AiUploadTaskCreateOrConnectWithoutUserInput[]
+    upsert?: AiUploadTaskUpsertWithWhereUniqueWithoutUserInput | AiUploadTaskUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AiUploadTaskCreateManyUserInputEnvelope
+    set?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    disconnect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    delete?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    connect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+    update?: AiUploadTaskUpdateWithWhereUniqueWithoutUserInput | AiUploadTaskUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AiUploadTaskUpdateManyWithWhereWithoutUserInput | AiUploadTaskUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AiUploadTaskScalarWhereInput | AiUploadTaskScalarWhereInput[]
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
@@ -28708,6 +30252,24 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutKeywordFiltersInput, UserUpdateWithoutKeywordFiltersInput>, UserUncheckedUpdateWithoutKeywordFiltersInput>
   }
 
+  export type UserCreateNestedOneWithoutAiUploadTasksInput = {
+    create?: XOR<UserCreateWithoutAiUploadTasksInput, UserUncheckedCreateWithoutAiUploadTasksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiUploadTasksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumAiUploadTaskStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AiUploadTaskStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutAiUploadTasksNestedInput = {
+    create?: XOR<UserCreateWithoutAiUploadTasksInput, UserUncheckedCreateWithoutAiUploadTasksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiUploadTasksInput
+    upsert?: UserUpsertWithoutAiUploadTasksInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAiUploadTasksInput, UserUpdateWithoutAiUploadTasksInput>, UserUncheckedUpdateWithoutAiUploadTasksInput>
+  }
+
   export type UserCreateNestedOneWithoutAiTokenUsagesInput = {
     create?: XOR<UserCreateWithoutAiTokenUsagesInput, UserUncheckedCreateWithoutAiTokenUsagesInput>
     connectOrCreate?: UserCreateOrConnectWithoutAiTokenUsagesInput
@@ -29145,6 +30707,46 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumKeywordFilterTypeFilter<$PrismaModel>
     _max?: NestedEnumKeywordFilterTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAiUploadTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiUploadTaskStatus | EnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiUploadTaskStatusFilter<$PrismaModel> | $Enums.AiUploadTaskStatus
+  }
+
+  export type NestedEnumAiUploadTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AiUploadTaskStatus | EnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AiUploadTaskStatus[] | ListEnumAiUploadTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAiUploadTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.AiUploadTaskStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAiUploadTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumAiUploadTaskStatusFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumAiUsageStatusFilter<$PrismaModel = never> = {
@@ -29659,6 +31261,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AiUploadTaskCreateWithoutUserInput = {
+    id?: string
+    status?: $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiUploadTaskUncheckedCreateWithoutUserInput = {
+    id?: string
+    status?: $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiUploadTaskCreateOrConnectWithoutUserInput = {
+    where: AiUploadTaskWhereUniqueInput
+    create: XOR<AiUploadTaskCreateWithoutUserInput, AiUploadTaskUncheckedCreateWithoutUserInput>
+  }
+
+  export type AiUploadTaskCreateManyUserInputEnvelope = {
+    data: AiUploadTaskCreateManyUserInput | AiUploadTaskCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type NotificationCreateWithoutUserInput = {
     id?: string
     title: JsonNullValueInput | InputJsonValue
@@ -30165,6 +31795,35 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AiTokenUsage"> | Date | string
   }
 
+  export type AiUploadTaskUpsertWithWhereUniqueWithoutUserInput = {
+    where: AiUploadTaskWhereUniqueInput
+    update: XOR<AiUploadTaskUpdateWithoutUserInput, AiUploadTaskUncheckedUpdateWithoutUserInput>
+    create: XOR<AiUploadTaskCreateWithoutUserInput, AiUploadTaskUncheckedCreateWithoutUserInput>
+  }
+
+  export type AiUploadTaskUpdateWithWhereUniqueWithoutUserInput = {
+    where: AiUploadTaskWhereUniqueInput
+    data: XOR<AiUploadTaskUpdateWithoutUserInput, AiUploadTaskUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AiUploadTaskUpdateManyWithWhereWithoutUserInput = {
+    where: AiUploadTaskScalarWhereInput
+    data: XOR<AiUploadTaskUpdateManyMutationInput, AiUploadTaskUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AiUploadTaskScalarWhereInput = {
+    AND?: AiUploadTaskScalarWhereInput | AiUploadTaskScalarWhereInput[]
+    OR?: AiUploadTaskScalarWhereInput[]
+    NOT?: AiUploadTaskScalarWhereInput | AiUploadTaskScalarWhereInput[]
+    id?: StringFilter<"AiUploadTask"> | string
+    userId?: StringFilter<"AiUploadTask"> | string
+    status?: EnumAiUploadTaskStatusFilter<"AiUploadTask"> | $Enums.AiUploadTaskStatus
+    result?: JsonNullableFilter<"AiUploadTask">
+    error?: StringNullableFilter<"AiUploadTask"> | string | null
+    createdAt?: DateTimeFilter<"AiUploadTask"> | Date | string
+    updatedAt?: DateTimeFilter<"AiUploadTask"> | Date | string
+  }
+
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
     where: NotificationWhereUniqueInput
     update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
@@ -30322,6 +31981,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -30356,6 +32016,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -30517,6 +32178,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -30551,6 +32213,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -30712,6 +32375,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -30746,6 +32410,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -30796,6 +32461,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -30830,6 +32496,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -30864,6 +32531,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -30898,6 +32566,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -31105,6 +32774,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -31139,6 +32809,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -31189,6 +32860,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -31223,6 +32895,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -31332,6 +33005,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -31366,6 +33040,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -31400,6 +33075,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -31434,6 +33110,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -31659,6 +33336,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -31693,6 +33371,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -31919,6 +33598,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -31953,6 +33633,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32156,6 +33837,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -32190,6 +33872,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -32371,6 +34054,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -32405,6 +34089,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32490,6 +34175,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -32524,6 +34210,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -32574,6 +34261,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -32608,6 +34296,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32843,6 +34532,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -32877,6 +34567,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -33051,6 +34742,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -33085,6 +34777,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -33176,6 +34869,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -33210,6 +34904,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -33244,6 +34939,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -33278,6 +34974,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -33328,6 +35025,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -33359,6 +35057,163 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAiUploadTasksInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
+    subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
+    subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAiUploadTasksInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    defaultAccountId?: string | null
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionPlanId: string
+    subscriptionPriceId?: string | null
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAiUploadTasksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAiUploadTasksInput, UserUncheckedCreateWithoutAiUploadTasksInput>
+  }
+
+  export type UserUpsertWithoutAiUploadTasksInput = {
+    update: XOR<UserUpdateWithoutAiUploadTasksInput, UserUncheckedUpdateWithoutAiUploadTasksInput>
+    create: XOR<UserCreateWithoutAiUploadTasksInput, UserUncheckedCreateWithoutAiUploadTasksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAiUploadTasksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAiUploadTasksInput, UserUncheckedUpdateWithoutAiUploadTasksInput>
+  }
+
+  export type UserUpdateWithoutAiUploadTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
+    subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAiUploadTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    defaultAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionPlanId?: StringFieldUpdateOperationsInput | string
+    subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
@@ -33396,6 +35251,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -33430,6 +35286,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -33480,6 +35337,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -33514,6 +35372,7 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -33549,6 +35408,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
   }
@@ -33583,6 +35443,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
   }
@@ -33633,6 +35494,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
   }
@@ -33667,6 +35529,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -33701,6 +35564,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
   }
@@ -33735,6 +35599,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
   }
@@ -33814,6 +35679,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
   }
@@ -33848,6 +35714,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -33917,6 +35784,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
   }
@@ -33951,6 +35819,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
   }
@@ -34001,6 +35870,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
   }
@@ -34035,6 +35905,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -34134,6 +36005,15 @@ export namespace Prisma {
     status?: $Enums.AiUsageStatus
     error?: string | null
     createdAt?: Date | string
+  }
+
+  export type AiUploadTaskCreateManyUserInput = {
+    id?: string
+    status?: $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type NotificationCreateManyUserInput = {
@@ -34485,6 +36365,33 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AiUploadTaskUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumAiUploadTaskStatusFieldUpdateOperationsInput | $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUploadTaskUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumAiUploadTaskStatusFieldUpdateOperationsInput | $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiUploadTaskUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumAiUploadTaskStatusFieldUpdateOperationsInput | $Enums.AiUploadTaskStatus
+    result?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: JsonNullValueInput | InputJsonValue
@@ -34682,6 +36589,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -34716,6 +36624,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -34806,6 +36715,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -34840,6 +36750,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput

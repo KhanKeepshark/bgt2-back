@@ -264,6 +264,16 @@ exports.Prisma.KeywordFilterScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AiUploadTaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  result: 'result',
+  error: 'error',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AiTokenUsageScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -332,6 +342,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
@@ -388,6 +403,13 @@ exports.KeywordFilterType = exports.$Enums.KeywordFilterType = {
   DELETE: 'DELETE'
 };
 
+exports.AiUploadTaskStatus = exports.$Enums.AiUploadTaskStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
 exports.AiUsageStatus = exports.$Enums.AiUsageStatus = {
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED'
@@ -422,6 +444,7 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   CategoryKeyword: 'CategoryKeyword',
   KeywordFilter: 'KeywordFilter',
+  AiUploadTask: 'AiUploadTask',
   AiTokenUsage: 'AiTokenUsage',
   Notification: 'Notification',
   SystemMetric: 'SystemMetric',

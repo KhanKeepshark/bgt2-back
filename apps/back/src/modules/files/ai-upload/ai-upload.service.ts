@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, Logger } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger, Inject } from '@nestjs/common';
 import { User } from '@prisma/generated';
 import * as Upload from 'graphql-upload/Upload.js';
 import { ConfigService } from '@nestjs/config';
@@ -6,10 +6,14 @@ import { PrismaService } from '@back/core/prisma/prisma.service';
 import { streamToBuffer } from './utils/streamToBuffer';
 import { createFilePart } from './utils/createFilePart';
 import { buildOptimizedPrompt } from './utils/buildOptimizedPrompt';
-import { ExtractedOperation } from '@back/shared/types/ai-operations';
 import { GoogleGenAI } from '@google/genai';
 import { parseToonResponse } from './utils/parseToonResponse';
 import { AiUploadError } from '@back/shared/constants/errors.constants';
+import { ClientProxy } from '@nestjs/microservices';
+import * as fs from 'fs';
+import * as path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+import { ProcessAiUploadJob } from './ai-upload.controller';
 
 @Injectable()
 export class AiUploadService {
@@ -20,6 +24,7 @@ export class AiUploadService {
   constructor(
     configService: ConfigService,
     private readonly prismaService: PrismaService,
+    @Inject('AI_UPLOAD_SERVICE') private readonly rabbitClient: ClientProxy,
   ) {
     const geminiApiKey = configService.get<string>('GEMINI_API_KEY');
     if (!geminiApiKey) {
@@ -31,22 +36,13 @@ export class AiUploadService {
   public async aiFileUpload(
     user: User,
     file: Upload,
-  ): Promise<{ operations: ExtractedOperation[]; tokensBalance: number }> {
+  ): Promise<{ taskId: string; status: string; tokensBalance: number }> {
     let estimatedTokens = 0;
-    let actualTokens = 0;
-    let operationsCreated = 0;
 
     try {
       const buffer = await streamToBuffer(file.createReadStream());
-      const categories = await this.getUserCategories(user.id);
-      const deleteFilters = await this.prismaService.keywordFilter.findMany({
-        where: { userId: user.id, type: 'DELETE' },
-      });
-
       const filePart = createFilePart(buffer, file.mimetype);
       const prompt = buildOptimizedPrompt();
-
-      // this.logger.debug(`Prompt: ${prompt}`);
 
       // Получаем оценку токенов перед запросом
       try {
@@ -54,11 +50,9 @@ export class AiUploadService {
           model: this.modelName,
           contents: [filePart, prompt],
         });
-        // Умножаем на 2 для безопасности (input + output)
         estimatedTokens = Math.ceil(countResponse.totalTokens * 2);
       } catch (countError) {
         this.logger.warn(`Failed to count tokens: ${countError.message}`);
-        // Продолжаем без оценки токенов, но установим дефолтное значение для проверки баланса
         estimatedTokens = 10000;
       }
 
@@ -80,6 +74,82 @@ export class AiUploadService {
         );
       }
 
+      // Сохраняем файл на диск
+      const tempDir = path.join(process.cwd(), 'uploads', 'ai-temp');
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      const fileExt = file.filename.split('.').pop() || 'tmp';
+      const filePath = path.join(tempDir, `${uuidv4()}.${fileExt}`);
+      fs.writeFileSync(filePath, buffer);
+
+      // Создаем задачу в БД
+      const task = await this.prismaService.aiUploadTask.create({
+        data: {
+          userId: user.id,
+          status: 'PENDING',
+        },
+      });
+
+      // Отправляем задачу в RabbitMQ
+      this.rabbitClient.emit('process_ai_upload', {
+        taskId: task.id,
+        userId: user.id,
+        filePath,
+        mimetype: file.mimetype,
+        estimatedTokens,
+      });
+
+      return {
+        taskId: task.id,
+        status: task.status,
+        tokensBalance: freshUser.tokensBalance,
+      };
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      this.logger.error(`Error initiating file upload: ${error.message}`, error.stack);
+      throw new BadRequestException(AiUploadError.PROCESS_FAILED);
+    }
+  }
+
+  public async getAiUploadTask(user: User, taskId: string) {
+    const task = await this.prismaService.aiUploadTask.findFirst({
+      where: { id: taskId, userId: user.id },
+    });
+    if (!task) {
+      throw new BadRequestException('Task not found');
+    }
+    
+    return {
+      taskId: task.id,
+      status: task.status,
+      operations: task.result ? (task.result as any) : null,
+      error: task.error,
+    };
+  }
+
+  public async processAiUploadTask(data: ProcessAiUploadJob) {
+    const { taskId, userId, filePath, mimetype, estimatedTokens } = data;
+    let actualTokens = 0;
+    let operationsCreated = 0;
+
+    try {
+      await this.prismaService.aiUploadTask.update({
+        where: { id: taskId },
+        data: { status: 'PROCESSING' },
+      });
+
+      const buffer = fs.readFileSync(filePath);
+      const categories = await this.getUserCategories(userId);
+      const deleteFilters = await this.prismaService.keywordFilter.findMany({
+        where: { userId, type: 'DELETE' },
+      });
+
+      const filePart = createFilePart(buffer, mimetype);
+      const prompt = buildOptimizedPrompt();
+
       const response = await this.genAI.models.generateContent({
         model: this.modelName,
         contents: [filePart],
@@ -94,7 +164,6 @@ export class AiUploadService {
 
       const extractedOperations = parseToonResponse(rawResult);
 
-      // Помечаем операции, которые подпадают под DELETE фильтры
       const processedOperations = extractedOperations.map((op) => {
         if (!op.description) return op;
         const desc = op.description.toLowerCase().trim();
@@ -113,12 +182,11 @@ export class AiUploadService {
       operationsCreated = processedOperations.length;
 
       const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
+        where: { id: userId },
         include: { subscriptionPlan: true },
       });
 
-      const refinedOperations = userWithPlan?.subscriptionPlan
-        .canUseAutoCategory
+      const refinedOperations = userWithPlan?.subscriptionPlan?.canUseAutoCategory
         ? processedOperations.map((op) => {
             if (op.description && op.type !== 'TRANSFER' && !op.isDeleted) {
               const autoCategory = this.findCategoryByKeywords(
@@ -138,75 +206,75 @@ export class AiUploadService {
           })
         : processedOperations;
 
-      // Транзакция: списание и логирование (списываем estimatedTokens)
-      const updatedUser = await this.prismaService.$transaction(async (tx) => {
-        const updated = await tx.user.update({
-          where: { id: user.id },
+      await this.prismaService.$transaction(async (tx) => {
+        await tx.user.update({
+          where: { id: userId },
           data: {
             tokensBalance: {
               decrement: estimatedTokens,
             },
           },
-          select: { tokensBalance: true },
         });
 
         await tx.aiTokenUsage.create({
           data: {
-            userId: user.id,
+            userId,
             estimatedTokens,
             actualTokens,
             operationsCreated,
-            fileType: file.mimetype,
+            fileType: mimetype,
             status: 'SUCCESS',
             error: null,
           },
         });
 
-        return updated;
+        await tx.aiUploadTask.update({
+          where: { id: taskId },
+          data: {
+            status: 'COMPLETED',
+            result: refinedOperations as any,
+          },
+        });
       });
 
-      return {
-        operations: refinedOperations,
-        tokensBalance: updatedUser.tokensBalance,
-      };
+      // Cleanup
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
     } catch (error) {
       const errorMessage = error.message || 'Failed to process uploaded file.';
-      this.logger.error(`Error processing file: ${errorMessage}`, error.stack);
+      this.logger.error(`Error processing file task ${taskId}: ${errorMessage}`, error.stack);
 
-      // Если токены были потрачены (был выполнен AI-запрос), списываем estimatedTokens и логируем ошибку
       if (actualTokens > 0 && estimatedTokens > 0) {
         try {
           await this.prismaService.$transaction(async (tx) => {
             await tx.user.update({
-              where: { id: user.id },
+              where: { id: userId },
               data: { tokensBalance: { decrement: estimatedTokens } },
             });
 
             await tx.aiTokenUsage.create({
               data: {
-                userId: user.id,
+                userId,
                 estimatedTokens,
                 actualTokens,
                 operationsCreated,
-                fileType: file.mimetype,
+                fileType: mimetype,
                 status: 'FAILED',
                 error: errorMessage,
               },
             });
           });
         } catch (logError) {
-          this.logger.error(
-            `Failed to charge/log failed usage: ${logError.message}`,
-          );
+          this.logger.error(`Failed to charge/log failed usage: ${logError.message}`);
         }
       } else {
-        // Логируем неудачную попытку без списания
         await this.logTokenUsage({
-          userId: user.id,
+          userId,
           estimatedTokens,
           actualTokens: 0,
           operationsCreated: 0,
-          fileType: file.mimetype,
+          fileType: mimetype,
           status: 'FAILED',
           error: errorMessage,
         }).catch((logError) => {
@@ -214,10 +282,17 @@ export class AiUploadService {
         });
       }
 
-      if (error instanceof BadRequestException) {
-        throw error;
+      await this.prismaService.aiUploadTask.update({
+        where: { id: taskId },
+        data: {
+          status: 'FAILED',
+          error: errorMessage,
+        },
+      });
+
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
       }
-      throw new BadRequestException(AiUploadError.PROCESS_FAILED);
     }
   }
 

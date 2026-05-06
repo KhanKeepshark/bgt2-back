@@ -32,9 +32,12 @@ type AiTokenUsageModel {
   userId: String!
 }
 
-type AiUploadResultModel {
-  operations: [ExtractedOperationModel!]!
-  tokensBalance: Float!
+type AiUploadTaskModel {
+  error: String
+  operations: [ExtractedOperationModel!]
+  status: String!
+  taskId: String!
+  tokensBalance: Float
 }
 
 enum AiUsageStatus {
@@ -298,7 +301,7 @@ input LoginWithGoogleInput {
 type Mutation {
   accountHasOperations(id: String!): Boolean!
   aiFileTokenCount(file: Upload!): AiCountModel!
-  aiFileUpload(file: Upload!): AiUploadResultModel!
+  aiFileUpload(file: Upload!): AiUploadTaskModel!
   categoryHasOperations(id: String!): Boolean!
   changePassword(data: ChangePasswordInput!): UserModel!
   clearSessionCookie: Boolean!
@@ -483,6 +486,7 @@ type Query {
   findUnreadNotifications: [NotificationModel!]!
   findUser(id: String!): UserModel!
   generateTotpSecret: TotpModel!
+  getAiUploadTask(taskId: String!): AiUploadTaskModel!
   getKeywordFilters: [KeywordFilterModel!]!
   me: UserModel!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
