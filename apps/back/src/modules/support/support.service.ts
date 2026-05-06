@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { CreateSupportTicketInput } from './inputs/create-support-ticket.input';
 import { ReplySupportTicketInput } from './inputs/reply-support-ticket.input';

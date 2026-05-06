@@ -161,7 +161,11 @@ export class SessionService {
     });
 
     if (!user) {
-      user = await this.userService.createFromGoogle(email, name || 'User', language);
+      user = await this.userService.createFromGoogle(
+        email,
+        name || 'User',
+        language,
+      );
     } else if (!user.isEmailVerified) {
       user = await this.prismaService.user.update({
         where: { id: user.id },

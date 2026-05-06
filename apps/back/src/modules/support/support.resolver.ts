@@ -35,9 +35,7 @@ export class SupportResolver {
 
   @Mutation(() => Boolean)
   @AdminOnly()
-  public async deleteSupportTicket(
-    @Args('id') id: string,
-  ) {
+  public async deleteSupportTicket(@Args('id') id: string) {
     await this.supportService.deleteTicket(id);
     return true;
   }

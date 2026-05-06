@@ -1,4 +1,9 @@
-import { Injectable, BadRequestException, Logger, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  Logger,
+  Inject,
+} from '@nestjs/common';
 import { User } from '@prisma/generated';
 import * as Upload from 'graphql-upload/Upload.js';
 import { ConfigService } from '@nestjs/config';
@@ -109,7 +114,10 @@ export class AiUploadService {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      this.logger.error(`Error initiating file upload: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error initiating file upload: ${error.message}`,
+        error.stack,
+      );
       throw new BadRequestException(AiUploadError.PROCESS_FAILED);
     }
   }
@@ -121,7 +129,7 @@ export class AiUploadService {
     if (!task) {
       throw new BadRequestException('Task not found');
     }
-    
+
     return {
       taskId: task.id,
       status: task.status,
@@ -186,7 +194,8 @@ export class AiUploadService {
         include: { subscriptionPlan: true },
       });
 
-      const refinedOperations = userWithPlan?.subscriptionPlan?.canUseAutoCategory
+      const refinedOperations = userWithPlan?.subscriptionPlan
+        ?.canUseAutoCategory
         ? processedOperations.map((op) => {
             if (op.description && op.type !== 'TRANSFER' && !op.isDeleted) {
               const autoCategory = this.findCategoryByKeywords(
@@ -243,7 +252,10 @@ export class AiUploadService {
       }
     } catch (error) {
       const errorMessage = error.message || 'Failed to process uploaded file.';
-      this.logger.error(`Error processing file task ${taskId}: ${errorMessage}`, error.stack);
+      this.logger.error(
+        `Error processing file task ${taskId}: ${errorMessage}`,
+        error.stack,
+      );
 
       if (actualTokens > 0 && estimatedTokens > 0) {
         try {
@@ -266,7 +278,9 @@ export class AiUploadService {
             });
           });
         } catch (logError) {
-          this.logger.error(`Failed to charge/log failed usage: ${logError.message}`);
+          this.logger.error(
+            `Failed to charge/log failed usage: ${logError.message}`,
+          );
         }
       } else {
         await this.logTokenUsage({

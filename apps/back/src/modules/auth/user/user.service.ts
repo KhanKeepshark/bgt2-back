@@ -142,7 +142,11 @@ export class UserService {
     return true;
   }
 
-  public async createFromGoogle(email: string, name: string, language?: string) {
+  public async createFromGoogle(
+    email: string,
+    name: string,
+    language?: string,
+  ) {
     const isEmailExists = await this.prismaService.user.findUnique({
       where: { email },
       include: {
