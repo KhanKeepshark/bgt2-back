@@ -162,6 +162,11 @@ input CreateSubscriptionPriceInput {
   price: String!
 }
 
+input CreateSupportTicketInput {
+  email: String!
+  message: String!
+}
+
 input CreateTagInput {
   color: String
   name: String!
@@ -306,6 +311,7 @@ type Mutation {
   createNotification(input: CreateNotificationInput!): NotificationModel!
   createOperation(input: CreateOperationInput!): OperationModel!
   createPayment(input: CreatePaymentInput!): PaymentModel!
+  createSupportTicket(input: CreateSupportTicketInput!): SupportTicket!
   createTag(input: CreateTagInput!): TagModel!
   createUser(data: CreateUserInput!): Boolean!
   deleteAccount(id: String!): Boolean!
@@ -316,6 +322,7 @@ type Mutation {
   deleteNotification(id: String!): Boolean!
   deleteOperation(id: String!): Boolean!
   deleteRecurrence(id: String!): Boolean!
+  deleteSupportTicket(id: String!): Boolean!
   deleteTag(id: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
@@ -330,6 +337,7 @@ type Mutation {
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
   removeSession(id: String!): Boolean!
   removeUser(id: String!): UserModel!
+  replyToSupportTicket(input: ReplySupportTicketInput!): SupportTicket!
   resetPassword(data: ResetPasswordInput!): Boolean!
   sendPasswordResetEmail(language: String): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
@@ -458,6 +466,7 @@ type Query {
   findAllOperationsSortedByDays(filter: OperationFilterInput): [OperationDayGroupModel!]!
   findAllRecurrences: [RecurrenceConfigModel!]!
   findAllSubscriptionPlans(type: SubscriptionType): [SubscriptionPlanModel!]!
+  findAllSupportTickets: [SupportTicket!]!
   findAllTags: [TagModel!]!
   findAllUserNotifications: [NotificationModel!]!
   findAllUsers(items: Int, orderBy: UserOrderByInput, page: Int, where: UserWhereInput): PaginatedUsersModel!
@@ -512,6 +521,11 @@ enum RecurrenceFrequency {
   MONTHLY
   WEEKLY
   YEARLY
+}
+
+input ReplySupportTicketInput {
+  id: ID!
+  replyMessage: String!
 }
 
 input ResetPasswordInput {
@@ -581,6 +595,22 @@ type SubscriptionPriceModel {
 enum SubscriptionType {
   FREE
   PREMIUM
+}
+
+type SupportTicket {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  message: String!
+  replyMessage: String
+  status: SupportTicketStatus!
+  updatedAt: DateTime!
+  userId: String
+}
+
+enum SupportTicketStatus {
+  OPEN
+  RESOLVED
 }
 
 type SystemMetricModel {

@@ -26,6 +26,7 @@ import { NotificationModule } from '../modules/notifications/notification.module
 import { SubscriptionPlanModule } from '../modules/subscription-plan/subscription-plan.module';
 import { PaymentsModule } from '../modules/payments/payments.module';
 import { SystemMetricModule } from '../modules/system-metric/system-metric.module';
+import { SupportModule } from '../modules/support/support.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
@@ -67,6 +68,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     SubscriptionPlanModule,
     PaymentsModule,
     SystemMetricModule,
+    SupportModule,
   ],
 })
 export class CoreModule {}

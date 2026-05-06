@@ -56,6 +56,7 @@ model User {
   aiTokenUsages AiTokenUsage[]
   notifications Notification[]
   payments      Payment[]
+  supportTickets SupportTicket[]
   
   @@index([subscriptionPlanId])
   @@index([subscriptionPriceId])
@@ -457,3 +458,28 @@ enum PaymentStatus {
   FAILED
   CANCELLED
 }
+
+model SupportTicket {
+  id           String   @id @default(uuid())
+  email        String   @db.VarChar(255)
+  message      String   @db.Text
+  replyMessage String?  @db.Text
+  status       SupportTicketStatus @default(OPEN)
+  
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId       String?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+enum SupportTicketStatus {
+  OPEN
+  RESOLVED
+}
+
