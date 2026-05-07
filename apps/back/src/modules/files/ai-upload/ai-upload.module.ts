@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AiUploadService } from './ai-upload.service';
+import { AiUploadOrchestrator } from './ai-upload-orchestrator.service';
 import { AiUploadResolver } from './ai-upload.resolver';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AiUploadController } from './ai-upload.controller';
+import { CategoryMatcherService } from './services/category-matcher.service';
+
 @Module({
   imports: [
     ClientsModule.registerAsync([
@@ -27,6 +29,6 @@ import { AiUploadController } from './ai-upload.controller';
     ]),
   ],
   controllers: [AiUploadController],
-  providers: [AiUploadResolver, AiUploadService],
+  providers: [AiUploadResolver, AiUploadOrchestrator, CategoryMatcherService],
 })
 export class AiUploadModule {}

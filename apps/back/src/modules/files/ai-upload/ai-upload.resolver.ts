@@ -1,5 +1,5 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
-import { AiUploadService } from './ai-upload.service';
+import { AiUploadOrchestrator } from './ai-upload-orchestrator.service';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
 import * as Upload from 'graphql-upload/Upload.js';
@@ -11,7 +11,7 @@ import { AiCountModel } from './models/ai-count.model';
 
 @Resolver()
 export class AiUploadResolver {
-  constructor(private readonly uploadService: AiUploadService) {}
+  constructor(private readonly uploadOrchestrator: AiUploadOrchestrator) {}
 
   @Authorization()
   @Mutation(() => AiUploadTaskModel, { name: 'aiFileUpload' })
@@ -20,7 +20,7 @@ export class AiUploadResolver {
     @Args({ name: 'file', type: () => GraphQLUpload }, AiFileValidationPipe)
     file: Upload,
   ): Promise<AiUploadTaskModel> {
-    return await this.uploadService.aiFileUpload(user, file);
+    return await this.uploadOrchestrator.aiFileUpload(user, file);
   }
 
   @Authorization()
@@ -29,7 +29,7 @@ export class AiUploadResolver {
     @Authorized() user: User,
     @Args('taskId', { type: () => String }) taskId: string,
   ): Promise<AiUploadTaskModel> {
-    return await this.uploadService.getAiUploadTask(user, taskId);
+    return await this.uploadOrchestrator.getAiUploadTask(user, taskId);
   }
 
   @Authorization()
@@ -39,6 +39,6 @@ export class AiUploadResolver {
     @Args({ name: 'file', type: () => GraphQLUpload }, AiFileValidationPipe)
     file: Upload,
   ): Promise<{ tokenCount: number }> {
-    return await this.uploadService.aiFileTokenCount(user, file);
+    return await this.uploadOrchestrator.aiFileTokenCount(user, file);
   }
 }

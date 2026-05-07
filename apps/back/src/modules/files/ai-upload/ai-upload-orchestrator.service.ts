@@ -6,37 +6,27 @@ import {
 } from '@nestjs/common';
 import { User } from '@prisma/generated';
 import * as Upload from 'graphql-upload/Upload.js';
-import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { streamToBuffer } from './utils/streamToBuffer';
-import { createFilePart } from './utils/createFilePart';
-import { buildOptimizedPrompt } from './utils/buildOptimizedPrompt';
-import { GoogleGenAI } from '@google/genai';
 import { parseToonResponse } from './utils/parseToonResponse';
 import { AiUploadError } from '@back/shared/constants/errors.constants';
 import { ClientProxy } from '@nestjs/microservices';
-import * as fs from 'fs';
-import * as path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 import { ProcessAiUploadJob } from './ai-upload.controller';
+import { GeminiService } from '../../libs/gemini/gemini.service';
+import { FileStorageService } from '../../libs/file-storage/file-storage.service';
+import { CategoryMatcherService } from './services/category-matcher.service';
 
 @Injectable()
-export class AiUploadService {
-  private readonly logger = new Logger(AiUploadService.name);
-  private readonly genAI: GoogleGenAI;
-  private readonly modelName = 'gemini-3.1-flash-lite-preview';
+export class AiUploadOrchestrator {
+  private readonly logger = new Logger(AiUploadOrchestrator.name);
 
   constructor(
-    configService: ConfigService,
     private readonly prismaService: PrismaService,
     @Inject('AI_UPLOAD_SERVICE') private readonly rabbitClient: ClientProxy,
-  ) {
-    const geminiApiKey = configService.get<string>('GEMINI_API_KEY');
-    if (!geminiApiKey) {
-      this.logger.error('GEMINI_API_KEY is not defined in configuration');
-    }
-    this.genAI = new GoogleGenAI({ apiKey: geminiApiKey });
-  }
+    private readonly geminiService: GeminiService,
+    private readonly fileStorageService: FileStorageService,
+    private readonly categoryMatcher: CategoryMatcherService,
+  ) {}
 
   public async aiFileUpload(
     user: User,
@@ -46,20 +36,9 @@ export class AiUploadService {
 
     try {
       const buffer = await streamToBuffer(file.createReadStream());
-      const filePart = createFilePart(buffer, file.mimetype);
-      const prompt = buildOptimizedPrompt();
 
       // Получаем оценку токенов перед запросом
-      try {
-        const countResponse = await this.genAI.models.countTokens({
-          model: this.modelName,
-          contents: [filePart, prompt],
-        });
-        estimatedTokens = Math.ceil(countResponse.totalTokens * 2);
-      } catch (countError) {
-        this.logger.warn(`Failed to count tokens: ${countError.message}`);
-        estimatedTokens = 10000;
-      }
+      estimatedTokens = await this.geminiService.countTokens(buffer, file.mimetype);
 
       // Проверяем баланс пользователя
       const freshUser = await this.prismaService.user.findUnique({
@@ -80,13 +59,7 @@ export class AiUploadService {
       }
 
       // Сохраняем файл на диск
-      const tempDir = path.join(process.cwd(), 'uploads', 'ai-temp');
-      if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir, { recursive: true });
-      }
-      const fileExt = file.filename.split('.').pop() || 'tmp';
-      const filePath = path.join(tempDir, `${uuidv4()}.${fileExt}`);
-      fs.writeFileSync(filePath, buffer);
+      const filePath = this.fileStorageService.saveTempFile(buffer, file.filename);
 
       // Создаем задачу в БД
       const task = await this.prismaService.aiUploadTask.create({
@@ -149,43 +122,24 @@ export class AiUploadService {
         data: { status: 'PROCESSING' },
       });
 
-      const buffer = fs.readFileSync(filePath);
+      const buffer = this.fileStorageService.readTempFile(filePath);
       const categories = await this.getUserCategories(userId);
       const deleteFilters = await this.prismaService.keywordFilter.findMany({
         where: { userId, type: 'DELETE' },
       });
 
-      const filePart = createFilePart(buffer, mimetype);
-      const prompt = buildOptimizedPrompt();
-
-      const response = await this.genAI.models.generateContent({
-        model: this.modelName,
-        contents: [filePart],
-        config: {
-          systemInstruction: prompt,
-          temperature: 0,
-        },
-      });
-
-      const rawResult = response.text;
-      actualTokens = response.usageMetadata?.totalTokenCount || 0;
+      const { rawResult, actualTokens: tokensUsed } = await this.geminiService.generateContent(
+        buffer,
+        mimetype,
+      );
+      actualTokens = tokensUsed;
 
       const extractedOperations = parseToonResponse(rawResult);
 
-      const processedOperations = extractedOperations.map((op) => {
-        if (!op.description) return op;
-        const desc = op.description.toLowerCase().trim();
-
-        const isDeleted = deleteFilters.some((filter) =>
-          desc.includes(filter.phrase.toLowerCase().trim()),
-        );
-
-        if (isDeleted) {
-          return { ...op, isDeleted: true };
-        }
-
-        return op;
-      });
+      const processedOperations = this.categoryMatcher.applyDeleteFilters(
+        extractedOperations,
+        deleteFilters,
+      );
 
       operationsCreated = processedOperations.length;
 
@@ -194,26 +148,12 @@ export class AiUploadService {
         include: { subscriptionPlan: true },
       });
 
-      const refinedOperations = userWithPlan?.subscriptionPlan
-        ?.canUseAutoCategory
-        ? processedOperations.map((op) => {
-            if (op.description && op.type !== 'TRANSFER' && !op.isDeleted) {
-              const autoCategory = this.findCategoryByKeywords(
-                op.description,
-                op.type as 'INCOME' | 'EXPENSE',
-                categories,
-              );
-              if (autoCategory) {
-                return {
-                  ...op,
-                  categoryName: autoCategory.name,
-                  categoryIcon: autoCategory.icon,
-                };
-              }
-            }
-            return op;
-          })
-        : processedOperations;
+      const canUseAutoCategory = !!userWithPlan?.subscriptionPlan?.canUseAutoCategory;
+      const refinedOperations = this.categoryMatcher.applyAutoCategories(
+        processedOperations,
+        categories,
+        canUseAutoCategory,
+      );
 
       await this.prismaService.$transaction(async (tx) => {
         await tx.user.update({
@@ -247,9 +187,7 @@ export class AiUploadService {
       });
 
       // Cleanup
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
+      this.fileStorageService.deleteTempFile(filePath);
     } catch (error) {
       const errorMessage = error.message || 'Failed to process uploaded file.';
       this.logger.error(
@@ -304,9 +242,7 @@ export class AiUploadService {
         },
       });
 
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
+      this.fileStorageService.deleteTempFile(filePath);
     }
   }
 
@@ -316,18 +252,9 @@ export class AiUploadService {
   ): Promise<{ tokenCount: number }> {
     try {
       const buffer = await streamToBuffer(file.createReadStream());
+      const tokenCount = await this.geminiService.countTokens(buffer, file.mimetype);
 
-      const filePart = createFilePart(buffer, file.mimetype);
-      const prompt = buildOptimizedPrompt();
-
-      const countResponse = await this.genAI.models.countTokens({
-        model: this.modelName,
-        contents: [filePart, prompt],
-      });
-
-      return {
-        tokenCount: Math.ceil(countResponse.totalTokens * 2),
-      };
+      return { tokenCount };
     } catch (error) {
       this.logger.error(`Error counting tokens: ${error.message}`, error.stack);
       if (error instanceof BadRequestException) {
@@ -335,35 +262,6 @@ export class AiUploadService {
       }
       throw new BadRequestException(AiUploadError.TOKEN_COUNT_FAILED);
     }
-  }
-
-  private findCategoryByKeywords(
-    description: string,
-    type: 'INCOME' | 'EXPENSE',
-    categories: Array<{
-      name: string;
-      type: string;
-      icon: string;
-      keywords: Array<{ phrase: string }>;
-    }>,
-  ): { name: string; icon: string } | null {
-    const normalizedDescription = description.toLowerCase().trim();
-
-    for (const category of categories) {
-      if (category.type !== type) continue;
-
-      for (const keyword of category.keywords) {
-        const normalizedKeyword = keyword.phrase.toLowerCase().trim();
-        if (
-          normalizedKeyword &&
-          normalizedDescription.includes(normalizedKeyword)
-        ) {
-          return { name: category.name, icon: category.icon };
-        }
-      }
-    }
-
-    return null;
   }
 
   private async getUserCategories(userId: string) {

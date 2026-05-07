@@ -61,3 +61,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Business context
 BUSINESS-CONTEXT.md
+
+# Production advice
+PRODUCT_ADVICE.md

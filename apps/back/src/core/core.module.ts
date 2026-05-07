@@ -28,6 +28,8 @@ import { PaymentsModule } from '../modules/payments/payments.module';
 import { SystemMetricModule } from '../modules/system-metric/system-metric.module';
 import { SupportModule } from '../modules/support/support.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { GeminiModule } from '../modules/libs/gemini/gemini.module';
+import { FileStorageModule } from '../modules/libs/file-storage/file-storage.module';
 
 @Module({
   imports: [
@@ -69,6 +71,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
     PaymentsModule,
     SystemMetricModule,
     SupportModule,
+    GeminiModule,
+    FileStorageModule,
   ],
 })
 export class CoreModule {}
