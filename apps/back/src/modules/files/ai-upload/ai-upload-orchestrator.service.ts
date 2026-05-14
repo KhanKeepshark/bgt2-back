@@ -38,7 +38,10 @@ export class AiUploadOrchestrator {
       const buffer = await streamToBuffer(file.createReadStream());
 
       // Получаем оценку токенов перед запросом
-      estimatedTokens = await this.geminiService.countTokens(buffer, file.mimetype);
+      estimatedTokens = await this.geminiService.countTokens(
+        buffer,
+        file.mimetype,
+      );
 
       // Проверяем баланс пользователя
       const freshUser = await this.prismaService.user.findUnique({
@@ -59,7 +62,10 @@ export class AiUploadOrchestrator {
       }
 
       // Сохраняем файл на диск
-      const filePath = this.fileStorageService.saveTempFile(buffer, file.filename);
+      const filePath = this.fileStorageService.saveTempFile(
+        buffer,
+        file.filename,
+      );
 
       // Создаем задачу в БД
       const task = await this.prismaService.aiUploadTask.create({
@@ -128,10 +134,8 @@ export class AiUploadOrchestrator {
         where: { userId, type: 'DELETE' },
       });
 
-      const { rawResult, actualTokens: tokensUsed } = await this.geminiService.generateContent(
-        buffer,
-        mimetype,
-      );
+      const { rawResult, actualTokens: tokensUsed } =
+        await this.geminiService.generateContent(buffer, mimetype);
       actualTokens = tokensUsed;
 
       const extractedOperations = parseToonResponse(rawResult);
@@ -148,7 +152,8 @@ export class AiUploadOrchestrator {
         include: { subscriptionPlan: true },
       });
 
-      const canUseAutoCategory = !!userWithPlan?.subscriptionPlan?.canUseAutoCategory;
+      const canUseAutoCategory =
+        !!userWithPlan?.subscriptionPlan?.canUseAutoCategory;
       const refinedOperations = this.categoryMatcher.applyAutoCategories(
         processedOperations,
         categories,
@@ -252,7 +257,10 @@ export class AiUploadOrchestrator {
   ): Promise<{ tokenCount: number }> {
     try {
       const buffer = await streamToBuffer(file.createReadStream());
-      const tokenCount = await this.geminiService.countTokens(buffer, file.mimetype);
+      const tokenCount = await this.geminiService.countTokens(
+        buffer,
+        file.mimetype,
+      );
 
       return { tokenCount };
     } catch (error) {

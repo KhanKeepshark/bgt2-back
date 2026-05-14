@@ -27,7 +27,9 @@ export class FileStorageService {
       try {
         fs.unlinkSync(filePath);
       } catch (error) {
-        this.logger.error(`Failed to delete temp file ${filePath}: ${error.message}`);
+        this.logger.error(
+          `Failed to delete temp file ${filePath}: ${error.message}`,
+        );
       }
     }
   }

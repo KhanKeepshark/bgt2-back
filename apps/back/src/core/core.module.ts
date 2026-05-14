@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
+import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { IS_DEV_ENV } from '../shared/utils/is-dev.util';
@@ -73,6 +75,12 @@ import { FileStorageModule } from '../modules/libs/file-storage/file-storage.mod
     SupportModule,
     GeminiModule,
     FileStorageModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
   ],
 })
 export class CoreModule {}

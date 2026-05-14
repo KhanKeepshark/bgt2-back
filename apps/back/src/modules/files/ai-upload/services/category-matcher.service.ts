@@ -13,10 +13,9 @@ export interface KeywordFilterData {
 
 @Injectable()
 export class CategoryMatcherService {
-  public applyDeleteFilters<T extends { description?: string; isDeleted?: boolean }>(
-    operations: T[],
-    deleteFilters: KeywordFilterData[],
-  ): T[] {
+  public applyDeleteFilters<
+    T extends { description?: string; isDeleted?: boolean },
+  >(operations: T[], deleteFilters: KeywordFilterData[]): T[] {
     return operations.map((op) => {
       if (!op.description) return op;
       const desc = op.description.toLowerCase().trim();
@@ -41,7 +40,11 @@ export class CategoryMatcherService {
       categoryName?: string;
       categoryIcon?: string;
     },
-  >(operations: T[], categories: CategoryData[], canUseAutoCategory: boolean): T[] {
+  >(
+    operations: T[],
+    categories: CategoryData[],
+    canUseAutoCategory: boolean,
+  ): T[] {
     if (!canUseAutoCategory) {
       return operations;
     }

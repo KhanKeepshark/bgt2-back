@@ -1,4 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Query,
+  Resolver,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { OperationService } from './operation.service';
 import { CreateOperationInput } from './inputs/create-operation.input';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
@@ -11,10 +18,17 @@ import { OperationFilterInput } from './inputs/operation-filter.input';
 import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
 import { OperationChartDataModel } from './models/operation-chart-data.model';
 import { ExtractedOperationInput } from './inputs/extracted-operation.input';
+import { OperationDataLoader } from './operation.dataloader';
+import { CategoryModel } from '../category/models/category.model';
+import { AccountModel } from '../account/models/account.model';
+import { TagModel } from '../tag/model/tag.model';
 
-@Resolver('Operation')
+@Resolver(() => OperationModel)
 export class OperationResolver {
-  constructor(private readonly operationService: OperationService) {}
+  constructor(
+    private readonly operationService: OperationService,
+    private readonly operationDataLoader: OperationDataLoader,
+  ) {}
 
   @Authorization()
   @Mutation(() => [OperationModel], { name: 'createExtractedOperations' })
@@ -93,5 +107,29 @@ export class OperationResolver {
   @Mutation(() => Boolean, { name: 'deleteAllOperations' })
   public async deleteAllOperations(@Authorized() user: User) {
     return this.operationService.deleteAll(user);
+  }
+
+  @ResolveField(() => CategoryModel, { nullable: true })
+  public async category(@Parent() operation: OperationModel) {
+    if (!operation.categoryId) return null;
+    return this.operationDataLoader.categoryLoader.load(operation.categoryId);
+  }
+
+  @ResolveField(() => AccountModel)
+  public async account(@Parent() operation: OperationModel) {
+    return this.operationDataLoader.accountLoader.load(operation.accountId);
+  }
+
+  @ResolveField(() => AccountModel, { nullable: true })
+  public async transferAccount(@Parent() operation: OperationModel) {
+    if (!operation.transferAccountId) return null;
+    return this.operationDataLoader.accountLoader.load(
+      operation.transferAccountId,
+    );
+  }
+
+  @ResolveField(() => [TagModel], { nullable: true })
+  public async tags(@Parent() operation: OperationModel) {
+    return this.operationDataLoader.tagsLoader.load(operation.id);
   }
 }

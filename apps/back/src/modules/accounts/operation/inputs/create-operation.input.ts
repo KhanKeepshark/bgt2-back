@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  Matches,
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
@@ -22,7 +23,7 @@ registerEnumType(OperationType, {
 export class CreateOperationInput {
   @Field(() => String)
   @IsNotEmpty()
-  @IsString()
+  @Matches(/^\d+(\.\d+)?$/, { message: 'Amount must be a valid positive number' })
   amount: string;
 
   @Field(() => Date)

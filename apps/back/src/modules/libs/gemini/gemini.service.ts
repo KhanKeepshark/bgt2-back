@@ -18,10 +18,7 @@ export class GeminiService {
     this.genAI = new GoogleGenAI({ apiKey: geminiApiKey || '' });
   }
 
-  public async countTokens(
-    buffer: Buffer,
-    mimetype: string,
-  ): Promise<number> {
+  public async countTokens(buffer: Buffer, mimetype: string): Promise<number> {
     try {
       const filePart = createFilePart(buffer, mimetype);
       const prompt = buildOptimizedPrompt();

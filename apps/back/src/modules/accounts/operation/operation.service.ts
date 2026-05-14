@@ -22,6 +22,7 @@ import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
 import { Prisma } from '@prisma/generated';
 import { calculateGroupSize, groupDays } from './utils/findAllForCharts.utils';
 import { Categories } from './models/operation-chart-data.model';
+import { CategoryModel } from '../category/models/category.model';
 import {
   AccountError,
   CategoryError,
@@ -143,11 +144,6 @@ export class OperationService {
                   connect: { id: input.accountId },
                 },
               },
-              include: {
-                account: true,
-                transferAccount: true,
-                tags: true,
-              },
             });
 
             await tx.account.update({
@@ -210,11 +206,6 @@ export class OperationService {
                   connect: input.tags.map((id) => ({ id })),
                 }
               : undefined,
-          },
-          include: {
-            category: true,
-            account: true,
-            tags: true,
           },
         });
 
@@ -337,12 +328,6 @@ export class OperationService {
                 transferAccount: { connect: { id: transferAccount.id } },
                 user: { connect: { id: user.id } },
               },
-              include: {
-                category: true,
-                account: true,
-                tags: true,
-                transferAccount: true,
-              },
             });
 
             await tx.account.update({
@@ -407,12 +392,6 @@ export class OperationService {
               account: { connect: { id: accountId } },
               user: { connect: { id: user.id } },
             },
-            include: {
-              category: true,
-              account: true,
-              tags: true,
-              transferAccount: true,
-            },
           });
 
           await tx.account.update({
@@ -442,11 +421,6 @@ export class OperationService {
         where: {
           account: { userId: user.id },
         },
-        include: {
-          category: true,
-          account: true,
-          tags: true,
-        },
         orderBy: { date: 'desc' },
       });
 
@@ -472,108 +446,97 @@ export class OperationService {
     }[]
   > {
     try {
-      const where: Prisma.OperationWhereInput = {
-        user: { id: user.id },
-      };
+      const conditions: Prisma.Sql[] = [
+        Prisma.sql`"userId" = ${user.id}`,
+      ];
 
       if (filter) {
-        if (filter.dateFrom || filter.dateTo) {
-          where.date = {};
-          if (filter.dateFrom) {
-            where.date.gte = filter.dateFrom;
-          }
-          if (filter.dateTo) {
-            where.date.lte = filter.dateTo;
-          }
+        if (filter.dateFrom) {
+          conditions.push(Prisma.sql`"date" >= ${filter.dateFrom}::timestamp`);
         }
-
+        if (filter.dateTo) {
+          conditions.push(Prisma.sql`"date" <= ${filter.dateTo}::timestamp`);
+        }
         if (filter.types && filter.types.length > 0) {
-          where.type = { in: filter.types };
+          const typesJoined = Prisma.join(
+            filter.types.map((t) => Prisma.sql`${t}::"OperationType"`),
+          );
+          conditions.push(Prisma.sql`"type" IN (${typesJoined})`);
         }
-
         if (filter.categoryIds && filter.categoryIds.length > 0) {
-          where.categoryId = { in: filter.categoryIds };
+          const catIds = Prisma.join(
+            filter.categoryIds.map((id) => Prisma.sql`${id}`),
+          );
+          conditions.push(Prisma.sql`"categoryId" IN (${catIds})`);
         }
-
         if (filter.searchDescription) {
-          where.description = {
-            contains: filter.searchDescription,
-            mode: 'insensitive',
-          };
+          conditions.push(
+            Prisma.sql`"description" ILIKE ${'%' + filter.searchDescription + '%'}`,
+          );
         }
-
         if (filter.accountIds && filter.accountIds.length > 0) {
-          where.OR = [
-            { accountId: { in: filter.accountIds } },
-            { transferAccountId: { in: filter.accountIds } },
-          ];
+          const accIds = Prisma.join(
+            filter.accountIds.map((id) => Prisma.sql`${id}`),
+          );
+          conditions.push(
+            Prisma.sql`("accountId" IN (${accIds}) OR "transferAccountId" IN (${accIds}))`,
+          );
         }
       }
 
-      const operations = await this.prismaService.operation.findMany({
-        where,
-        include: {
-          category: true,
-          account: true,
-          tags: true,
-          transferAccount: true,
-        },
-        orderBy: { date: 'desc' },
-      });
+      const whereClause = Prisma.sql`${Prisma.join(conditions, ' AND ')}`;
 
-      const groupedByDay = new Map<string, Operation[]>();
+      const result = await this.prismaService.$queryRaw<any[]>`
+        SELECT 
+          TO_CHAR("date", 'YYYY-MM-DD') as day,
+          COALESCE(SUM(CASE WHEN "type" = 'INCOME' THEN "amount" ELSE 0 END), 0) as "allIncome",
+          COALESCE(SUM(CASE WHEN "type" = 'EXPENSE' THEN "amount" ELSE 0 END), 0) as "allExpense",
+          COALESCE(SUM(CASE WHEN "type" = 'TRANSFER' AND "transferAccountId" IN (
+            ${filter?.accountIds && filter.accountIds.length > 0 ? Prisma.join(filter.accountIds.map((id) => Prisma.sql`${id}`)) : Prisma.sql`NULL`}
+          ) THEN "amount" ELSE 0 END), 0) as "transferIncome",
+          COALESCE(SUM(CASE WHEN "type" = 'TRANSFER' AND "accountId" IN (
+            ${filter?.accountIds && filter.accountIds.length > 0 ? Prisma.join(filter.accountIds.map((id) => Prisma.sql`${id}`)) : Prisma.sql`NULL`}
+          ) THEN "amount" ELSE 0 END), 0) as "transferExpense",
+          json_agg(
+            json_build_object(
+              'id', id,
+              'amount', amount,
+              'date', date,
+              'description', description,
+              'type', type,
+              'userId', "userId",
+              'accountId', "accountId",
+              'transferAccountId', "transferAccountId",
+              'categoryId', "categoryId",
+              'recurrenceConfigId', "recurrenceConfigId",
+              'createdAt', "createdAt",
+              'updatedAt', "updatedAt"
+            ) ORDER BY date DESC
+          ) as operations
+        FROM "Operation"
+        WHERE ${whereClause}
+        GROUP BY TO_CHAR("date", 'YYYY-MM-DD')
+        ORDER BY day DESC
+      `;
 
-      for (const operation of operations) {
-        const day = operation.date.toISOString().split('T')[0];
-        const listForDay = groupedByDay.get(day) ?? [];
-        listForDay.push(operation);
-        groupedByDay.set(day, listForDay);
-      }
-
-      const groups = Array.from(groupedByDay.entries()).map(([day, ops]) => {
-        const allIncome = ops.reduce((sum, op) => {
-          if (op.type === OperationType.INCOME) {
-            return sum.add(op.amount);
-          }
-          if (
-            op.type === OperationType.TRANSFER &&
-            filter?.accountIds &&
-            filter.accountIds.length > 0 &&
-            op.transferAccountId &&
-            filter.accountIds.includes(op.transferAccountId)
-          ) {
-            return sum.add(op.amount);
-          }
-          return sum;
-        }, new Decimal(0));
-
-        const allExpense = ops.reduce((sum, op) => {
-          if (op.type === OperationType.EXPENSE) {
-            return sum.add(op.amount);
-          }
-          if (
-            op.type === OperationType.TRANSFER &&
-            filter?.accountIds &&
-            filter.accountIds.length > 0 &&
-            filter.accountIds.includes(op.accountId)
-          ) {
-            return sum.add(op.amount);
-          }
-          return sum;
-        }, new Decimal(0));
-
-        return {
-          day,
-          allIncome,
-          allExpense,
-          operations: ops,
-        };
-      });
-
-      groups.sort((a, b) => (a.day < b.day ? 1 : a.day > b.day ? -1 : 0));
-
-      return groups;
+      return result.map((row) => ({
+        day: row.day,
+        allIncome: new Decimal(row.allIncome).add(
+          new Decimal(row.transferIncome),
+        ),
+        allExpense: new Decimal(row.allExpense).add(
+          new Decimal(row.transferExpense),
+        ),
+        operations: row.operations.map((op: any) => ({
+          ...op,
+          amount: new Decimal(op.amount),
+          date: new Date(op.date),
+          createdAt: new Date(op.createdAt),
+          updatedAt: new Date(op.updatedAt),
+        })),
+      }));
     } catch (error) {
+      console.log('error', error);
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(OperationError.NOT_FOUND);
       }
@@ -587,78 +550,95 @@ export class OperationService {
     filter?: OperationChartsFilterInput,
   ) {
     try {
-      const where: Prisma.OperationWhereInput = {
-        user: { id: user.id },
-        type: { not: OperationType.TRANSFER },
-      };
+      const conditions: Prisma.Sql[] = [
+        Prisma.sql`"userId" = ${user.id}`,
+        Prisma.sql`"type" != 'TRANSFER'`,
+      ];
 
       if (filter) {
-        if (filter.dateFrom || filter.dateTo) {
-          where.date = {};
-          if (filter.dateFrom) {
-            where.date.gte = filter.dateFrom;
-          }
-          if (filter.dateTo) {
-            where.date.lte = filter.dateTo;
-          }
+        if (filter.dateFrom) {
+          conditions.push(Prisma.sql`"date" >= ${filter.dateFrom}::timestamp`);
         }
-
+        if (filter.dateTo) {
+          conditions.push(Prisma.sql`"date" <= ${filter.dateTo}::timestamp`);
+        }
         if (filter.categoryIds && filter.categoryIds.length > 0) {
-          where.categoryId = { in: filter.categoryIds };
+          const catIds = Prisma.join(
+            filter.categoryIds.map((id) => Prisma.sql`${id}`),
+          );
+          conditions.push(Prisma.sql`"categoryId" IN (${catIds})`);
         }
-
         if (filter.searchDescription) {
-          where.description = {
-            contains: filter.searchDescription,
-            mode: 'insensitive',
-          };
+          conditions.push(
+            Prisma.sql`"description" ILIKE ${'%' + filter.searchDescription + '%'}`,
+          );
         }
-
         if (filter.accountIds && filter.accountIds.length > 0) {
-          where.OR = [
-            { accountId: { in: filter.accountIds } },
-            { transferAccountId: { in: filter.accountIds } },
-          ];
+          const accIds = Prisma.join(
+            filter.accountIds.map((id) => Prisma.sql`${id}`),
+          );
+          conditions.push(
+            Prisma.sql`("accountId" IN (${accIds}) OR "transferAccountId" IN (${accIds}))`,
+          );
         }
       }
 
-      const operations = await this.prismaService.operation.findMany({
-        where,
-        include: {
-          category: true,
-          account: true,
-          tags: true,
-          transferAccount: true,
-        },
-        orderBy: { date: 'asc' },
-      });
+      const whereClause = Prisma.sql`${Prisma.join(conditions, ' AND ')}`;
 
-      // Определяем диапазон дат
-      const dateFrom = filter?.dateFrom
-        ? new Date(filter.dateFrom)
-        : operations.length > 0
-          ? operations[0].date
-          : new Date();
-      const dateTo = filter?.dateTo
-        ? new Date(filter.dateTo)
-        : operations.length > 0
-          ? operations[operations.length - 1].date
-          : new Date();
+      // 1. Get sums by day
+      const byDaysResult = await this.prismaService.$queryRaw<any[]>`
+        SELECT 
+          TO_CHAR("date", 'YYYY-MM-DD') as day,
+          "type",
+          SUM("amount") as total
+        FROM "Operation"
+        WHERE ${whereClause}
+        GROUP BY TO_CHAR("date", 'YYYY-MM-DD'), "type"
+        ORDER BY day ASC
+      `;
+
+      // 2. Get sums by category
+      const byCategoriesResult = await this.prismaService.$queryRaw<any[]>`
+        SELECT 
+          "categoryId",
+          "type",
+          SUM("amount") as total
+        FROM "Operation"
+        WHERE ${whereClause} AND "categoryId" IS NOT NULL
+        GROUP BY "categoryId", "type"
+      `;
+
+      // Calculate totals
+      let incomeAll = 0;
+      let expenseAll = 0;
+
+      const byDays = {
+        [OperationType.INCOME]: {} as Record<string, number>,
+        [OperationType.EXPENSE]: {} as Record<string, number>,
+      };
+
+      for (const row of byDaysResult) {
+        const amount = Number(row.total);
+        byDays[row.type as OperationType][row.day] = amount;
+        if (row.type === OperationType.INCOME) incomeAll += amount;
+        if (row.type === OperationType.EXPENSE) expenseAll += amount;
+      }
+
+      // Determine date range for averages
+      let dateFrom = filter?.dateFrom ? new Date(filter.dateFrom) : new Date();
+      let dateTo = filter?.dateTo ? new Date(filter.dateTo) : new Date();
+
+      if (!filter?.dateFrom && byDaysResult.length > 0) {
+        dateFrom = new Date(byDaysResult[0].day);
+      }
+      if (!filter?.dateTo && byDaysResult.length > 0) {
+        dateTo = new Date(byDaysResult[byDaysResult.length - 1].day);
+      }
 
       const diffTime = dateTo.getTime() - dateFrom.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-      const byDays = operations.reduce(
-        (acc, operation) => {
-          const day = operation.date.toISOString().split('T')[0];
-          acc[operation.type][day] =
-            (acc[operation.type][day] || 0) + operation.amount.toNumber();
-          return acc;
-        },
-        {
-          [OperationType.INCOME]: {},
-          [OperationType.EXPENSE]: {},
-        },
+      const diffDays = Math.max(
+        1,
+        Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1,
       );
 
       const incomeDays = Object.keys(byDays[OperationType.INCOME]).length;
@@ -675,52 +655,7 @@ export class OperationService {
         expenseGroupSize,
       );
 
-      const incomeAll = Object.values(
-        byDays[OperationType.INCOME] as Record<string, number>,
-      ).reduce((sum: number, amount: number) => sum + amount, 0);
-      const expenseAll = Object.values(
-        byDays[OperationType.EXPENSE] as Record<string, number>,
-      ).reduce((sum: number, amount: number) => sum + amount, 0);
-
-      const incomeByCategories = new Map<
-        string,
-        { category: any; amount: number }
-      >();
-      const expenseByCategories = new Map<
-        string,
-        { category: any; amount: number }
-      >();
-
-      operations.forEach((operation) => {
-        if (!operation.category) return;
-
-        const categoryId = operation.category.id;
-        const amount = operation.amount.toNumber();
-
-        if (operation.type === OperationType.INCOME) {
-          const existing = incomeByCategories.get(categoryId);
-          if (existing) {
-            existing.amount += amount;
-          } else {
-            incomeByCategories.set(categoryId, {
-              category: operation.category,
-              amount,
-            });
-          }
-        } else if (operation.type === OperationType.EXPENSE) {
-          const existing = expenseByCategories.get(categoryId);
-          if (existing) {
-            existing.amount += amount;
-          } else {
-            expenseByCategories.set(categoryId, {
-              category: operation.category,
-              amount,
-            });
-          }
-        }
-      });
-
-      // Вычисляем предыдущий период только если type !== "custom"
+      // Previous period calculations
       let incomeChangePercent: string | undefined;
       let expenseChangePercent: string | undefined;
       let previousIncomeAll = 0;
@@ -729,106 +664,84 @@ export class OperationService {
       const previousExpenseByCategories = new Map<string, number>();
 
       if (filter?.type && filter.type !== 'custom') {
-        // Вычисляем предыдущий период в зависимости от типа
         let previousDateFrom: Date;
         let previousDateTo: Date;
 
         if (filter.type === 'week') {
-          // Предыдущая неделя (7 дней назад)
           previousDateTo = new Date(dateFrom);
           previousDateTo.setDate(previousDateTo.getDate() - 1);
           previousDateFrom = new Date(previousDateTo);
           previousDateFrom.setDate(previousDateFrom.getDate() - 6);
         } else if (filter.type === 'month') {
-          // Предыдущий месяц (тот же диапазон, но месяц назад)
           previousDateTo = new Date(dateTo);
           previousDateTo.setMonth(previousDateTo.getMonth() - 1);
           previousDateFrom = new Date(dateFrom);
           previousDateFrom.setMonth(previousDateFrom.getMonth() - 1);
         } else if (filter.type === 'year') {
-          // Предыдущий год (тот же диапазон, но год назад)
           previousDateTo = new Date(dateTo);
           previousDateTo.setFullYear(previousDateTo.getFullYear() - 1);
           previousDateFrom = new Date(dateFrom);
           previousDateFrom.setFullYear(previousDateFrom.getFullYear() - 1);
         } else {
-          // Fallback: предыдущий период такой же длины
           previousDateTo = new Date(dateFrom);
           previousDateTo.setDate(previousDateTo.getDate() - 1);
           previousDateFrom = new Date(previousDateTo);
           previousDateFrom.setDate(previousDateFrom.getDate() - diffDays + 1);
         }
 
-        // Получаем операции для предыдущего периода
-        const previousWhere: Prisma.OperationWhereInput = {
-          user: { id: user.id },
-          type: { not: OperationType.TRANSFER },
-          date: {
-            gte: previousDateFrom,
-            lte: previousDateTo,
-          },
-        };
+        const prevConditions: Prisma.Sql[] = [
+          Prisma.sql`"userId" = ${user.id}`,
+          Prisma.sql`"type" != 'TRANSFER'`,
+          Prisma.sql`"date" >= ${previousDateFrom}::timestamp`,
+          Prisma.sql`"date" <= ${previousDateTo}::timestamp`,
+        ];
 
-        // Применяем те же фильтры, что и для текущего периода
         if (filter.categoryIds && filter.categoryIds.length > 0) {
-          previousWhere.categoryId = { in: filter.categoryIds };
+          const catIds = Prisma.join(
+            filter.categoryIds.map((id) => Prisma.sql`${id}`),
+          );
+          prevConditions.push(Prisma.sql`"categoryId" IN (${catIds})`);
         }
-
         if (filter.searchDescription) {
-          previousWhere.description = {
-            contains: filter.searchDescription,
-            mode: 'insensitive',
-          };
+          prevConditions.push(
+            Prisma.sql`"description" ILIKE ${'%' + filter.searchDescription + '%'}`,
+          );
         }
-
         if (filter.accountIds && filter.accountIds.length > 0) {
-          previousWhere.OR = [
-            { accountId: { in: filter.accountIds } },
-            { transferAccountId: { in: filter.accountIds } },
-          ];
+          const accIds = Prisma.join(
+            filter.accountIds.map((id) => Prisma.sql`${id}`),
+          );
+          prevConditions.push(
+            Prisma.sql`("accountId" IN (${accIds}) OR "transferAccountId" IN (${accIds}))`,
+          );
         }
 
-        const previousOperations = await this.prismaService.operation.findMany({
-          where: previousWhere,
-          include: {
-            category: true,
-          },
-        });
+        const prevWhereClause = Prisma.sql`${Prisma.join(prevConditions, ' AND ')}`;
 
-        // Вычисляем суммы для предыдущего периода
-        const previousByDays = previousOperations.reduce(
-          (acc, operation) => {
-            acc[operation.type] =
-              (acc[operation.type] || 0) + operation.amount.toNumber();
-            return acc;
-          },
-          {
-            [OperationType.INCOME]: 0,
-            [OperationType.EXPENSE]: 0,
-          },
-        );
+        const prevByCategoriesResult = await this.prismaService.$queryRaw<
+          any[]
+        >`
+          SELECT 
+            "categoryId",
+            "type",
+            SUM("amount") as total
+          FROM "Operation"
+          WHERE ${prevWhereClause} AND "categoryId" IS NOT NULL
+          GROUP BY "categoryId", "type"
+        `;
 
-        previousIncomeAll = previousByDays[OperationType.INCOME];
-        previousExpenseAll = previousByDays[OperationType.EXPENSE];
-
-        // Группируем операции предыдущего периода по категориям
-        previousOperations.forEach((operation) => {
-          if (!operation.category) return;
-
-          const categoryId = operation.category.id;
-          const amount = operation.amount.toNumber();
-
-          if (operation.type === OperationType.INCOME) {
-            const existing = previousIncomeByCategories.get(categoryId) || 0;
-            previousIncomeByCategories.set(categoryId, existing + amount);
-          } else if (operation.type === OperationType.EXPENSE) {
-            const existing = previousExpenseByCategories.get(categoryId) || 0;
-            previousExpenseByCategories.set(categoryId, existing + amount);
+        for (const row of prevByCategoriesResult) {
+          const amount = Number(row.total);
+          if (row.type === OperationType.INCOME) {
+            previousIncomeAll += amount;
+            previousIncomeByCategories.set(row.categoryId, amount);
+          } else {
+            previousExpenseAll += amount;
+            previousExpenseByCategories.set(row.categoryId, amount);
           }
-        });
+        }
       }
 
-      // Функция для вычисления процента изменения
       const calculateChangePercent = (
         current: number,
         previous: number,
@@ -840,7 +753,6 @@ export class OperationService {
         return change.toFixed(2);
       };
 
-      // Вычисляем процент изменения для общих сумм
       if (filter?.type && filter.type !== 'custom') {
         incomeChangePercent = calculateChangePercent(
           incomeAll,
@@ -852,98 +764,77 @@ export class OperationService {
         );
       }
 
-      // Вычисляем средние значения в зависимости от длительности периода
       const calculateAverages = (total: number, days: number) => {
         const dayAverage = days > 0 ? (total / days).toFixed(2) : '0';
-
-        // от недели до 2 недель: только средний за день
-        if (days < 15) {
-          return {
-            dayAverage,
-          };
-        }
-
-        // от 2 недель до 2 месяцев: + средний за неделю
+        if (days < 15) return { dayAverage };
         const weekAverage = days > 0 ? (total / (days / 7)).toFixed(2) : '0';
-        if (days < 61) {
-          return {
-            dayAverage,
-            weekAverage,
-          };
-        }
-
-        // от 2 месяцев до 2 лет: + средний за месяц
+        if (days < 61) return { dayAverage, weekAverage };
         const monthAverage = days > 0 ? (total / (days / 30)).toFixed(2) : '0';
-        if (days < 731) {
-          return {
-            dayAverage,
-            weekAverage,
-            monthAverage,
-          };
-        }
-
-        // от 2 лет и более: + средний за год
+        if (days < 731) return { dayAverage, weekAverage, monthAverage };
         const yearAverage = days > 0 ? (total / (days / 365)).toFixed(2) : '0';
-        return {
-          dayAverage,
-          weekAverage,
-          monthAverage,
-          yearAverage,
-        };
+        return { dayAverage, weekAverage, monthAverage, yearAverage };
       };
 
       const incomeAverages = calculateAverages(incomeAll, diffDays);
       const expenseAverages = calculateAverages(expenseAll, diffDays);
 
-      // Формируем массив категорий для доходов
-      const incomeCategories: Categories[] = Array.from(
-        incomeByCategories.values(),
-      )
-        .map(({ category, amount }) => {
+      // Fetch categories
+      const categoryIds = new Set<string>();
+      byCategoriesResult.forEach((r) => categoryIds.add(r.categoryId));
+
+      const categories = await this.prismaService.category.findMany({
+        where: { id: { in: Array.from(categoryIds) } },
+        include: { keywords: true, children: true },
+      });
+      const categoryMap = new Map(categories.map((c) => [c.id, c]));
+
+      const incomeCategories: Categories[] = [];
+      const expenseCategories: Categories[] = [];
+
+      for (const row of byCategoriesResult) {
+        const category = categoryMap.get(row.categoryId);
+        if (!category) continue;
+
+        const amount = Number(row.total);
+        if (row.type === OperationType.INCOME) {
           const percent =
             incomeAll > 0 ? ((amount / incomeAll) * 100).toFixed(2) : '0';
-          const previousAmount =
-            filter.type && filter.type !== 'custom'
+          const prevAmount =
+            filter?.type && filter.type !== 'custom'
               ? previousIncomeByCategories.get(category.id) || 0
               : 0;
           const changePercent =
-            filter.type && filter.type !== 'custom'
-              ? calculateChangePercent(amount, previousAmount)
+            filter?.type && filter.type !== 'custom'
+              ? calculateChangePercent(amount, prevAmount)
               : undefined;
-
-          return {
-            category,
+          incomeCategories.push({
+            category: category as unknown as CategoryModel,
             all: new Decimal(amount),
             percent,
             changePercent,
-          };
-        })
-        .sort((a, b) => b.all.toNumber() - a.all.toNumber()); // Сортируем по убыванию суммы
-
-      // Формируем массив категорий для расходов
-      const expenseCategories: Categories[] = Array.from(
-        expenseByCategories.values(),
-      )
-        .map(({ category, amount }) => {
+          });
+        } else {
           const percent =
             expenseAll > 0 ? ((amount / expenseAll) * 100).toFixed(2) : '0';
-          const previousAmount =
-            filter.type && filter.type !== 'custom'
+          const prevAmount =
+            filter?.type && filter.type !== 'custom'
               ? previousExpenseByCategories.get(category.id) || 0
               : 0;
           const changePercent =
-            filter.type && filter.type !== 'custom'
-              ? calculateChangePercent(amount, previousAmount)
+            filter?.type && filter.type !== 'custom'
+              ? calculateChangePercent(amount, prevAmount)
               : undefined;
-
-          return {
-            category,
+          expenseCategories.push({
+            category: category as unknown as CategoryModel,
             all: new Decimal(amount),
             percent,
             changePercent,
-          };
-        })
-        .sort((a, b) => b.all.toNumber() - a.all.toNumber()); // Сортируем по убыванию суммы
+          });
+        }
+      }
+
+      incomeCategories.sort((a, b) => b.all.toNumber() - a.all.toNumber());
+      expenseCategories.sort((a, b) => b.all.toNumber() - a.all.toNumber());
 
       return {
         income: {
@@ -967,7 +858,6 @@ export class OperationService {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(OperationError.NOT_FOUND);
       }
-
       throw error;
     }
   }
@@ -978,11 +868,6 @@ export class OperationService {
         where: {
           id,
           account: { userId: user.id },
-        },
-        include: {
-          category: true,
-          account: true,
-          tags: true,
         },
       });
 
@@ -1060,10 +945,6 @@ export class OperationService {
         where: {
           id: input.id,
           account: { userId: user.id },
-        },
-        include: {
-          account: true,
-          transferAccount: true,
         },
       });
 
@@ -1162,12 +1043,6 @@ export class OperationService {
                 }
               : undefined,
           },
-          include: {
-            category: true,
-            account: true,
-            tags: true,
-            transferAccount: true,
-          },
         });
       });
 
@@ -1187,10 +1062,6 @@ export class OperationService {
         where: {
           id,
           account: { userId: user.id },
-        },
-        include: {
-          account: true,
-          transferAccount: true,
         },
       });
 

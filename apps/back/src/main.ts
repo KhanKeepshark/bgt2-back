@@ -36,6 +36,7 @@ async function bootstrap() {
     options: {
       urls: [`amqp://${rabbitUser}:${rabbitPassword}@${rabbitName}:5672`],
       queue: 'ai_upload_queue',
+      noAck: false,
       queueOptions: {
         durable: true,
       },

@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  Matches,
 } from 'class-validator';
 import { OperationType } from '@prisma/generated';
 
@@ -12,7 +13,7 @@ import { OperationType } from '@prisma/generated';
 export class ExtractedOperationInput {
   @Field(() => String)
   @IsNotEmpty()
-  @IsString()
+  @Matches(/^\d+(\.\d+)?$/, { message: 'Amount must be a valid positive number' })
   amount: string;
 
   @Field(() => String)

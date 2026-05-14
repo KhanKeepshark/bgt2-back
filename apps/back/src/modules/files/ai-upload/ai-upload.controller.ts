@@ -1,5 +1,10 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import {
+  MessagePattern,
+  Payload,
+  Ctx,
+  RmqContext,
+} from '@nestjs/microservices';
 import { AiUploadOrchestrator } from './ai-upload-orchestrator.service';
 
 export interface ProcessAiUploadJob {
@@ -15,7 +20,20 @@ export class AiUploadController {
   constructor(private readonly aiUploadOrchestrator: AiUploadOrchestrator) {}
 
   @MessagePattern('process_ai_upload')
-  async handleProcessAiUpload(@Payload() data: ProcessAiUploadJob) {
-    return this.aiUploadOrchestrator.processAiUploadTask(data);
+  async handleProcessAiUpload(
+    @Payload() data: ProcessAiUploadJob,
+    @Ctx() context: RmqContext,
+  ) {
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+
+    try {
+      const result = await this.aiUploadOrchestrator.processAiUploadTask(data);
+      channel.ack(originalMsg);
+      return result;
+    } catch (error) {
+      channel.nack(originalMsg, false, false);
+      throw error;
+    }
   }
 }
