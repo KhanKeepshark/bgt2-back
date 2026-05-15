@@ -1,4 +1,6 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { SessionService } from './session.service';
 import { LoginInput } from './inputs/login.inputs';
 import { LoginWithGoogleInput } from './inputs/login-with-google.input';
@@ -8,6 +10,7 @@ import {
   Authorization,
   AdminOnly,
 } from '@back/shared/decorators/auth.decorator';
+import { GqlThrottlerGuard } from '@back/shared/guards/gql-throttler.guard';
 import { SessionModel } from './models/session.model';
 import { AuthModel } from '../user/models/auth.model';
 @Resolver('Session')
@@ -37,6 +40,8 @@ export class SessionResolver {
   }
 
   @Mutation(() => AuthModel, { name: 'loginUser' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   public async login(
     @Context() { req }: GqlContext,
     @Args('data') input: LoginInput,
@@ -46,6 +51,8 @@ export class SessionResolver {
   }
 
   @Mutation(() => AuthModel, { name: 'loginWithGoogle' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   public async loginWithGoogle(
     @Context() { req }: GqlContext,
     @Args('data') input: LoginWithGoogleInput,

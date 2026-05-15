@@ -1,5 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { AccountService } from './account.service';
+import { GqlThrottlerGuard } from '@back/shared/guards/gql-throttler.guard';
 import { CreateAccountInput } from './inputs/create-account.input';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
 import { AccountModel } from './models/account.model';
@@ -13,6 +16,8 @@ export class AccountResolver {
 
   @Authorization()
   @Mutation(() => AccountModel, { name: 'createAccount' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   public async createAccount(
     @Args('input') input: CreateAccountInput,
     @Authorized() user: User,

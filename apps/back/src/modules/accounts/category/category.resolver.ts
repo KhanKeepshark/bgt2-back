@@ -1,5 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { CategoryService } from './category.service';
+import { GqlThrottlerGuard } from '@back/shared/guards/gql-throttler.guard';
 import { CreateCategoryInput } from './inputs/create-category.input';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
 import { CategoryModel } from './models/category.model';
@@ -15,6 +18,8 @@ export class CategoryResolver {
 
   @Authorization()
   @Mutation(() => CategoryModel, { name: 'createCategory' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 20, ttl: 60000 } })
   public async createCategory(
     @Args('input') input: CreateCategoryInput,
     @Authorized() user: User,
@@ -66,6 +71,8 @@ export class CategoryResolver {
 
   @Authorization()
   @Mutation(() => CategoryKeywordModel, { name: 'createCategoryKeyword' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 30, ttl: 60000 } })
   public async createCategoryKeyword(
     @Args('input') input: CreateCategoryKeywordInput,
     @Authorized() user: User,

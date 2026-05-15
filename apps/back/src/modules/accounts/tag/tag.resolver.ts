@@ -1,5 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { TagService } from './tag.service';
+import { GqlThrottlerGuard } from '@back/shared/guards/gql-throttler.guard';
 import { TagModel } from './model/tag.model';
 import { CreateTagInput } from './inputs/create-tag.input';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
@@ -13,6 +16,8 @@ export class TagResolver {
 
   @Authorization()
   @Mutation(() => TagModel, { name: 'createTag' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 20, ttl: 60000 } })
   public async createTag(
     @Args('input') input: CreateTagInput,
     @Authorized() user: User,

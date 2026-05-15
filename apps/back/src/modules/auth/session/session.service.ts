@@ -1,4 +1,5 @@
 import { PrismaService } from '@back/core/prisma/prisma.service';
+import { Prisma } from '@prisma/generated';
 import {
   BadRequestException,
   ConflictException,
@@ -17,6 +18,18 @@ import { TOTP } from 'otpauth';
 import { clearSession, saveSession } from '@back/shared/utils/session.util';
 import { UserService } from '../user/user.service';
 import { LoginWithGoogleInput } from './inputs/login-with-google.input';
+
+const sessionUserInclude = {
+  accounts: true,
+  tags: true,
+  categories: {
+    include: {
+      children: true,
+      keywords: true,
+    },
+  },
+  subscriptionPlan: true,
+} satisfies Prisma.UserInclude;
 
 @Injectable()
 export class SessionService {
@@ -59,6 +72,18 @@ export class SessionService {
     return { ...session, id: req.session.id };
   }
 
+  /** Успешный логин паролем / Google: +1 к счётчику и метка времени последнего входа. Impersonate сюда не входит. */
+  private async applySuccessfulUserLogin(userId: string) {
+    return this.prismaService.user.update({
+      where: { id: userId },
+      data: {
+        lastLoginAt: new Date(),
+        loginCount: { increment: 1 },
+      },
+      include: sessionUserInclude,
+    });
+  }
+
   public async login(req: Request, input: LoginInput, userAgent: string) {
     const { login, password, pin } = input;
 
@@ -66,17 +91,7 @@ export class SessionService {
       where: {
         email: { equals: login },
       },
-      include: {
-        accounts: true,
-        tags: true,
-        categories: {
-          include: {
-            children: true,
-            keywords: true,
-          },
-        },
-        subscriptionPlan: true,
-      },
+      include: sessionUserInclude,
     });
 
     if (!user) {
@@ -114,8 +129,9 @@ export class SessionService {
     }
 
     const metadata = getSessionMetadata(req, userAgent);
+    const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
-    return await saveSession(req, user, metadata);
+    return await saveSession(req, userWithLogin, metadata);
   }
 
   public async loginWithGoogle(
@@ -147,17 +163,7 @@ export class SessionService {
 
     let user = await this.prismaService.user.findFirst({
       where: { email: { equals: email } },
-      include: {
-        accounts: true,
-        tags: true,
-        categories: {
-          include: {
-            children: true,
-            keywords: true,
-          },
-        },
-        subscriptionPlan: true,
-      },
+      include: sessionUserInclude,
     });
 
     if (!user) {
@@ -170,23 +176,14 @@ export class SessionService {
       user = await this.prismaService.user.update({
         where: { id: user.id },
         data: { isEmailVerified: true },
-        include: {
-          accounts: true,
-          tags: true,
-          categories: {
-            include: {
-              children: true,
-              keywords: true,
-            },
-          },
-          subscriptionPlan: true,
-        },
+        include: sessionUserInclude,
       });
     }
 
     const metadata = getSessionMetadata(req, userAgent);
+    const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
-    return await saveSession(req, user, metadata);
+    return await saveSession(req, userWithLogin, metadata);
   }
 
   public async logout(req: Request) {
@@ -214,17 +211,7 @@ export class SessionService {
   public async impersonate(req: Request, userId: string, userAgent: string) {
     const user = await this.prismaService.user.findUnique({
       where: { id: userId },
-      include: {
-        accounts: true,
-        tags: true,
-        categories: {
-          include: {
-            children: true,
-            keywords: true,
-          },
-        },
-        subscriptionPlan: true,
-      },
+      include: sessionUserInclude,
     });
 
     if (!user) {

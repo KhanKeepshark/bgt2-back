@@ -6,7 +6,10 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { OperationService } from './operation.service';
+import { GqlThrottlerGuard } from '@back/shared/guards/gql-throttler.guard';
 import { CreateOperationInput } from './inputs/create-operation.input';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
 import { OperationModel } from './models/operation.model';
@@ -32,6 +35,8 @@ export class OperationResolver {
 
   @Authorization()
   @Mutation(() => [OperationModel], { name: 'createExtractedOperations' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   public async createExtractedOperations(
     @Args('accountId') accountId: string,
     @Args('operations', { type: () => [ExtractedOperationInput] })
@@ -43,6 +48,8 @@ export class OperationResolver {
 
   @Authorization()
   @Mutation(() => OperationModel, { name: 'createOperation' })
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 30, ttl: 60000 } })
   public async createOperation(
     @Args('input') input: CreateOperationInput,
     @Authorized() user: User,
