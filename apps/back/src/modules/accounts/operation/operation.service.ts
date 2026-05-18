@@ -446,9 +446,7 @@ export class OperationService {
     }[]
   > {
     try {
-      const conditions: Prisma.Sql[] = [
-        Prisma.sql`"userId" = ${user.id}`,
-      ];
+      const conditions: Prisma.Sql[] = [Prisma.sql`"userId" = ${user.id}`];
 
       if (filter) {
         if (filter.dateFrom) {

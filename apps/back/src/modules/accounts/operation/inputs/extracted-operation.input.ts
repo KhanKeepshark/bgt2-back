@@ -13,7 +13,9 @@ import { OperationType } from '@prisma/generated';
 export class ExtractedOperationInput {
   @Field(() => String)
   @IsNotEmpty()
-  @Matches(/^\d+(\.\d+)?$/, { message: 'Amount must be a valid positive number' })
+  @Matches(/^\d+(\.\d+)?$/, {
+    message: 'Amount must be a valid positive number',
+  })
   amount: string;
 
   @Field(() => String)

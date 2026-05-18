@@ -23,7 +23,9 @@ registerEnumType(OperationType, {
 export class CreateOperationInput {
   @Field(() => String)
   @IsNotEmpty()
-  @Matches(/^\d+(\.\d+)?$/, { message: 'Amount must be a valid positive number' })
+  @Matches(/^\d+(\.\d+)?$/, {
+    message: 'Amount must be a valid positive number',
+  })
   amount: string;
 
   @Field(() => Date)
