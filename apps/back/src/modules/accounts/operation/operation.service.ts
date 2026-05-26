@@ -415,6 +415,12 @@ export class OperationService {
     }
   }
 
+  public async countUserOperations(user: User): Promise<number> {
+    return this.prismaService.operation.count({
+      where: { userId: user.id },
+    });
+  }
+
   public async findAll(user: User): Promise<Operation[]> {
     try {
       const operations = await this.prismaService.operation.findMany({

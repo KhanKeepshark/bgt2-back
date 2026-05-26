@@ -92,6 +92,12 @@ export class UserResolver {
     return this.userService.resetPassword(input);
   }
 
+  @Mutation(() => UserModel, { name: 'markWelcomeSheetSeen' })
+  @Authorization()
+  public async markWelcomeSheetSeen(@Authorized('id') id: string) {
+    return this.userService.markWelcomeSheetSeen(id);
+  }
+
   @Mutation(() => UserModel, { name: 'removeUser' })
   @AdminOnly()
   public async remove(@Args('id') id: string) {

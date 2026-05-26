@@ -2950,6 +2950,7 @@ export namespace Prisma {
     updatedAt: Date | null
     role: $Enums.Role | null
     lastGlobalNotificationReadAt: Date | null
+    welcomeSheetSeenAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2973,6 +2974,7 @@ export namespace Prisma {
     updatedAt: Date | null
     role: $Enums.Role | null
     lastGlobalNotificationReadAt: Date | null
+    welcomeSheetSeenAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2996,6 +2998,7 @@ export namespace Prisma {
     updatedAt: number
     role: number
     lastGlobalNotificationReadAt: number
+    welcomeSheetSeenAt: number
     _all: number
   }
 
@@ -3031,6 +3034,7 @@ export namespace Prisma {
     updatedAt?: true
     role?: true
     lastGlobalNotificationReadAt?: true
+    welcomeSheetSeenAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3054,6 +3058,7 @@ export namespace Prisma {
     updatedAt?: true
     role?: true
     lastGlobalNotificationReadAt?: true
+    welcomeSheetSeenAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3077,6 +3082,7 @@ export namespace Prisma {
     updatedAt?: true
     role?: true
     lastGlobalNotificationReadAt?: true
+    welcomeSheetSeenAt?: true
     _all?: true
   }
 
@@ -3187,6 +3193,7 @@ export namespace Prisma {
     updatedAt: Date
     role: $Enums.Role
     lastGlobalNotificationReadAt: Date | null
+    welcomeSheetSeenAt: Date | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -3229,6 +3236,7 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
+    welcomeSheetSeenAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     subscriptionPrice?: boolean | User$subscriptionPriceArgs<ExtArgs>
@@ -3269,6 +3277,7 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
+    welcomeSheetSeenAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     subscriptionPrice?: boolean | User$subscriptionPriceArgs<ExtArgs>
@@ -3295,6 +3304,7 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
+    welcomeSheetSeenAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     subscriptionPrice?: boolean | User$subscriptionPriceArgs<ExtArgs>
@@ -3321,9 +3331,10 @@ export namespace Prisma {
     updatedAt?: boolean
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
+    welcomeSheetSeenAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "lastGlobalNotificationReadAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "lastGlobalNotificationReadAt" | "welcomeSheetSeenAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
@@ -3395,6 +3406,7 @@ export namespace Prisma {
       updatedAt: Date
       role: $Enums.Role
       lastGlobalNotificationReadAt: Date | null
+      welcomeSheetSeenAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3854,6 +3866,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly role: FieldRef<"User", 'Role'>
     readonly lastGlobalNotificationReadAt: FieldRef<"User", 'DateTime'>
+    readonly welcomeSheetSeenAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -23466,7 +23479,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     role: 'role',
-    lastGlobalNotificationReadAt: 'lastGlobalNotificationReadAt'
+    lastGlobalNotificationReadAt: 'lastGlobalNotificationReadAt',
+    welcomeSheetSeenAt: 'welcomeSheetSeenAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -24056,6 +24070,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     defaultAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     subscriptionPlan?: XOR<SubscriptionPlanScalarRelationFilter, SubscriptionPlanWhereInput>
     subscriptionPrice?: XOR<SubscriptionPriceNullableScalarRelationFilter, SubscriptionPriceWhereInput> | null
@@ -24095,6 +24110,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrderInput | SortOrder
+    welcomeSheetSeenAt?: SortOrderInput | SortOrder
     defaultAccount?: AccountOrderByWithRelationInput
     subscriptionPlan?: SubscriptionPlanOrderByWithRelationInput
     subscriptionPrice?: SubscriptionPriceOrderByWithRelationInput
@@ -24137,6 +24153,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     defaultAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     subscriptionPlan?: XOR<SubscriptionPlanScalarRelationFilter, SubscriptionPlanWhereInput>
     subscriptionPrice?: XOR<SubscriptionPriceNullableScalarRelationFilter, SubscriptionPriceWhereInput> | null
@@ -24176,6 +24193,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrderInput | SortOrder
+    welcomeSheetSeenAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -24207,6 +24225,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    welcomeSheetSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type SubscriptionPlanWhereInput = {
@@ -25545,6 +25564,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -25584,6 +25604,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -25617,6 +25638,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -25656,6 +25678,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -25692,6 +25715,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -25712,6 +25736,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -25735,6 +25760,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SubscriptionPlanCreateInput = {
@@ -27402,6 +27428,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrder
+    welcomeSheetSeenAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -27430,6 +27457,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrder
+    welcomeSheetSeenAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -27453,6 +27481,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrder
+    welcomeSheetSeenAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -31970,6 +31999,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -32007,6 +32037,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -32102,6 +32133,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type SubscriptionPlanCreateWithoutPricesInput = {
@@ -32167,6 +32199,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -32204,6 +32237,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -32364,6 +32398,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -32402,6 +32437,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
@@ -32450,6 +32486,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -32488,6 +32525,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
@@ -32520,6 +32558,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -32558,6 +32597,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
@@ -32763,6 +32803,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -32800,6 +32841,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -32849,6 +32891,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -32887,6 +32930,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
@@ -32994,6 +33038,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -33031,6 +33076,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -33064,6 +33110,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -33102,6 +33149,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -33325,6 +33373,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -33363,6 +33412,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -33587,6 +33637,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -33625,6 +33676,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -33826,6 +33878,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -33864,6 +33917,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -34043,6 +34097,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -34081,6 +34136,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
@@ -34164,6 +34220,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -34202,6 +34259,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
@@ -34250,6 +34308,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -34288,6 +34347,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -34521,6 +34581,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -34559,6 +34620,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -34731,6 +34793,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -34769,6 +34832,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -34858,6 +34922,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -34896,6 +34961,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -34928,6 +34994,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -34966,6 +35033,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -35014,6 +35082,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35052,6 +35121,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -35084,6 +35154,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35122,6 +35193,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -35170,6 +35242,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35208,6 +35281,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -35240,6 +35314,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35278,6 +35353,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -35326,6 +35402,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35364,6 +35441,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -35396,6 +35474,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35434,6 +35513,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -35482,6 +35562,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35520,6 +35601,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -35552,6 +35634,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35590,6 +35673,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -35667,6 +35751,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35705,6 +35790,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -35772,6 +35858,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35810,6 +35897,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -35858,6 +35946,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35896,6 +35985,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -36524,6 +36614,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
   }
 
   export type SubscriptionPriceUpdateWithoutPlanInput = {
@@ -36578,6 +36669,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -36615,6 +36707,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -36650,6 +36743,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateManySubscriptionPriceInput = {
@@ -36672,6 +36766,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
   }
 
   export type PaymentCreateManySubscriptionPriceInput = {
@@ -36704,6 +36799,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -36741,6 +36837,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -36776,6 +36873,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PaymentUpdateWithoutSubscriptionPriceInput = {

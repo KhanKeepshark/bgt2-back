@@ -337,6 +337,7 @@ type Mutation {
   logoutUser: Boolean!
   markAllNotificationsAsRead: Boolean!
   markNotificationAsRead(id: String!): NotificationModel!
+  markWelcomeSheetSeen: UserModel!
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
   removeSession(id: String!): Boolean!
   removeUser(id: String!): UserModel!
@@ -461,6 +462,7 @@ enum PaymentStatus {
 }
 
 type Query {
+  countUserOperations: Int!
   findAllAccounts: [AccountModel!]!
   findAllAdminNotifications: [NotificationModel!]!
   findAllCategories: [CategoryModel!]!
@@ -753,6 +755,7 @@ type UserModel {
   tokensBalance: Float!
   totpSecret: String
   updatedAt: DateTime!
+  welcomeSheetSeenAt: DateTime
 }
 
 input UserOrderByInput {

@@ -1,5 +1,6 @@
 import {
   Args,
+  Int,
   Mutation,
   Query,
   Resolver,
@@ -55,6 +56,12 @@ export class OperationResolver {
     @Authorized() user: User,
   ) {
     return this.operationService.create(input, user);
+  }
+
+  @Authorization()
+  @Query(() => Int, { name: 'countUserOperations' })
+  public async countUserOperations(@Authorized() user: User) {
+    return this.operationService.countUserOperations(user);
   }
 
   @Authorization()

@@ -69,6 +69,9 @@ export class UserModel implements User {
   @Field(() => Date, { nullable: true })
   lastGlobalNotificationReadAt: Date | null;
 
+  @Field(() => Date, { nullable: true })
+  welcomeSheetSeenAt: Date | null;
+
   @Field(() => SubscriptionPlanModel)
   subscriptionPlan: SubscriptionPlanModel;
 

@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { PrismaClient, SubscriptionType, CategoryType } from './generated';
 import { hash } from 'argon2';
+import { FREE_PLAN_LIMITS, PREMIUM_PLAN_LIMITS } from './subscription-plan-limits';
 
 const prisma = new PrismaClient();
 
@@ -21,71 +22,71 @@ const defaultCategories = [
 async function main() {
   console.log('🔍 Проверка наличия админа в БД...');
 
-  // 1. Ensure FREE plan
-  let freePlan = await prisma.subscriptionPlan.findUnique({
+  // 1. Ensure FREE plan (create or patch limits on re-run)
+  const existingFreePlan = await prisma.subscriptionPlan.findUnique({
     where: { type: SubscriptionType.FREE },
+  });
+
+  const freePlan = await prisma.subscriptionPlan.upsert({
+    where: { type: SubscriptionType.FREE },
+    create: {
+      type: SubscriptionType.FREE,
+      description: 'Бесплатный план',
+      ...FREE_PLAN_LIMITS,
+      prices: {
+        create: {
+          name: 'Free',
+          price: 0,
+          currency: 'USD',
+          durationDays: null,
+        },
+      },
+    },
+    update: FREE_PLAN_LIMITS,
     include: { prices: true },
   });
 
-  if (!freePlan) {
-    console.log('📦 Создание плана подписки FREE...');
-    freePlan = await prisma.subscriptionPlan.create({
-      data: {
-        type: SubscriptionType.FREE,
-        description: 'Бесплатный план',
-        tokensOnPurchase: 0,
-        canExportData: false,
-        canUseAutoCategory: false,
-        prices: {
-          create: {
-            name: 'Free',
-            price: 0,
-            currency: 'USD',
-            durationDays: null,
-          },
-        },
-      },
-      include: { prices: true },
-    });
-    console.log('✅ План FREE создан');
-  }
+  console.log(
+    existingFreePlan ? '✅ План FREE обновлён' : '✅ План FREE создан',
+  );
 
-  // 2. Ensure PREMIUM plan
-  let premiumPlan = await prisma.subscriptionPlan.findUnique({
+  // 2. Ensure PREMIUM plan (create or patch limits on re-run)
+  const existingPremiumPlan = await prisma.subscriptionPlan.findUnique({
     where: { type: SubscriptionType.PREMIUM },
+  });
+
+  await prisma.subscriptionPlan.upsert({
+    where: { type: SubscriptionType.PREMIUM },
+    create: {
+      type: SubscriptionType.PREMIUM,
+      description: 'Премиум план',
+      ...PREMIUM_PLAN_LIMITS,
+      prices: {
+        create: [
+          {
+            name: 'Monthly',
+            price: 5,
+            currency: 'USD',
+            durationDays: 30,
+          },
+          {
+            name: 'Yearly',
+            price: 50,
+            currency: 'USD',
+            durationDays: 365,
+          },
+        ],
+      },
+    },
+    update: PREMIUM_PLAN_LIMITS,
     include: { prices: true },
   });
 
-  if (!premiumPlan) {
-    console.log('📦 Создание плана подписки PREMIUM...');
-    premiumPlan = await prisma.subscriptionPlan.create({
-      data: {
-        type: SubscriptionType.PREMIUM,
-        description: 'Премиум план',
-        tokensOnPurchase: 100,
-        canExportData: true,
-        canUseAutoCategory: true,
-        prices: {
-          create: [
-            {
-              name: 'Monthly',
-              price: 5,
-              currency: 'USD',
-              durationDays: 30,
-            },
-            {
-              name: 'Yearly',
-              price: 50,
-              currency: 'USD',
-              durationDays: 365,
-            },
-          ],
-        },
-      },
-      include: { prices: true },
-    });
-    console.log('✅ План PREMIUM создан');
-  }
+  console.log(
+    existingPremiumPlan
+      ? '✅ План PREMIUM обновлён'
+      : '✅ План PREMIUM создан',
+  );
 
   const existingAdmin = await prisma.user.findFirst({
     where: { role: 'ADMIN' },

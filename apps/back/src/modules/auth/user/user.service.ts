@@ -398,6 +398,21 @@ export class UserService {
     return true;
   }
 
+  public async markWelcomeSheetSeen(id: string) {
+    return this.prismaService.user.update({
+      where: { id },
+      data: { welcomeSheetSeenAt: new Date() },
+      include: {
+        subscriptionPlan: {
+          include: {
+            prices: true,
+          },
+        },
+        subscriptionPrice: true,
+      },
+    });
+  }
+
   public async remove(id: string) {
     const user = await this.prismaService.user.findUnique({ where: { id } });
     if (user?.role === Role.ADMIN) {

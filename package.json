@@ -124,7 +124,8 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/"
+      "<rootDir>/apps/",
+      "<rootDir>/prisma/"
     ]
   },
   "packageManager": "yarn@4.8.1",
