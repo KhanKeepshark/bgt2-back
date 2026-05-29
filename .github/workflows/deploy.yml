@@ -48,8 +48,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            set -e
             cd /var/www/back
-            
-            git pull origin main
-            
+            git fetch origin main
+            git reset --hard origin/main
             docker compose up -d --build
