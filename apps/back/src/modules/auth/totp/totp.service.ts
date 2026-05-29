@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthError } from '@back/shared/constants/errors.constants';
+import { TOTP_ISSUER } from '@back/shared/constants/totp.constants';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { encode } from 'hi-base32';
 import { User } from '@prisma/generated';
@@ -16,7 +17,7 @@ export class TotpService {
     const secret = encode(randomBytes(32)).replace(/=/g, '').substring(0, 24);
 
     const totp = new TOTP({
-      issuer: 'TopicChat',
+      issuer: TOTP_ISSUER,
       label: user.email,
       algorithm: 'SHA1',
       digits: 6,
@@ -36,7 +37,7 @@ export class TotpService {
     const { secret, pin } = input;
 
     const totp = new TOTP({
-      issuer: 'TopicChat',
+      issuer: TOTP_ISSUER,
       label: user.email,
       algorithm: 'SHA1',
       digits: 6,

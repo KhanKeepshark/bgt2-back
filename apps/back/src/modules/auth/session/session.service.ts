@@ -8,6 +8,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthError } from '@back/shared/constants/errors.constants';
+import { TOTP_ISSUER } from '@back/shared/constants/totp.constants';
 import { LoginInput } from './inputs/login.inputs';
 import { verify } from 'argon2';
 import { Request } from 'express';
@@ -114,7 +115,7 @@ export class SessionService {
       }
 
       const totp = new TOTP({
-        issuer: 'TopicChat',
+        issuer: TOTP_ISSUER,
         label: user.email,
         algorithm: 'SHA1',
         digits: 6,
