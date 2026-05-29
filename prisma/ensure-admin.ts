@@ -8,6 +8,30 @@ const prisma = new PrismaClient();
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'test@admin.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'admin123';
 
+async function syncAdminUser(userId: string) {
+  const emailTaken = await prisma.user.findFirst({
+    where: { email: ADMIN_EMAIL, NOT: { id: userId } },
+  });
+
+  if (emailTaken) {
+    throw new Error(
+      `Email ${ADMIN_EMAIL} уже занят другим пользователем (${emailTaken.id})`,
+    );
+  }
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      email: ADMIN_EMAIL,
+      password: await hash(ADMIN_PASSWORD),
+      role: 'ADMIN',
+      isEmailVerified: true,
+    },
+  });
+
+  console.log(`✅ Админ обновлён: ${ADMIN_EMAIL}`);
+}
+
 const defaultCategories = [
   { name: 'Salary', icon: 'credit-card', type: CategoryType.INCOME },
   { name: 'Freelance', icon: 'hand-coins', type: CategoryType.INCOME },
@@ -93,7 +117,7 @@ async function main() {
   });
 
   if (existingAdmin) {
-    console.log(`✅ Админ уже существует: ${existingAdmin.email}`);
+    await syncAdminUser(existingAdmin.id);
     return;
   }
 
@@ -103,12 +127,7 @@ async function main() {
   });
 
   if (existingUser) {
-    // Обновляем роль на ADMIN
-    await prisma.user.update({
-      where: { id: existingUser.id },
-      data: { role: 'ADMIN' },
-    });
-    console.log(`✅ Пользователь ${ADMIN_EMAIL} обновлён до роли ADMIN`);
+    await syncAdminUser(existingUser.id);
     return;
   }
 
