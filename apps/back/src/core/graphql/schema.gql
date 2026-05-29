@@ -47,6 +47,7 @@ enum AiUsageStatus {
 
 type AuthModel {
   message: String
+  requiresTotp: Boolean!
   user: UserModel
 }
 
@@ -290,12 +291,15 @@ type LocationModel {
 input LoginInput {
   login: String!
   password: String!
-  pin: String
 }
 
 input LoginWithGoogleInput {
   language: String
   token: String!
+}
+
+input VerifyLoginTotpInput {
+  pin: String!
 }
 
 type Mutation {
@@ -333,6 +337,7 @@ type Mutation {
   forgotPassword(email: String!, language: String): Boolean!
   impersonateUser(userId: String!): AuthModel!
   loginUser(data: LoginInput!): AuthModel!
+  verifyLoginTotp(data: VerifyLoginTotpInput!): AuthModel!
   loginWithGoogle(data: LoginWithGoogleInput!): AuthModel!
   logoutUser: Boolean!
   markAllNotificationsAsRead: Boolean!
@@ -490,6 +495,7 @@ type Query {
   generateTotpSecret: TotpModel!
   getAiUploadTask(taskId: String!): AiUploadTaskModel!
   getKeywordFilters: [KeywordFilterModel!]!
+  loginTotpPending: Boolean!
   me: UserModel!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
 }

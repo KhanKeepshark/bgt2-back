@@ -13,6 +13,7 @@ export function saveSession(
     req.session.userId = user.id;
     req.session.createdAt = new Date();
     req.session.metadata = metadata;
+    req.session.totpPending = undefined;
 
     req.session.save((err) => {
       if (err) {
@@ -21,7 +22,30 @@ export function saveSession(
         );
       }
 
-      resolve({ user });
+      resolve({ user, requiresTotp: false });
+    });
+  });
+}
+
+export function savePendingTotpSession(
+  req: Request,
+  userId: string,
+  metadata: SessionMetadata,
+) {
+  return new Promise((resolve, reject) => {
+    req.session.userId = userId;
+    req.session.totpPending = true;
+    req.session.createdAt = new Date();
+    req.session.metadata = metadata;
+
+    req.session.save((err) => {
+      if (err) {
+        return reject(
+          new InternalServerErrorException('Failed to save session'),
+        );
+      }
+
+      resolve({ user: null, requiresTotp: true });
     });
   });
 }

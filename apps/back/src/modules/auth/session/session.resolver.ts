@@ -4,6 +4,7 @@ import { Throttle } from '@nestjs/throttler';
 import { SessionService } from './session.service';
 import { LoginInput } from './inputs/login.inputs';
 import { LoginWithGoogleInput } from './inputs/login-with-google.input';
+import { VerifyLoginTotpInput } from './inputs/verify-login-totp.input';
 import { GqlContext } from '@back/shared/types/gql-context.types';
 import { UserAgent } from '@back/shared/decorators/user-agent.decorator';
 import {
@@ -11,6 +12,7 @@ import {
   AdminOnly,
 } from '@back/shared/decorators/auth.decorator';
 import { GqlThrottlerGuard } from '@back/shared/guards/gql-throttler.guard';
+import { GqlTotpPendingGuard } from '@back/shared/guards/gql-totp-pending.guard';
 import { SessionModel } from './models/session.model';
 import { AuthModel } from '../user/models/auth.model';
 @Resolver('Session')
@@ -39,6 +41,11 @@ export class SessionResolver {
     return await this.sessionService.findCurrentSession(req);
   }
 
+  @Query(() => Boolean, { name: 'loginTotpPending' })
+  public loginTotpPending(@Context() { req }: GqlContext) {
+    return this.sessionService.loginTotpPending(req);
+  }
+
   @Mutation(() => AuthModel, { name: 'loginUser' })
   @UseGuards(GqlThrottlerGuard)
   @Throttle({ default: { limit: 5, ttl: 60000 } })
@@ -59,6 +66,16 @@ export class SessionResolver {
     @UserAgent() userAgent: string,
   ) {
     return await this.sessionService.loginWithGoogle(req, input, userAgent);
+  }
+
+  @Mutation(() => AuthModel, { name: 'verifyLoginTotp' })
+  @UseGuards(GqlThrottlerGuard, GqlTotpPendingGuard)
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  public async verifyLoginTotp(
+    @Context() { req }: GqlContext,
+    @Args('data') input: VerifyLoginTotpInput,
+  ) {
+    return await this.sessionService.verifyLoginTotp(req, input);
   }
 
   @Authorization()

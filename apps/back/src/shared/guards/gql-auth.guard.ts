@@ -19,6 +19,10 @@ export class GqlAuthGuard implements CanActivate {
       throw new UnauthorizedException('User not authorized');
     }
 
+    if (request.session.totpPending === true) {
+      throw new UnauthorizedException('User not authorized');
+    }
+
     const user = await this.prismaService.user.findUnique({
       where: {
         id: request.session.userId,

@@ -8,4 +8,7 @@ export class AuthModel {
 
   @Field(() => String, { nullable: true })
   message: string;
+
+  @Field(() => Boolean, { defaultValue: false })
+  requiresTotp: boolean;
 }

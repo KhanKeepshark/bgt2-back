@@ -16,9 +16,10 @@ import { ConfigService } from '@nestjs/config';
 import { getSessionMetadata } from '@back/shared/utils/session-metadata.util';
 import { RedisService } from '@back/core/redis/redis.service';
 import { TOTP } from 'otpauth';
-import { clearSession, saveSession } from '@back/shared/utils/session.util';
+import { clearSession, savePendingTotpSession, saveSession } from '@back/shared/utils/session.util';
 import { UserService } from '../user/user.service';
 import { LoginWithGoogleInput } from './inputs/login-with-google.input';
+import { VerifyLoginTotpInput } from './inputs/verify-login-totp.input';
 
 const sessionUserInclude = {
   accounts: true,
@@ -85,8 +86,12 @@ export class SessionService {
     });
   }
 
+  public loginTotpPending(req: Request): boolean {
+    return req.session.totpPending === true && !!req.session.userId;
+  }
+
   public async login(req: Request, input: LoginInput, userAgent: string) {
-    const { login, password, pin } = input;
+    const { login, password } = input;
 
     const user = await this.prismaService.user.findFirst({
       where: {
@@ -109,27 +114,48 @@ export class SessionService {
       throw new UnauthorizedException(AuthError.EMAIL_NOT_VERIFIED);
     }
 
+    const metadata = getSessionMetadata(req, userAgent);
+
     if (user.isTotpEnabled) {
-      if (!pin) {
-        throw new ConflictException(AuthError.PIN_REQUIRED);
-      }
-
-      const totp = new TOTP({
-        issuer: TOTP_ISSUER,
-        label: user.email,
-        algorithm: 'SHA1',
-        digits: 6,
-        secret: user.totpSecret,
-      });
-
-      const delta = totp.validate({ token: pin });
-
-      if (delta === null) {
-        throw new BadRequestException(AuthError.INVALID_TOTP);
-      }
+      return await savePendingTotpSession(req, user.id, metadata);
     }
 
-    const metadata = getSessionMetadata(req, userAgent);
+    const userWithLogin = await this.applySuccessfulUserLogin(user.id);
+
+    return await saveSession(req, userWithLogin, metadata);
+  }
+
+  public async verifyLoginTotp(req: Request, input: VerifyLoginTotpInput) {
+    const { pin } = input;
+
+    if (!req.session.totpPending || !req.session.userId) {
+      throw new UnauthorizedException(AuthError.UNAUTHORIZED);
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: req.session.userId },
+      include: sessionUserInclude,
+    });
+
+    if (!user?.isTotpEnabled || !user.totpSecret) {
+      throw new UnauthorizedException(AuthError.UNAUTHORIZED);
+    }
+
+    const totp = new TOTP({
+      issuer: TOTP_ISSUER,
+      label: user.email,
+      algorithm: 'SHA1',
+      digits: 6,
+      secret: user.totpSecret,
+    });
+
+    const delta = totp.validate({ token: pin });
+
+    if (delta === null) {
+      throw new BadRequestException(AuthError.INVALID_TOTP);
+    }
+
+    const metadata = req.session.metadata ?? getSessionMetadata(req, '');
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
     return await saveSession(req, userWithLogin, metadata);
