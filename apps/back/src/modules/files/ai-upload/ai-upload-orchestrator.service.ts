@@ -136,7 +136,8 @@ export class AiUploadOrchestrator {
 
       operationsCreated = processedOperations.length;
 
-      const canUseAutoCategory = await this.limitGate.canUseAutoCategory(userId);
+      const canUseAutoCategory =
+        await this.limitGate.canUseAutoCategory(userId);
       const refinedOperations = this.categoryMatcher.applyAutoCategories(
         processedOperations,
         categories,

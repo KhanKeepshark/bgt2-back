@@ -15,9 +15,7 @@ import { UpdateCategoryInput } from './inputs/update-category.input';
 import { getDefaultCategories } from './const/defaultCategories';
 import { CreateCategoryKeywordInput } from './inputs/create-category-keyword.input';
 import { UpdateCategoryKeywordInput } from './inputs/update-category-keyword.input';
-import {
-  CategoryError,
-} from '@back/shared/constants/errors.constants';
+import { CategoryError } from '@back/shared/constants/errors.constants';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 @Injectable()

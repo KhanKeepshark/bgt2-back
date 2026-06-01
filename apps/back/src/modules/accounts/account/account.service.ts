@@ -7,9 +7,7 @@ import {
 import { CreateAccountInput } from './inputs/create-account.input';
 import { Account, User } from '@prisma/generated';
 import { UpdateAccountInput } from './inputs/update-account.input';
-import {
-  AccountError,
-} from '@back/shared/constants/errors.constants';
+import { AccountError } from '@back/shared/constants/errors.constants';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 @Injectable()
