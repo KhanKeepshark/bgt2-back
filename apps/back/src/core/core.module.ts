@@ -32,6 +32,7 @@ import { SupportModule } from '../modules/support/support.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { GeminiModule } from '../modules/libs/gemini/gemini.module';
 import { FileStorageModule } from '../modules/libs/file-storage/file-storage.module';
+import { LimitGateModule } from '../shared/limit-gate/limit-gate.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { FileStorageModule } from '../modules/libs/file-storage/file-storage.mod
       inject: [ConfigService],
     }),
     PrismaModule,
+    LimitGateModule,
     RedisModule,
     CronModule,
     UserModule,

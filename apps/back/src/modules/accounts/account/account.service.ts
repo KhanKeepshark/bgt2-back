@@ -9,12 +9,15 @@ import { Account, User } from '@prisma/generated';
 import { UpdateAccountInput } from './inputs/update-account.input';
 import {
   AccountError,
-  SubscriptionError,
 } from '@back/shared/constants/errors.constants';
+import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 @Injectable()
 export class AccountService {
-  public constructor(private readonly prismaService: PrismaService) {}
+  public constructor(
+    private readonly prismaService: PrismaService,
+    private readonly limitGate: LimitGateService,
+  ) {}
 
   public async create(input: CreateAccountInput, user: User): Promise<Account> {
     try {
@@ -26,23 +29,11 @@ export class AccountService {
         throw new BadRequestException(AccountError.ALREADY_EXISTS);
       }
 
-      // Проверка лимитов плана
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        include: {
-          subscriptionPlan: true,
-          _count: { select: { accounts: true } },
-        },
+      const accountCount = await this.prismaService.account.count({
+        where: { userId: user.id },
       });
 
-      if (userWithPlan?.subscriptionPlan?.maxAccounts !== null) {
-        if (
-          userWithPlan._count.accounts >=
-          userWithPlan.subscriptionPlan.maxAccounts
-        ) {
-          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
-        }
-      }
+      await this.limitGate.assertCanCreateAccount(user.id);
 
       const initialBalance = input.balance ?? '0';
 
@@ -61,7 +52,7 @@ export class AccountService {
       });
 
       // Если это первый аккаунт пользователя — делаем его defaultAccount
-      if (userWithPlan._count.accounts === 0) {
+      if (accountCount === 0) {
         await this.prismaService.user.update({
           where: { id: user.id },
           data: { defaultAccountId: created.id },

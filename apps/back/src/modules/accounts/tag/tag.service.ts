@@ -9,12 +9,15 @@ import { PrismaService } from '@back/core/prisma/prisma.service';
 import { UpdateTagInput } from './inputs/update-tag.input';
 import {
   TagError,
-  SubscriptionError,
 } from '@back/shared/constants/errors.constants';
+import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 @Injectable()
 export class TagService {
-  public constructor(private readonly prismaService: PrismaService) {}
+  public constructor(
+    private readonly prismaService: PrismaService,
+    private readonly limitGate: LimitGateService,
+  ) {}
 
   public async create(input: CreateTagInput, user: User): Promise<Tag> {
     try {
@@ -26,20 +29,7 @@ export class TagService {
         throw new BadRequestException(TagError.ALREADY_EXISTS);
       }
 
-      // Проверка лимитов плана
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        include: { subscriptionPlan: true, _count: { select: { tags: true } } },
-      });
-
-      if (userWithPlan?.subscriptionPlan?.maxTags !== null) {
-        if (userWithPlan._count.tags >= userWithPlan.subscriptionPlan.maxTags) {
-          throw new BadRequestException({
-            key: SubscriptionError.LIMIT_REACHED,
-            args: { max: userWithPlan.subscriptionPlan.maxTags },
-          });
-        }
-      }
+      await this.limitGate.assertCanCreateTag(user.id);
 
       const created = await this.prismaService.tag.create({
         data: { ...input, user: { connect: { id: user.id } } },

@@ -17,12 +17,15 @@ import { CreateCategoryKeywordInput } from './inputs/create-category-keyword.inp
 import { UpdateCategoryKeywordInput } from './inputs/update-category-keyword.input';
 import {
   CategoryError,
-  SubscriptionError,
 } from '@back/shared/constants/errors.constants';
+import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 @Injectable()
 export class CategoryService {
-  public constructor(private readonly prismaService: PrismaService) {}
+  public constructor(
+    private readonly prismaService: PrismaService,
+    private readonly limitGate: LimitGateService,
+  ) {}
 
   public async create(
     input: CreateCategoryInput,
@@ -37,23 +40,7 @@ export class CategoryService {
         throw new BadRequestException(CategoryError.ALREADY_EXISTS);
       }
 
-      // Проверка лимитов плана
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        include: {
-          subscriptionPlan: true,
-          _count: { select: { categories: true } },
-        },
-      });
-
-      if (userWithPlan?.subscriptionPlan?.maxCategories !== null) {
-        if (
-          userWithPlan._count.categories >=
-          userWithPlan.subscriptionPlan.maxCategories
-        ) {
-          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
-        }
-      }
+      await this.limitGate.assertCanCreateCategory(user.id);
 
       if (input.parentId) {
         const parentCategory = await this.prismaService.category.findFirst({
@@ -289,29 +276,10 @@ export class CategoryService {
         throw new NotFoundException(CategoryError.NOT_FOUND);
       }
 
-      // Проверка лимитов плана на ключевые слова
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        include: { subscriptionPlan: true },
-      });
-
-      if (
-        userWithPlan?.subscriptionPlan?.maxCategoryKeywordsPerCategory !== null
-      ) {
-        const keywordCount = await this.prismaService.categoryKeyword.count({
-          where: {
-            categoryId: input.categoryId,
-            userId: user.id,
-          },
-        });
-
-        if (
-          keywordCount >=
-          userWithPlan.subscriptionPlan.maxCategoryKeywordsPerCategory
-        ) {
-          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
-        }
-      }
+      await this.limitGate.assertCanCreateCategoryKeyword(
+        user.id,
+        input.categoryId,
+      );
 
       return await this.prismaService.categoryKeyword.create({
         data: {
@@ -350,32 +318,10 @@ export class CategoryService {
         }
 
         if (input.categoryId !== keyword.categoryId) {
-          // Проверка лимитов плана при смене категории
-          const userWithPlan = await this.prismaService.user.findUnique({
-            where: { id: user.id },
-            include: { subscriptionPlan: true },
-          });
-
-          if (
-            userWithPlan?.subscriptionPlan?.maxCategoryKeywordsPerCategory !==
-            null
-          ) {
-            const keywordCount = await this.prismaService.categoryKeyword.count(
-              {
-                where: {
-                  categoryId: input.categoryId,
-                  userId: user.id,
-                },
-              },
-            );
-
-            if (
-              keywordCount >=
-              userWithPlan.subscriptionPlan.maxCategoryKeywordsPerCategory
-            ) {
-              throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
-            }
-          }
+          await this.limitGate.assertCanCreateCategoryKeyword(
+            user.id,
+            input.categoryId,
+          );
         }
       }
 

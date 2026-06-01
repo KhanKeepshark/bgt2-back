@@ -298,10 +298,6 @@ input LoginWithGoogleInput {
   token: String!
 }
 
-input VerifyLoginTotpInput {
-  pin: String!
-}
-
 type Mutation {
   accountHasOperations(id: String!): Boolean!
   aiFileTokenCount(file: Upload!): AiCountModel!
@@ -337,7 +333,6 @@ type Mutation {
   forgotPassword(email: String!, language: String): Boolean!
   impersonateUser(userId: String!): AuthModel!
   loginUser(data: LoginInput!): AuthModel!
-  verifyLoginTotp(data: VerifyLoginTotpInput!): AuthModel!
   loginWithGoogle(data: LoginWithGoogleInput!): AuthModel!
   logoutUser: Boolean!
   markAllNotificationsAsRead: Boolean!
@@ -357,6 +352,7 @@ type Mutation {
   updateTag(input: UpdateTagInput!): TagModel!
   updateUser(data: UpdateUserInput!): UserModel!
   verifyAccount(input: VerificationInput!): Boolean!
+  verifyLoginTotp(data: VerifyLoginTotpInput!): AuthModel!
 }
 
 type NotificationModel {
@@ -796,4 +792,8 @@ type UsersByPlanItem {
 
 input VerificationInput {
   token: String!
+}
+
+input VerifyLoginTotpInput {
+  pin: String!
 }

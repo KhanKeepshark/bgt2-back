@@ -28,15 +28,16 @@ import {
   CategoryError,
   OperationError,
   RecurrenceError,
-  SubscriptionError,
   TagError,
 } from '@back/shared/constants/errors.constants';
+import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 @Injectable()
 export class OperationService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly recurrenceService: RecurrenceService,
+    private readonly limitGate: LimitGateService,
   ) {}
 
   public async create(
@@ -44,39 +45,7 @@ export class OperationService {
     user: User,
   ): Promise<Operation> {
     try {
-      // Проверка лимитов плана
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        include: {
-          subscriptionPlan: true,
-          _count: { select: { operations: true } },
-        },
-      });
-
-      if (userWithPlan?.subscriptionPlan) {
-        // Лимит операций в месяц
-        if (userWithPlan.subscriptionPlan.maxOperationsPerMonth !== null) {
-          const startOfMonth = new Date();
-          startOfMonth.setDate(1);
-          startOfMonth.setHours(0, 0, 0, 0);
-
-          const operationsThisMonth = await this.prismaService.operation.count({
-            where: {
-              userId: user.id,
-              createdAt: { gte: startOfMonth },
-            },
-          });
-
-          if (
-            operationsThisMonth >=
-            userWithPlan.subscriptionPlan.maxOperationsPerMonth
-          ) {
-            throw new BadRequestException(
-              SubscriptionError.MONTHLY_LIMIT_REACHED,
-            );
-          }
-        }
-      }
+      await this.limitGate.assertCanCreateOperations(user.id);
 
       if (input.recurrence) {
         return await this.recurrenceService.createRecurringOperation(
@@ -235,39 +204,10 @@ export class OperationService {
     user: User,
   ): Promise<Operation[]> {
     try {
-      // Проверка лимитов плана
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        include: {
-          subscriptionPlan: true,
-          _count: { select: { operations: true } },
-        },
-      });
-
-      if (userWithPlan?.subscriptionPlan) {
-        // Лимит операций в месяц
-        if (userWithPlan.subscriptionPlan.maxOperationsPerMonth !== null) {
-          const startOfMonth = new Date();
-          startOfMonth.setDate(1);
-          startOfMonth.setHours(0, 0, 0, 0);
-
-          const operationsThisMonth = await this.prismaService.operation.count({
-            where: {
-              userId: user.id,
-              createdAt: { gte: startOfMonth },
-            },
-          });
-
-          if (
-            operationsThisMonth + operations.length >
-            userWithPlan.subscriptionPlan.maxOperationsPerMonth
-          ) {
-            throw new BadRequestException(
-              SubscriptionError.MONTHLY_LIMIT_REACHED,
-            );
-          }
-        }
-      }
+      await this.limitGate.assertCanCreateOperations(
+        user.id,
+        operations.length,
+      );
 
       const account = await this.prismaService.account.findFirst({
         where: { id: accountId, userId: user.id },

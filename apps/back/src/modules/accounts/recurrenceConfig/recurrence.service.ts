@@ -17,37 +17,23 @@ import {
   AccountError,
   CategoryError,
   RecurrenceError,
-  SubscriptionError,
   TagError,
 } from '@back/shared/constants/errors.constants';
+import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 @Injectable()
 export class RecurrenceService {
-  public constructor(private readonly prismaService: PrismaService) {}
+  public constructor(
+    private readonly prismaService: PrismaService,
+    private readonly limitGate: LimitGateService,
+  ) {}
 
   public async createRecurringOperation(
     input: CreateOperationInput,
     user: User,
   ): Promise<Operation> {
     try {
-      // Проверка лимитов плана
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        include: {
-          subscriptionPlan: true,
-          _count: { select: { recurrenceConfigs: true } },
-        },
-      });
-
-      if (userWithPlan?.subscriptionPlan) {
-        if (
-          userWithPlan.subscriptionPlan.maxRecurrenceConfigs !== null &&
-          userWithPlan._count.recurrenceConfigs >=
-            userWithPlan.subscriptionPlan.maxRecurrenceConfigs
-        ) {
-          throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
-        }
-      }
+      await this.limitGate.assertCanCreateRecurrenceConfig(user.id);
 
       const account = await this.prismaService.account.findFirst({
         where: { id: input.accountId, userId: user.id },
@@ -407,39 +393,7 @@ export class RecurrenceService {
         throw new BadRequestException('Recurrence date has not arrived yet');
       }
 
-      // Проверка лимитов плана на операции
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: recurrence.userId },
-        include: {
-          subscriptionPlan: true,
-          _count: { select: { operations: true } },
-        },
-      });
-
-      if (userWithPlan?.subscriptionPlan) {
-        // Лимит операций в месяц
-        if (userWithPlan.subscriptionPlan.maxOperationsPerMonth !== null) {
-          const startOfMonth = new Date();
-          startOfMonth.setDate(1);
-          startOfMonth.setHours(0, 0, 0, 0);
-
-          const operationsThisMonth = await this.prismaService.operation.count({
-            where: {
-              userId: recurrence.userId,
-              createdAt: { gte: startOfMonth },
-            },
-          });
-
-          if (
-            operationsThisMonth >=
-            userWithPlan.subscriptionPlan.maxOperationsPerMonth
-          ) {
-            throw new BadRequestException(
-              SubscriptionError.MONTHLY_LIMIT_REACHED,
-            );
-          }
-        }
-      }
+      await this.limitGate.assertCanCreateOperations(recurrence.userId);
 
       const nextDate = this.calculateNextDate(
         recurrence.date,

@@ -10,6 +10,7 @@ import { PrismaService } from '@back/core/prisma/prisma.service';
 import { streamToBuffer } from './utils/streamToBuffer';
 import { parseToonResponse } from './utils/parseToonResponse';
 import { AiUploadError } from '@back/shared/constants/errors.constants';
+import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { ProcessAiUploadJob } from './ai-upload.controller';
 import { GeminiService } from '../../libs/gemini/gemini.service';
@@ -26,6 +27,7 @@ export class AiUploadOrchestrator {
     private readonly geminiService: GeminiService,
     private readonly fileStorageService: FileStorageService,
     private readonly categoryMatcher: CategoryMatcherService,
+    private readonly limitGate: LimitGateService,
   ) {}
 
   public async aiFileUpload(
@@ -43,23 +45,10 @@ export class AiUploadOrchestrator {
         file.mimetype,
       );
 
-      // Проверяем баланс пользователя
-      const freshUser = await this.prismaService.user.findUnique({
-        where: { id: user.id },
-        select: { tokensBalance: true },
-      });
-
-      if (!freshUser || freshUser.tokensBalance < estimatedTokens) {
-        throw new BadRequestException(
-          JSON.stringify({
-            code: AiUploadError.INSUFFICIENT_TOKENS,
-            params: {
-              required: estimatedTokens,
-              available: freshUser?.tokensBalance ?? 0,
-            },
-          }),
-        );
-      }
+      const tokensBalance = await this.limitGate.assertHasAiTokens(
+        user.id,
+        estimatedTokens,
+      );
 
       // Сохраняем файл на диск
       const filePath = this.fileStorageService.saveTempFile(
@@ -87,7 +76,7 @@ export class AiUploadOrchestrator {
       return {
         taskId: task.id,
         status: task.status,
-        tokensBalance: freshUser.tokensBalance,
+        tokensBalance,
       };
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -147,13 +136,7 @@ export class AiUploadOrchestrator {
 
       operationsCreated = processedOperations.length;
 
-      const userWithPlan = await this.prismaService.user.findUnique({
-        where: { id: userId },
-        include: { subscriptionPlan: true },
-      });
-
-      const canUseAutoCategory =
-        !!userWithPlan?.subscriptionPlan?.canUseAutoCategory;
+      const canUseAutoCategory = await this.limitGate.canUseAutoCategory(userId);
       const refinedOperations = this.categoryMatcher.applyAutoCategories(
         processedOperations,
         categories,
