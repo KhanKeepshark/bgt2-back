@@ -16,7 +16,11 @@ import { ConfigService } from '@nestjs/config';
 import { getSessionMetadata } from '@back/shared/utils/session-metadata.util';
 import { RedisService } from '@back/core/redis/redis.service';
 import { TOTP } from 'otpauth';
-import { clearSession, savePendingTotpSession, saveSession } from '@back/shared/utils/session.util';
+import {
+  clearSession,
+  savePendingTotpSession,
+  saveSession,
+} from '@back/shared/utils/session.util';
 import { UserService } from '../user/user.service';
 import { LoginWithGoogleInput } from './inputs/login-with-google.input';
 import { VerifyLoginTotpInput } from './inputs/verify-login-totp.input';
