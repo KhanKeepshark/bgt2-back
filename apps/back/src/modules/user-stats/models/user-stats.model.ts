@@ -15,6 +15,9 @@ export class UserStatsModel {
   @Field(() => Int)
   categoryKeywordCount: number;
 
+  @Field(() => Int)
+  recurrenceCount: number;
+
   @Field(() => [DailyCountModel])
   operationsDaily: DailyCountModel[];
 }

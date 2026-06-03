@@ -37,6 +37,7 @@ export class UserStatsService {
       aiImportCount,
       exportCount,
       categoryKeywordCount,
+      recurrenceCount,
       dailyRows,
     ] = await Promise.all([
       this.prismaService.operation.count({ where: { userId } }),
@@ -49,6 +50,7 @@ export class UserStatsService {
         },
       }),
       this.prismaService.categoryKeyword.count({ where: { userId } }),
+      this.prismaService.recurrenceConfig.count({ where: { userId } }),
       this.prismaService.$queryRaw<DailyOperationRow[]>`
         SELECT (o."createdAt" AT TIME ZONE ${LIMIT_GATE_TIMEZONE})::date AS day,
                COUNT(*)::bigint AS count
@@ -72,6 +74,7 @@ export class UserStatsService {
       aiImportCount,
       exportCount,
       categoryKeywordCount,
+      recurrenceCount,
       operationsDaily: buildDailyCountSeries(dateKeys, countsByDate),
     };
   }

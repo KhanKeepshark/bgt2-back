@@ -780,6 +780,7 @@ type UserStatsModel {
   categoryKeywordCount: Int!
   exportCount: Int!
   operationsDaily: [DailyCountModel!]!
+  recurrenceCount: Int!
   totalOperations: Int!
 }
 
