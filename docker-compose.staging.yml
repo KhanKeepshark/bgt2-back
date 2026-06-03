@@ -27,6 +27,19 @@ services:
           memory: 512M
     # depends_on не нужен: db/redis/rabbit уже в сети от prod compose
 
+  # Одноразово: админ + планы FREE/PREMIUM (образ с ts-node, не prod-образ)
+  # docker compose -f docker-compose.staging.yml --profile tools run --rm ensure-admin
+  ensure-admin:
+    profiles: ["tools"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ensure-admin
+    env_file:
+      - .env.staging
+    networks:
+      - bgt2-network
+
   # По умолчанию ВЫКЛЮЧЕНО: очередь ai_upload_queue общая с prod — worker-staging украдёт prod-задачи.
   # Раскомментируйте только если поднимете отдельный RabbitMQ для staging.
   # rabbitmq-worker-staging:

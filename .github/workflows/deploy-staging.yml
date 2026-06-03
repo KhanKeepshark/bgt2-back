@@ -6,6 +6,10 @@ on:
       - staging
   workflow_dispatch:
 
+concurrency:
+  group: deploy-backend-staging
+  cancel-in-progress: true
+
 jobs:
   lint-and-build:
     name: Lint and Build
@@ -39,6 +43,7 @@ jobs:
     name: Deploy staging to VPS
     needs: lint-and-build
     runs-on: ubuntu-latest
+    # workflow_dispatch: в UI выберите ветку staging
     if: github.ref == 'refs/heads/staging'
     steps:
       - name: Execute SSH commands
@@ -50,6 +55,7 @@ jobs:
           script: |
             set -e
             cd /var/www/staging-back
+            test -f .env.staging || { echo "Missing .env.staging — create on server first"; exit 1; }
             git fetch origin staging
             git reset --hard origin/staging
             docker compose -f docker-compose.staging.yml up -d --build
