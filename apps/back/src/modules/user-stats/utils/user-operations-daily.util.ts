@@ -56,15 +56,7 @@ function addDaysToZonedDate(
   parts: ZonedDateParts,
   daysToAdd: number,
 ): ZonedDateParts {
-  const utc = almatyLocalToUtc(
-    parts.year,
-    parts.month,
-    parts.day,
-    12,
-    0,
-    0,
-    0,
-  );
+  const utc = almatyLocalToUtc(parts.year, parts.month, parts.day, 12, 0, 0, 0);
   utc.setUTCDate(utc.getUTCDate() + daysToAdd);
   return getZonedDateParts(utc, LIMIT_GATE_TIMEZONE);
 }
