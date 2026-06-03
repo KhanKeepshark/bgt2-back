@@ -1,0 +1,51 @@
+# Staging API на том же VPS, что и prod.
+# Требует уже запущенный prod: docker compose up (db, redis, rabbitmq в bgt2-network).
+#
+# Порты: 8081 (не 8080). БД: budget2_staging в контейнере bgt2-db.
+
+version: "3.7"
+
+services:
+  backend-staging:
+    container_name: bgt2-backend-staging
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env.staging
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./uploads-staging:/app/uploads
+      - ./backups-staging:/app/backups
+    networks:
+      - bgt2-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    # depends_on не нужен: db/redis/rabbit уже в сети от prod compose
+
+  # По умолчанию ВЫКЛЮЧЕНО: очередь ai_upload_queue общая с prod — worker-staging украдёт prod-задачи.
+  # Раскомментируйте только если поднимете отдельный RabbitMQ для staging.
+  # rabbitmq-worker-staging:
+  #   container_name: bgt2-rabbitmq-worker-staging
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   env_file:
+  #     - .env.staging
+  #   command: ["sh", "-c", "yarn start:rabbitmq:prod"]
+  #   networks:
+  #     - bgt2-network
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 384M
+
+networks:
+  bgt2-network:
+    external: true
+    name: bgt2-network
