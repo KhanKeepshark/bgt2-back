@@ -48,4 +48,4 @@ services:
 networks:
   bgt2-network:
     external: true
-    name: bgt2-network
+    name: back_bgt2-network
