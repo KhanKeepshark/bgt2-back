@@ -79,6 +79,11 @@ export type AiUploadTask = $Result.DefaultSelection<Prisma.$AiUploadTaskPayload>
  */
 export type AiTokenUsage = $Result.DefaultSelection<Prisma.$AiTokenUsagePayload>
 /**
+ * Model UserActivityEvent
+ * 
+ */
+export type UserActivityEvent = $Result.DefaultSelection<Prisma.$UserActivityEventPayload>
+/**
  * Model Notification
  * 
  */
@@ -179,6 +184,21 @@ export const AiUsageStatus: {
 export type AiUsageStatus = (typeof AiUsageStatus)[keyof typeof AiUsageStatus]
 
 
+export const UserActivityEventType: {
+  EXPORT: 'EXPORT'
+};
+
+export type UserActivityEventType = (typeof UserActivityEventType)[keyof typeof UserActivityEventType]
+
+
+export const UserActivityEventStatus: {
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+};
+
+export type UserActivityEventStatus = (typeof UserActivityEventStatus)[keyof typeof UserActivityEventStatus]
+
+
 export const NotificationScope: {
   GLOBAL: 'GLOBAL',
   USER: 'USER'
@@ -241,6 +261,14 @@ export const AiUploadTaskStatus: typeof $Enums.AiUploadTaskStatus
 export type AiUsageStatus = $Enums.AiUsageStatus
 
 export const AiUsageStatus: typeof $Enums.AiUsageStatus
+
+export type UserActivityEventType = $Enums.UserActivityEventType
+
+export const UserActivityEventType: typeof $Enums.UserActivityEventType
+
+export type UserActivityEventStatus = $Enums.UserActivityEventStatus
+
+export const UserActivityEventStatus: typeof $Enums.UserActivityEventStatus
 
 export type NotificationScope = $Enums.NotificationScope
 
@@ -508,6 +536,16 @@ export class PrismaClient<
     * ```
     */
   get aiTokenUsage(): Prisma.AiTokenUsageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userActivityEvent`: Exposes CRUD operations for the **UserActivityEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserActivityEvents
+    * const userActivityEvents = await prisma.userActivityEvent.findMany()
+    * ```
+    */
+  get userActivityEvent(): Prisma.UserActivityEventDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
@@ -1001,6 +1039,7 @@ export namespace Prisma {
     KeywordFilter: 'KeywordFilter',
     AiUploadTask: 'AiUploadTask',
     AiTokenUsage: 'AiTokenUsage',
+    UserActivityEvent: 'UserActivityEvent',
     Notification: 'Notification',
     SystemMetric: 'SystemMetric',
     Payment: 'Payment',
@@ -1023,7 +1062,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "notification" | "systemMetric" | "payment" | "supportTicket"
+      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "userActivityEvent" | "notification" | "systemMetric" | "payment" | "supportTicket"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1989,6 +2028,80 @@ export namespace Prisma {
           }
         }
       }
+      UserActivityEvent: {
+        payload: Prisma.$UserActivityEventPayload<ExtArgs>
+        fields: Prisma.UserActivityEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserActivityEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserActivityEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>
+          }
+          findFirst: {
+            args: Prisma.UserActivityEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserActivityEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>
+          }
+          findMany: {
+            args: Prisma.UserActivityEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>[]
+          }
+          create: {
+            args: Prisma.UserActivityEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>
+          }
+          createMany: {
+            args: Prisma.UserActivityEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserActivityEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>[]
+          }
+          delete: {
+            args: Prisma.UserActivityEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>
+          }
+          update: {
+            args: Prisma.UserActivityEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserActivityEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserActivityEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserActivityEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserActivityEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserActivityEventPayload>
+          }
+          aggregate: {
+            args: Prisma.UserActivityEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserActivityEvent>
+          }
+          groupBy: {
+            args: Prisma.UserActivityEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserActivityEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserActivityEventCountArgs<ExtArgs>
+            result: $Utils.Optional<UserActivityEventCountAggregateOutputType> | number
+          }
+        }
+      }
       Notification: {
         payload: Prisma.$NotificationPayload<ExtArgs>
         fields: Prisma.NotificationFieldRefs
@@ -2382,6 +2495,7 @@ export namespace Prisma {
     keywordFilter?: KeywordFilterOmit
     aiUploadTask?: AiUploadTaskOmit
     aiTokenUsage?: AiTokenUsageOmit
+    userActivityEvent?: UserActivityEventOmit
     notification?: NotificationOmit
     systemMetric?: SystemMetricOmit
     payment?: PaymentOmit
@@ -2490,6 +2604,7 @@ export namespace Prisma {
     recurrenceConfigs: number
     aiTokenUsages: number
     aiUploadTasks: number
+    activityEvents: number
     notifications: number
     payments: number
     supportTickets: number
@@ -2506,6 +2621,7 @@ export namespace Prisma {
     recurrenceConfigs?: boolean | UserCountOutputTypeCountRecurrenceConfigsArgs
     aiTokenUsages?: boolean | UserCountOutputTypeCountAiTokenUsagesArgs
     aiUploadTasks?: boolean | UserCountOutputTypeCountAiUploadTasksArgs
+    activityEvents?: boolean | UserCountOutputTypeCountActivityEventsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     payments?: boolean | UserCountOutputTypeCountPaymentsArgs
     supportTickets?: boolean | UserCountOutputTypeCountSupportTicketsArgs
@@ -2590,6 +2706,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAiUploadTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AiUploadTaskWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountActivityEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserActivityEventWhereInput
   }
 
   /**
@@ -3250,6 +3373,7 @@ export namespace Prisma {
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
     aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
+    activityEvents?: boolean | User$activityEventsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
@@ -3349,6 +3473,7 @@ export namespace Prisma {
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
     aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
+    activityEvents?: boolean | User$activityEventsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
@@ -3381,6 +3506,7 @@ export namespace Prisma {
       recurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
       aiTokenUsages: Prisma.$AiTokenUsagePayload<ExtArgs>[]
       aiUploadTasks: Prisma.$AiUploadTaskPayload<ExtArgs>[]
+      activityEvents: Prisma.$UserActivityEventPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       supportTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
@@ -3814,6 +3940,7 @@ export namespace Prisma {
     recurrenceConfigs<T extends User$recurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, User$recurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiTokenUsages<T extends User$aiTokenUsagesArgs<ExtArgs> = {}>(args?: Subset<T, User$aiTokenUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiTokenUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiUploadTasks<T extends User$aiUploadTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$aiUploadTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    activityEvents<T extends User$activityEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$activityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends User$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportTickets<T extends User$supportTicketsArgs<ExtArgs> = {}>(args?: Subset<T, User$supportTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4538,6 +4665,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AiUploadTaskScalarFieldEnum | AiUploadTaskScalarFieldEnum[]
+  }
+
+  /**
+   * User.activityEvents
+   */
+  export type User$activityEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    where?: UserActivityEventWhereInput
+    orderBy?: UserActivityEventOrderByWithRelationInput | UserActivityEventOrderByWithRelationInput[]
+    cursor?: UserActivityEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserActivityEventScalarFieldEnum | UserActivityEventScalarFieldEnum[]
   }
 
   /**
@@ -18889,6 +19040,1077 @@ export namespace Prisma {
 
 
   /**
+   * Model UserActivityEvent
+   */
+
+  export type AggregateUserActivityEvent = {
+    _count: UserActivityEventCountAggregateOutputType | null
+    _min: UserActivityEventMinAggregateOutputType | null
+    _max: UserActivityEventMaxAggregateOutputType | null
+  }
+
+  export type UserActivityEventMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.UserActivityEventType | null
+    status: $Enums.UserActivityEventStatus | null
+    error: string | null
+    createdAt: Date | null
+  }
+
+  export type UserActivityEventMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.UserActivityEventType | null
+    status: $Enums.UserActivityEventStatus | null
+    error: string | null
+    createdAt: Date | null
+  }
+
+  export type UserActivityEventCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    status: number
+    error: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UserActivityEventMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    status?: true
+    error?: true
+    createdAt?: true
+  }
+
+  export type UserActivityEventMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    status?: true
+    error?: true
+    createdAt?: true
+  }
+
+  export type UserActivityEventCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    status?: true
+    error?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UserActivityEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserActivityEvent to aggregate.
+     */
+    where?: UserActivityEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserActivityEvents to fetch.
+     */
+    orderBy?: UserActivityEventOrderByWithRelationInput | UserActivityEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserActivityEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserActivityEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserActivityEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserActivityEvents
+    **/
+    _count?: true | UserActivityEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserActivityEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserActivityEventMaxAggregateInputType
+  }
+
+  export type GetUserActivityEventAggregateType<T extends UserActivityEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserActivityEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserActivityEvent[P]>
+      : GetScalarType<T[P], AggregateUserActivityEvent[P]>
+  }
+
+
+
+
+  export type UserActivityEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserActivityEventWhereInput
+    orderBy?: UserActivityEventOrderByWithAggregationInput | UserActivityEventOrderByWithAggregationInput[]
+    by: UserActivityEventScalarFieldEnum[] | UserActivityEventScalarFieldEnum
+    having?: UserActivityEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserActivityEventCountAggregateInputType | true
+    _min?: UserActivityEventMinAggregateInputType
+    _max?: UserActivityEventMaxAggregateInputType
+  }
+
+  export type UserActivityEventGroupByOutputType = {
+    id: string
+    userId: string
+    type: $Enums.UserActivityEventType
+    status: $Enums.UserActivityEventStatus
+    error: string | null
+    createdAt: Date
+    _count: UserActivityEventCountAggregateOutputType | null
+    _min: UserActivityEventMinAggregateOutputType | null
+    _max: UserActivityEventMaxAggregateOutputType | null
+  }
+
+  type GetUserActivityEventGroupByPayload<T extends UserActivityEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserActivityEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserActivityEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserActivityEventGroupByOutputType[P]>
+            : GetScalarType<T[P], UserActivityEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserActivityEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    status?: boolean
+    error?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userActivityEvent"]>
+
+  export type UserActivityEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    status?: boolean
+    error?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userActivityEvent"]>
+
+  export type UserActivityEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    status?: boolean
+    error?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userActivityEvent"]>
+
+  export type UserActivityEventSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    status?: boolean
+    error?: boolean
+    createdAt?: boolean
+  }
+
+  export type UserActivityEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "status" | "error" | "createdAt", ExtArgs["result"]["userActivityEvent"]>
+  export type UserActivityEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserActivityEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserActivityEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserActivityEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserActivityEvent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: $Enums.UserActivityEventType
+      status: $Enums.UserActivityEventStatus
+      error: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["userActivityEvent"]>
+    composites: {}
+  }
+
+  type UserActivityEventGetPayload<S extends boolean | null | undefined | UserActivityEventDefaultArgs> = $Result.GetResult<Prisma.$UserActivityEventPayload, S>
+
+  type UserActivityEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserActivityEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserActivityEventCountAggregateInputType | true
+    }
+
+  export interface UserActivityEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserActivityEvent'], meta: { name: 'UserActivityEvent' } }
+    /**
+     * Find zero or one UserActivityEvent that matches the filter.
+     * @param {UserActivityEventFindUniqueArgs} args - Arguments to find a UserActivityEvent
+     * @example
+     * // Get one UserActivityEvent
+     * const userActivityEvent = await prisma.userActivityEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserActivityEventFindUniqueArgs>(args: SelectSubset<T, UserActivityEventFindUniqueArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserActivityEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserActivityEventFindUniqueOrThrowArgs} args - Arguments to find a UserActivityEvent
+     * @example
+     * // Get one UserActivityEvent
+     * const userActivityEvent = await prisma.userActivityEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserActivityEventFindUniqueOrThrowArgs>(args: SelectSubset<T, UserActivityEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserActivityEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserActivityEventFindFirstArgs} args - Arguments to find a UserActivityEvent
+     * @example
+     * // Get one UserActivityEvent
+     * const userActivityEvent = await prisma.userActivityEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserActivityEventFindFirstArgs>(args?: SelectSubset<T, UserActivityEventFindFirstArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserActivityEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserActivityEventFindFirstOrThrowArgs} args - Arguments to find a UserActivityEvent
+     * @example
+     * // Get one UserActivityEvent
+     * const userActivityEvent = await prisma.userActivityEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserActivityEventFindFirstOrThrowArgs>(args?: SelectSubset<T, UserActivityEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserActivityEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserActivityEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserActivityEvents
+     * const userActivityEvents = await prisma.userActivityEvent.findMany()
+     * 
+     * // Get first 10 UserActivityEvents
+     * const userActivityEvents = await prisma.userActivityEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userActivityEventWithIdOnly = await prisma.userActivityEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserActivityEventFindManyArgs>(args?: SelectSubset<T, UserActivityEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserActivityEvent.
+     * @param {UserActivityEventCreateArgs} args - Arguments to create a UserActivityEvent.
+     * @example
+     * // Create one UserActivityEvent
+     * const UserActivityEvent = await prisma.userActivityEvent.create({
+     *   data: {
+     *     // ... data to create a UserActivityEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserActivityEventCreateArgs>(args: SelectSubset<T, UserActivityEventCreateArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserActivityEvents.
+     * @param {UserActivityEventCreateManyArgs} args - Arguments to create many UserActivityEvents.
+     * @example
+     * // Create many UserActivityEvents
+     * const userActivityEvent = await prisma.userActivityEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserActivityEventCreateManyArgs>(args?: SelectSubset<T, UserActivityEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserActivityEvents and returns the data saved in the database.
+     * @param {UserActivityEventCreateManyAndReturnArgs} args - Arguments to create many UserActivityEvents.
+     * @example
+     * // Create many UserActivityEvents
+     * const userActivityEvent = await prisma.userActivityEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserActivityEvents and only return the `id`
+     * const userActivityEventWithIdOnly = await prisma.userActivityEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserActivityEventCreateManyAndReturnArgs>(args?: SelectSubset<T, UserActivityEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserActivityEvent.
+     * @param {UserActivityEventDeleteArgs} args - Arguments to delete one UserActivityEvent.
+     * @example
+     * // Delete one UserActivityEvent
+     * const UserActivityEvent = await prisma.userActivityEvent.delete({
+     *   where: {
+     *     // ... filter to delete one UserActivityEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserActivityEventDeleteArgs>(args: SelectSubset<T, UserActivityEventDeleteArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserActivityEvent.
+     * @param {UserActivityEventUpdateArgs} args - Arguments to update one UserActivityEvent.
+     * @example
+     * // Update one UserActivityEvent
+     * const userActivityEvent = await prisma.userActivityEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserActivityEventUpdateArgs>(args: SelectSubset<T, UserActivityEventUpdateArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserActivityEvents.
+     * @param {UserActivityEventDeleteManyArgs} args - Arguments to filter UserActivityEvents to delete.
+     * @example
+     * // Delete a few UserActivityEvents
+     * const { count } = await prisma.userActivityEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserActivityEventDeleteManyArgs>(args?: SelectSubset<T, UserActivityEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserActivityEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserActivityEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserActivityEvents
+     * const userActivityEvent = await prisma.userActivityEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserActivityEventUpdateManyArgs>(args: SelectSubset<T, UserActivityEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserActivityEvents and returns the data updated in the database.
+     * @param {UserActivityEventUpdateManyAndReturnArgs} args - Arguments to update many UserActivityEvents.
+     * @example
+     * // Update many UserActivityEvents
+     * const userActivityEvent = await prisma.userActivityEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserActivityEvents and only return the `id`
+     * const userActivityEventWithIdOnly = await prisma.userActivityEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserActivityEventUpdateManyAndReturnArgs>(args: SelectSubset<T, UserActivityEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserActivityEvent.
+     * @param {UserActivityEventUpsertArgs} args - Arguments to update or create a UserActivityEvent.
+     * @example
+     * // Update or create a UserActivityEvent
+     * const userActivityEvent = await prisma.userActivityEvent.upsert({
+     *   create: {
+     *     // ... data to create a UserActivityEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserActivityEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserActivityEventUpsertArgs>(args: SelectSubset<T, UserActivityEventUpsertArgs<ExtArgs>>): Prisma__UserActivityEventClient<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserActivityEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserActivityEventCountArgs} args - Arguments to filter UserActivityEvents to count.
+     * @example
+     * // Count the number of UserActivityEvents
+     * const count = await prisma.userActivityEvent.count({
+     *   where: {
+     *     // ... the filter for the UserActivityEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserActivityEventCountArgs>(
+      args?: Subset<T, UserActivityEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserActivityEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserActivityEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserActivityEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserActivityEventAggregateArgs>(args: Subset<T, UserActivityEventAggregateArgs>): Prisma.PrismaPromise<GetUserActivityEventAggregateType<T>>
+
+    /**
+     * Group by UserActivityEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserActivityEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserActivityEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserActivityEventGroupByArgs['orderBy'] }
+        : { orderBy?: UserActivityEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserActivityEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserActivityEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserActivityEvent model
+   */
+  readonly fields: UserActivityEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserActivityEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserActivityEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserActivityEvent model
+   */ 
+  interface UserActivityEventFieldRefs {
+    readonly id: FieldRef<"UserActivityEvent", 'String'>
+    readonly userId: FieldRef<"UserActivityEvent", 'String'>
+    readonly type: FieldRef<"UserActivityEvent", 'UserActivityEventType'>
+    readonly status: FieldRef<"UserActivityEvent", 'UserActivityEventStatus'>
+    readonly error: FieldRef<"UserActivityEvent", 'String'>
+    readonly createdAt: FieldRef<"UserActivityEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserActivityEvent findUnique
+   */
+  export type UserActivityEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserActivityEvent to fetch.
+     */
+    where: UserActivityEventWhereUniqueInput
+  }
+
+  /**
+   * UserActivityEvent findUniqueOrThrow
+   */
+  export type UserActivityEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserActivityEvent to fetch.
+     */
+    where: UserActivityEventWhereUniqueInput
+  }
+
+  /**
+   * UserActivityEvent findFirst
+   */
+  export type UserActivityEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserActivityEvent to fetch.
+     */
+    where?: UserActivityEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserActivityEvents to fetch.
+     */
+    orderBy?: UserActivityEventOrderByWithRelationInput | UserActivityEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserActivityEvents.
+     */
+    cursor?: UserActivityEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserActivityEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserActivityEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserActivityEvents.
+     */
+    distinct?: UserActivityEventScalarFieldEnum | UserActivityEventScalarFieldEnum[]
+  }
+
+  /**
+   * UserActivityEvent findFirstOrThrow
+   */
+  export type UserActivityEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserActivityEvent to fetch.
+     */
+    where?: UserActivityEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserActivityEvents to fetch.
+     */
+    orderBy?: UserActivityEventOrderByWithRelationInput | UserActivityEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserActivityEvents.
+     */
+    cursor?: UserActivityEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserActivityEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserActivityEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserActivityEvents.
+     */
+    distinct?: UserActivityEventScalarFieldEnum | UserActivityEventScalarFieldEnum[]
+  }
+
+  /**
+   * UserActivityEvent findMany
+   */
+  export type UserActivityEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * Filter, which UserActivityEvents to fetch.
+     */
+    where?: UserActivityEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserActivityEvents to fetch.
+     */
+    orderBy?: UserActivityEventOrderByWithRelationInput | UserActivityEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserActivityEvents.
+     */
+    cursor?: UserActivityEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserActivityEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserActivityEvents.
+     */
+    skip?: number
+    distinct?: UserActivityEventScalarFieldEnum | UserActivityEventScalarFieldEnum[]
+  }
+
+  /**
+   * UserActivityEvent create
+   */
+  export type UserActivityEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserActivityEvent.
+     */
+    data: XOR<UserActivityEventCreateInput, UserActivityEventUncheckedCreateInput>
+  }
+
+  /**
+   * UserActivityEvent createMany
+   */
+  export type UserActivityEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserActivityEvents.
+     */
+    data: UserActivityEventCreateManyInput | UserActivityEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserActivityEvent createManyAndReturn
+   */
+  export type UserActivityEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserActivityEvents.
+     */
+    data: UserActivityEventCreateManyInput | UserActivityEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserActivityEvent update
+   */
+  export type UserActivityEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserActivityEvent.
+     */
+    data: XOR<UserActivityEventUpdateInput, UserActivityEventUncheckedUpdateInput>
+    /**
+     * Choose, which UserActivityEvent to update.
+     */
+    where: UserActivityEventWhereUniqueInput
+  }
+
+  /**
+   * UserActivityEvent updateMany
+   */
+  export type UserActivityEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserActivityEvents.
+     */
+    data: XOR<UserActivityEventUpdateManyMutationInput, UserActivityEventUncheckedUpdateManyInput>
+    /**
+     * Filter which UserActivityEvents to update
+     */
+    where?: UserActivityEventWhereInput
+    /**
+     * Limit how many UserActivityEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserActivityEvent updateManyAndReturn
+   */
+  export type UserActivityEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * The data used to update UserActivityEvents.
+     */
+    data: XOR<UserActivityEventUpdateManyMutationInput, UserActivityEventUncheckedUpdateManyInput>
+    /**
+     * Filter which UserActivityEvents to update
+     */
+    where?: UserActivityEventWhereInput
+    /**
+     * Limit how many UserActivityEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserActivityEvent upsert
+   */
+  export type UserActivityEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserActivityEvent to update in case it exists.
+     */
+    where: UserActivityEventWhereUniqueInput
+    /**
+     * In case the UserActivityEvent found by the `where` argument doesn't exist, create a new UserActivityEvent with this data.
+     */
+    create: XOR<UserActivityEventCreateInput, UserActivityEventUncheckedCreateInput>
+    /**
+     * In case the UserActivityEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserActivityEventUpdateInput, UserActivityEventUncheckedUpdateInput>
+  }
+
+  /**
+   * UserActivityEvent delete
+   */
+  export type UserActivityEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+    /**
+     * Filter which UserActivityEvent to delete.
+     */
+    where: UserActivityEventWhereUniqueInput
+  }
+
+  /**
+   * UserActivityEvent deleteMany
+   */
+  export type UserActivityEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserActivityEvents to delete
+     */
+    where?: UserActivityEventWhereInput
+    /**
+     * Limit how many UserActivityEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserActivityEvent without action
+   */
+  export type UserActivityEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserActivityEvent
+     */
+    select?: UserActivityEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserActivityEvent
+     */
+    omit?: UserActivityEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserActivityEventInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notification
    */
 
@@ -23668,6 +24890,18 @@ export namespace Prisma {
   export type AiTokenUsageScalarFieldEnum = (typeof AiTokenUsageScalarFieldEnum)[keyof typeof AiTokenUsageScalarFieldEnum]
 
 
+  export const UserActivityEventScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    status: 'status',
+    error: 'error',
+    createdAt: 'createdAt'
+  };
+
+  export type UserActivityEventScalarFieldEnum = (typeof UserActivityEventScalarFieldEnum)[keyof typeof UserActivityEventScalarFieldEnum]
+
+
   export const NotificationScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -23988,6 +25222,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'UserActivityEventType'
+   */
+  export type EnumUserActivityEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserActivityEventType'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserActivityEventType[]'
+   */
+  export type ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserActivityEventType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserActivityEventStatus'
+   */
+  export type EnumUserActivityEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserActivityEventStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserActivityEventStatus[]'
+   */
+  export type ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserActivityEventStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'NotificationScope'
    */
   export type EnumNotificationScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationScope'>
@@ -24084,6 +25346,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
     aiUploadTasks?: AiUploadTaskListRelationFilter
+    activityEvents?: UserActivityEventListRelationFilter
     notifications?: NotificationListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
@@ -24124,6 +25387,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
     aiTokenUsages?: AiTokenUsageOrderByRelationAggregateInput
     aiUploadTasks?: AiUploadTaskOrderByRelationAggregateInput
+    activityEvents?: UserActivityEventOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     supportTickets?: SupportTicketOrderByRelationAggregateInput
@@ -24167,6 +25431,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
     aiUploadTasks?: AiUploadTaskListRelationFilter
+    activityEvents?: UserActivityEventListRelationFilter
     notifications?: NotificationListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
@@ -25227,6 +26492,66 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AiTokenUsage"> | Date | string
   }
 
+  export type UserActivityEventWhereInput = {
+    AND?: UserActivityEventWhereInput | UserActivityEventWhereInput[]
+    OR?: UserActivityEventWhereInput[]
+    NOT?: UserActivityEventWhereInput | UserActivityEventWhereInput[]
+    id?: StringFilter<"UserActivityEvent"> | string
+    userId?: StringFilter<"UserActivityEvent"> | string
+    type?: EnumUserActivityEventTypeFilter<"UserActivityEvent"> | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFilter<"UserActivityEvent"> | $Enums.UserActivityEventStatus
+    error?: StringNullableFilter<"UserActivityEvent"> | string | null
+    createdAt?: DateTimeFilter<"UserActivityEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserActivityEventOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserActivityEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserActivityEventWhereInput | UserActivityEventWhereInput[]
+    OR?: UserActivityEventWhereInput[]
+    NOT?: UserActivityEventWhereInput | UserActivityEventWhereInput[]
+    userId?: StringFilter<"UserActivityEvent"> | string
+    type?: EnumUserActivityEventTypeFilter<"UserActivityEvent"> | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFilter<"UserActivityEvent"> | $Enums.UserActivityEventStatus
+    error?: StringNullableFilter<"UserActivityEvent"> | string | null
+    createdAt?: DateTimeFilter<"UserActivityEvent"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserActivityEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: UserActivityEventCountOrderByAggregateInput
+    _max?: UserActivityEventMaxOrderByAggregateInput
+    _min?: UserActivityEventMinOrderByAggregateInput
+  }
+
+  export type UserActivityEventScalarWhereWithAggregatesInput = {
+    AND?: UserActivityEventScalarWhereWithAggregatesInput | UserActivityEventScalarWhereWithAggregatesInput[]
+    OR?: UserActivityEventScalarWhereWithAggregatesInput[]
+    NOT?: UserActivityEventScalarWhereWithAggregatesInput | UserActivityEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserActivityEvent"> | string
+    userId?: StringWithAggregatesFilter<"UserActivityEvent"> | string
+    type?: EnumUserActivityEventTypeWithAggregatesFilter<"UserActivityEvent"> | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusWithAggregatesFilter<"UserActivityEvent"> | $Enums.UserActivityEventStatus
+    error?: StringNullableWithAggregatesFilter<"UserActivityEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserActivityEvent"> | Date | string
+  }
+
   export type NotificationWhereInput = {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
@@ -25578,6 +26903,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -25615,6 +26941,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -25652,6 +26979,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -25689,6 +27017,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -26829,6 +28158,68 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserActivityEventCreateInput = {
+    id?: string
+    type: $Enums.UserActivityEventType
+    status: $Enums.UserActivityEventStatus
+    error?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutActivityEventsInput
+  }
+
+  export type UserActivityEventUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: $Enums.UserActivityEventType
+    status: $Enums.UserActivityEventStatus
+    error?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserActivityEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumUserActivityEventTypeFieldUpdateOperationsInput | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFieldUpdateOperationsInput | $Enums.UserActivityEventStatus
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutActivityEventsNestedInput
+  }
+
+  export type UserActivityEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumUserActivityEventTypeFieldUpdateOperationsInput | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFieldUpdateOperationsInput | $Enums.UserActivityEventStatus
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserActivityEventCreateManyInput = {
+    id?: string
+    userId: string
+    type: $Enums.UserActivityEventType
+    status: $Enums.UserActivityEventStatus
+    error?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserActivityEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumUserActivityEventTypeFieldUpdateOperationsInput | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFieldUpdateOperationsInput | $Enums.UserActivityEventStatus
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserActivityEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumUserActivityEventTypeFieldUpdateOperationsInput | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFieldUpdateOperationsInput | $Enums.UserActivityEventStatus
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificationCreateInput = {
     id?: string
     title: JsonNullValueInput | InputJsonValue
@@ -27332,6 +28723,12 @@ export namespace Prisma {
     none?: AiUploadTaskWhereInput
   }
 
+  export type UserActivityEventListRelationFilter = {
+    every?: UserActivityEventWhereInput
+    some?: UserActivityEventWhereInput
+    none?: UserActivityEventWhereInput
+  }
+
   export type NotificationListRelationFilter = {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
@@ -27392,6 +28789,10 @@ export namespace Prisma {
   }
 
   export type AiUploadTaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserActivityEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28412,6 +29813,67 @@ export namespace Prisma {
     _min?: NestedEnumAiUsageStatusFilter<$PrismaModel>
     _max?: NestedEnumAiUsageStatusFilter<$PrismaModel>
   }
+
+  export type EnumUserActivityEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventType | EnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventTypeFilter<$PrismaModel> | $Enums.UserActivityEventType
+  }
+
+  export type EnumUserActivityEventStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventStatus | EnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventStatusFilter<$PrismaModel> | $Enums.UserActivityEventStatus
+  }
+
+  export type UserActivityEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserActivityEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserActivityEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumUserActivityEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventType | EnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.UserActivityEventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserActivityEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumUserActivityEventTypeFilter<$PrismaModel>
+  }
+
+  export type EnumUserActivityEventStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventStatus | EnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserActivityEventStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserActivityEventStatusFilter<$PrismaModel>
+    _max?: NestedEnumUserActivityEventStatusFilter<$PrismaModel>
+  }
   export type JsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -28774,6 +30236,13 @@ export namespace Prisma {
     connect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
   }
 
+  export type UserActivityEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserActivityEventCreateWithoutUserInput, UserActivityEventUncheckedCreateWithoutUserInput> | UserActivityEventCreateWithoutUserInput[] | UserActivityEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserActivityEventCreateOrConnectWithoutUserInput | UserActivityEventCreateOrConnectWithoutUserInput[]
+    createMany?: UserActivityEventCreateManyUserInputEnvelope
+    connect?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+  }
+
   export type NotificationCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -28863,6 +30332,13 @@ export namespace Prisma {
     connectOrCreate?: AiUploadTaskCreateOrConnectWithoutUserInput | AiUploadTaskCreateOrConnectWithoutUserInput[]
     createMany?: AiUploadTaskCreateManyUserInputEnvelope
     connect?: AiUploadTaskWhereUniqueInput | AiUploadTaskWhereUniqueInput[]
+  }
+
+  export type UserActivityEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserActivityEventCreateWithoutUserInput, UserActivityEventUncheckedCreateWithoutUserInput> | UserActivityEventCreateWithoutUserInput[] | UserActivityEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserActivityEventCreateOrConnectWithoutUserInput | UserActivityEventCreateOrConnectWithoutUserInput[]
+    createMany?: UserActivityEventCreateManyUserInputEnvelope
+    connect?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
@@ -29086,6 +30562,20 @@ export namespace Prisma {
     deleteMany?: AiUploadTaskScalarWhereInput | AiUploadTaskScalarWhereInput[]
   }
 
+  export type UserActivityEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserActivityEventCreateWithoutUserInput, UserActivityEventUncheckedCreateWithoutUserInput> | UserActivityEventCreateWithoutUserInput[] | UserActivityEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserActivityEventCreateOrConnectWithoutUserInput | UserActivityEventCreateOrConnectWithoutUserInput[]
+    upsert?: UserActivityEventUpsertWithWhereUniqueWithoutUserInput | UserActivityEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserActivityEventCreateManyUserInputEnvelope
+    set?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    disconnect?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    delete?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    connect?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    update?: UserActivityEventUpdateWithWhereUniqueWithoutUserInput | UserActivityEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserActivityEventUpdateManyWithWhereWithoutUserInput | UserActivityEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserActivityEventScalarWhereInput | UserActivityEventScalarWhereInput[]
+  }
+
   export type NotificationUpdateManyWithoutUserNestedInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -29266,6 +30756,20 @@ export namespace Prisma {
     update?: AiUploadTaskUpdateWithWhereUniqueWithoutUserInput | AiUploadTaskUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AiUploadTaskUpdateManyWithWhereWithoutUserInput | AiUploadTaskUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AiUploadTaskScalarWhereInput | AiUploadTaskScalarWhereInput[]
+  }
+
+  export type UserActivityEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserActivityEventCreateWithoutUserInput, UserActivityEventUncheckedCreateWithoutUserInput> | UserActivityEventCreateWithoutUserInput[] | UserActivityEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserActivityEventCreateOrConnectWithoutUserInput | UserActivityEventCreateOrConnectWithoutUserInput[]
+    upsert?: UserActivityEventUpsertWithWhereUniqueWithoutUserInput | UserActivityEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserActivityEventCreateManyUserInputEnvelope
+    set?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    disconnect?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    delete?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    connect?: UserActivityEventWhereUniqueInput | UserActivityEventWhereUniqueInput[]
+    update?: UserActivityEventUpdateWithWhereUniqueWithoutUserInput | UserActivityEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserActivityEventUpdateManyWithWhereWithoutUserInput | UserActivityEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserActivityEventScalarWhereInput | UserActivityEventScalarWhereInput[]
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
@@ -30317,6 +31821,28 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAiTokenUsagesInput, UserUpdateWithoutAiTokenUsagesInput>, UserUncheckedUpdateWithoutAiTokenUsagesInput>
   }
 
+  export type UserCreateNestedOneWithoutActivityEventsInput = {
+    create?: XOR<UserCreateWithoutActivityEventsInput, UserUncheckedCreateWithoutActivityEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumUserActivityEventTypeFieldUpdateOperationsInput = {
+    set?: $Enums.UserActivityEventType
+  }
+
+  export type EnumUserActivityEventStatusFieldUpdateOperationsInput = {
+    set?: $Enums.UserActivityEventStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutActivityEventsNestedInput = {
+    create?: XOR<UserCreateWithoutActivityEventsInput, UserUncheckedCreateWithoutActivityEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityEventsInput
+    upsert?: UserUpsertWithoutActivityEventsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivityEventsInput, UserUpdateWithoutActivityEventsInput>, UserUncheckedUpdateWithoutActivityEventsInput>
+  }
+
   export type UserCreateNestedOneWithoutNotificationsInput = {
     create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
@@ -30793,6 +32319,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAiUsageStatusFilter<$PrismaModel>
     _max?: NestedEnumAiUsageStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUserActivityEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventType | EnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventTypeFilter<$PrismaModel> | $Enums.UserActivityEventType
+  }
+
+  export type NestedEnumUserActivityEventStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventStatus | EnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventStatusFilter<$PrismaModel> | $Enums.UserActivityEventStatus
+  }
+
+  export type NestedEnumUserActivityEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventType | EnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventType[] | ListEnumUserActivityEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.UserActivityEventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserActivityEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumUserActivityEventTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUserActivityEventStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserActivityEventStatus | EnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserActivityEventStatus[] | ListEnumUserActivityEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserActivityEventStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserActivityEventStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserActivityEventStatusFilter<$PrismaModel>
+    _max?: NestedEnumUserActivityEventStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumNotificationScopeFilter<$PrismaModel = never> = {
@@ -31315,6 +32875,32 @@ export namespace Prisma {
 
   export type AiUploadTaskCreateManyUserInputEnvelope = {
     data: AiUploadTaskCreateManyUserInput | AiUploadTaskCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserActivityEventCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.UserActivityEventType
+    status: $Enums.UserActivityEventStatus
+    error?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserActivityEventUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.UserActivityEventType
+    status: $Enums.UserActivityEventStatus
+    error?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserActivityEventCreateOrConnectWithoutUserInput = {
+    where: UserActivityEventWhereUniqueInput
+    create: XOR<UserActivityEventCreateWithoutUserInput, UserActivityEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserActivityEventCreateManyUserInputEnvelope = {
+    data: UserActivityEventCreateManyUserInput | UserActivityEventCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -31853,6 +33439,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"AiUploadTask"> | Date | string
   }
 
+  export type UserActivityEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserActivityEventWhereUniqueInput
+    update: XOR<UserActivityEventUpdateWithoutUserInput, UserActivityEventUncheckedUpdateWithoutUserInput>
+    create: XOR<UserActivityEventCreateWithoutUserInput, UserActivityEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserActivityEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserActivityEventWhereUniqueInput
+    data: XOR<UserActivityEventUpdateWithoutUserInput, UserActivityEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserActivityEventUpdateManyWithWhereWithoutUserInput = {
+    where: UserActivityEventScalarWhereInput
+    data: XOR<UserActivityEventUpdateManyMutationInput, UserActivityEventUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserActivityEventScalarWhereInput = {
+    AND?: UserActivityEventScalarWhereInput | UserActivityEventScalarWhereInput[]
+    OR?: UserActivityEventScalarWhereInput[]
+    NOT?: UserActivityEventScalarWhereInput | UserActivityEventScalarWhereInput[]
+    id?: StringFilter<"UserActivityEvent"> | string
+    userId?: StringFilter<"UserActivityEvent"> | string
+    type?: EnumUserActivityEventTypeFilter<"UserActivityEvent"> | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFilter<"UserActivityEvent"> | $Enums.UserActivityEventStatus
+    error?: StringNullableFilter<"UserActivityEvent"> | string | null
+    createdAt?: DateTimeFilter<"UserActivityEvent"> | Date | string
+  }
+
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
     where: NotificationWhereUniqueInput
     update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
@@ -32012,6 +33626,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -32048,6 +33663,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32212,6 +33828,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -32248,6 +33865,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32411,6 +34029,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -32447,6 +34066,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32499,6 +34119,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -32535,6 +34156,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -32571,6 +34193,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -32607,6 +34230,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32816,6 +34440,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -32852,6 +34477,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -32904,6 +34530,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -32940,6 +34567,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -33051,6 +34679,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -33087,6 +34716,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -33123,6 +34753,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -33159,6 +34790,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -33386,6 +35018,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -33422,6 +35055,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -33650,6 +35284,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -33686,6 +35321,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -33891,6 +35527,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -33927,6 +35564,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -34110,6 +35748,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -34146,6 +35785,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -34233,6 +35873,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -34269,6 +35910,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -34321,6 +35963,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -34357,6 +36000,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -34594,6 +36238,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -34630,6 +36275,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -34806,6 +36452,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -34842,6 +36489,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -34935,6 +36583,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -34971,6 +36620,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -35007,6 +36657,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -35043,6 +36694,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -35095,6 +36747,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -35131,6 +36784,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -35167,6 +36821,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -35203,6 +36858,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -35255,6 +36911,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -35291,6 +36948,7 @@ export namespace Prisma {
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -35327,6 +36985,7 @@ export namespace Prisma {
     operations?: OperationCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
@@ -35363,6 +37022,7 @@ export namespace Prisma {
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
@@ -35415,6 +37075,7 @@ export namespace Prisma {
     operations?: OperationUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -35450,6 +37111,171 @@ export namespace Prisma {
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutActivityEventsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
+    defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
+    subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
+    subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutActivityEventsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    defaultAccountId?: string | null
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionPlanId: string
+    subscriptionPriceId?: string | null
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutActivityEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutActivityEventsInput, UserUncheckedCreateWithoutActivityEventsInput>
+  }
+
+  export type UserUpsertWithoutActivityEventsInput = {
+    update: XOR<UserUpdateWithoutActivityEventsInput, UserUncheckedUpdateWithoutActivityEventsInput>
+    create: XOR<UserCreateWithoutActivityEventsInput, UserUncheckedCreateWithoutActivityEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutActivityEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutActivityEventsInput, UserUncheckedUpdateWithoutActivityEventsInput>
+  }
+
+  export type UserUpdateWithoutActivityEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
+    subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutActivityEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    defaultAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionPlanId?: StringFieldUpdateOperationsInput | string
+    subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -35488,6 +37314,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
   }
@@ -35524,6 +37351,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
   }
@@ -35576,6 +37404,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
   }
@@ -35612,6 +37441,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -35648,6 +37478,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
   }
@@ -35684,6 +37515,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
   }
@@ -35765,6 +37597,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
   }
@@ -35801,6 +37634,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -35872,6 +37706,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
   }
@@ -35908,6 +37743,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
   }
@@ -35960,6 +37796,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
   }
@@ -35996,6 +37833,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -36104,6 +37942,14 @@ export namespace Prisma {
     error?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type UserActivityEventCreateManyUserInput = {
+    id?: string
+    type: $Enums.UserActivityEventType
+    status: $Enums.UserActivityEventStatus
+    error?: string | null
+    createdAt?: Date | string
   }
 
   export type NotificationCreateManyUserInput = {
@@ -36482,6 +38328,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserActivityEventUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumUserActivityEventTypeFieldUpdateOperationsInput | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFieldUpdateOperationsInput | $Enums.UserActivityEventStatus
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserActivityEventUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumUserActivityEventTypeFieldUpdateOperationsInput | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFieldUpdateOperationsInput | $Enums.UserActivityEventStatus
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserActivityEventUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumUserActivityEventTypeFieldUpdateOperationsInput | $Enums.UserActivityEventType
+    status?: EnumUserActivityEventStatusFieldUpdateOperationsInput | $Enums.UserActivityEventStatus
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type NotificationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: JsonNullValueInput | InputJsonValue
@@ -36682,6 +38552,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -36718,6 +38589,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -36812,6 +38684,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
@@ -36848,6 +38721,7 @@ export namespace Prisma {
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput

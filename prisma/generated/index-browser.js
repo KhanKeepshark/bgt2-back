@@ -287,6 +287,15 @@ exports.Prisma.AiTokenUsageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.UserActivityEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  status: 'status',
+  error: 'error',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -416,6 +425,15 @@ exports.AiUsageStatus = exports.$Enums.AiUsageStatus = {
   FAILED: 'FAILED'
 };
 
+exports.UserActivityEventType = exports.$Enums.UserActivityEventType = {
+  EXPORT: 'EXPORT'
+};
+
+exports.UserActivityEventStatus = exports.$Enums.UserActivityEventStatus = {
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+};
+
 exports.NotificationScope = exports.$Enums.NotificationScope = {
   GLOBAL: 'GLOBAL',
   USER: 'USER'
@@ -447,6 +465,7 @@ exports.Prisma.ModelName = {
   KeywordFilter: 'KeywordFilter',
   AiUploadTask: 'AiUploadTask',
   AiTokenUsage: 'AiTokenUsage',
+  UserActivityEvent: 'UserActivityEvent',
   Notification: 'Notification',
   SystemMetric: 'SystemMetric',
   Payment: 'Payment',

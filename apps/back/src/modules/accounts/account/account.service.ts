@@ -73,7 +73,7 @@ export class AccountService {
         data: {
           name: 'Default',
           icon: 'wallet',
-          currency: 'USD',
+          currency: 'KZT',
           initialBalance: '0',
           balance: '0',
           user: {

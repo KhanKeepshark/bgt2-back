@@ -56,6 +56,7 @@ model User {
   recurrenceConfigs RecurrenceConfig[]
   aiTokenUsages AiTokenUsage[]
   aiUploadTasks AiUploadTask[]
+  activityEvents UserActivityEvent[]
   notifications Notification[]
   payments      Payment[]
   supportTickets SupportTicket[]
@@ -393,6 +394,31 @@ model AiTokenUsage {
 }
 
 enum AiUsageStatus {
+  SUCCESS
+  FAILED
+}
+
+model UserActivityEvent {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  type   UserActivityEventType
+  status UserActivityEventStatus
+  error  String?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, type])
+  @@index([userId, createdAt])
+}
+
+enum UserActivityEventType {
+  EXPORT
+}
+
+enum UserActivityEventStatus {
   SUCCESS
   FAILED
 }

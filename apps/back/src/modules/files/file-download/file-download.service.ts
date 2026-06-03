@@ -5,12 +5,14 @@ import { OperationsExportFilterInput } from './inputs/operations-export-filter.i
 import * as XLSX from 'xlsx';
 import { OperationFilterInput } from '@back/modules/accounts/operation/inputs/operation-filter.input';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
+import { UserActivityService } from '@back/modules/user-stats/user-activity.service';
 
 @Injectable()
 export class FileDownloadService {
   constructor(
     private readonly operationService: OperationService,
     private readonly limitGate: LimitGateService,
+    private readonly userActivityService: UserActivityService,
   ) {}
 
   public async exportOperationsToExcel(
@@ -76,6 +78,8 @@ export class FileDownloadService {
     } else {
       filename = `operations_all.xlsx`;
     }
+
+    await this.userActivityService.logExportSuccess(user.id);
 
     return {
       filename,

@@ -131,7 +131,7 @@ export class UserService {
     });
 
     await this.accountService.create(
-      { name: 'Default', currency: 'USD', icon: 'wallet' },
+      { name: 'Default', currency: 'KZT', icon: 'wallet' },
       user,
     );
     await this.categoryService.createDefault(user, language);
@@ -204,7 +204,7 @@ export class UserService {
     });
 
     await this.accountService.create(
-      { name: 'Default', currency: 'USD', icon: 'wallet' },
+      { name: 'Default', currency: 'KZT', icon: 'wallet' },
       user,
     );
     await this.categoryService.createDefault(user, language);

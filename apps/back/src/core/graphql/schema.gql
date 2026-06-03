@@ -182,6 +182,11 @@ input CreateUserInput {
   password: String!
 }
 
+type DailyCountModel {
+  count: Int!
+  date: String!
+}
+
 input DateFilter {
   equals: DateTime
   gt: DateTime
@@ -494,6 +499,7 @@ type Query {
   loginTotpPending: Boolean!
   me: UserModel!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
+  userStats(userId: String!): UserStatsModel!
 }
 
 input RecurrenceConfigInput {
@@ -767,6 +773,14 @@ input UserOrderByInput {
   loginCount: SortOrder
   name: SortOrder
   updatedAt: SortOrder
+}
+
+type UserStatsModel {
+  aiImportCount: Int!
+  categoryKeywordCount: Int!
+  exportCount: Int!
+  operationsDaily: [DailyCountModel!]!
+  totalOperations: Int!
 }
 
 input UserWhereInput {

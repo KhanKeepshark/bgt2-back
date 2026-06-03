@@ -28,6 +28,7 @@ import { NotificationModule } from '../modules/notifications/notification.module
 import { SubscriptionPlanModule } from '../modules/subscription-plan/subscription-plan.module';
 import { PaymentsModule } from '../modules/payments/payments.module';
 import { SystemMetricModule } from '../modules/system-metric/system-metric.module';
+import { UserStatsModule } from '../modules/user-stats/user-stats.module';
 import { SupportModule } from '../modules/support/support.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { GeminiModule } from '../modules/libs/gemini/gemini.module';
@@ -74,6 +75,7 @@ import { LimitGateModule } from '../shared/limit-gate/limit-gate.module';
     SubscriptionPlanModule,
     PaymentsModule,
     SystemMetricModule,
+    UserStatsModule,
     SupportModule,
     GeminiModule,
     FileStorageModule,
