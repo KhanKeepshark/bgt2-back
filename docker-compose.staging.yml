@@ -40,23 +40,8 @@ services:
     networks:
       - bgt2-network
 
-  # По умолчанию ВЫКЛЮЧЕНО: очередь ai_upload_queue общая с prod — worker-staging украдёт prod-задачи.
-  # Раскомментируйте только если поднимете отдельный RabbitMQ для staging.
-  # rabbitmq-worker-staging:
-  #   container_name: bgt2-rabbitmq-worker-staging
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   env_file:
-  #     - .env.staging
-  #   command: ["sh", "-c", "yarn start:rabbitmq:prod"]
-  #   networks:
-  #     - bgt2-network
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 384M
+  # AI upload: backend-staging сам consumer. В .env.staging задайте
+  # AI_UPLOAD_QUEUE=ai_upload_queue_staging (см. .env.staging.example).
 
 networks:
   bgt2-network:

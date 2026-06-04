@@ -3,6 +3,7 @@ import { AiUploadOrchestrator } from './ai-upload-orchestrator.service';
 import { AiUploadResolver } from './ai-upload.resolver';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getAiUploadRmqOptions } from '@back/core/config/ai-upload-rmq.config';
 import { AiUploadController } from './ai-upload.controller';
 import { CategoryMatcherService } from './services/category-matcher.service';
 
@@ -14,15 +15,7 @@ import { CategoryMatcherService } from './services/category-matcher.service';
         imports: [ConfigModule],
         useFactory: (configService: ConfigService) => ({
           transport: Transport.RMQ,
-          options: {
-            urls: [
-              `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASSWORD')}@${configService.get<string>('RABBITMQ_NAME')}:5672`,
-            ],
-            queue: 'ai_upload_queue',
-            queueOptions: {
-              durable: true,
-            },
-          },
+          options: getAiUploadRmqOptions(configService),
         }),
         inject: [ConfigService],
       },

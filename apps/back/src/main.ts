@@ -14,6 +14,7 @@ import { RedisService } from './core/redis/redis.service';
 import { RedisStore } from 'connect-redis';
 import { webcrypto } from 'crypto';
 import { Transport } from '@nestjs/microservices';
+import { getAiUploadRmqOptions } from './core/config/ai-upload-rmq.config';
 
 if (!globalThis.crypto) {
   // @ts-expect-error switch to using the crypto module
@@ -27,20 +28,9 @@ async function bootstrap() {
 
   const config = app.get(ConfigService);
 
-  const rabbitName = config.get<string>('RABBITMQ_NAME');
-  const rabbitUser = config.get<string>('RABBITMQ_USER');
-  const rabbitPassword = config.get<string>('RABBITMQ_PASSWORD');
-
   app.connectMicroservice({
     transport: Transport.RMQ,
-    options: {
-      urls: [`amqp://${rabbitUser}:${rabbitPassword}@${rabbitName}:5672`],
-      queue: 'ai_upload_queue',
-      noAck: false,
-      queueOptions: {
-        durable: true,
-      },
-    },
+    options: getAiUploadRmqOptions(config, { noAck: false }),
   });
 
   const redis = app.get(RedisService);
