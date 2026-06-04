@@ -198,7 +198,7 @@ export class CronService {
       const date = new Date().toISOString().replace(/[:.]/g, '-');
       // Поскольку бэкенд запущен в докере и у нас проброшен volume ./backups:/app/backups
       // мы можем сохранять бэкап прямо в папку /app/backups внутри контейнера
-      const backupFile = `/app/backups/db_backup_${date}.sql`;
+      const backupFile = `/app/backups/db_backup_${date}.dump`;
 
       // Создаем папку, если ее нет
       await execPromise('mkdir -p /app/backups');
@@ -213,7 +213,7 @@ export class CronService {
 
       // Удаляем старые бэкапы (старше 7 дней)
       await execPromise(
-        'find /app/backups -type f -name "*.sql" -mtime +7 -delete',
+        'find /app/backups -type f \\( -name "*.dump" -o -name "*.sql" \\) -mtime +7 -delete',
       );
       this.logger.log('Old backups cleaned up.');
     } catch (error) {

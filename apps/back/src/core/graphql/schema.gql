@@ -182,6 +182,32 @@ input CreateUserInput {
   password: String!
 }
 
+type AdminDbDeploymentInfoModel {
+  environment: String!
+  restoreEnabled: Boolean!
+  targetDatabase: String!
+  totpRequiredForRestore: Boolean!
+}
+
+type DbBackupFileModel {
+  createdAt: DateTime!
+  filename: String!
+  format: String!
+  sizeBytes: Int!
+  source: String!
+}
+
+type DbRestoreJobModel {
+  errorMessage: String
+  filename: String!
+  finishedAt: DateTime
+  id: ID!
+  logTail: String
+  startedAt: DateTime!
+  status: String!
+  targetDatabase: String!
+}
+
 type DailyCountModel {
   count: Int!
   date: String!
@@ -304,6 +330,7 @@ input LoginWithGoogleInput {
 }
 
 type Mutation {
+  adminStartDbRestore(confirmDatabaseName: String!, filename: String!, totpCode: String): DbRestoreJobModel!
   accountHasOperations(id: String!): Boolean!
   aiFileTokenCount(file: Upload!): AiCountModel!
   aiFileUpload(file: Upload!): AiUploadTaskModel!
@@ -468,6 +495,9 @@ enum PaymentStatus {
 }
 
 type Query {
+  adminDbBackupFiles: [DbBackupFileModel!]!
+  adminDbDeploymentInfo: AdminDbDeploymentInfoModel!
+  adminDbRestoreJob(id: ID!): DbRestoreJobModel
   countUserOperations: Int!
   findAllAccounts: [AccountModel!]!
   findAllAdminNotifications: [NotificationModel!]!

@@ -4,5 +4,6 @@ import { TotpResolver } from './totp.resolver';
 
 @Module({
   providers: [TotpResolver, TotpService],
+  exports: [TotpService],
 })
 export class TotpModule {}

@@ -30,6 +30,7 @@ import { PaymentsModule } from '../modules/payments/payments.module';
 import { SystemMetricModule } from '../modules/system-metric/system-metric.module';
 import { UserStatsModule } from '../modules/user-stats/user-stats.module';
 import { SupportModule } from '../modules/support/support.module';
+import { DbBackupModule } from '../modules/admin/db-backup/db-backup.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { GeminiModule } from '../modules/libs/gemini/gemini.module';
 import { FileStorageModule } from '../modules/libs/file-storage/file-storage.module';
@@ -77,6 +78,7 @@ import { LimitGateModule } from '../shared/limit-gate/limit-gate.module';
     SystemMetricModule,
     UserStatsModule,
     SupportModule,
+    DbBackupModule,
     GeminiModule,
     FileStorageModule,
   ],

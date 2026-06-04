@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthError } from '@back/shared/constants/errors.constants';
 import { TOTP_ISSUER } from '@back/shared/constants/totp.constants';
 import { PrismaService } from '@back/core/prisma/prisma.service';
@@ -71,5 +75,23 @@ export class TotpService {
     });
 
     return true;
+  }
+
+  public verifyPin(user: User, pin: string): void {
+    if (!user.isTotpEnabled || !user.totpSecret) {
+      throw new UnauthorizedException(AuthError.INVALID_TOTP);
+    }
+
+    const totp = new TOTP({
+      issuer: TOTP_ISSUER,
+      label: user.email,
+      algorithm: 'SHA1',
+      digits: 6,
+      secret: user.totpSecret,
+    });
+
+    if (totp.validate({ token: pin }) === null) {
+      throw new BadRequestException(AuthError.INVALID_TOTP);
+    }
   }
 }
