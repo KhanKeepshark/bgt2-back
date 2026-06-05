@@ -39,6 +39,12 @@ export class DbBackupResolver {
     return job ? this.toJobModel(job) : null;
   }
 
+  @Mutation(() => Boolean, { name: 'adminDeleteDbBackup' })
+  @AdminOnly()
+  public adminDeleteDbBackup(@Args('filename') filename: string) {
+    return this.dbBackupService.deleteFile(filename);
+  }
+
   @Mutation(() => DbRestoreJobModel, { name: 'adminStartDbRestore' })
   @AdminOnly()
   public async adminStartDbRestore(

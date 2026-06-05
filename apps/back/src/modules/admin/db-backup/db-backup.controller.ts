@@ -2,10 +2,8 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   Param,
   Post,
-  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -13,7 +11,6 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
-import type { Response } from 'express';
 import { diskStorage } from 'multer';
 import * as os from 'os';
 import { DbBackupService } from './db-backup.service';
@@ -49,15 +46,6 @@ export class DbBackupController {
       throw new BadRequestException('FILE_REQUIRED');
     }
     return this.dbBackupService.saveUploadedFile(file.path, file.originalname);
-  }
-
-  @Get(':filename/download')
-  public async download(
-    @Param('filename') filename: string,
-    @Res() res: Response,
-  ) {
-    const filePath = this.dbBackupService.resolveDownloadPath(filename);
-    res.download(filePath);
   }
 
   @Post(':filename/restore')

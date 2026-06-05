@@ -330,6 +330,7 @@ input LoginWithGoogleInput {
 }
 
 type Mutation {
+  adminDeleteDbBackup(filename: String!): Boolean!
   adminStartDbRestore(confirmDatabaseName: String!, filename: String!, totpCode: String): DbRestoreJobModel!
   accountHasOperations(id: String!): Boolean!
   aiFileTokenCount(file: Upload!): AiCountModel!

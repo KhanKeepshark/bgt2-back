@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/generated';
+import { PrismaService } from '@back/core/prisma/prisma.service';
 import { TotpService } from '@back/modules/auth/totp/totp.service';
 import { execFile } from 'child_process';
 import { randomUUID } from 'crypto';
@@ -40,6 +41,7 @@ export class DbBackupService {
     private readonly config: ConfigService,
     private readonly jobStore: DbRestoreJobStore,
     private readonly totpService: TotpService,
+    private readonly prisma: PrismaService,
   ) {}
 
   public isRestoreEnabled(): boolean {
@@ -136,14 +138,20 @@ export class DbBackupService {
     return { filename, sizeBytes: stat.size, format };
   }
 
-  public resolveDownloadPath(filename: string): string {
-    const safe = assertSafeBackupFilename(filename);
-    const dir = path.resolve(this.getBackupDir());
-    const full = path.resolve(dir, safe);
-    if (full !== dir && !full.startsWith(`${dir}${path.sep}`)) {
-      throw new BadRequestException('Invalid path');
+  public async deleteFile(filename: string): Promise<boolean> {
+    const safeName = assertSafeBackupFilename(filename);
+    const filePath = path.join(this.getBackupDir(), safeName);
+    try {
+      await fs.promises.access(filePath);
+    } catch {
+      throw new BadRequestException('BACKUP_NOT_FOUND');
     }
-    return full;
+    await fs.promises.unlink(filePath);
+    this.logger.log({
+      event: 'db_backup_deleted',
+      filename: safeName,
+    });
+    return true;
   }
 
   public async startRestore(
@@ -255,9 +263,12 @@ export class DbBackupService {
       log.push('pre_restore backup...');
       await this.createPreRestoreBackup();
       log.push('terminating connections...');
+      await this.prisma.$disconnect();
       await this.terminateConnections();
+      await this.prisma.$connect();
       log.push('restoring...');
       await this.runRestore(filePath, format);
+      await this.prisma.reconnect();
       await this.jobStore.update(jobId, {
         status: 'succeeded',
         finishedAt: new Date().toISOString(),
@@ -272,6 +283,7 @@ export class DbBackupService {
         success: true,
       });
     } catch (error) {
+      await this.prisma.reconnect().catch(() => undefined);
       const msg = error instanceof Error ? error.message : String(error);
       await this.jobStore.update(jobId, {
         status: 'failed',
