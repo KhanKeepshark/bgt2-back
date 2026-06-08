@@ -77,7 +77,10 @@ export function getArchiveTargetMonth(now = new Date()): Date {
 }
 
 /** Inclusive start, exclusive end for Operation.date filters in a calendar month. */
-export function getMonthBoundsInUtc(yearMonth: Date): { start: Date; end: Date } {
+export function getMonthBoundsInUtc(yearMonth: Date): {
+  start: Date;
+  end: Date;
+} {
   const { year, month } = getZonedYearMonth(yearMonth, LIMIT_GATE_TIMEZONE);
   const next = addMonths(year, month, 1);
   return {

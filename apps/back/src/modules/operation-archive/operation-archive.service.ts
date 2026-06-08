@@ -1,10 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '@back/core/prisma/prisma.service';
-import {
-  NotificationScope,
-  OperationType,
-  Prisma,
-} from '@prisma/generated';
+import { NotificationScope, OperationType, Prisma } from '@prisma/generated';
 import {
   getArchiveTargetMonth,
   getHotWindowStartMonth,
@@ -155,9 +151,7 @@ export class OperationArchiveService {
         continue;
       }
 
-      archivedMonths.push(
-        `${row.year}-${String(row.month).padStart(2, '0')}`,
-      );
+      archivedMonths.push(`${row.year}-${String(row.month).padStart(2, '0')}`);
 
       for (let i = 0; i < users.length; i += 100) {
         const chunk = users.slice(i, i + 100);
@@ -251,7 +245,9 @@ export class OperationArchiveService {
     );
   }
 
-  private sumTotals(rows: Array<{ type: OperationType; total: Prisma.Decimal; count: number }>) {
+  private sumTotals(
+    rows: Array<{ type: OperationType; total: Prisma.Decimal; count: number }>,
+  ) {
     return rows.reduce(
       (acc, row) => {
         const amount = Number(row.total);

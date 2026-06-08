@@ -19,9 +19,9 @@ describe('charts-data.router', () => {
   });
 
   it('returns hot when dateFrom >= hotStart', () => {
-    expect(resolveChartsRangeMode(hotStart, new Date('2026-06-01'), hotStart)).toBe(
-      'hot',
-    );
+    expect(
+      resolveChartsRangeMode(hotStart, new Date('2026-06-01'), hotStart),
+    ).toBe('hot');
   });
 
   it('returns spanning otherwise', () => {

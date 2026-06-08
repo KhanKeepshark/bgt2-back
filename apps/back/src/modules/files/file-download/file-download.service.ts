@@ -107,11 +107,7 @@ export class FileDownloadService {
         userId: user.id,
         yearMonth: { lt: hotStart },
       },
-      orderBy: [
-        { yearMonth: 'asc' },
-        { type: 'asc' },
-        { categoryName: 'asc' },
-      ],
+      orderBy: [{ yearMonth: 'asc' }, { type: 'asc' }, { categoryName: 'asc' }],
     });
 
     if (rows.length === 0) {

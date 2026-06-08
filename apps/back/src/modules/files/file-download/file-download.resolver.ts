@@ -20,7 +20,9 @@ export class FileDownloadResolver {
   }
 
   @Authorization()
-  @Mutation(() => FileDownloadModel, { name: 'exportArchivedOperationsToExcel' })
+  @Mutation(() => FileDownloadModel, {
+    name: 'exportArchivedOperationsToExcel',
+  })
   public async exportArchivedOperationsToExcel(
     @Authorized() user: User,
   ): Promise<FileDownloadModel> {

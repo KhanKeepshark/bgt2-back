@@ -1,4 +1,4 @@
-import { OperationType } from '@prisma/generated';
+import type { OperationType } from '@prisma/generated';
 
 export type ChartsRangeMode = 'hot' | 'archived' | 'spanning' | 'all-time';
 

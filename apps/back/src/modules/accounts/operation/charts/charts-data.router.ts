@@ -1,6 +1,5 @@
-import { ChartsRangeMode } from './charts-data.types';
+import type { ChartsRangeMode } from './charts-data.types';
 import {
-  getHotWindowStartMonth,
   getMonthBoundsInUtc,
   yearMonthFromAlmatyParts,
 } from '@back/shared/operation-retention/operation-retention.util';

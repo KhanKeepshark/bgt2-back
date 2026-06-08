@@ -21,7 +21,10 @@ import {
 export class ChartsDataService {
   public constructor(private readonly prisma: PrismaService) {}
 
-  public async findAllForCharts(user: User, filter?: OperationChartsFilterInput) {
+  public async findAllForCharts(
+    user: User,
+    filter?: OperationChartsFilterInput,
+  ) {
     try {
       const hotStart = getHotWindowStartMonth();
       const normalized = normalizeChartsDates(filter?.dateFrom, filter?.dateTo);
@@ -102,7 +105,10 @@ export class ChartsDataService {
     mergeDays(incomeByDays, b.incomeByDays);
     mergeDays(expenseByDays, b.expenseByDays);
 
-    const categoryMap = new Map<string, { type: OperationType; total: number }>();
+    const categoryMap = new Map<
+      string,
+      { type: OperationType; total: number }
+    >();
     for (const row of [...a.categoryTotals, ...b.categoryTotals]) {
       const key = `${row.categoryId}:${row.type}`;
       const existing = categoryMap.get(key);
@@ -118,13 +124,11 @@ export class ChartsDataService {
       expenseByDays,
       incomeAll: a.incomeAll + b.incomeAll,
       expenseAll: a.expenseAll + b.expenseAll,
-      categoryTotals: Array.from(categoryMap.entries()).map(
-        ([key, value]) => ({
-          categoryId: key.split(':')[0],
-          type: value.type,
-          total: value.total,
-        }),
-      ),
+      categoryTotals: Array.from(categoryMap.entries()).map(([key, value]) => ({
+        categoryId: key.split(':')[0],
+        type: value.type,
+        total: value.total,
+      })),
     };
   }
 
@@ -167,7 +171,10 @@ export class ChartsDataService {
     const expenseByDays: Record<string, number> = {};
     let incomeAll = 0;
     let expenseAll = 0;
-    const categoryAcc = new Map<string, { type: OperationType; total: number }>();
+    const categoryAcc = new Map<
+      string,
+      { type: OperationType; total: number }
+    >();
 
     for (const row of rows) {
       const amount = Number(row.totalAmount);
@@ -220,7 +227,9 @@ export class ChartsDataService {
 
     const filter = options.filter;
     if (filter?.categoryIds?.length) {
-      const catIds = Prisma.join(filter.categoryIds.map((id) => Prisma.sql`${id}`));
+      const catIds = Prisma.join(
+        filter.categoryIds.map((id) => Prisma.sql`${id}`),
+      );
       conditions.push(Prisma.sql`"categoryId" IN (${catIds})`);
     }
     if (filter?.searchDescription) {
@@ -229,7 +238,9 @@ export class ChartsDataService {
       );
     }
     if (filter?.accountIds?.length) {
-      const accIds = Prisma.join(filter.accountIds.map((id) => Prisma.sql`${id}`));
+      const accIds = Prisma.join(
+        filter.accountIds.map((id) => Prisma.sql`${id}`),
+      );
       conditions.push(
         Prisma.sql`("accountId" IN (${accIds}) OR "transferAccountId" IN (${accIds}))`,
       );
@@ -315,13 +326,18 @@ export class ChartsDataService {
     );
 
     const isArchivedOnly =
-      resolveChartsRangeMode(normalized.dateFrom, normalized.dateTo, getHotWindowStartMonth()) ===
-      'archived';
+      resolveChartsRangeMode(
+        normalized.dateFrom,
+        normalized.dateTo,
+        getHotWindowStartMonth(),
+      ) === 'archived';
 
     const incomeDays = Object.keys(slice.incomeByDays).length;
     const expenseDays = Object.keys(slice.expenseByDays).length;
     const incomeGroupSize = isArchivedOnly ? 1 : calculateGroupSize(incomeDays);
-    const expenseGroupSize = isArchivedOnly ? 1 : calculateGroupSize(expenseDays);
+    const expenseGroupSize = isArchivedOnly
+      ? 1
+      : calculateGroupSize(expenseDays);
 
     const incomeByDays = isArchivedOnly
       ? Object.entries(slice.incomeByDays).map(([key, value]) => ({
@@ -398,7 +414,8 @@ export class ChartsDataService {
 
     const buildCategoryList = (type: OperationType): Categories[] => {
       const rows = slice.categoryTotals.filter((r) => r.type === type);
-      const all = type === OperationType.INCOME ? slice.incomeAll : slice.expenseAll;
+      const all =
+        type === OperationType.INCOME ? slice.incomeAll : slice.expenseAll;
       const prevMap =
         type === OperationType.INCOME
           ? previousIncomeByCategories
@@ -409,8 +426,8 @@ export class ChartsDataService {
       for (const row of rows) {
         const category =
           row.categoryId !== 'none'
-            ? categoryMap.get(row.categoryId) ??
-              rollupMeta.get(row.categoryId)
+            ? (categoryMap.get(row.categoryId) ??
+              rollupMeta.get(row.categoryId))
             : undefined;
         if (!category) continue;
 
@@ -515,8 +532,11 @@ export class ChartsDataService {
     }
 
     const hotStart = getHotWindowStartMonth();
-    const mode = resolveChartsRangeMode(previousDateFrom, previousDateTo, hotStart);
-    const normalized = { dateFrom: previousDateFrom, dateTo: previousDateTo };
+    const mode = resolveChartsRangeMode(
+      previousDateFrom,
+      previousDateTo,
+      hotStart,
+    );
 
     let slice: ChartSlice;
     if (mode === 'archived') {

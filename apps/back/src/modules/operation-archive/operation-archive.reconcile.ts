@@ -5,9 +5,7 @@ export type ArchiveTotals = {
   expenseCount: number;
 };
 
-export type ReconcileResult =
-  | { ok: true }
-  | { ok: false; diff: string[] };
+export type ReconcileResult = { ok: true } | { ok: false; diff: string[] };
 
 export function reconcileArchiveMonth(
   rollup: ArchiveTotals,
