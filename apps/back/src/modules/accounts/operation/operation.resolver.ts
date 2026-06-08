@@ -26,6 +26,7 @@ import { OperationDataLoader } from './operation.dataloader';
 import { CategoryModel } from '../category/models/category.model';
 import { AccountModel } from '../account/models/account.model';
 import { TagModel } from '../tag/model/tag.model';
+import { getHotWindowStartMonth } from '@back/shared/operation-retention/operation-retention.util';
 
 @Resolver(() => OperationModel)
 export class OperationResolver {
@@ -79,6 +80,12 @@ export class OperationResolver {
     @Args('filter', { nullable: true }) filter?: OperationFilterInput,
   ) {
     return this.operationService.findAllSortedByDays(user, filter);
+  }
+
+  @Authorization()
+  @Query(() => Date, { name: 'operationsRetentionStartMonth' })
+  public operationsRetentionStartMonth(): Date {
+    return getHotWindowStartMonth();
   }
 
   @Authorization()

@@ -16,6 +16,27 @@ type AccountModel {
   userId: String!
 }
 
+type AdminArchiveStaleOperationsResultModel {
+  archivedMonths: [String!]!
+  monthsProcessed: Int!
+  usersArchived: Int!
+  usersSkipped: Int!
+}
+
+type AdminArchiveStaleOperationsResultModel {
+  archivedMonths: [String!]!
+  monthsProcessed: Int!
+  usersArchived: Int!
+  usersSkipped: Int!
+}
+
+type AdminDbDeploymentInfoModel {
+  environment: String!
+  restoreEnabled: Boolean!
+  targetDatabase: String!
+  totpRequiredForRestore: Boolean!
+}
+
 type AiCountModel {
   tokenCount: Float!
 }
@@ -182,32 +203,6 @@ input CreateUserInput {
   password: String!
 }
 
-type AdminDbDeploymentInfoModel {
-  environment: String!
-  restoreEnabled: Boolean!
-  targetDatabase: String!
-  totpRequiredForRestore: Boolean!
-}
-
-type DbBackupFileModel {
-  createdAt: DateTime!
-  filename: String!
-  format: String!
-  sizeBytes: Int!
-  source: String!
-}
-
-type DbRestoreJobModel {
-  errorMessage: String
-  filename: String!
-  finishedAt: DateTime
-  id: ID!
-  logTail: String
-  startedAt: DateTime!
-  status: String!
-  targetDatabase: String!
-}
-
 type DailyCountModel {
   count: Int!
   date: String!
@@ -229,6 +224,25 @@ scalar DateTime
 type DaySumModel {
   key: String!
   value: String!
+}
+
+type DbBackupFileModel {
+  createdAt: DateTime!
+  filename: String!
+  format: String!
+  sizeBytes: Int!
+  source: String!
+}
+
+type DbRestoreJobModel {
+  errorMessage: String
+  filename: String!
+  finishedAt: DateTime
+  id: ID!
+  logTail: String
+  startedAt: DateTime!
+  status: String!
+  targetDatabase: String!
 }
 
 type DeviceModel {
@@ -330,9 +344,10 @@ input LoginWithGoogleInput {
 }
 
 type Mutation {
+  accountHasOperations(id: String!): Boolean!
+  adminArchiveStaleOperations: AdminArchiveStaleOperationsResultModel!
   adminDeleteDbBackup(filename: String!): Boolean!
   adminStartDbRestore(confirmDatabaseName: String!, filename: String!, totpCode: String): DbRestoreJobModel!
-  accountHasOperations(id: String!): Boolean!
   aiFileTokenCount(file: Upload!): AiCountModel!
   aiFileUpload(file: Upload!): AiUploadTaskModel!
   categoryHasOperations(id: String!): Boolean!
@@ -362,6 +377,7 @@ type Mutation {
   deleteTag(id: String!): Boolean!
   disableTotp: Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
+  exportArchivedOperationsToExcel: FileDownloadModel!
   exportOperationsToExcel(filter: OperationsExportFilterInput): FileDownloadModel!
   forgotPassword(email: String!, language: String): Boolean!
   impersonateUser(userId: String!): AuthModel!
@@ -529,6 +545,7 @@ type Query {
   getKeywordFilters: [KeywordFilterModel!]!
   loginTotpPending: Boolean!
   me: UserModel!
+  operationsRetentionStartMonth: DateTime!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
   userStats(userId: String!): UserStatsModel!
 }
@@ -782,6 +799,7 @@ type UserModel {
   lastLoginAt: DateTime
   loginCount: Float!
   name: String!
+  operationsArchivalNotifiedAt: DateTime
   password: String!
   role: String!
   subscriptionExpiresAt: DateTime

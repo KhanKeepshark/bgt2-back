@@ -18,4 +18,12 @@ export class FileDownloadResolver {
   ): Promise<FileDownloadModel> {
     return this.fileDownloadService.exportOperationsToExcel(user, filter || {});
   }
+
+  @Authorization()
+  @Mutation(() => FileDownloadModel, { name: 'exportArchivedOperationsToExcel' })
+  public async exportArchivedOperationsToExcel(
+    @Authorized() user: User,
+  ): Promise<FileDownloadModel> {
+    return this.fileDownloadService.exportArchivedOperationsToExcel(user);
+  }
 }

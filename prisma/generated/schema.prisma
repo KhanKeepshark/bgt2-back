@@ -45,21 +45,23 @@ model User {
   // Время, до которого глобальные уведомления считаются прочитанными
   lastGlobalNotificationReadAt DateTime?
   welcomeSheetSeenAt           DateTime?
+  operationsArchivalNotifiedAt DateTime?
 
-  tokens            Token[]
-  accounts          Account[]
-  tags              Tag[]
-  categories        Category[]
-  categoryKeywords  CategoryKeyword[]
-  keywordFilters    KeywordFilter[]
-  operations        Operation[]
-  recurrenceConfigs RecurrenceConfig[]
-  aiTokenUsages     AiTokenUsage[]
-  aiUploadTasks     AiUploadTask[]
-  activityEvents    UserActivityEvent[]
-  notifications     Notification[]
-  payments          Payment[]
-  supportTickets    SupportTicket[]
+  tokens                  Token[]
+  accounts                Account[]
+  tags                    Tag[]
+  categories              Category[]
+  categoryKeywords        CategoryKeyword[]
+  keywordFilters          KeywordFilter[]
+  operations              Operation[]
+  operationMonthlyRollups OperationMonthlyRollup[]
+  recurrenceConfigs       RecurrenceConfig[]
+  aiTokenUsages           AiTokenUsage[]
+  aiUploadTasks           AiUploadTask[]
+  activityEvents          UserActivityEvent[]
+  notifications           Notification[]
+  payments                Payment[]
+  supportTickets          SupportTicket[]
 
   @@index([subscriptionPlanId])
   @@index([subscriptionPriceId])
@@ -213,6 +215,25 @@ model Operation {
   @@index([userId, categoryId])
   @@index([accountId])
   @@index([categoryId])
+}
+
+model OperationMonthlyRollup {
+  id             String        @id @default(uuid())
+  userId         String
+  yearMonth      DateTime
+  type           OperationType
+  categoryId     String?
+  accountId      String?
+  totalAmount    Decimal
+  operationCount Int
+  categoryName   String?       @db.VarChar(100)
+  categoryIcon   String?       @db.VarChar(50)
+  accountName    String?       @db.VarChar(100)
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, yearMonth])
 }
 
 model RecurrenceConfig {

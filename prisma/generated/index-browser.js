@@ -138,7 +138,8 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt',
   role: 'role',
   lastGlobalNotificationReadAt: 'lastGlobalNotificationReadAt',
-  welcomeSheetSeenAt: 'welcomeSheetSeenAt'
+  welcomeSheetSeenAt: 'welcomeSheetSeenAt',
+  operationsArchivalNotifiedAt: 'operationsArchivalNotifiedAt'
 };
 
 exports.Prisma.SubscriptionPlanScalarFieldEnum = {
@@ -207,6 +208,21 @@ exports.Prisma.OperationScalarFieldEnum = {
   recurrenceConfigId: 'recurrenceConfigId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OperationMonthlyRollupScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  yearMonth: 'yearMonth',
+  type: 'type',
+  categoryId: 'categoryId',
+  accountId: 'accountId',
+  totalAmount: 'totalAmount',
+  operationCount: 'operationCount',
+  categoryName: 'categoryName',
+  categoryIcon: 'categoryIcon',
+  accountName: 'accountName',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.RecurrenceConfigScalarFieldEnum = {
@@ -458,6 +474,7 @@ exports.Prisma.ModelName = {
   Token: 'Token',
   Account: 'Account',
   Operation: 'Operation',
+  OperationMonthlyRollup: 'OperationMonthlyRollup',
   RecurrenceConfig: 'RecurrenceConfig',
   Tag: 'Tag',
   Category: 'Category',

@@ -2,6 +2,7 @@ import { PrismaService } from '@back/core/prisma/prisma.service';
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import {
@@ -20,9 +21,12 @@ import {
   TagError,
 } from '@back/shared/constants/errors.constants';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
+import { isOperationDateInHotWindow } from '@back/shared/operation-retention/operation-retention.util';
 
 @Injectable()
 export class RecurrenceService {
+  private readonly logger = new Logger(RecurrenceService.name);
+
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly limitGate: LimitGateService,
@@ -530,6 +534,13 @@ export class RecurrenceService {
       stats.processed = recurrences.length;
 
       for (const recurrence of recurrences) {
+        if (!isOperationDateInHotWindow(recurrence.date)) {
+          this.logger.warn(
+            `Recurrence ${recurrence.id} skipped: date before retention cutoff`,
+          );
+          continue;
+        }
+
         try {
           await this.createNextRecurringOperation(recurrence.id);
           stats.created++;

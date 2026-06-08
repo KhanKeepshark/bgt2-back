@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { RecurrenceService } from '../accounts/recurrenceConfig/recurrence.service';
+import { OperationArchiveService } from '../operation-archive/operation-archive.service';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { SubscriptionType } from '@prisma/generated';
 import { exec } from 'child_process';
@@ -12,6 +13,7 @@ export class CronService {
 
   public constructor(
     private readonly recurrenceService: RecurrenceService,
+    private readonly operationArchiveService: OperationArchiveService,
     private readonly prismaService: PrismaService,
   ) {}
 
@@ -177,6 +179,23 @@ export class CronService {
       );
     } catch (error) {
       this.logger.error('Cleanup failed:', error);
+    }
+  }
+
+  /**
+   * Архивация операций старше 24 месяцев — 1-го числа в 04:00
+   */
+  @Cron('0 4 1 * *')
+  async handleOperationArchival() {
+    this.logger.log('Starting monthly operation archival...');
+
+    try {
+      await this.operationArchiveService.archiveAllUsersForTargetMonth({
+        deleteEnabled: true,
+      });
+      this.logger.log('Monthly operation archival completed.');
+    } catch (error) {
+      this.logger.error('Failed to archive operations:', error);
     }
   }
 

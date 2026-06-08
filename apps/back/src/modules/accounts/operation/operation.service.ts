@@ -20,9 +20,6 @@ import { OperationFilterInput } from './inputs/operation-filter.input';
 import { RecurrenceService } from '../recurrenceConfig/recurrence.service';
 import { OperationChartsFilterInput } from './inputs/operation-charts-filter';
 import { Prisma } from '@prisma/generated';
-import { calculateGroupSize, groupDays } from './utils/findAllForCharts.utils';
-import { Categories } from './models/operation-chart-data.model';
-import { CategoryModel } from '../category/models/category.model';
 import {
   AccountError,
   CategoryError,
@@ -31,6 +28,8 @@ import {
   TagError,
 } from '@back/shared/constants/errors.constants';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
+import { assertOperationDateInHotWindow } from '@back/shared/operation-retention/operation-retention.util';
+import { ChartsDataService } from './charts/charts-data.service';
 
 @Injectable()
 export class OperationService {
@@ -38,6 +37,7 @@ export class OperationService {
     private readonly prismaService: PrismaService,
     private readonly recurrenceService: RecurrenceService,
     private readonly limitGate: LimitGateService,
+    private readonly chartsDataService: ChartsDataService,
   ) {}
 
   public async create(
@@ -46,6 +46,7 @@ export class OperationService {
   ): Promise<Operation> {
     try {
       await this.limitGate.assertCanCreateOperations(user.id);
+      assertOperationDateInHotWindow(input.date);
 
       if (input.recurrence) {
         return await this.recurrenceService.createRecurringOperation(
@@ -230,6 +231,10 @@ export class OperationService {
       categories.forEach((c) => categoryMap.set(c.name.toLowerCase(), c));
       const accountMap = new Map<string, Account>();
       accounts.forEach((acc) => accountMap.set(acc.name.toLowerCase(), acc));
+
+      for (const op of operations) {
+        assertOperationDateInHotWindow(new Date(op.date));
+      }
 
       const createdOperations: Operation[] = [];
 
@@ -493,317 +498,7 @@ export class OperationService {
     user: User,
     filter?: OperationChartsFilterInput,
   ) {
-    try {
-      const conditions: Prisma.Sql[] = [
-        Prisma.sql`"userId" = ${user.id}`,
-        Prisma.sql`"type" != 'TRANSFER'`,
-      ];
-
-      if (filter) {
-        if (filter.dateFrom) {
-          conditions.push(Prisma.sql`"date" >= ${filter.dateFrom}::timestamp`);
-        }
-        if (filter.dateTo) {
-          conditions.push(Prisma.sql`"date" <= ${filter.dateTo}::timestamp`);
-        }
-        if (filter.categoryIds && filter.categoryIds.length > 0) {
-          const catIds = Prisma.join(
-            filter.categoryIds.map((id) => Prisma.sql`${id}`),
-          );
-          conditions.push(Prisma.sql`"categoryId" IN (${catIds})`);
-        }
-        if (filter.searchDescription) {
-          conditions.push(
-            Prisma.sql`"description" ILIKE ${'%' + filter.searchDescription + '%'}`,
-          );
-        }
-        if (filter.accountIds && filter.accountIds.length > 0) {
-          const accIds = Prisma.join(
-            filter.accountIds.map((id) => Prisma.sql`${id}`),
-          );
-          conditions.push(
-            Prisma.sql`("accountId" IN (${accIds}) OR "transferAccountId" IN (${accIds}))`,
-          );
-        }
-      }
-
-      const whereClause = Prisma.sql`${Prisma.join(conditions, ' AND ')}`;
-
-      // 1. Get sums by day
-      const byDaysResult = await this.prismaService.$queryRaw<any[]>`
-        SELECT 
-          TO_CHAR("date", 'YYYY-MM-DD') as day,
-          "type",
-          SUM("amount") as total
-        FROM "Operation"
-        WHERE ${whereClause}
-        GROUP BY TO_CHAR("date", 'YYYY-MM-DD'), "type"
-        ORDER BY day ASC
-      `;
-
-      // 2. Get sums by category
-      const byCategoriesResult = await this.prismaService.$queryRaw<any[]>`
-        SELECT 
-          "categoryId",
-          "type",
-          SUM("amount") as total
-        FROM "Operation"
-        WHERE ${whereClause} AND "categoryId" IS NOT NULL
-        GROUP BY "categoryId", "type"
-      `;
-
-      // Calculate totals
-      let incomeAll = 0;
-      let expenseAll = 0;
-
-      const byDays = {
-        [OperationType.INCOME]: {} as Record<string, number>,
-        [OperationType.EXPENSE]: {} as Record<string, number>,
-      };
-
-      for (const row of byDaysResult) {
-        const amount = Number(row.total);
-        byDays[row.type as OperationType][row.day] = amount;
-        if (row.type === OperationType.INCOME) incomeAll += amount;
-        if (row.type === OperationType.EXPENSE) expenseAll += amount;
-      }
-
-      // Determine date range for averages
-      let dateFrom = filter?.dateFrom ? new Date(filter.dateFrom) : new Date();
-      let dateTo = filter?.dateTo ? new Date(filter.dateTo) : new Date();
-
-      if (!filter?.dateFrom && byDaysResult.length > 0) {
-        dateFrom = new Date(byDaysResult[0].day);
-      }
-      if (!filter?.dateTo && byDaysResult.length > 0) {
-        dateTo = new Date(byDaysResult[byDaysResult.length - 1].day);
-      }
-
-      const diffTime = dateTo.getTime() - dateFrom.getTime();
-      const diffDays = Math.max(
-        1,
-        Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1,
-      );
-
-      const incomeDays = Object.keys(byDays[OperationType.INCOME]).length;
-      const expenseDays = Object.keys(byDays[OperationType.EXPENSE]).length;
-      const incomeGroupSize = calculateGroupSize(incomeDays);
-      const expenseGroupSize = calculateGroupSize(expenseDays);
-
-      const incomeByDays = groupDays(
-        byDays[OperationType.INCOME],
-        incomeGroupSize,
-      );
-      const expenseByDays = groupDays(
-        byDays[OperationType.EXPENSE],
-        expenseGroupSize,
-      );
-
-      // Previous period calculations
-      let incomeChangePercent: string | undefined;
-      let expenseChangePercent: string | undefined;
-      let previousIncomeAll = 0;
-      let previousExpenseAll = 0;
-      const previousIncomeByCategories = new Map<string, number>();
-      const previousExpenseByCategories = new Map<string, number>();
-
-      if (filter?.type && filter.type !== 'custom') {
-        let previousDateFrom: Date;
-        let previousDateTo: Date;
-
-        if (filter.type === 'week') {
-          previousDateTo = new Date(dateFrom);
-          previousDateTo.setDate(previousDateTo.getDate() - 1);
-          previousDateFrom = new Date(previousDateTo);
-          previousDateFrom.setDate(previousDateFrom.getDate() - 6);
-        } else if (filter.type === 'month') {
-          previousDateTo = new Date(dateTo);
-          previousDateTo.setMonth(previousDateTo.getMonth() - 1);
-          previousDateFrom = new Date(dateFrom);
-          previousDateFrom.setMonth(previousDateFrom.getMonth() - 1);
-        } else if (filter.type === 'year') {
-          previousDateTo = new Date(dateTo);
-          previousDateTo.setFullYear(previousDateTo.getFullYear() - 1);
-          previousDateFrom = new Date(dateFrom);
-          previousDateFrom.setFullYear(previousDateFrom.getFullYear() - 1);
-        } else {
-          previousDateTo = new Date(dateFrom);
-          previousDateTo.setDate(previousDateTo.getDate() - 1);
-          previousDateFrom = new Date(previousDateTo);
-          previousDateFrom.setDate(previousDateFrom.getDate() - diffDays + 1);
-        }
-
-        const prevConditions: Prisma.Sql[] = [
-          Prisma.sql`"userId" = ${user.id}`,
-          Prisma.sql`"type" != 'TRANSFER'`,
-          Prisma.sql`"date" >= ${previousDateFrom}::timestamp`,
-          Prisma.sql`"date" <= ${previousDateTo}::timestamp`,
-        ];
-
-        if (filter.categoryIds && filter.categoryIds.length > 0) {
-          const catIds = Prisma.join(
-            filter.categoryIds.map((id) => Prisma.sql`${id}`),
-          );
-          prevConditions.push(Prisma.sql`"categoryId" IN (${catIds})`);
-        }
-        if (filter.searchDescription) {
-          prevConditions.push(
-            Prisma.sql`"description" ILIKE ${'%' + filter.searchDescription + '%'}`,
-          );
-        }
-        if (filter.accountIds && filter.accountIds.length > 0) {
-          const accIds = Prisma.join(
-            filter.accountIds.map((id) => Prisma.sql`${id}`),
-          );
-          prevConditions.push(
-            Prisma.sql`("accountId" IN (${accIds}) OR "transferAccountId" IN (${accIds}))`,
-          );
-        }
-
-        const prevWhereClause = Prisma.sql`${Prisma.join(prevConditions, ' AND ')}`;
-
-        const prevByCategoriesResult = await this.prismaService.$queryRaw<
-          any[]
-        >`
-          SELECT 
-            "categoryId",
-            "type",
-            SUM("amount") as total
-          FROM "Operation"
-          WHERE ${prevWhereClause} AND "categoryId" IS NOT NULL
-          GROUP BY "categoryId", "type"
-        `;
-
-        for (const row of prevByCategoriesResult) {
-          const amount = Number(row.total);
-          if (row.type === OperationType.INCOME) {
-            previousIncomeAll += amount;
-            previousIncomeByCategories.set(row.categoryId, amount);
-          } else {
-            previousExpenseAll += amount;
-            previousExpenseByCategories.set(row.categoryId, amount);
-          }
-        }
-      }
-
-      const calculateChangePercent = (
-        current: number,
-        previous: number,
-      ): string | undefined => {
-        if (previous === 0) {
-          return current > 0 ? '100' : current < 0 ? '-100' : '0';
-        }
-        const change = ((current - previous) / previous) * 100;
-        return change.toFixed(2);
-      };
-
-      if (filter?.type && filter.type !== 'custom') {
-        incomeChangePercent = calculateChangePercent(
-          incomeAll,
-          previousIncomeAll,
-        );
-        expenseChangePercent = calculateChangePercent(
-          expenseAll,
-          previousExpenseAll,
-        );
-      }
-
-      const calculateAverages = (total: number, days: number) => {
-        const dayAverage = days > 0 ? (total / days).toFixed(2) : '0';
-        if (days < 15) return { dayAverage };
-        const weekAverage = days > 0 ? (total / (days / 7)).toFixed(2) : '0';
-        if (days < 61) return { dayAverage, weekAverage };
-        const monthAverage = days > 0 ? (total / (days / 30)).toFixed(2) : '0';
-        if (days < 731) return { dayAverage, weekAverage, monthAverage };
-        const yearAverage = days > 0 ? (total / (days / 365)).toFixed(2) : '0';
-        return { dayAverage, weekAverage, monthAverage, yearAverage };
-      };
-
-      const incomeAverages = calculateAverages(incomeAll, diffDays);
-      const expenseAverages = calculateAverages(expenseAll, diffDays);
-
-      // Fetch categories
-      const categoryIds = new Set<string>();
-      byCategoriesResult.forEach((r) => categoryIds.add(r.categoryId));
-
-      const categories = await this.prismaService.category.findMany({
-        where: { id: { in: Array.from(categoryIds) } },
-        include: { keywords: true, children: true },
-      });
-      const categoryMap = new Map(categories.map((c) => [c.id, c]));
-
-      const incomeCategories: Categories[] = [];
-      const expenseCategories: Categories[] = [];
-
-      for (const row of byCategoriesResult) {
-        const category = categoryMap.get(row.categoryId);
-        if (!category) continue;
-
-        const amount = Number(row.total);
-        if (row.type === OperationType.INCOME) {
-          const percent =
-            incomeAll > 0 ? ((amount / incomeAll) * 100).toFixed(2) : '0';
-          const prevAmount =
-            filter?.type && filter.type !== 'custom'
-              ? previousIncomeByCategories.get(category.id) || 0
-              : 0;
-          const changePercent =
-            filter?.type && filter.type !== 'custom'
-              ? calculateChangePercent(amount, prevAmount)
-              : undefined;
-          incomeCategories.push({
-            category: category as unknown as CategoryModel,
-            all: new Decimal(amount),
-            percent,
-            changePercent,
-          });
-        } else {
-          const percent =
-            expenseAll > 0 ? ((amount / expenseAll) * 100).toFixed(2) : '0';
-          const prevAmount =
-            filter?.type && filter.type !== 'custom'
-              ? previousExpenseByCategories.get(category.id) || 0
-              : 0;
-          const changePercent =
-            filter?.type && filter.type !== 'custom'
-              ? calculateChangePercent(amount, prevAmount)
-              : undefined;
-          expenseCategories.push({
-            category: category as unknown as CategoryModel,
-            all: new Decimal(amount),
-            percent,
-            changePercent,
-          });
-        }
-      }
-
-      incomeCategories.sort((a, b) => b.all.toNumber() - a.all.toNumber());
-      expenseCategories.sort((a, b) => b.all.toNumber() - a.all.toNumber());
-
-      return {
-        income: {
-          all: new Decimal(incomeAll),
-          byDays: incomeByDays,
-          averages: incomeAverages,
-          categories: incomeCategories,
-          groupSize: incomeGroupSize,
-          changePercent: incomeChangePercent,
-        },
-        expense: {
-          all: new Decimal(expenseAll),
-          byDays: expenseByDays,
-          averages: expenseAverages,
-          categories: expenseCategories,
-          groupSize: expenseGroupSize,
-          changePercent: expenseChangePercent,
-        },
-      };
-    } catch (error) {
-      if (error?.code?.startsWith('P')) {
-        throw new BadRequestException(OperationError.NOT_FOUND);
-      }
-      throw error;
-    }
+    return this.chartsDataService.findAllForCharts(user, filter);
   }
 
   public async findOne(id: string, user: User): Promise<Operation> {
@@ -894,6 +589,10 @@ export class OperationService {
 
       if (!existingOperation) {
         throw new NotFoundException(OperationError.NOT_FOUND);
+      }
+
+      if (input.date) {
+        assertOperationDateInHotWindow(input.date);
       }
 
       const updated = await this.prismaService.$transaction(async (tx) => {

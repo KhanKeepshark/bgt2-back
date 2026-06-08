@@ -44,6 +44,11 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  */
 export type Operation = $Result.DefaultSelection<Prisma.$OperationPayload>
 /**
+ * Model OperationMonthlyRollup
+ * 
+ */
+export type OperationMonthlyRollup = $Result.DefaultSelection<Prisma.$OperationMonthlyRollupPayload>
+/**
  * Model RecurrenceConfig
  * 
  */
@@ -466,6 +471,16 @@ export class PrismaClient<
     * ```
     */
   get operation(): Prisma.OperationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.operationMonthlyRollup`: Exposes CRUD operations for the **OperationMonthlyRollup** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OperationMonthlyRollups
+    * const operationMonthlyRollups = await prisma.operationMonthlyRollup.findMany()
+    * ```
+    */
+  get operationMonthlyRollup(): Prisma.OperationMonthlyRollupDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.recurrenceConfig`: Exposes CRUD operations for the **RecurrenceConfig** model.
@@ -1032,6 +1047,7 @@ export namespace Prisma {
     Token: 'Token',
     Account: 'Account',
     Operation: 'Operation',
+    OperationMonthlyRollup: 'OperationMonthlyRollup',
     RecurrenceConfig: 'RecurrenceConfig',
     Tag: 'Tag',
     Category: 'Category',
@@ -1062,7 +1078,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "userActivityEvent" | "notification" | "systemMetric" | "payment" | "supportTicket"
+      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "operationMonthlyRollup" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "userActivityEvent" | "notification" | "systemMetric" | "payment" | "supportTicket"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1507,6 +1523,80 @@ export namespace Prisma {
           count: {
             args: Prisma.OperationCountArgs<ExtArgs>
             result: $Utils.Optional<OperationCountAggregateOutputType> | number
+          }
+        }
+      }
+      OperationMonthlyRollup: {
+        payload: Prisma.$OperationMonthlyRollupPayload<ExtArgs>
+        fields: Prisma.OperationMonthlyRollupFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OperationMonthlyRollupFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OperationMonthlyRollupFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>
+          }
+          findFirst: {
+            args: Prisma.OperationMonthlyRollupFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OperationMonthlyRollupFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>
+          }
+          findMany: {
+            args: Prisma.OperationMonthlyRollupFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>[]
+          }
+          create: {
+            args: Prisma.OperationMonthlyRollupCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>
+          }
+          createMany: {
+            args: Prisma.OperationMonthlyRollupCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OperationMonthlyRollupCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>[]
+          }
+          delete: {
+            args: Prisma.OperationMonthlyRollupDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>
+          }
+          update: {
+            args: Prisma.OperationMonthlyRollupUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>
+          }
+          deleteMany: {
+            args: Prisma.OperationMonthlyRollupDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OperationMonthlyRollupUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OperationMonthlyRollupUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>[]
+          }
+          upsert: {
+            args: Prisma.OperationMonthlyRollupUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OperationMonthlyRollupPayload>
+          }
+          aggregate: {
+            args: Prisma.OperationMonthlyRollupAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOperationMonthlyRollup>
+          }
+          groupBy: {
+            args: Prisma.OperationMonthlyRollupGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OperationMonthlyRollupGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OperationMonthlyRollupCountArgs<ExtArgs>
+            result: $Utils.Optional<OperationMonthlyRollupCountAggregateOutputType> | number
           }
         }
       }
@@ -2488,6 +2578,7 @@ export namespace Prisma {
     token?: TokenOmit
     account?: AccountOmit
     operation?: OperationOmit
+    operationMonthlyRollup?: OperationMonthlyRollupOmit
     recurrenceConfig?: RecurrenceConfigOmit
     tag?: TagOmit
     category?: CategoryOmit
@@ -2601,6 +2692,7 @@ export namespace Prisma {
     categoryKeywords: number
     keywordFilters: number
     operations: number
+    operationMonthlyRollups: number
     recurrenceConfigs: number
     aiTokenUsages: number
     aiUploadTasks: number
@@ -2618,6 +2710,7 @@ export namespace Prisma {
     categoryKeywords?: boolean | UserCountOutputTypeCountCategoryKeywordsArgs
     keywordFilters?: boolean | UserCountOutputTypeCountKeywordFiltersArgs
     operations?: boolean | UserCountOutputTypeCountOperationsArgs
+    operationMonthlyRollups?: boolean | UserCountOutputTypeCountOperationMonthlyRollupsArgs
     recurrenceConfigs?: boolean | UserCountOutputTypeCountRecurrenceConfigsArgs
     aiTokenUsages?: boolean | UserCountOutputTypeCountAiTokenUsagesArgs
     aiUploadTasks?: boolean | UserCountOutputTypeCountAiUploadTasksArgs
@@ -2685,6 +2778,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountOperationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OperationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountOperationMonthlyRollupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OperationMonthlyRollupWhereInput
   }
 
   /**
@@ -3074,6 +3174,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     lastGlobalNotificationReadAt: Date | null
     welcomeSheetSeenAt: Date | null
+    operationsArchivalNotifiedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3098,6 +3199,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     lastGlobalNotificationReadAt: Date | null
     welcomeSheetSeenAt: Date | null
+    operationsArchivalNotifiedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -3122,6 +3224,7 @@ export namespace Prisma {
     role: number
     lastGlobalNotificationReadAt: number
     welcomeSheetSeenAt: number
+    operationsArchivalNotifiedAt: number
     _all: number
   }
 
@@ -3158,6 +3261,7 @@ export namespace Prisma {
     role?: true
     lastGlobalNotificationReadAt?: true
     welcomeSheetSeenAt?: true
+    operationsArchivalNotifiedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3182,6 +3286,7 @@ export namespace Prisma {
     role?: true
     lastGlobalNotificationReadAt?: true
     welcomeSheetSeenAt?: true
+    operationsArchivalNotifiedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3206,6 +3311,7 @@ export namespace Prisma {
     role?: true
     lastGlobalNotificationReadAt?: true
     welcomeSheetSeenAt?: true
+    operationsArchivalNotifiedAt?: true
     _all?: true
   }
 
@@ -3317,6 +3423,7 @@ export namespace Prisma {
     role: $Enums.Role
     lastGlobalNotificationReadAt: Date | null
     welcomeSheetSeenAt: Date | null
+    operationsArchivalNotifiedAt: Date | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -3360,6 +3467,7 @@ export namespace Prisma {
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
+    operationsArchivalNotifiedAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     subscriptionPrice?: boolean | User$subscriptionPriceArgs<ExtArgs>
@@ -3370,6 +3478,7 @@ export namespace Prisma {
     categoryKeywords?: boolean | User$categoryKeywordsArgs<ExtArgs>
     keywordFilters?: boolean | User$keywordFiltersArgs<ExtArgs>
     operations?: boolean | User$operationsArgs<ExtArgs>
+    operationMonthlyRollups?: boolean | User$operationMonthlyRollupsArgs<ExtArgs>
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
     aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
@@ -3402,6 +3511,7 @@ export namespace Prisma {
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
+    operationsArchivalNotifiedAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     subscriptionPrice?: boolean | User$subscriptionPriceArgs<ExtArgs>
@@ -3429,6 +3539,7 @@ export namespace Prisma {
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
+    operationsArchivalNotifiedAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
     subscriptionPrice?: boolean | User$subscriptionPriceArgs<ExtArgs>
@@ -3456,9 +3567,10 @@ export namespace Prisma {
     role?: boolean
     lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
+    operationsArchivalNotifiedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "lastGlobalNotificationReadAt" | "welcomeSheetSeenAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "lastGlobalNotificationReadAt" | "welcomeSheetSeenAt" | "operationsArchivalNotifiedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
@@ -3470,6 +3582,7 @@ export namespace Prisma {
     categoryKeywords?: boolean | User$categoryKeywordsArgs<ExtArgs>
     keywordFilters?: boolean | User$keywordFiltersArgs<ExtArgs>
     operations?: boolean | User$operationsArgs<ExtArgs>
+    operationMonthlyRollups?: boolean | User$operationMonthlyRollupsArgs<ExtArgs>
     recurrenceConfigs?: boolean | User$recurrenceConfigsArgs<ExtArgs>
     aiTokenUsages?: boolean | User$aiTokenUsagesArgs<ExtArgs>
     aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
@@ -3503,6 +3616,7 @@ export namespace Prisma {
       categoryKeywords: Prisma.$CategoryKeywordPayload<ExtArgs>[]
       keywordFilters: Prisma.$KeywordFilterPayload<ExtArgs>[]
       operations: Prisma.$OperationPayload<ExtArgs>[]
+      operationMonthlyRollups: Prisma.$OperationMonthlyRollupPayload<ExtArgs>[]
       recurrenceConfigs: Prisma.$RecurrenceConfigPayload<ExtArgs>[]
       aiTokenUsages: Prisma.$AiTokenUsagePayload<ExtArgs>[]
       aiUploadTasks: Prisma.$AiUploadTaskPayload<ExtArgs>[]
@@ -3533,6 +3647,7 @@ export namespace Prisma {
       role: $Enums.Role
       lastGlobalNotificationReadAt: Date | null
       welcomeSheetSeenAt: Date | null
+      operationsArchivalNotifiedAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3937,6 +4052,7 @@ export namespace Prisma {
     categoryKeywords<T extends User$categoryKeywordsArgs<ExtArgs> = {}>(args?: Subset<T, User$categoryKeywordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryKeywordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     keywordFilters<T extends User$keywordFiltersArgs<ExtArgs> = {}>(args?: Subset<T, User$keywordFiltersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeywordFilterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     operations<T extends User$operationsArgs<ExtArgs> = {}>(args?: Subset<T, User$operationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    operationMonthlyRollups<T extends User$operationMonthlyRollupsArgs<ExtArgs> = {}>(args?: Subset<T, User$operationMonthlyRollupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recurrenceConfigs<T extends User$recurrenceConfigsArgs<ExtArgs> = {}>(args?: Subset<T, User$recurrenceConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurrenceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiTokenUsages<T extends User$aiTokenUsagesArgs<ExtArgs> = {}>(args?: Subset<T, User$aiTokenUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiTokenUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     aiUploadTasks<T extends User$aiUploadTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$aiUploadTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3994,6 +4110,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'Role'>
     readonly lastGlobalNotificationReadAt: FieldRef<"User", 'DateTime'>
     readonly welcomeSheetSeenAt: FieldRef<"User", 'DateTime'>
+    readonly operationsArchivalNotifiedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -4593,6 +4710,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OperationScalarFieldEnum | OperationScalarFieldEnum[]
+  }
+
+  /**
+   * User.operationMonthlyRollups
+   */
+  export type User$operationMonthlyRollupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    where?: OperationMonthlyRollupWhereInput
+    orderBy?: OperationMonthlyRollupOrderByWithRelationInput | OperationMonthlyRollupOrderByWithRelationInput[]
+    cursor?: OperationMonthlyRollupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OperationMonthlyRollupScalarFieldEnum | OperationMonthlyRollupScalarFieldEnum[]
   }
 
   /**
@@ -10978,6 +11119,1193 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: OperationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OperationMonthlyRollup
+   */
+
+  export type AggregateOperationMonthlyRollup = {
+    _count: OperationMonthlyRollupCountAggregateOutputType | null
+    _avg: OperationMonthlyRollupAvgAggregateOutputType | null
+    _sum: OperationMonthlyRollupSumAggregateOutputType | null
+    _min: OperationMonthlyRollupMinAggregateOutputType | null
+    _max: OperationMonthlyRollupMaxAggregateOutputType | null
+  }
+
+  export type OperationMonthlyRollupAvgAggregateOutputType = {
+    totalAmount: Decimal | null
+    operationCount: number | null
+  }
+
+  export type OperationMonthlyRollupSumAggregateOutputType = {
+    totalAmount: Decimal | null
+    operationCount: number | null
+  }
+
+  export type OperationMonthlyRollupMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    yearMonth: Date | null
+    type: $Enums.OperationType | null
+    categoryId: string | null
+    accountId: string | null
+    totalAmount: Decimal | null
+    operationCount: number | null
+    categoryName: string | null
+    categoryIcon: string | null
+    accountName: string | null
+    createdAt: Date | null
+  }
+
+  export type OperationMonthlyRollupMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    yearMonth: Date | null
+    type: $Enums.OperationType | null
+    categoryId: string | null
+    accountId: string | null
+    totalAmount: Decimal | null
+    operationCount: number | null
+    categoryName: string | null
+    categoryIcon: string | null
+    accountName: string | null
+    createdAt: Date | null
+  }
+
+  export type OperationMonthlyRollupCountAggregateOutputType = {
+    id: number
+    userId: number
+    yearMonth: number
+    type: number
+    categoryId: number
+    accountId: number
+    totalAmount: number
+    operationCount: number
+    categoryName: number
+    categoryIcon: number
+    accountName: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type OperationMonthlyRollupAvgAggregateInputType = {
+    totalAmount?: true
+    operationCount?: true
+  }
+
+  export type OperationMonthlyRollupSumAggregateInputType = {
+    totalAmount?: true
+    operationCount?: true
+  }
+
+  export type OperationMonthlyRollupMinAggregateInputType = {
+    id?: true
+    userId?: true
+    yearMonth?: true
+    type?: true
+    categoryId?: true
+    accountId?: true
+    totalAmount?: true
+    operationCount?: true
+    categoryName?: true
+    categoryIcon?: true
+    accountName?: true
+    createdAt?: true
+  }
+
+  export type OperationMonthlyRollupMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    yearMonth?: true
+    type?: true
+    categoryId?: true
+    accountId?: true
+    totalAmount?: true
+    operationCount?: true
+    categoryName?: true
+    categoryIcon?: true
+    accountName?: true
+    createdAt?: true
+  }
+
+  export type OperationMonthlyRollupCountAggregateInputType = {
+    id?: true
+    userId?: true
+    yearMonth?: true
+    type?: true
+    categoryId?: true
+    accountId?: true
+    totalAmount?: true
+    operationCount?: true
+    categoryName?: true
+    categoryIcon?: true
+    accountName?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type OperationMonthlyRollupAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OperationMonthlyRollup to aggregate.
+     */
+    where?: OperationMonthlyRollupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OperationMonthlyRollups to fetch.
+     */
+    orderBy?: OperationMonthlyRollupOrderByWithRelationInput | OperationMonthlyRollupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OperationMonthlyRollupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OperationMonthlyRollups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OperationMonthlyRollups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OperationMonthlyRollups
+    **/
+    _count?: true | OperationMonthlyRollupCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OperationMonthlyRollupAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OperationMonthlyRollupSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OperationMonthlyRollupMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OperationMonthlyRollupMaxAggregateInputType
+  }
+
+  export type GetOperationMonthlyRollupAggregateType<T extends OperationMonthlyRollupAggregateArgs> = {
+        [P in keyof T & keyof AggregateOperationMonthlyRollup]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOperationMonthlyRollup[P]>
+      : GetScalarType<T[P], AggregateOperationMonthlyRollup[P]>
+  }
+
+
+
+
+  export type OperationMonthlyRollupGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OperationMonthlyRollupWhereInput
+    orderBy?: OperationMonthlyRollupOrderByWithAggregationInput | OperationMonthlyRollupOrderByWithAggregationInput[]
+    by: OperationMonthlyRollupScalarFieldEnum[] | OperationMonthlyRollupScalarFieldEnum
+    having?: OperationMonthlyRollupScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OperationMonthlyRollupCountAggregateInputType | true
+    _avg?: OperationMonthlyRollupAvgAggregateInputType
+    _sum?: OperationMonthlyRollupSumAggregateInputType
+    _min?: OperationMonthlyRollupMinAggregateInputType
+    _max?: OperationMonthlyRollupMaxAggregateInputType
+  }
+
+  export type OperationMonthlyRollupGroupByOutputType = {
+    id: string
+    userId: string
+    yearMonth: Date
+    type: $Enums.OperationType
+    categoryId: string | null
+    accountId: string | null
+    totalAmount: Decimal
+    operationCount: number
+    categoryName: string | null
+    categoryIcon: string | null
+    accountName: string | null
+    createdAt: Date
+    _count: OperationMonthlyRollupCountAggregateOutputType | null
+    _avg: OperationMonthlyRollupAvgAggregateOutputType | null
+    _sum: OperationMonthlyRollupSumAggregateOutputType | null
+    _min: OperationMonthlyRollupMinAggregateOutputType | null
+    _max: OperationMonthlyRollupMaxAggregateOutputType | null
+  }
+
+  type GetOperationMonthlyRollupGroupByPayload<T extends OperationMonthlyRollupGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OperationMonthlyRollupGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OperationMonthlyRollupGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OperationMonthlyRollupGroupByOutputType[P]>
+            : GetScalarType<T[P], OperationMonthlyRollupGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OperationMonthlyRollupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    yearMonth?: boolean
+    type?: boolean
+    categoryId?: boolean
+    accountId?: boolean
+    totalAmount?: boolean
+    operationCount?: boolean
+    categoryName?: boolean
+    categoryIcon?: boolean
+    accountName?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["operationMonthlyRollup"]>
+
+  export type OperationMonthlyRollupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    yearMonth?: boolean
+    type?: boolean
+    categoryId?: boolean
+    accountId?: boolean
+    totalAmount?: boolean
+    operationCount?: boolean
+    categoryName?: boolean
+    categoryIcon?: boolean
+    accountName?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["operationMonthlyRollup"]>
+
+  export type OperationMonthlyRollupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    yearMonth?: boolean
+    type?: boolean
+    categoryId?: boolean
+    accountId?: boolean
+    totalAmount?: boolean
+    operationCount?: boolean
+    categoryName?: boolean
+    categoryIcon?: boolean
+    accountName?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["operationMonthlyRollup"]>
+
+  export type OperationMonthlyRollupSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    yearMonth?: boolean
+    type?: boolean
+    categoryId?: boolean
+    accountId?: boolean
+    totalAmount?: boolean
+    operationCount?: boolean
+    categoryName?: boolean
+    categoryIcon?: boolean
+    accountName?: boolean
+    createdAt?: boolean
+  }
+
+  export type OperationMonthlyRollupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "yearMonth" | "type" | "categoryId" | "accountId" | "totalAmount" | "operationCount" | "categoryName" | "categoryIcon" | "accountName" | "createdAt", ExtArgs["result"]["operationMonthlyRollup"]>
+  export type OperationMonthlyRollupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type OperationMonthlyRollupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type OperationMonthlyRollupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $OperationMonthlyRollupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OperationMonthlyRollup"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      yearMonth: Date
+      type: $Enums.OperationType
+      categoryId: string | null
+      accountId: string | null
+      totalAmount: Prisma.Decimal
+      operationCount: number
+      categoryName: string | null
+      categoryIcon: string | null
+      accountName: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["operationMonthlyRollup"]>
+    composites: {}
+  }
+
+  type OperationMonthlyRollupGetPayload<S extends boolean | null | undefined | OperationMonthlyRollupDefaultArgs> = $Result.GetResult<Prisma.$OperationMonthlyRollupPayload, S>
+
+  type OperationMonthlyRollupCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OperationMonthlyRollupFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OperationMonthlyRollupCountAggregateInputType | true
+    }
+
+  export interface OperationMonthlyRollupDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OperationMonthlyRollup'], meta: { name: 'OperationMonthlyRollup' } }
+    /**
+     * Find zero or one OperationMonthlyRollup that matches the filter.
+     * @param {OperationMonthlyRollupFindUniqueArgs} args - Arguments to find a OperationMonthlyRollup
+     * @example
+     * // Get one OperationMonthlyRollup
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OperationMonthlyRollupFindUniqueArgs>(args: SelectSubset<T, OperationMonthlyRollupFindUniqueArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OperationMonthlyRollup that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OperationMonthlyRollupFindUniqueOrThrowArgs} args - Arguments to find a OperationMonthlyRollup
+     * @example
+     * // Get one OperationMonthlyRollup
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OperationMonthlyRollupFindUniqueOrThrowArgs>(args: SelectSubset<T, OperationMonthlyRollupFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OperationMonthlyRollup that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperationMonthlyRollupFindFirstArgs} args - Arguments to find a OperationMonthlyRollup
+     * @example
+     * // Get one OperationMonthlyRollup
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OperationMonthlyRollupFindFirstArgs>(args?: SelectSubset<T, OperationMonthlyRollupFindFirstArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OperationMonthlyRollup that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperationMonthlyRollupFindFirstOrThrowArgs} args - Arguments to find a OperationMonthlyRollup
+     * @example
+     * // Get one OperationMonthlyRollup
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OperationMonthlyRollupFindFirstOrThrowArgs>(args?: SelectSubset<T, OperationMonthlyRollupFindFirstOrThrowArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OperationMonthlyRollups that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperationMonthlyRollupFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OperationMonthlyRollups
+     * const operationMonthlyRollups = await prisma.operationMonthlyRollup.findMany()
+     * 
+     * // Get first 10 OperationMonthlyRollups
+     * const operationMonthlyRollups = await prisma.operationMonthlyRollup.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const operationMonthlyRollupWithIdOnly = await prisma.operationMonthlyRollup.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OperationMonthlyRollupFindManyArgs>(args?: SelectSubset<T, OperationMonthlyRollupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OperationMonthlyRollup.
+     * @param {OperationMonthlyRollupCreateArgs} args - Arguments to create a OperationMonthlyRollup.
+     * @example
+     * // Create one OperationMonthlyRollup
+     * const OperationMonthlyRollup = await prisma.operationMonthlyRollup.create({
+     *   data: {
+     *     // ... data to create a OperationMonthlyRollup
+     *   }
+     * })
+     * 
+     */
+    create<T extends OperationMonthlyRollupCreateArgs>(args: SelectSubset<T, OperationMonthlyRollupCreateArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OperationMonthlyRollups.
+     * @param {OperationMonthlyRollupCreateManyArgs} args - Arguments to create many OperationMonthlyRollups.
+     * @example
+     * // Create many OperationMonthlyRollups
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OperationMonthlyRollupCreateManyArgs>(args?: SelectSubset<T, OperationMonthlyRollupCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OperationMonthlyRollups and returns the data saved in the database.
+     * @param {OperationMonthlyRollupCreateManyAndReturnArgs} args - Arguments to create many OperationMonthlyRollups.
+     * @example
+     * // Create many OperationMonthlyRollups
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OperationMonthlyRollups and only return the `id`
+     * const operationMonthlyRollupWithIdOnly = await prisma.operationMonthlyRollup.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OperationMonthlyRollupCreateManyAndReturnArgs>(args?: SelectSubset<T, OperationMonthlyRollupCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OperationMonthlyRollup.
+     * @param {OperationMonthlyRollupDeleteArgs} args - Arguments to delete one OperationMonthlyRollup.
+     * @example
+     * // Delete one OperationMonthlyRollup
+     * const OperationMonthlyRollup = await prisma.operationMonthlyRollup.delete({
+     *   where: {
+     *     // ... filter to delete one OperationMonthlyRollup
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OperationMonthlyRollupDeleteArgs>(args: SelectSubset<T, OperationMonthlyRollupDeleteArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OperationMonthlyRollup.
+     * @param {OperationMonthlyRollupUpdateArgs} args - Arguments to update one OperationMonthlyRollup.
+     * @example
+     * // Update one OperationMonthlyRollup
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OperationMonthlyRollupUpdateArgs>(args: SelectSubset<T, OperationMonthlyRollupUpdateArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OperationMonthlyRollups.
+     * @param {OperationMonthlyRollupDeleteManyArgs} args - Arguments to filter OperationMonthlyRollups to delete.
+     * @example
+     * // Delete a few OperationMonthlyRollups
+     * const { count } = await prisma.operationMonthlyRollup.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OperationMonthlyRollupDeleteManyArgs>(args?: SelectSubset<T, OperationMonthlyRollupDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OperationMonthlyRollups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperationMonthlyRollupUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OperationMonthlyRollups
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OperationMonthlyRollupUpdateManyArgs>(args: SelectSubset<T, OperationMonthlyRollupUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OperationMonthlyRollups and returns the data updated in the database.
+     * @param {OperationMonthlyRollupUpdateManyAndReturnArgs} args - Arguments to update many OperationMonthlyRollups.
+     * @example
+     * // Update many OperationMonthlyRollups
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OperationMonthlyRollups and only return the `id`
+     * const operationMonthlyRollupWithIdOnly = await prisma.operationMonthlyRollup.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OperationMonthlyRollupUpdateManyAndReturnArgs>(args: SelectSubset<T, OperationMonthlyRollupUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OperationMonthlyRollup.
+     * @param {OperationMonthlyRollupUpsertArgs} args - Arguments to update or create a OperationMonthlyRollup.
+     * @example
+     * // Update or create a OperationMonthlyRollup
+     * const operationMonthlyRollup = await prisma.operationMonthlyRollup.upsert({
+     *   create: {
+     *     // ... data to create a OperationMonthlyRollup
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OperationMonthlyRollup we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OperationMonthlyRollupUpsertArgs>(args: SelectSubset<T, OperationMonthlyRollupUpsertArgs<ExtArgs>>): Prisma__OperationMonthlyRollupClient<$Result.GetResult<Prisma.$OperationMonthlyRollupPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OperationMonthlyRollups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperationMonthlyRollupCountArgs} args - Arguments to filter OperationMonthlyRollups to count.
+     * @example
+     * // Count the number of OperationMonthlyRollups
+     * const count = await prisma.operationMonthlyRollup.count({
+     *   where: {
+     *     // ... the filter for the OperationMonthlyRollups we want to count
+     *   }
+     * })
+    **/
+    count<T extends OperationMonthlyRollupCountArgs>(
+      args?: Subset<T, OperationMonthlyRollupCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OperationMonthlyRollupCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OperationMonthlyRollup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperationMonthlyRollupAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OperationMonthlyRollupAggregateArgs>(args: Subset<T, OperationMonthlyRollupAggregateArgs>): Prisma.PrismaPromise<GetOperationMonthlyRollupAggregateType<T>>
+
+    /**
+     * Group by OperationMonthlyRollup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OperationMonthlyRollupGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OperationMonthlyRollupGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OperationMonthlyRollupGroupByArgs['orderBy'] }
+        : { orderBy?: OperationMonthlyRollupGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OperationMonthlyRollupGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOperationMonthlyRollupGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OperationMonthlyRollup model
+   */
+  readonly fields: OperationMonthlyRollupFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OperationMonthlyRollup.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OperationMonthlyRollupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OperationMonthlyRollup model
+   */ 
+  interface OperationMonthlyRollupFieldRefs {
+    readonly id: FieldRef<"OperationMonthlyRollup", 'String'>
+    readonly userId: FieldRef<"OperationMonthlyRollup", 'String'>
+    readonly yearMonth: FieldRef<"OperationMonthlyRollup", 'DateTime'>
+    readonly type: FieldRef<"OperationMonthlyRollup", 'OperationType'>
+    readonly categoryId: FieldRef<"OperationMonthlyRollup", 'String'>
+    readonly accountId: FieldRef<"OperationMonthlyRollup", 'String'>
+    readonly totalAmount: FieldRef<"OperationMonthlyRollup", 'Decimal'>
+    readonly operationCount: FieldRef<"OperationMonthlyRollup", 'Int'>
+    readonly categoryName: FieldRef<"OperationMonthlyRollup", 'String'>
+    readonly categoryIcon: FieldRef<"OperationMonthlyRollup", 'String'>
+    readonly accountName: FieldRef<"OperationMonthlyRollup", 'String'>
+    readonly createdAt: FieldRef<"OperationMonthlyRollup", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OperationMonthlyRollup findUnique
+   */
+  export type OperationMonthlyRollupFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * Filter, which OperationMonthlyRollup to fetch.
+     */
+    where: OperationMonthlyRollupWhereUniqueInput
+  }
+
+  /**
+   * OperationMonthlyRollup findUniqueOrThrow
+   */
+  export type OperationMonthlyRollupFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * Filter, which OperationMonthlyRollup to fetch.
+     */
+    where: OperationMonthlyRollupWhereUniqueInput
+  }
+
+  /**
+   * OperationMonthlyRollup findFirst
+   */
+  export type OperationMonthlyRollupFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * Filter, which OperationMonthlyRollup to fetch.
+     */
+    where?: OperationMonthlyRollupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OperationMonthlyRollups to fetch.
+     */
+    orderBy?: OperationMonthlyRollupOrderByWithRelationInput | OperationMonthlyRollupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OperationMonthlyRollups.
+     */
+    cursor?: OperationMonthlyRollupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OperationMonthlyRollups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OperationMonthlyRollups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OperationMonthlyRollups.
+     */
+    distinct?: OperationMonthlyRollupScalarFieldEnum | OperationMonthlyRollupScalarFieldEnum[]
+  }
+
+  /**
+   * OperationMonthlyRollup findFirstOrThrow
+   */
+  export type OperationMonthlyRollupFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * Filter, which OperationMonthlyRollup to fetch.
+     */
+    where?: OperationMonthlyRollupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OperationMonthlyRollups to fetch.
+     */
+    orderBy?: OperationMonthlyRollupOrderByWithRelationInput | OperationMonthlyRollupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OperationMonthlyRollups.
+     */
+    cursor?: OperationMonthlyRollupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OperationMonthlyRollups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OperationMonthlyRollups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OperationMonthlyRollups.
+     */
+    distinct?: OperationMonthlyRollupScalarFieldEnum | OperationMonthlyRollupScalarFieldEnum[]
+  }
+
+  /**
+   * OperationMonthlyRollup findMany
+   */
+  export type OperationMonthlyRollupFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * Filter, which OperationMonthlyRollups to fetch.
+     */
+    where?: OperationMonthlyRollupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OperationMonthlyRollups to fetch.
+     */
+    orderBy?: OperationMonthlyRollupOrderByWithRelationInput | OperationMonthlyRollupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OperationMonthlyRollups.
+     */
+    cursor?: OperationMonthlyRollupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OperationMonthlyRollups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OperationMonthlyRollups.
+     */
+    skip?: number
+    distinct?: OperationMonthlyRollupScalarFieldEnum | OperationMonthlyRollupScalarFieldEnum[]
+  }
+
+  /**
+   * OperationMonthlyRollup create
+   */
+  export type OperationMonthlyRollupCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OperationMonthlyRollup.
+     */
+    data: XOR<OperationMonthlyRollupCreateInput, OperationMonthlyRollupUncheckedCreateInput>
+  }
+
+  /**
+   * OperationMonthlyRollup createMany
+   */
+  export type OperationMonthlyRollupCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OperationMonthlyRollups.
+     */
+    data: OperationMonthlyRollupCreateManyInput | OperationMonthlyRollupCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OperationMonthlyRollup createManyAndReturn
+   */
+  export type OperationMonthlyRollupCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * The data used to create many OperationMonthlyRollups.
+     */
+    data: OperationMonthlyRollupCreateManyInput | OperationMonthlyRollupCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OperationMonthlyRollup update
+   */
+  export type OperationMonthlyRollupUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OperationMonthlyRollup.
+     */
+    data: XOR<OperationMonthlyRollupUpdateInput, OperationMonthlyRollupUncheckedUpdateInput>
+    /**
+     * Choose, which OperationMonthlyRollup to update.
+     */
+    where: OperationMonthlyRollupWhereUniqueInput
+  }
+
+  /**
+   * OperationMonthlyRollup updateMany
+   */
+  export type OperationMonthlyRollupUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OperationMonthlyRollups.
+     */
+    data: XOR<OperationMonthlyRollupUpdateManyMutationInput, OperationMonthlyRollupUncheckedUpdateManyInput>
+    /**
+     * Filter which OperationMonthlyRollups to update
+     */
+    where?: OperationMonthlyRollupWhereInput
+    /**
+     * Limit how many OperationMonthlyRollups to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OperationMonthlyRollup updateManyAndReturn
+   */
+  export type OperationMonthlyRollupUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * The data used to update OperationMonthlyRollups.
+     */
+    data: XOR<OperationMonthlyRollupUpdateManyMutationInput, OperationMonthlyRollupUncheckedUpdateManyInput>
+    /**
+     * Filter which OperationMonthlyRollups to update
+     */
+    where?: OperationMonthlyRollupWhereInput
+    /**
+     * Limit how many OperationMonthlyRollups to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OperationMonthlyRollup upsert
+   */
+  export type OperationMonthlyRollupUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OperationMonthlyRollup to update in case it exists.
+     */
+    where: OperationMonthlyRollupWhereUniqueInput
+    /**
+     * In case the OperationMonthlyRollup found by the `where` argument doesn't exist, create a new OperationMonthlyRollup with this data.
+     */
+    create: XOR<OperationMonthlyRollupCreateInput, OperationMonthlyRollupUncheckedCreateInput>
+    /**
+     * In case the OperationMonthlyRollup was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OperationMonthlyRollupUpdateInput, OperationMonthlyRollupUncheckedUpdateInput>
+  }
+
+  /**
+   * OperationMonthlyRollup delete
+   */
+  export type OperationMonthlyRollupDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
+    /**
+     * Filter which OperationMonthlyRollup to delete.
+     */
+    where: OperationMonthlyRollupWhereUniqueInput
+  }
+
+  /**
+   * OperationMonthlyRollup deleteMany
+   */
+  export type OperationMonthlyRollupDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OperationMonthlyRollups to delete
+     */
+    where?: OperationMonthlyRollupWhereInput
+    /**
+     * Limit how many OperationMonthlyRollups to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OperationMonthlyRollup without action
+   */
+  export type OperationMonthlyRollupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OperationMonthlyRollup
+     */
+    select?: OperationMonthlyRollupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OperationMonthlyRollup
+     */
+    omit?: OperationMonthlyRollupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OperationMonthlyRollupInclude<ExtArgs> | null
   }
 
 
@@ -24702,7 +26030,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     role: 'role',
     lastGlobalNotificationReadAt: 'lastGlobalNotificationReadAt',
-    welcomeSheetSeenAt: 'welcomeSheetSeenAt'
+    welcomeSheetSeenAt: 'welcomeSheetSeenAt',
+    operationsArchivalNotifiedAt: 'operationsArchivalNotifiedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -24789,6 +26118,24 @@ export namespace Prisma {
   };
 
   export type OperationScalarFieldEnum = (typeof OperationScalarFieldEnum)[keyof typeof OperationScalarFieldEnum]
+
+
+  export const OperationMonthlyRollupScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    yearMonth: 'yearMonth',
+    type: 'type',
+    categoryId: 'categoryId',
+    accountId: 'accountId',
+    totalAmount: 'totalAmount',
+    operationCount: 'operationCount',
+    categoryName: 'categoryName',
+    categoryIcon: 'categoryIcon',
+    accountName: 'accountName',
+    createdAt: 'createdAt'
+  };
+
+  export type OperationMonthlyRollupScalarFieldEnum = (typeof OperationMonthlyRollupScalarFieldEnum)[keyof typeof OperationMonthlyRollupScalarFieldEnum]
 
 
   export const RecurrenceConfigScalarFieldEnum: {
@@ -25333,6 +26680,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    operationsArchivalNotifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     defaultAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     subscriptionPlan?: XOR<SubscriptionPlanScalarRelationFilter, SubscriptionPlanWhereInput>
     subscriptionPrice?: XOR<SubscriptionPriceNullableScalarRelationFilter, SubscriptionPriceWhereInput> | null
@@ -25343,6 +26691,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordListRelationFilter
     keywordFilters?: KeywordFilterListRelationFilter
     operations?: OperationListRelationFilter
+    operationMonthlyRollups?: OperationMonthlyRollupListRelationFilter
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
     aiUploadTasks?: AiUploadTaskListRelationFilter
@@ -25374,6 +26723,7 @@ export namespace Prisma {
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrderInput | SortOrder
     welcomeSheetSeenAt?: SortOrderInput | SortOrder
+    operationsArchivalNotifiedAt?: SortOrderInput | SortOrder
     defaultAccount?: AccountOrderByWithRelationInput
     subscriptionPlan?: SubscriptionPlanOrderByWithRelationInput
     subscriptionPrice?: SubscriptionPriceOrderByWithRelationInput
@@ -25384,6 +26734,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordOrderByRelationAggregateInput
     keywordFilters?: KeywordFilterOrderByRelationAggregateInput
     operations?: OperationOrderByRelationAggregateInput
+    operationMonthlyRollups?: OperationMonthlyRollupOrderByRelationAggregateInput
     recurrenceConfigs?: RecurrenceConfigOrderByRelationAggregateInput
     aiTokenUsages?: AiTokenUsageOrderByRelationAggregateInput
     aiUploadTasks?: AiUploadTaskOrderByRelationAggregateInput
@@ -25418,6 +26769,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    operationsArchivalNotifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     defaultAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
     subscriptionPlan?: XOR<SubscriptionPlanScalarRelationFilter, SubscriptionPlanWhereInput>
     subscriptionPrice?: XOR<SubscriptionPriceNullableScalarRelationFilter, SubscriptionPriceWhereInput> | null
@@ -25428,6 +26780,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordListRelationFilter
     keywordFilters?: KeywordFilterListRelationFilter
     operations?: OperationListRelationFilter
+    operationMonthlyRollups?: OperationMonthlyRollupListRelationFilter
     recurrenceConfigs?: RecurrenceConfigListRelationFilter
     aiTokenUsages?: AiTokenUsageListRelationFilter
     aiUploadTasks?: AiUploadTaskListRelationFilter
@@ -25459,6 +26812,7 @@ export namespace Prisma {
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrderInput | SortOrder
     welcomeSheetSeenAt?: SortOrderInput | SortOrder
+    operationsArchivalNotifiedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -25491,6 +26845,7 @@ export namespace Prisma {
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    operationsArchivalNotifiedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type SubscriptionPlanWhereInput = {
@@ -25954,6 +27309,98 @@ export namespace Prisma {
     recurrenceConfigId?: StringNullableWithAggregatesFilter<"Operation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Operation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Operation"> | Date | string
+  }
+
+  export type OperationMonthlyRollupWhereInput = {
+    AND?: OperationMonthlyRollupWhereInput | OperationMonthlyRollupWhereInput[]
+    OR?: OperationMonthlyRollupWhereInput[]
+    NOT?: OperationMonthlyRollupWhereInput | OperationMonthlyRollupWhereInput[]
+    id?: StringFilter<"OperationMonthlyRollup"> | string
+    userId?: StringFilter<"OperationMonthlyRollup"> | string
+    yearMonth?: DateTimeFilter<"OperationMonthlyRollup"> | Date | string
+    type?: EnumOperationTypeFilter<"OperationMonthlyRollup"> | $Enums.OperationType
+    categoryId?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    accountId?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    totalAmount?: DecimalFilter<"OperationMonthlyRollup"> | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFilter<"OperationMonthlyRollup"> | number
+    categoryName?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    categoryIcon?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    accountName?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    createdAt?: DateTimeFilter<"OperationMonthlyRollup"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type OperationMonthlyRollupOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    yearMonth?: SortOrder
+    type?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
+    accountId?: SortOrderInput | SortOrder
+    totalAmount?: SortOrder
+    operationCount?: SortOrder
+    categoryName?: SortOrderInput | SortOrder
+    categoryIcon?: SortOrderInput | SortOrder
+    accountName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type OperationMonthlyRollupWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OperationMonthlyRollupWhereInput | OperationMonthlyRollupWhereInput[]
+    OR?: OperationMonthlyRollupWhereInput[]
+    NOT?: OperationMonthlyRollupWhereInput | OperationMonthlyRollupWhereInput[]
+    userId?: StringFilter<"OperationMonthlyRollup"> | string
+    yearMonth?: DateTimeFilter<"OperationMonthlyRollup"> | Date | string
+    type?: EnumOperationTypeFilter<"OperationMonthlyRollup"> | $Enums.OperationType
+    categoryId?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    accountId?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    totalAmount?: DecimalFilter<"OperationMonthlyRollup"> | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFilter<"OperationMonthlyRollup"> | number
+    categoryName?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    categoryIcon?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    accountName?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    createdAt?: DateTimeFilter<"OperationMonthlyRollup"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type OperationMonthlyRollupOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    yearMonth?: SortOrder
+    type?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
+    accountId?: SortOrderInput | SortOrder
+    totalAmount?: SortOrder
+    operationCount?: SortOrder
+    categoryName?: SortOrderInput | SortOrder
+    categoryIcon?: SortOrderInput | SortOrder
+    accountName?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: OperationMonthlyRollupCountOrderByAggregateInput
+    _avg?: OperationMonthlyRollupAvgOrderByAggregateInput
+    _max?: OperationMonthlyRollupMaxOrderByAggregateInput
+    _min?: OperationMonthlyRollupMinOrderByAggregateInput
+    _sum?: OperationMonthlyRollupSumOrderByAggregateInput
+  }
+
+  export type OperationMonthlyRollupScalarWhereWithAggregatesInput = {
+    AND?: OperationMonthlyRollupScalarWhereWithAggregatesInput | OperationMonthlyRollupScalarWhereWithAggregatesInput[]
+    OR?: OperationMonthlyRollupScalarWhereWithAggregatesInput[]
+    NOT?: OperationMonthlyRollupScalarWhereWithAggregatesInput | OperationMonthlyRollupScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OperationMonthlyRollup"> | string
+    userId?: StringWithAggregatesFilter<"OperationMonthlyRollup"> | string
+    yearMonth?: DateTimeWithAggregatesFilter<"OperationMonthlyRollup"> | Date | string
+    type?: EnumOperationTypeWithAggregatesFilter<"OperationMonthlyRollup"> | $Enums.OperationType
+    categoryId?: StringNullableWithAggregatesFilter<"OperationMonthlyRollup"> | string | null
+    accountId?: StringNullableWithAggregatesFilter<"OperationMonthlyRollup"> | string | null
+    totalAmount?: DecimalWithAggregatesFilter<"OperationMonthlyRollup"> | Decimal | DecimalJsLike | number | string
+    operationCount?: IntWithAggregatesFilter<"OperationMonthlyRollup"> | number
+    categoryName?: StringNullableWithAggregatesFilter<"OperationMonthlyRollup"> | string | null
+    categoryIcon?: StringNullableWithAggregatesFilter<"OperationMonthlyRollup"> | string | null
+    accountName?: StringNullableWithAggregatesFilter<"OperationMonthlyRollup"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"OperationMonthlyRollup"> | Date | string
   }
 
   export type RecurrenceConfigWhereInput = {
@@ -26890,6 +28337,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -26900,6 +28348,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -26931,6 +28380,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -26938,6 +28388,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -26966,6 +28417,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -26976,6 +28428,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -27007,6 +28460,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -27014,6 +28468,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -27045,6 +28500,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -27066,6 +28522,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -27090,6 +28547,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SubscriptionPlanCreateInput = {
@@ -27598,6 +29056,110 @@ export namespace Prisma {
     recurrenceConfigId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OperationMonthlyRollupCreateInput = {
+    id?: string
+    yearMonth: Date | string
+    type: $Enums.OperationType
+    categoryId?: string | null
+    accountId?: string | null
+    totalAmount: Decimal | DecimalJsLike | number | string
+    operationCount: number
+    categoryName?: string | null
+    categoryIcon?: string | null
+    accountName?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutOperationMonthlyRollupsInput
+  }
+
+  export type OperationMonthlyRollupUncheckedCreateInput = {
+    id?: string
+    userId: string
+    yearMonth: Date | string
+    type: $Enums.OperationType
+    categoryId?: string | null
+    accountId?: string | null
+    totalAmount: Decimal | DecimalJsLike | number | string
+    operationCount: number
+    categoryName?: string | null
+    categoryIcon?: string | null
+    accountName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type OperationMonthlyRollupUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    yearMonth?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFieldUpdateOperationsInput | number
+    categoryName?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryIcon?: NullableStringFieldUpdateOperationsInput | string | null
+    accountName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutOperationMonthlyRollupsNestedInput
+  }
+
+  export type OperationMonthlyRollupUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    yearMonth?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFieldUpdateOperationsInput | number
+    categoryName?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryIcon?: NullableStringFieldUpdateOperationsInput | string | null
+    accountName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OperationMonthlyRollupCreateManyInput = {
+    id?: string
+    userId: string
+    yearMonth: Date | string
+    type: $Enums.OperationType
+    categoryId?: string | null
+    accountId?: string | null
+    totalAmount: Decimal | DecimalJsLike | number | string
+    operationCount: number
+    categoryName?: string | null
+    categoryIcon?: string | null
+    accountName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type OperationMonthlyRollupUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    yearMonth?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFieldUpdateOperationsInput | number
+    categoryName?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryIcon?: NullableStringFieldUpdateOperationsInput | string | null
+    accountName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OperationMonthlyRollupUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    yearMonth?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFieldUpdateOperationsInput | number
+    categoryName?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryIcon?: NullableStringFieldUpdateOperationsInput | string | null
+    accountName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RecurrenceConfigCreateInput = {
@@ -28705,6 +30267,12 @@ export namespace Prisma {
     none?: OperationWhereInput
   }
 
+  export type OperationMonthlyRollupListRelationFilter = {
+    every?: OperationMonthlyRollupWhereInput
+    some?: OperationMonthlyRollupWhereInput
+    none?: OperationMonthlyRollupWhereInput
+  }
+
   export type RecurrenceConfigListRelationFilter = {
     every?: RecurrenceConfigWhereInput
     some?: RecurrenceConfigWhereInput
@@ -28780,6 +30348,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type OperationMonthlyRollupOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type RecurrenceConfigOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -28830,6 +30402,7 @@ export namespace Prisma {
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrder
     welcomeSheetSeenAt?: SortOrder
+    operationsArchivalNotifiedAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -28859,6 +30432,7 @@ export namespace Prisma {
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrder
     welcomeSheetSeenAt?: SortOrder
+    operationsArchivalNotifiedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -28883,6 +30457,7 @@ export namespace Prisma {
     role?: SortOrder
     lastGlobalNotificationReadAt?: SortOrder
     welcomeSheetSeenAt?: SortOrder
+    operationsArchivalNotifiedAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -29390,6 +30965,61 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumOperationTypeFilter<$PrismaModel>
     _max?: NestedEnumOperationTypeFilter<$PrismaModel>
+  }
+
+  export type OperationMonthlyRollupCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    yearMonth?: SortOrder
+    type?: SortOrder
+    categoryId?: SortOrder
+    accountId?: SortOrder
+    totalAmount?: SortOrder
+    operationCount?: SortOrder
+    categoryName?: SortOrder
+    categoryIcon?: SortOrder
+    accountName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OperationMonthlyRollupAvgOrderByAggregateInput = {
+    totalAmount?: SortOrder
+    operationCount?: SortOrder
+  }
+
+  export type OperationMonthlyRollupMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    yearMonth?: SortOrder
+    type?: SortOrder
+    categoryId?: SortOrder
+    accountId?: SortOrder
+    totalAmount?: SortOrder
+    operationCount?: SortOrder
+    categoryName?: SortOrder
+    categoryIcon?: SortOrder
+    accountName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OperationMonthlyRollupMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    yearMonth?: SortOrder
+    type?: SortOrder
+    categoryId?: SortOrder
+    accountId?: SortOrder
+    totalAmount?: SortOrder
+    operationCount?: SortOrder
+    categoryName?: SortOrder
+    categoryIcon?: SortOrder
+    accountName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OperationMonthlyRollupSumOrderByAggregateInput = {
+    totalAmount?: SortOrder
+    operationCount?: SortOrder
   }
 
   export type EnumRecurrenceFrequencyFilter<$PrismaModel = never> = {
@@ -30215,6 +31845,13 @@ export namespace Prisma {
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
   }
 
+  export type OperationMonthlyRollupCreateNestedManyWithoutUserInput = {
+    create?: XOR<OperationMonthlyRollupCreateWithoutUserInput, OperationMonthlyRollupUncheckedCreateWithoutUserInput> | OperationMonthlyRollupCreateWithoutUserInput[] | OperationMonthlyRollupUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationMonthlyRollupCreateOrConnectWithoutUserInput | OperationMonthlyRollupCreateOrConnectWithoutUserInput[]
+    createMany?: OperationMonthlyRollupCreateManyUserInputEnvelope
+    connect?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+  }
+
   export type RecurrenceConfigCreateNestedManyWithoutUserInput = {
     create?: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput> | RecurrenceConfigCreateWithoutUserInput[] | RecurrenceConfigUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutUserInput | RecurrenceConfigCreateOrConnectWithoutUserInput[]
@@ -30311,6 +31948,13 @@ export namespace Prisma {
     connectOrCreate?: OperationCreateOrConnectWithoutUserInput | OperationCreateOrConnectWithoutUserInput[]
     createMany?: OperationCreateManyUserInputEnvelope
     connect?: OperationWhereUniqueInput | OperationWhereUniqueInput[]
+  }
+
+  export type OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<OperationMonthlyRollupCreateWithoutUserInput, OperationMonthlyRollupUncheckedCreateWithoutUserInput> | OperationMonthlyRollupCreateWithoutUserInput[] | OperationMonthlyRollupUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationMonthlyRollupCreateOrConnectWithoutUserInput | OperationMonthlyRollupCreateOrConnectWithoutUserInput[]
+    createMany?: OperationMonthlyRollupCreateManyUserInputEnvelope
+    connect?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
   }
 
   export type RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput = {
@@ -30520,6 +32164,20 @@ export namespace Prisma {
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
   }
 
+  export type OperationMonthlyRollupUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OperationMonthlyRollupCreateWithoutUserInput, OperationMonthlyRollupUncheckedCreateWithoutUserInput> | OperationMonthlyRollupCreateWithoutUserInput[] | OperationMonthlyRollupUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationMonthlyRollupCreateOrConnectWithoutUserInput | OperationMonthlyRollupCreateOrConnectWithoutUserInput[]
+    upsert?: OperationMonthlyRollupUpsertWithWhereUniqueWithoutUserInput | OperationMonthlyRollupUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OperationMonthlyRollupCreateManyUserInputEnvelope
+    set?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    disconnect?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    delete?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    connect?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    update?: OperationMonthlyRollupUpdateWithWhereUniqueWithoutUserInput | OperationMonthlyRollupUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OperationMonthlyRollupUpdateManyWithWhereWithoutUserInput | OperationMonthlyRollupUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OperationMonthlyRollupScalarWhereInput | OperationMonthlyRollupScalarWhereInput[]
+  }
+
   export type RecurrenceConfigUpdateManyWithoutUserNestedInput = {
     create?: XOR<RecurrenceConfigCreateWithoutUserInput, RecurrenceConfigUncheckedCreateWithoutUserInput> | RecurrenceConfigCreateWithoutUserInput[] | RecurrenceConfigUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RecurrenceConfigCreateOrConnectWithoutUserInput | RecurrenceConfigCreateOrConnectWithoutUserInput[]
@@ -30714,6 +32372,20 @@ export namespace Prisma {
     update?: OperationUpdateWithWhereUniqueWithoutUserInput | OperationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: OperationUpdateManyWithWhereWithoutUserInput | OperationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: OperationScalarWhereInput | OperationScalarWhereInput[]
+  }
+
+  export type OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<OperationMonthlyRollupCreateWithoutUserInput, OperationMonthlyRollupUncheckedCreateWithoutUserInput> | OperationMonthlyRollupCreateWithoutUserInput[] | OperationMonthlyRollupUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: OperationMonthlyRollupCreateOrConnectWithoutUserInput | OperationMonthlyRollupCreateOrConnectWithoutUserInput[]
+    upsert?: OperationMonthlyRollupUpsertWithWhereUniqueWithoutUserInput | OperationMonthlyRollupUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: OperationMonthlyRollupCreateManyUserInputEnvelope
+    set?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    disconnect?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    delete?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    connect?: OperationMonthlyRollupWhereUniqueInput | OperationMonthlyRollupWhereUniqueInput[]
+    update?: OperationMonthlyRollupUpdateWithWhereUniqueWithoutUserInput | OperationMonthlyRollupUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: OperationMonthlyRollupUpdateManyWithWhereWithoutUserInput | OperationMonthlyRollupUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: OperationMonthlyRollupScalarWhereInput | OperationMonthlyRollupScalarWhereInput[]
   }
 
   export type RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput = {
@@ -31366,6 +33038,20 @@ export namespace Prisma {
     update?: TagUpdateWithWhereUniqueWithoutOperationsInput | TagUpdateWithWhereUniqueWithoutOperationsInput[]
     updateMany?: TagUpdateManyWithWhereWithoutOperationsInput | TagUpdateManyWithWhereWithoutOperationsInput[]
     deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutOperationMonthlyRollupsInput = {
+    create?: XOR<UserCreateWithoutOperationMonthlyRollupsInput, UserUncheckedCreateWithoutOperationMonthlyRollupsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOperationMonthlyRollupsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutOperationMonthlyRollupsNestedInput = {
+    create?: XOR<UserCreateWithoutOperationMonthlyRollupsInput, UserUncheckedCreateWithoutOperationMonthlyRollupsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOperationMonthlyRollupsInput
+    upsert?: UserUpsertWithoutOperationMonthlyRollupsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOperationMonthlyRollupsInput, UserUpdateWithoutOperationMonthlyRollupsInput>, UserUncheckedUpdateWithoutOperationMonthlyRollupsInput>
   }
 
   export type RecurrenceConfigCreateweekDaysInput = {
@@ -32774,6 +34460,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OperationMonthlyRollupCreateWithoutUserInput = {
+    id?: string
+    yearMonth: Date | string
+    type: $Enums.OperationType
+    categoryId?: string | null
+    accountId?: string | null
+    totalAmount: Decimal | DecimalJsLike | number | string
+    operationCount: number
+    categoryName?: string | null
+    categoryIcon?: string | null
+    accountName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type OperationMonthlyRollupUncheckedCreateWithoutUserInput = {
+    id?: string
+    yearMonth: Date | string
+    type: $Enums.OperationType
+    categoryId?: string | null
+    accountId?: string | null
+    totalAmount: Decimal | DecimalJsLike | number | string
+    operationCount: number
+    categoryName?: string | null
+    categoryIcon?: string | null
+    accountName?: string | null
+    createdAt?: Date | string
+  }
+
+  export type OperationMonthlyRollupCreateOrConnectWithoutUserInput = {
+    where: OperationMonthlyRollupWhereUniqueInput
+    create: XOR<OperationMonthlyRollupCreateWithoutUserInput, OperationMonthlyRollupUncheckedCreateWithoutUserInput>
+  }
+
+  export type OperationMonthlyRollupCreateManyUserInputEnvelope = {
+    data: OperationMonthlyRollupCreateManyUserInput | OperationMonthlyRollupCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RecurrenceConfigCreateWithoutUserInput = {
     id?: string
     frequency: $Enums.RecurrenceFrequency
@@ -33343,6 +35067,40 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Operation"> | Date | string
   }
 
+  export type OperationMonthlyRollupUpsertWithWhereUniqueWithoutUserInput = {
+    where: OperationMonthlyRollupWhereUniqueInput
+    update: XOR<OperationMonthlyRollupUpdateWithoutUserInput, OperationMonthlyRollupUncheckedUpdateWithoutUserInput>
+    create: XOR<OperationMonthlyRollupCreateWithoutUserInput, OperationMonthlyRollupUncheckedCreateWithoutUserInput>
+  }
+
+  export type OperationMonthlyRollupUpdateWithWhereUniqueWithoutUserInput = {
+    where: OperationMonthlyRollupWhereUniqueInput
+    data: XOR<OperationMonthlyRollupUpdateWithoutUserInput, OperationMonthlyRollupUncheckedUpdateWithoutUserInput>
+  }
+
+  export type OperationMonthlyRollupUpdateManyWithWhereWithoutUserInput = {
+    where: OperationMonthlyRollupScalarWhereInput
+    data: XOR<OperationMonthlyRollupUpdateManyMutationInput, OperationMonthlyRollupUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type OperationMonthlyRollupScalarWhereInput = {
+    AND?: OperationMonthlyRollupScalarWhereInput | OperationMonthlyRollupScalarWhereInput[]
+    OR?: OperationMonthlyRollupScalarWhereInput[]
+    NOT?: OperationMonthlyRollupScalarWhereInput | OperationMonthlyRollupScalarWhereInput[]
+    id?: StringFilter<"OperationMonthlyRollup"> | string
+    userId?: StringFilter<"OperationMonthlyRollup"> | string
+    yearMonth?: DateTimeFilter<"OperationMonthlyRollup"> | Date | string
+    type?: EnumOperationTypeFilter<"OperationMonthlyRollup"> | $Enums.OperationType
+    categoryId?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    accountId?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    totalAmount?: DecimalFilter<"OperationMonthlyRollup"> | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFilter<"OperationMonthlyRollup"> | number
+    categoryName?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    categoryIcon?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    accountName?: StringNullableFilter<"OperationMonthlyRollup"> | string | null
+    createdAt?: DateTimeFilter<"OperationMonthlyRollup"> | Date | string
+  }
+
   export type RecurrenceConfigUpsertWithWhereUniqueWithoutUserInput = {
     where: RecurrenceConfigWhereUniqueInput
     update: XOR<RecurrenceConfigUpdateWithoutUserInput, RecurrenceConfigUncheckedUpdateWithoutUserInput>
@@ -33614,6 +35372,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -33623,6 +35382,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -33653,6 +35413,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -33660,6 +35421,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -33750,6 +35512,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    operationsArchivalNotifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
 
   export type SubscriptionPlanCreateWithoutPricesInput = {
@@ -33816,6 +35579,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -33825,6 +35589,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -33855,6 +35620,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -33862,6 +35628,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -34017,6 +35784,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -34026,6 +35794,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -34057,12 +35826,14 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -34107,6 +35878,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -34116,6 +35888,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -34147,12 +35920,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -34181,6 +35956,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -34190,6 +35966,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -34221,12 +35998,14 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -34428,6 +36207,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
     tokens?: TokenCreateNestedManyWithoutUserInput
@@ -34437,6 +36217,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -34467,6 +36248,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -34474,6 +36256,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -34518,6 +36301,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -34527,6 +36311,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -34558,12 +36343,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -34667,6 +36454,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -34676,6 +36464,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -34706,6 +36495,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -34713,6 +36503,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -34741,6 +36532,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -34750,6 +36542,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -34781,12 +36574,14 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -35006,6 +36801,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35015,6 +36811,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -35046,12 +36843,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -35253,6 +37052,178 @@ export namespace Prisma {
     data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyWithoutOperationsInput>
   }
 
+  export type UserCreateWithoutOperationMonthlyRollupsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
+    defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
+    subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
+    subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutOperationMonthlyRollupsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    defaultAccountId?: string | null
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionPlanId: string
+    subscriptionPriceId?: string | null
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutOperationMonthlyRollupsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutOperationMonthlyRollupsInput, UserUncheckedCreateWithoutOperationMonthlyRollupsInput>
+  }
+
+  export type UserUpsertWithoutOperationMonthlyRollupsInput = {
+    update: XOR<UserUpdateWithoutOperationMonthlyRollupsInput, UserUncheckedUpdateWithoutOperationMonthlyRollupsInput>
+    create: XOR<UserCreateWithoutOperationMonthlyRollupsInput, UserUncheckedCreateWithoutOperationMonthlyRollupsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutOperationMonthlyRollupsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutOperationMonthlyRollupsInput, UserUncheckedUpdateWithoutOperationMonthlyRollupsInput>
+  }
+
+  export type UserUpdateWithoutOperationMonthlyRollupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
+    subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutOperationMonthlyRollupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    defaultAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionPlanId?: StringFieldUpdateOperationsInput | string
+    subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutRecurrenceConfigsInput = {
     id?: string
     email: string
@@ -35272,6 +37243,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35282,6 +37254,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
@@ -35312,6 +37285,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -35319,6 +37293,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
@@ -35515,6 +37490,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35525,6 +37501,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
@@ -35555,6 +37532,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -35562,6 +37540,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
@@ -35736,6 +37715,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35745,6 +37725,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -35776,12 +37757,14 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -35861,6 +37844,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -35870,6 +37854,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -35901,12 +37886,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -35951,6 +37938,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -35960,6 +37948,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -35991,12 +37980,14 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -36226,6 +38217,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -36235,6 +38227,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -36266,12 +38259,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -36440,6 +38435,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -36449,6 +38445,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -36480,12 +38477,14 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -36571,6 +38570,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -36580,6 +38580,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -36611,12 +38612,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -36645,6 +38648,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -36654,6 +38658,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -36685,12 +38690,14 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -36735,6 +38742,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -36744,6 +38752,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -36775,12 +38784,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -36809,6 +38820,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -36819,6 +38831,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
@@ -36849,6 +38862,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -36856,6 +38870,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
@@ -36899,6 +38914,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -36909,6 +38925,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
@@ -36939,6 +38956,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -36946,6 +38964,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
@@ -36973,6 +38992,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -36983,6 +39003,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
@@ -37013,6 +39034,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -37020,6 +39042,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
@@ -37063,6 +39086,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -37073,6 +39097,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
@@ -37103,6 +39128,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -37110,6 +39136,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
@@ -37137,6 +39164,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -37147,6 +39175,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -37177,6 +39206,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -37184,6 +39214,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -37227,6 +39258,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -37237,6 +39269,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -37267,6 +39300,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -37274,6 +39308,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -37301,6 +39336,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -37311,6 +39347,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -37341,6 +39378,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -37348,6 +39386,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -37391,6 +39430,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -37401,6 +39441,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -37431,6 +39472,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -37438,6 +39480,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -37465,6 +39508,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -37475,6 +39519,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -37505,6 +39550,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -37512,6 +39558,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -37584,6 +39631,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -37594,6 +39642,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -37624,6 +39673,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -37631,6 +39681,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -37693,6 +39744,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
     subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
@@ -37703,6 +39755,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
     operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
@@ -37733,6 +39786,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tags?: TagUncheckedCreateNestedManyWithoutUserInput
@@ -37740,6 +39794,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
     keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
     operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
     recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
@@ -37783,6 +39838,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
@@ -37793,6 +39849,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -37823,6 +39880,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -37830,6 +39888,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -37906,6 +39965,20 @@ export namespace Prisma {
     recurrenceConfigId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type OperationMonthlyRollupCreateManyUserInput = {
+    id?: string
+    yearMonth: Date | string
+    type: $Enums.OperationType
+    categoryId?: string | null
+    accountId?: string | null
+    totalAmount: Decimal | DecimalJsLike | number | string
+    operationCount: number
+    categoryName?: string | null
+    categoryIcon?: string | null
+    accountName?: string | null
+    createdAt?: Date | string
   }
 
   export type RecurrenceConfigCreateManyUserInput = {
@@ -38218,6 +40291,48 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type OperationMonthlyRollupUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    yearMonth?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFieldUpdateOperationsInput | number
+    categoryName?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryIcon?: NullableStringFieldUpdateOperationsInput | string | null
+    accountName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OperationMonthlyRollupUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    yearMonth?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFieldUpdateOperationsInput | number
+    categoryName?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryIcon?: NullableStringFieldUpdateOperationsInput | string | null
+    accountName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OperationMonthlyRollupUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    yearMonth?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: EnumOperationTypeFieldUpdateOperationsInput | $Enums.OperationType
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    operationCount?: IntFieldUpdateOperationsInput | number
+    categoryName?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryIcon?: NullableStringFieldUpdateOperationsInput | string | null
+    accountName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RecurrenceConfigUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     frequency?: EnumRecurrenceFrequencyFieldUpdateOperationsInput | $Enums.RecurrenceFrequency
@@ -38485,6 +40600,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
   }
 
   export type SubscriptionPriceUpdateWithoutPlanInput = {
@@ -38540,6 +40656,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -38549,6 +40666,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -38579,6 +40697,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -38586,6 +40705,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -38616,6 +40736,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateManySubscriptionPriceInput = {
@@ -38639,6 +40760,7 @@ export namespace Prisma {
     role?: $Enums.Role
     lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
   }
 
   export type PaymentCreateManySubscriptionPriceInput = {
@@ -38672,6 +40794,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
     tokens?: TokenUpdateManyWithoutUserNestedInput
@@ -38681,6 +40804,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
     operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
@@ -38711,6 +40835,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tags?: TagUncheckedUpdateManyWithoutUserNestedInput
@@ -38718,6 +40843,7 @@ export namespace Prisma {
     categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
     keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
     operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
     recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
@@ -38748,6 +40874,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PaymentUpdateWithoutSubscriptionPriceInput = {

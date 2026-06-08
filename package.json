@@ -127,6 +127,9 @@
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@back/(.*)$": "<rootDir>/apps/back/src/$1"
+    },
     "roots": [
       "<rootDir>/apps/",
       "<rootDir>/prisma/"
