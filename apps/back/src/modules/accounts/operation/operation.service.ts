@@ -9,6 +9,7 @@ import { Decimal } from '@prisma/client/runtime/library';
 import {
   Operation,
   OperationType,
+  Role,
   User,
   Category,
   CategoryType,
@@ -28,7 +29,7 @@ import {
   TagError,
 } from '@back/shared/constants/errors.constants';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
-import { assertOperationDateInHotWindow } from '@back/shared/operation-retention/operation-retention.util';
+import { assertOperationDateAllowed } from '@back/shared/operation-retention/operation-retention.util';
 import { ChartsDataService } from './charts/charts-data.service';
 
 @Injectable()
@@ -46,7 +47,9 @@ export class OperationService {
   ): Promise<Operation> {
     try {
       await this.limitGate.assertCanCreateOperations(user.id);
-      assertOperationDateInHotWindow(input.date);
+      assertOperationDateAllowed(input.date, {
+        skipRetention: user.role === Role.ADMIN,
+      });
 
       if (input.recurrence) {
         return await this.recurrenceService.createRecurringOperation(
@@ -233,7 +236,9 @@ export class OperationService {
       accounts.forEach((acc) => accountMap.set(acc.name.toLowerCase(), acc));
 
       for (const op of operations) {
-        assertOperationDateInHotWindow(new Date(op.date));
+        assertOperationDateAllowed(new Date(op.date), {
+          skipRetention: user.role === Role.ADMIN,
+        });
       }
 
       const createdOperations: Operation[] = [];
@@ -592,7 +597,9 @@ export class OperationService {
       }
 
       if (input.date) {
-        assertOperationDateInHotWindow(input.date);
+        assertOperationDateAllowed(input.date, {
+          skipRetention: user.role === Role.ADMIN,
+        });
       }
 
       const updated = await this.prismaService.$transaction(async (tx) => {

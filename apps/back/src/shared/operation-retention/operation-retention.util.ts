@@ -4,16 +4,21 @@ import { LIMIT_GATE_TIMEZONE } from '../limit-gate/monthly-operations-cap.util';
 
 const ALMATY_UTC_OFFSET_HOURS = 5;
 
-type ZonedParts = {
+type ZonedYearMonth = {
   year: number;
   month: number;
 };
 
-function getZonedYearMonth(date: Date, timeZone: string): ZonedParts {
+type ZonedParts = ZonedYearMonth & {
+  day: number;
+};
+
+function getZonedDateParts(date: Date, timeZone: string): ZonedParts {
   const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone,
     year: 'numeric',
     month: '2-digit',
+    day: '2-digit',
   });
 
   const parts = Object.fromEntries(
@@ -23,10 +28,20 @@ function getZonedYearMonth(date: Date, timeZone: string): ZonedParts {
   return {
     year: Number(parts.year),
     month: Number(parts.month),
+    day: Number(parts.day),
   };
 }
 
-function addMonths(year: number, month: number, delta: number): ZonedParts {
+function getZonedYearMonth(date: Date, timeZone: string): ZonedYearMonth {
+  const { year, month } = getZonedDateParts(date, timeZone);
+  return { year, month };
+}
+
+function getLastDayOfMonth(year: number, month: number): number {
+  return new Date(Date.UTC(year, month, 0)).getUTCDate();
+}
+
+function addMonths(year: number, month: number, delta: number): ZonedYearMonth {
   const shifted = new Date(Date.UTC(year, month - 1 + delta, 1));
   return {
     year: shifted.getUTCFullYear(),
@@ -103,4 +118,51 @@ export function assertOperationDateInHotWindow(
   if (!isOperationDateInHotWindow(date, now)) {
     throw new BadRequestException(OperationError.DATE_BEFORE_RETENTION_CUTOFF);
   }
+}
+
+/** Last allowed instant: same calendar day +12 months in Asia/Almaty, end of day. */
+export function getMaxOperationDate(now = new Date()): Date {
+  const { year, month, day } = getZonedDateParts(now, LIMIT_GATE_TIMEZONE);
+  const target = addMonths(year, month, 12);
+  const lastDay = getLastDayOfMonth(target.year, target.month);
+  const clampedDay = Math.min(day, lastDay);
+
+  return almatyLocalToUtc(
+    target.year,
+    target.month,
+    clampedDay,
+    23,
+    59,
+    59,
+    999,
+  );
+}
+
+export function isOperationDateWithinFutureLimit(
+  date: Date,
+  now = new Date(),
+): boolean {
+  return date <= getMaxOperationDate(now);
+}
+
+export function assertOperationDateNotTooFarInFuture(
+  date: Date,
+  now = new Date(),
+): void {
+  if (!isOperationDateWithinFutureLimit(date, now)) {
+    throw new BadRequestException(OperationError.DATE_TOO_FAR_IN_FUTURE);
+  }
+}
+
+export function assertOperationDateAllowed(
+  date: Date,
+  options: { skipRetention?: boolean; now?: Date } = {},
+): void {
+  const now = options.now ?? new Date();
+
+  if (!options.skipRetention) {
+    assertOperationDateInHotWindow(date, now);
+  }
+
+  assertOperationDateNotTooFarInFuture(date, now);
 }

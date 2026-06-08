@@ -1,8 +1,10 @@
 import {
   getArchiveTargetMonth,
   getHotWindowStartMonth,
+  getMaxOperationDate,
   getMonthBoundsInUtc,
   isOperationDateInHotWindow,
+  isOperationDateWithinFutureLimit,
 } from './operation-retention.util';
 
 describe('operation-retention.util', () => {
@@ -35,5 +37,21 @@ describe('operation-retention.util', () => {
   it('allows operation date in hot month', () => {
     const hotDate = new Date('2024-06-15T12:00:00.000Z');
     expect(isOperationDateInHotWindow(hotDate, now)).toBe(true);
+  });
+
+  it('max date is end of same day +12 months in Almaty', () => {
+    expect(getMaxOperationDate(now).toISOString()).toBe(
+      '2027-06-05T18:59:59.999Z',
+    );
+  });
+
+  it('rejects operation date more than 12 months ahead', () => {
+    const tooFar = new Date('2027-06-06T12:00:00.000Z');
+    expect(isOperationDateWithinFutureLimit(tooFar, now)).toBe(false);
+  });
+
+  it('allows operation date within 12 months ahead', () => {
+    const allowed = new Date('2027-05-15T12:00:00.000Z');
+    expect(isOperationDateWithinFutureLimit(allowed, now)).toBe(true);
   });
 });
