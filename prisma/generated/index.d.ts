@@ -3164,6 +3164,7 @@ export namespace Prisma {
     subscriptionPriceId: string | null
     subscriptionStartedAt: Date | null
     subscriptionExpiresAt: Date | null
+    subscriptionAutoRenew: boolean | null
     isTotpEnabled: boolean | null
     totpSecret: string | null
     lastLoginAt: Date | null
@@ -3189,6 +3190,7 @@ export namespace Prisma {
     subscriptionPriceId: string | null
     subscriptionStartedAt: Date | null
     subscriptionExpiresAt: Date | null
+    subscriptionAutoRenew: boolean | null
     isTotpEnabled: boolean | null
     totpSecret: string | null
     lastLoginAt: Date | null
@@ -3214,6 +3216,7 @@ export namespace Prisma {
     subscriptionPriceId: number
     subscriptionStartedAt: number
     subscriptionExpiresAt: number
+    subscriptionAutoRenew: number
     isTotpEnabled: number
     totpSecret: number
     lastLoginAt: number
@@ -3251,6 +3254,7 @@ export namespace Prisma {
     subscriptionPriceId?: true
     subscriptionStartedAt?: true
     subscriptionExpiresAt?: true
+    subscriptionAutoRenew?: true
     isTotpEnabled?: true
     totpSecret?: true
     lastLoginAt?: true
@@ -3276,6 +3280,7 @@ export namespace Prisma {
     subscriptionPriceId?: true
     subscriptionStartedAt?: true
     subscriptionExpiresAt?: true
+    subscriptionAutoRenew?: true
     isTotpEnabled?: true
     totpSecret?: true
     lastLoginAt?: true
@@ -3301,6 +3306,7 @@ export namespace Prisma {
     subscriptionPriceId?: true
     subscriptionStartedAt?: true
     subscriptionExpiresAt?: true
+    subscriptionAutoRenew?: true
     isTotpEnabled?: true
     totpSecret?: true
     lastLoginAt?: true
@@ -3413,6 +3419,7 @@ export namespace Prisma {
     subscriptionPriceId: string | null
     subscriptionStartedAt: Date
     subscriptionExpiresAt: Date | null
+    subscriptionAutoRenew: boolean
     isTotpEnabled: boolean
     totpSecret: string | null
     lastLoginAt: Date | null
@@ -3457,6 +3464,7 @@ export namespace Prisma {
     subscriptionPriceId?: boolean
     subscriptionStartedAt?: boolean
     subscriptionExpiresAt?: boolean
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: boolean
     lastLoginAt?: boolean
@@ -3501,6 +3509,7 @@ export namespace Prisma {
     subscriptionPriceId?: boolean
     subscriptionStartedAt?: boolean
     subscriptionExpiresAt?: boolean
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: boolean
     lastLoginAt?: boolean
@@ -3529,6 +3538,7 @@ export namespace Prisma {
     subscriptionPriceId?: boolean
     subscriptionStartedAt?: boolean
     subscriptionExpiresAt?: boolean
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: boolean
     lastLoginAt?: boolean
@@ -3557,6 +3567,7 @@ export namespace Prisma {
     subscriptionPriceId?: boolean
     subscriptionStartedAt?: boolean
     subscriptionExpiresAt?: boolean
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: boolean
     lastLoginAt?: boolean
@@ -3570,7 +3581,7 @@ export namespace Prisma {
     operationsArchivalNotifiedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "lastGlobalNotificationReadAt" | "welcomeSheetSeenAt" | "operationsArchivalNotifiedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "subscriptionAutoRenew" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "lastGlobalNotificationReadAt" | "welcomeSheetSeenAt" | "operationsArchivalNotifiedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
@@ -3637,6 +3648,10 @@ export namespace Prisma {
       subscriptionPriceId: string | null
       subscriptionStartedAt: Date
       subscriptionExpiresAt: Date | null
+      /**
+       * When false, Premium stays active until subscriptionExpiresAt but will not auto-renew.
+       */
+      subscriptionAutoRenew: boolean
       isTotpEnabled: boolean
       totpSecret: string | null
       lastLoginAt: Date | null
@@ -4100,6 +4115,7 @@ export namespace Prisma {
     readonly subscriptionPriceId: FieldRef<"User", 'String'>
     readonly subscriptionStartedAt: FieldRef<"User", 'DateTime'>
     readonly subscriptionExpiresAt: FieldRef<"User", 'DateTime'>
+    readonly subscriptionAutoRenew: FieldRef<"User", 'Boolean'>
     readonly isTotpEnabled: FieldRef<"User", 'Boolean'>
     readonly totpSecret: FieldRef<"User", 'String'>
     readonly lastLoginAt: FieldRef<"User", 'DateTime'>
@@ -26021,6 +26037,7 @@ export namespace Prisma {
     subscriptionPriceId: 'subscriptionPriceId',
     subscriptionStartedAt: 'subscriptionStartedAt',
     subscriptionExpiresAt: 'subscriptionExpiresAt',
+    subscriptionAutoRenew: 'subscriptionAutoRenew',
     isTotpEnabled: 'isTotpEnabled',
     totpSecret: 'totpSecret',
     lastLoginAt: 'lastLoginAt',
@@ -26670,6 +26687,7 @@ export namespace Prisma {
     subscriptionPriceId?: StringNullableFilter<"User"> | string | null
     subscriptionStartedAt?: DateTimeFilter<"User"> | Date | string
     subscriptionExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    subscriptionAutoRenew?: BoolFilter<"User"> | boolean
     isTotpEnabled?: BoolFilter<"User"> | boolean
     totpSecret?: StringNullableFilter<"User"> | string | null
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -26713,6 +26731,7 @@ export namespace Prisma {
     subscriptionPriceId?: SortOrderInput | SortOrder
     subscriptionStartedAt?: SortOrder
     subscriptionExpiresAt?: SortOrderInput | SortOrder
+    subscriptionAutoRenew?: SortOrder
     isTotpEnabled?: SortOrder
     totpSecret?: SortOrderInput | SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
@@ -26759,6 +26778,7 @@ export namespace Prisma {
     subscriptionPriceId?: StringNullableFilter<"User"> | string | null
     subscriptionStartedAt?: DateTimeFilter<"User"> | Date | string
     subscriptionExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    subscriptionAutoRenew?: BoolFilter<"User"> | boolean
     isTotpEnabled?: BoolFilter<"User"> | boolean
     totpSecret?: StringNullableFilter<"User"> | string | null
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -26802,6 +26822,7 @@ export namespace Prisma {
     subscriptionPriceId?: SortOrderInput | SortOrder
     subscriptionStartedAt?: SortOrder
     subscriptionExpiresAt?: SortOrderInput | SortOrder
+    subscriptionAutoRenew?: SortOrder
     isTotpEnabled?: SortOrder
     totpSecret?: SortOrderInput | SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
@@ -26835,6 +26856,7 @@ export namespace Prisma {
     subscriptionPriceId?: StringNullableWithAggregatesFilter<"User"> | string | null
     subscriptionStartedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     subscriptionExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    subscriptionAutoRenew?: BoolWithAggregatesFilter<"User"> | boolean
     isTotpEnabled?: BoolWithAggregatesFilter<"User"> | boolean
     totpSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
     lastLoginAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -28327,6 +28349,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -28370,6 +28393,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -28407,6 +28431,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28450,6 +28475,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28490,6 +28516,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -28512,6 +28539,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28537,6 +28565,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30392,6 +30421,7 @@ export namespace Prisma {
     subscriptionPriceId?: SortOrder
     subscriptionStartedAt?: SortOrder
     subscriptionExpiresAt?: SortOrder
+    subscriptionAutoRenew?: SortOrder
     isTotpEnabled?: SortOrder
     totpSecret?: SortOrder
     lastLoginAt?: SortOrder
@@ -30422,6 +30452,7 @@ export namespace Prisma {
     subscriptionPriceId?: SortOrder
     subscriptionStartedAt?: SortOrder
     subscriptionExpiresAt?: SortOrder
+    subscriptionAutoRenew?: SortOrder
     isTotpEnabled?: SortOrder
     totpSecret?: SortOrder
     lastLoginAt?: SortOrder
@@ -30447,6 +30478,7 @@ export namespace Prisma {
     subscriptionPriceId?: SortOrder
     subscriptionStartedAt?: SortOrder
     subscriptionExpiresAt?: SortOrder
+    subscriptionAutoRenew?: SortOrder
     isTotpEnabled?: SortOrder
     totpSecret?: SortOrder
     lastLoginAt?: SortOrder
@@ -35362,6 +35394,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -35403,6 +35436,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -35502,6 +35536,7 @@ export namespace Prisma {
     subscriptionPriceId?: StringNullableFilter<"User"> | string | null
     subscriptionStartedAt?: DateTimeFilter<"User"> | Date | string
     subscriptionExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    subscriptionAutoRenew?: BoolFilter<"User"> | boolean
     isTotpEnabled?: BoolFilter<"User"> | boolean
     totpSecret?: StringNullableFilter<"User"> | string | null
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -35569,6 +35604,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -35610,6 +35646,7 @@ export namespace Prisma {
     subscriptionPlanId: string
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -35774,6 +35811,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -35816,6 +35854,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -35868,6 +35907,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35910,6 +35950,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35946,6 +35987,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -35988,6 +36030,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -36197,6 +36240,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -36238,6 +36282,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -36291,6 +36336,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36333,6 +36379,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36444,6 +36491,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36485,6 +36533,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36522,6 +36571,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -36564,6 +36614,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -36791,6 +36842,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36833,6 +36885,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37061,6 +37114,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -37103,6 +37157,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -37155,6 +37210,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37197,6 +37253,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37233,6 +37290,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -37275,6 +37333,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -37480,6 +37539,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37522,6 +37582,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37705,6 +37766,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -37747,6 +37809,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -37834,6 +37897,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37876,6 +37940,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37928,6 +37993,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -37970,6 +38036,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -38207,6 +38274,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38249,6 +38317,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38425,6 +38494,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -38467,6 +38537,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -38560,6 +38631,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38602,6 +38674,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38638,6 +38711,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -38680,6 +38754,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -38732,6 +38807,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38774,6 +38850,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38810,6 +38887,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -38852,6 +38930,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -38904,6 +38983,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38946,6 +39026,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38982,6 +39063,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39024,6 +39106,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39076,6 +39159,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39118,6 +39202,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39154,6 +39239,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39196,6 +39282,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39248,6 +39335,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39290,6 +39378,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39326,6 +39415,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39368,6 +39458,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39420,6 +39511,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39462,6 +39554,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39498,6 +39591,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39540,6 +39634,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39621,6 +39716,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39663,6 +39759,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39734,6 +39831,7 @@ export namespace Prisma {
     isEmailVerified?: boolean
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39776,6 +39874,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -39828,6 +39927,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39870,6 +39970,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40590,6 +40691,7 @@ export namespace Prisma {
     subscriptionPriceId?: string | null
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -40646,6 +40748,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40687,6 +40790,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40726,6 +40830,7 @@ export namespace Prisma {
     subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40750,6 +40855,7 @@ export namespace Prisma {
     subscriptionPlanId: string
     subscriptionStartedAt?: Date | string
     subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
     isTotpEnabled?: boolean
     totpSecret?: string | null
     lastLoginAt?: Date | string | null
@@ -40784,6 +40890,7 @@ export namespace Prisma {
     isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40825,6 +40932,7 @@ export namespace Prisma {
     subscriptionPlanId?: StringFieldUpdateOperationsInput | string
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40864,6 +40972,7 @@ export namespace Prisma {
     subscriptionPlanId?: StringFieldUpdateOperationsInput | string
     subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
     isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

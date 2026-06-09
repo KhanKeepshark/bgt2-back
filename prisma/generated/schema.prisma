@@ -30,6 +30,8 @@ model User {
 
   subscriptionStartedAt DateTime  @default(now())
   subscriptionExpiresAt DateTime? // null = бессрочно
+  /// When false, Premium stays active until subscriptionExpiresAt but will not auto-renew.
+  subscriptionAutoRenew Boolean   @default(false)
 
   isTotpEnabled Boolean @default(false)
   totpSecret    String?

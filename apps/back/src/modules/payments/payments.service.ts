@@ -65,7 +65,7 @@ export class PaymentsService {
           subscriptionPriceId: payment.subscriptionPrice.id,
           subscriptionStartedAt: now,
           subscriptionExpiresAt: expiresAt,
-          // Add tokens if plan has them
+          subscriptionAutoRenew: true,
           tokensBalance: {
             increment: payment.subscriptionPrice.plan.tokensOnPurchase,
           },

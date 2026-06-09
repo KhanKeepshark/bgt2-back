@@ -98,6 +98,12 @@ export class UserResolver {
     return this.userService.markWelcomeSheetSeen(id);
   }
 
+  @Mutation(() => UserModel, { name: 'cancelPremiumSubscription' })
+  @Authorization()
+  public async cancelPremiumSubscription(@Authorized('id') id: string) {
+    return this.userService.cancelPremiumSubscription(id);
+  }
+
   @Mutation(() => UserModel, { name: 'removeUser' })
   @AdminOnly()
   public async remove(@Args('id') id: string) {

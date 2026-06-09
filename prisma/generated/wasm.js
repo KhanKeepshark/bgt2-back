@@ -129,6 +129,7 @@ exports.Prisma.UserScalarFieldEnum = {
   subscriptionPriceId: 'subscriptionPriceId',
   subscriptionStartedAt: 'subscriptionStartedAt',
   subscriptionExpiresAt: 'subscriptionExpiresAt',
+  subscriptionAutoRenew: 'subscriptionAutoRenew',
   isTotpEnabled: 'isTotpEnabled',
   totpSecret: 'totpSecret',
   lastLoginAt: 'lastLoginAt',

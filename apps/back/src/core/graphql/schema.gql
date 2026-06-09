@@ -23,13 +23,6 @@ type AdminArchiveStaleOperationsResultModel {
   usersSkipped: Int!
 }
 
-type AdminArchiveStaleOperationsResultModel {
-  archivedMonths: [String!]!
-  monthsProcessed: Int!
-  usersArchived: Int!
-  usersSkipped: Int!
-}
-
 type AdminDbDeploymentInfoModel {
   environment: String!
   restoreEnabled: Boolean!
@@ -350,6 +343,7 @@ type Mutation {
   adminStartDbRestore(confirmDatabaseName: String!, filename: String!, totpCode: String): DbRestoreJobModel!
   aiFileTokenCount(file: Upload!): AiCountModel!
   aiFileUpload(file: Upload!): AiUploadTaskModel!
+  cancelPremiumSubscription: UserModel!
   categoryHasOperations(id: String!): Boolean!
   changePassword(data: ChangePasswordInput!): UserModel!
   clearSessionCookie: Boolean!
@@ -802,6 +796,7 @@ type UserModel {
   operationsArchivalNotifiedAt: DateTime
   password: String!
   role: String!
+  subscriptionAutoRenew: Boolean!
   subscriptionExpiresAt: DateTime
   subscriptionPlan: SubscriptionPlanModel!
   subscriptionPlanId: String!

@@ -42,6 +42,9 @@ export class UserModel implements User {
   @Field(() => Date, { nullable: true })
   subscriptionExpiresAt: Date;
 
+  @Field(() => Boolean)
+  subscriptionAutoRenew: boolean;
+
   @Field(() => Number)
   tokensBalance: number;
 

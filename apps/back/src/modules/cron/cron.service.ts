@@ -79,9 +79,10 @@ export class CronService {
         },
         data: {
           subscriptionPlanId: defaultPlan.id,
-          subscriptionPriceId: null, // Reset price selection
-          subscriptionExpiresAt: null, // Бессрочный (или логика плана)
-          tokensBalance: defaultPlan.tokensOnPurchase, // Сбрасываем токены до лимита бесплатного плана
+          subscriptionPriceId: null,
+          subscriptionExpiresAt: null,
+          subscriptionAutoRenew: false,
+          tokensBalance: defaultPlan.tokensOnPurchase,
         },
       });
 

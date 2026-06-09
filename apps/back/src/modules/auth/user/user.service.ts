@@ -8,6 +8,7 @@ import {
 import { CreateUserInput } from './inputs/create-user.input';
 import {
   AuthError,
+  GeneralError,
   SubscriptionError,
 } from '@back/shared/constants/errors.constants';
 import { UpdateUserInput } from './inputs/update-user.input';
@@ -402,15 +403,51 @@ export class UserService {
     return this.prismaService.user.update({
       where: { id },
       data: { welcomeSheetSeenAt: new Date() },
-      include: {
-        subscriptionPlan: {
-          include: {
-            prices: true,
-          },
-        },
-        subscriptionPrice: true,
-      },
+      include: this.meInclude(),
     });
+  }
+
+  public async cancelPremiumSubscription(id: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      include: { subscriptionPlan: true },
+    });
+
+    if (!user) {
+      throw new BadRequestException(GeneralError.USER_NOT_FOUND);
+    }
+
+    if (user.subscriptionPlan.type !== SubscriptionType.PREMIUM) {
+      throw new BadRequestException(SubscriptionError.NOT_PREMIUM);
+    }
+
+    if (!user.subscriptionAutoRenew) {
+      return this.me(id);
+    }
+
+    return this.prismaService.user.update({
+      where: { id },
+      data: { subscriptionAutoRenew: false },
+      include: this.meInclude(),
+    });
+  }
+
+  private meInclude() {
+    return {
+      accounts: true,
+      tags: true,
+      categories: {
+        include: {
+          children: true,
+        },
+      },
+      subscriptionPlan: {
+        include: {
+          prices: true,
+        },
+      },
+      subscriptionPrice: true,
+    } satisfies Prisma.UserInclude;
   }
 
   public async remove(id: string) {
