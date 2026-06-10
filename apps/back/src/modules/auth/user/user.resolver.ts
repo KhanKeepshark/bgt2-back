@@ -1,4 +1,4 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserModel } from './models/user.model';
 import { PaginatedUsersModel } from './models/paginated-users.model';
@@ -11,11 +11,14 @@ import {
 } from '@back/shared/decorators/auth.decorator';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { CreateUserInput } from './inputs/create-user.input';
+import { AcceptLegalDocumentsInput } from './inputs/accept-legal-documents.input';
 import { ChangePasswordInput } from './inputs/change-password.input';
 import { ResetPasswordInput } from './inputs/reset-password.input';
 import { UseGuards } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { GqlThrottlerGuard } from '../../../shared/guards/gql-throttler.guard';
+import { GqlContext } from '@back/shared/types/gql-context.types';
+import { UserAgent } from '@back/shared/decorators/user-agent.decorator';
 
 @Resolver('User')
 export class UserResolver {
@@ -43,8 +46,23 @@ export class UserResolver {
   @Mutation(() => Boolean, { name: 'createUser' })
   @UseGuards(GqlThrottlerGuard)
   @Throttle({ default: { limit: 3, ttl: 60000 } })
-  public async create(@Args('data') input: CreateUserInput) {
-    return this.userService.create(input);
+  public async create(
+    @Args('data') input: CreateUserInput,
+    @Context() { req }: GqlContext,
+    @UserAgent() userAgent: string,
+  ) {
+    return this.userService.create(input, req.ip, userAgent);
+  }
+
+  @Mutation(() => Boolean, { name: 'acceptLegalDocuments' })
+  @Authorization()
+  public async acceptLegalDocuments(
+    @Authorized('id') id: string,
+    @Args('data') input: AcceptLegalDocumentsInput,
+    @Context() { req }: GqlContext,
+    @UserAgent() userAgent: string,
+  ) {
+    return this.userService.acceptLegalDocuments(id, input, req.ip, userAgent);
   }
 
   @Query(() => UserModel, { name: 'findUser' })

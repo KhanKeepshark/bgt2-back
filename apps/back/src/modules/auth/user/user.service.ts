@@ -23,6 +23,9 @@ import { MailService } from '../../libs/mail/mail.service';
 import { generateToken } from '@back/shared/utils/generate-token.util';
 import { TokenType } from '@prisma/generated';
 import { ResetPasswordInput } from './inputs/reset-password.input';
+import { UserConsentService } from './user-consent.service';
+import { AcceptLegalDocumentsInput } from './inputs/accept-legal-documents.input';
+import { ConsentType } from '@prisma/generated';
 
 @Injectable()
 export class UserService {
@@ -32,6 +35,7 @@ export class UserService {
     private readonly categoryService: CategoryService,
     private readonly verificationService: VerificationService,
     private readonly mailService: MailService,
+    private readonly userConsentService: UserConsentService,
   ) {}
 
   public async findAll(
@@ -88,8 +92,19 @@ export class UserService {
     return user;
   }
 
-  public async create(input: CreateUserInput) {
-    const { email, password, language } = input;
+  public async create(
+    input: CreateUserInput,
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
+    const {
+      email,
+      password,
+      language,
+      termsVersion,
+      privacyVersion,
+      crossBorderVersion,
+    } = input;
 
     const isEmailExists = await this.prismaService.user.findUnique({
       where: { email },
@@ -136,6 +151,17 @@ export class UserService {
       user,
     );
     await this.categoryService.createDefault(user, language);
+
+    await this.userConsentService.recordConsents(
+      user.id,
+      this.userConsentService.buildRegistrationConsents({
+        termsVersion,
+        privacyVersion,
+        crossBorderVersion,
+      }),
+      ipAddress,
+      userAgent,
+    );
 
     await this.verificationService.sendVerificationEmail(user, language);
 
@@ -430,6 +456,49 @@ export class UserService {
       data: { subscriptionAutoRenew: false },
       include: this.meInclude(),
     });
+  }
+
+  public async acceptLegalDocuments(
+    userId: string,
+    input: AcceptLegalDocumentsInput,
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
+    const consents: RecordConsentInput[] = [];
+
+    if (
+      input.termsVersion &&
+      input.privacyVersion &&
+      input.crossBorderVersion
+    ) {
+      consents.push(
+        ...this.userConsentService.buildRegistrationConsents({
+          termsVersion: input.termsVersion,
+          privacyVersion: input.privacyVersion,
+          crossBorderVersion: input.crossBorderVersion,
+        }),
+      );
+    }
+
+    if (input.aiImportVersion) {
+      consents.push({
+        type: ConsentType.AI_IMPORT,
+        version: input.aiImportVersion,
+      });
+    }
+
+    if (consents.length === 0) {
+      throw new BadRequestException('No legal consents provided');
+    }
+
+    await this.userConsentService.recordConsents(
+      userId,
+      consents,
+      ipAddress,
+      userAgent,
+    );
+
+    return true;
   }
 
   private meInclude() {

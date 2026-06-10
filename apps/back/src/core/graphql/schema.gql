@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AcceptLegalDocumentsInput {
+  aiImportVersion: String
+  crossBorderVersion: String
+  privacyVersion: String
+  termsVersion: String
+}
+
 type AccountModel {
   balance: String!
   createdAt: DateTime!
@@ -61,6 +68,7 @@ enum AiUsageStatus {
 
 type AuthModel {
   message: String
+  requiresLegalAcceptance: Boolean!
   requiresTotp: Boolean!
   user: UserModel
 }
@@ -191,9 +199,12 @@ input CreateTagInput {
 }
 
 input CreateUserInput {
+  crossBorderVersion: String!
   email: String!
   language: String
   password: String!
+  privacyVersion: String!
+  termsVersion: String!
 }
 
 type DailyCountModel {
@@ -337,6 +348,7 @@ input LoginWithGoogleInput {
 }
 
 type Mutation {
+  acceptLegalDocuments(data: AcceptLegalDocumentsInput!): Boolean!
   accountHasOperations(id: String!): Boolean!
   adminArchiveStaleOperations: AdminArchiveStaleOperationsResultModel!
   adminDeleteDbBackup(filename: String!): Boolean!
@@ -763,15 +775,18 @@ input UpdateTagInput {
 }
 
 input UpdateUserInput {
+  crossBorderVersion: String
   email: String
   id: String!
   isActive: Boolean
   isEmailVerified: Boolean
   language: String
   password: String
+  privacyVersion: String
   role: String
   subscriptionPlanId: String
   subscriptionPriceId: String
+  termsVersion: String
   tokensBalance: Float
 }
 

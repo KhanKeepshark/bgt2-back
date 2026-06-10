@@ -364,6 +364,16 @@ exports.Prisma.SupportTicketScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserConsentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  version: 'version',
+  acceptedAt: 'acceptedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -468,6 +478,13 @@ exports.SupportTicketStatus = exports.$Enums.SupportTicketStatus = {
   RESOLVED: 'RESOLVED'
 };
 
+exports.ConsentType = exports.$Enums.ConsentType = {
+  TERMS: 'TERMS',
+  PRIVACY: 'PRIVACY',
+  CROSS_BORDER_PD: 'CROSS_BORDER_PD',
+  AI_IMPORT: 'AI_IMPORT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   SubscriptionPlan: 'SubscriptionPlan',
@@ -487,7 +504,8 @@ exports.Prisma.ModelName = {
   Notification: 'Notification',
   SystemMetric: 'SystemMetric',
   Payment: 'Payment',
-  SupportTicket: 'SupportTicket'
+  SupportTicket: 'SupportTicket',
+  UserConsent: 'UserConsent'
 };
 
 /**

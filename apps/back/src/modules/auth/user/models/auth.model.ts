@@ -11,4 +11,7 @@ export class AuthModel {
 
   @Field(() => Boolean, { defaultValue: false })
   requiresTotp: boolean;
+
+  @Field(() => Boolean, { defaultValue: false })
+  requiresLegalAcceptance: boolean;
 }

@@ -22,6 +22,7 @@ import {
   saveSession,
 } from '@back/shared/utils/session.util';
 import { UserService } from '../user/user.service';
+import { UserConsentService } from '../user/user-consent.service';
 import { LoginWithGoogleInput } from './inputs/login-with-google.input';
 import { VerifyLoginTotpInput } from './inputs/verify-login-totp.input';
 
@@ -44,6 +45,7 @@ export class SessionService {
     private readonly redisService: RedisService,
     private readonly configService: ConfigService,
     private readonly userService: UserService,
+    private readonly userConsentService: UserConsentService,
   ) {}
 
   public async findSessionsByUser(req: Request) {
@@ -126,7 +128,9 @@ export class SessionService {
 
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
-    return await saveSession(req, userWithLogin, metadata);
+    return this.wrapAuthResponse(
+      await saveSession(req, userWithLogin, metadata),
+    );
   }
 
   public async verifyLoginTotp(req: Request, input: VerifyLoginTotpInput) {
@@ -162,7 +166,9 @@ export class SessionService {
     const metadata = req.session.metadata ?? getSessionMetadata(req, '');
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
-    return await saveSession(req, userWithLogin, metadata);
+    return this.wrapAuthResponse(
+      await saveSession(req, userWithLogin, metadata),
+    );
   }
 
   public async loginWithGoogle(
@@ -214,7 +220,9 @@ export class SessionService {
     const metadata = getSessionMetadata(req, userAgent);
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
-    return await saveSession(req, userWithLogin, metadata);
+    return this.wrapAuthResponse(
+      await saveSession(req, userWithLogin, metadata),
+    );
   }
 
   public async logout(req: Request) {
@@ -251,5 +259,21 @@ export class SessionService {
 
     const metadata = getSessionMetadata(req, userAgent);
     return await saveSession(req, user, metadata);
+  }
+
+  private async wrapAuthResponse(sessionResult: {
+    user: { id: string } | null;
+    requiresTotp: boolean;
+  }) {
+    if (!sessionResult.user) {
+      return { ...sessionResult, requiresLegalAcceptance: false };
+    }
+
+    const requiresLegalAcceptance =
+      !(await this.userConsentService.hasRequiredLegalConsents(
+        sessionResult.user.id,
+      ));
+
+    return { ...sessionResult, requiresLegalAcceptance };
   }
 }

@@ -108,6 +108,11 @@ export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
  * 
  */
 export type SupportTicket = $Result.DefaultSelection<Prisma.$SupportTicketPayload>
+/**
+ * Model UserConsent
+ * 
+ */
+export type UserConsent = $Result.DefaultSelection<Prisma.$UserConsentPayload>
 
 /**
  * Enums
@@ -229,6 +234,16 @@ export const SupportTicketStatus: {
 
 export type SupportTicketStatus = (typeof SupportTicketStatus)[keyof typeof SupportTicketStatus]
 
+
+export const ConsentType: {
+  TERMS: 'TERMS',
+  PRIVACY: 'PRIVACY',
+  CROSS_BORDER_PD: 'CROSS_BORDER_PD',
+  AI_IMPORT: 'AI_IMPORT'
+};
+
+export type ConsentType = (typeof ConsentType)[keyof typeof ConsentType]
+
 }
 
 export type SubscriptionType = $Enums.SubscriptionType
@@ -286,6 +301,10 @@ export const PaymentStatus: typeof $Enums.PaymentStatus
 export type SupportTicketStatus = $Enums.SupportTicketStatus
 
 export const SupportTicketStatus: typeof $Enums.SupportTicketStatus
+
+export type ConsentType = $Enums.ConsentType
+
+export const ConsentType: typeof $Enums.ConsentType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -601,6 +620,16 @@ export class PrismaClient<
     * ```
     */
   get supportTicket(): Prisma.SupportTicketDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userConsent`: Exposes CRUD operations for the **UserConsent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserConsents
+    * const userConsents = await prisma.userConsent.findMany()
+    * ```
+    */
+  get userConsent(): Prisma.UserConsentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1059,7 +1088,8 @@ export namespace Prisma {
     Notification: 'Notification',
     SystemMetric: 'SystemMetric',
     Payment: 'Payment',
-    SupportTicket: 'SupportTicket'
+    SupportTicket: 'SupportTicket',
+    UserConsent: 'UserConsent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1078,7 +1108,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "operationMonthlyRollup" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "userActivityEvent" | "notification" | "systemMetric" | "payment" | "supportTicket"
+      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "operationMonthlyRollup" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "userActivityEvent" | "notification" | "systemMetric" | "payment" | "supportTicket" | "userConsent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2488,6 +2518,80 @@ export namespace Prisma {
           }
         }
       }
+      UserConsent: {
+        payload: Prisma.$UserConsentPayload<ExtArgs>
+        fields: Prisma.UserConsentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserConsentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserConsentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>
+          }
+          findFirst: {
+            args: Prisma.UserConsentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserConsentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>
+          }
+          findMany: {
+            args: Prisma.UserConsentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>[]
+          }
+          create: {
+            args: Prisma.UserConsentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>
+          }
+          createMany: {
+            args: Prisma.UserConsentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserConsentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>[]
+          }
+          delete: {
+            args: Prisma.UserConsentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>
+          }
+          update: {
+            args: Prisma.UserConsentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserConsentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserConsentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserConsentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserConsentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserConsentPayload>
+          }
+          aggregate: {
+            args: Prisma.UserConsentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserConsent>
+          }
+          groupBy: {
+            args: Prisma.UserConsentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserConsentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserConsentCountArgs<ExtArgs>
+            result: $Utils.Optional<UserConsentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2591,6 +2695,7 @@ export namespace Prisma {
     systemMetric?: SystemMetricOmit
     payment?: PaymentOmit
     supportTicket?: SupportTicketOmit
+    userConsent?: UserConsentOmit
   }
 
   /* Types for Logging */
@@ -2700,6 +2805,7 @@ export namespace Prisma {
     notifications: number
     payments: number
     supportTickets: number
+    consents: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2718,6 +2824,7 @@ export namespace Prisma {
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     payments?: boolean | UserCountOutputTypeCountPaymentsArgs
     supportTickets?: boolean | UserCountOutputTypeCountSupportTicketsArgs
+    consents?: boolean | UserCountOutputTypeCountConsentsArgs
   }
 
   // Custom InputTypes
@@ -2834,6 +2941,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSupportTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SupportTicketWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountConsentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserConsentWhereInput
   }
 
 
@@ -3494,6 +3608,7 @@ export namespace Prisma {
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
+    consents?: boolean | User$consentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3601,6 +3716,7 @@ export namespace Prisma {
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
+    consents?: boolean | User$consentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3635,6 +3751,7 @@ export namespace Prisma {
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       supportTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
+      consents: Prisma.$UserConsentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4075,6 +4192,7 @@ export namespace Prisma {
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends User$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportTickets<T extends User$supportTicketsArgs<ExtArgs> = {}>(args?: Subset<T, User$supportTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    consents<T extends User$consentsArgs<ExtArgs> = {}>(args?: Subset<T, User$consentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4918,6 +5036,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SupportTicketScalarFieldEnum | SupportTicketScalarFieldEnum[]
+  }
+
+  /**
+   * User.consents
+   */
+  export type User$consentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    where?: UserConsentWhereInput
+    orderBy?: UserConsentOrderByWithRelationInput | UserConsentOrderByWithRelationInput[]
+    cursor?: UserConsentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserConsentScalarFieldEnum | UserConsentScalarFieldEnum[]
   }
 
   /**
@@ -26012,6 +26154,1090 @@ export namespace Prisma {
 
 
   /**
+   * Model UserConsent
+   */
+
+  export type AggregateUserConsent = {
+    _count: UserConsentCountAggregateOutputType | null
+    _min: UserConsentMinAggregateOutputType | null
+    _max: UserConsentMaxAggregateOutputType | null
+  }
+
+  export type UserConsentMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.ConsentType | null
+    version: string | null
+    acceptedAt: Date | null
+    ipAddress: string | null
+    userAgent: string | null
+  }
+
+  export type UserConsentMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.ConsentType | null
+    version: string | null
+    acceptedAt: Date | null
+    ipAddress: string | null
+    userAgent: string | null
+  }
+
+  export type UserConsentCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    version: number
+    acceptedAt: number
+    ipAddress: number
+    userAgent: number
+    _all: number
+  }
+
+
+  export type UserConsentMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    version?: true
+    acceptedAt?: true
+    ipAddress?: true
+    userAgent?: true
+  }
+
+  export type UserConsentMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    version?: true
+    acceptedAt?: true
+    ipAddress?: true
+    userAgent?: true
+  }
+
+  export type UserConsentCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    version?: true
+    acceptedAt?: true
+    ipAddress?: true
+    userAgent?: true
+    _all?: true
+  }
+
+  export type UserConsentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserConsent to aggregate.
+     */
+    where?: UserConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserConsents to fetch.
+     */
+    orderBy?: UserConsentOrderByWithRelationInput | UserConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserConsents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserConsents
+    **/
+    _count?: true | UserConsentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserConsentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserConsentMaxAggregateInputType
+  }
+
+  export type GetUserConsentAggregateType<T extends UserConsentAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserConsent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserConsent[P]>
+      : GetScalarType<T[P], AggregateUserConsent[P]>
+  }
+
+
+
+
+  export type UserConsentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserConsentWhereInput
+    orderBy?: UserConsentOrderByWithAggregationInput | UserConsentOrderByWithAggregationInput[]
+    by: UserConsentScalarFieldEnum[] | UserConsentScalarFieldEnum
+    having?: UserConsentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserConsentCountAggregateInputType | true
+    _min?: UserConsentMinAggregateInputType
+    _max?: UserConsentMaxAggregateInputType
+  }
+
+  export type UserConsentGroupByOutputType = {
+    id: string
+    userId: string
+    type: $Enums.ConsentType
+    version: string
+    acceptedAt: Date
+    ipAddress: string | null
+    userAgent: string | null
+    _count: UserConsentCountAggregateOutputType | null
+    _min: UserConsentMinAggregateOutputType | null
+    _max: UserConsentMaxAggregateOutputType | null
+  }
+
+  type GetUserConsentGroupByPayload<T extends UserConsentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserConsentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserConsentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserConsentGroupByOutputType[P]>
+            : GetScalarType<T[P], UserConsentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserConsentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    version?: boolean
+    acceptedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userConsent"]>
+
+  export type UserConsentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    version?: boolean
+    acceptedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userConsent"]>
+
+  export type UserConsentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    version?: boolean
+    acceptedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userConsent"]>
+
+  export type UserConsentSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    version?: boolean
+    acceptedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+  }
+
+  export type UserConsentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "version" | "acceptedAt" | "ipAddress" | "userAgent", ExtArgs["result"]["userConsent"]>
+  export type UserConsentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserConsentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserConsentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserConsentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserConsent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: $Enums.ConsentType
+      version: string
+      acceptedAt: Date
+      ipAddress: string | null
+      userAgent: string | null
+    }, ExtArgs["result"]["userConsent"]>
+    composites: {}
+  }
+
+  type UserConsentGetPayload<S extends boolean | null | undefined | UserConsentDefaultArgs> = $Result.GetResult<Prisma.$UserConsentPayload, S>
+
+  type UserConsentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserConsentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserConsentCountAggregateInputType | true
+    }
+
+  export interface UserConsentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserConsent'], meta: { name: 'UserConsent' } }
+    /**
+     * Find zero or one UserConsent that matches the filter.
+     * @param {UserConsentFindUniqueArgs} args - Arguments to find a UserConsent
+     * @example
+     * // Get one UserConsent
+     * const userConsent = await prisma.userConsent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserConsentFindUniqueArgs>(args: SelectSubset<T, UserConsentFindUniqueArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserConsent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserConsentFindUniqueOrThrowArgs} args - Arguments to find a UserConsent
+     * @example
+     * // Get one UserConsent
+     * const userConsent = await prisma.userConsent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserConsentFindUniqueOrThrowArgs>(args: SelectSubset<T, UserConsentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserConsent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserConsentFindFirstArgs} args - Arguments to find a UserConsent
+     * @example
+     * // Get one UserConsent
+     * const userConsent = await prisma.userConsent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserConsentFindFirstArgs>(args?: SelectSubset<T, UserConsentFindFirstArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserConsent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserConsentFindFirstOrThrowArgs} args - Arguments to find a UserConsent
+     * @example
+     * // Get one UserConsent
+     * const userConsent = await prisma.userConsent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserConsentFindFirstOrThrowArgs>(args?: SelectSubset<T, UserConsentFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserConsents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserConsentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserConsents
+     * const userConsents = await prisma.userConsent.findMany()
+     * 
+     * // Get first 10 UserConsents
+     * const userConsents = await prisma.userConsent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userConsentWithIdOnly = await prisma.userConsent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserConsentFindManyArgs>(args?: SelectSubset<T, UserConsentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserConsent.
+     * @param {UserConsentCreateArgs} args - Arguments to create a UserConsent.
+     * @example
+     * // Create one UserConsent
+     * const UserConsent = await prisma.userConsent.create({
+     *   data: {
+     *     // ... data to create a UserConsent
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserConsentCreateArgs>(args: SelectSubset<T, UserConsentCreateArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserConsents.
+     * @param {UserConsentCreateManyArgs} args - Arguments to create many UserConsents.
+     * @example
+     * // Create many UserConsents
+     * const userConsent = await prisma.userConsent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserConsentCreateManyArgs>(args?: SelectSubset<T, UserConsentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserConsents and returns the data saved in the database.
+     * @param {UserConsentCreateManyAndReturnArgs} args - Arguments to create many UserConsents.
+     * @example
+     * // Create many UserConsents
+     * const userConsent = await prisma.userConsent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserConsents and only return the `id`
+     * const userConsentWithIdOnly = await prisma.userConsent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserConsentCreateManyAndReturnArgs>(args?: SelectSubset<T, UserConsentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserConsent.
+     * @param {UserConsentDeleteArgs} args - Arguments to delete one UserConsent.
+     * @example
+     * // Delete one UserConsent
+     * const UserConsent = await prisma.userConsent.delete({
+     *   where: {
+     *     // ... filter to delete one UserConsent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserConsentDeleteArgs>(args: SelectSubset<T, UserConsentDeleteArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserConsent.
+     * @param {UserConsentUpdateArgs} args - Arguments to update one UserConsent.
+     * @example
+     * // Update one UserConsent
+     * const userConsent = await prisma.userConsent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserConsentUpdateArgs>(args: SelectSubset<T, UserConsentUpdateArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserConsents.
+     * @param {UserConsentDeleteManyArgs} args - Arguments to filter UserConsents to delete.
+     * @example
+     * // Delete a few UserConsents
+     * const { count } = await prisma.userConsent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserConsentDeleteManyArgs>(args?: SelectSubset<T, UserConsentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserConsents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserConsentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserConsents
+     * const userConsent = await prisma.userConsent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserConsentUpdateManyArgs>(args: SelectSubset<T, UserConsentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserConsents and returns the data updated in the database.
+     * @param {UserConsentUpdateManyAndReturnArgs} args - Arguments to update many UserConsents.
+     * @example
+     * // Update many UserConsents
+     * const userConsent = await prisma.userConsent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserConsents and only return the `id`
+     * const userConsentWithIdOnly = await prisma.userConsent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserConsentUpdateManyAndReturnArgs>(args: SelectSubset<T, UserConsentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserConsent.
+     * @param {UserConsentUpsertArgs} args - Arguments to update or create a UserConsent.
+     * @example
+     * // Update or create a UserConsent
+     * const userConsent = await prisma.userConsent.upsert({
+     *   create: {
+     *     // ... data to create a UserConsent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserConsent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserConsentUpsertArgs>(args: SelectSubset<T, UserConsentUpsertArgs<ExtArgs>>): Prisma__UserConsentClient<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserConsents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserConsentCountArgs} args - Arguments to filter UserConsents to count.
+     * @example
+     * // Count the number of UserConsents
+     * const count = await prisma.userConsent.count({
+     *   where: {
+     *     // ... the filter for the UserConsents we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserConsentCountArgs>(
+      args?: Subset<T, UserConsentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserConsentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserConsent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserConsentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserConsentAggregateArgs>(args: Subset<T, UserConsentAggregateArgs>): Prisma.PrismaPromise<GetUserConsentAggregateType<T>>
+
+    /**
+     * Group by UserConsent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserConsentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserConsentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserConsentGroupByArgs['orderBy'] }
+        : { orderBy?: UserConsentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserConsentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserConsentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserConsent model
+   */
+  readonly fields: UserConsentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserConsent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserConsentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserConsent model
+   */ 
+  interface UserConsentFieldRefs {
+    readonly id: FieldRef<"UserConsent", 'String'>
+    readonly userId: FieldRef<"UserConsent", 'String'>
+    readonly type: FieldRef<"UserConsent", 'ConsentType'>
+    readonly version: FieldRef<"UserConsent", 'String'>
+    readonly acceptedAt: FieldRef<"UserConsent", 'DateTime'>
+    readonly ipAddress: FieldRef<"UserConsent", 'String'>
+    readonly userAgent: FieldRef<"UserConsent", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserConsent findUnique
+   */
+  export type UserConsentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which UserConsent to fetch.
+     */
+    where: UserConsentWhereUniqueInput
+  }
+
+  /**
+   * UserConsent findUniqueOrThrow
+   */
+  export type UserConsentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which UserConsent to fetch.
+     */
+    where: UserConsentWhereUniqueInput
+  }
+
+  /**
+   * UserConsent findFirst
+   */
+  export type UserConsentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which UserConsent to fetch.
+     */
+    where?: UserConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserConsents to fetch.
+     */
+    orderBy?: UserConsentOrderByWithRelationInput | UserConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserConsents.
+     */
+    cursor?: UserConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserConsents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserConsents.
+     */
+    distinct?: UserConsentScalarFieldEnum | UserConsentScalarFieldEnum[]
+  }
+
+  /**
+   * UserConsent findFirstOrThrow
+   */
+  export type UserConsentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which UserConsent to fetch.
+     */
+    where?: UserConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserConsents to fetch.
+     */
+    orderBy?: UserConsentOrderByWithRelationInput | UserConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserConsents.
+     */
+    cursor?: UserConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserConsents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserConsents.
+     */
+    distinct?: UserConsentScalarFieldEnum | UserConsentScalarFieldEnum[]
+  }
+
+  /**
+   * UserConsent findMany
+   */
+  export type UserConsentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which UserConsents to fetch.
+     */
+    where?: UserConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserConsents to fetch.
+     */
+    orderBy?: UserConsentOrderByWithRelationInput | UserConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserConsents.
+     */
+    cursor?: UserConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserConsents.
+     */
+    skip?: number
+    distinct?: UserConsentScalarFieldEnum | UserConsentScalarFieldEnum[]
+  }
+
+  /**
+   * UserConsent create
+   */
+  export type UserConsentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserConsent.
+     */
+    data: XOR<UserConsentCreateInput, UserConsentUncheckedCreateInput>
+  }
+
+  /**
+   * UserConsent createMany
+   */
+  export type UserConsentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserConsents.
+     */
+    data: UserConsentCreateManyInput | UserConsentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserConsent createManyAndReturn
+   */
+  export type UserConsentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserConsents.
+     */
+    data: UserConsentCreateManyInput | UserConsentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserConsent update
+   */
+  export type UserConsentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserConsent.
+     */
+    data: XOR<UserConsentUpdateInput, UserConsentUncheckedUpdateInput>
+    /**
+     * Choose, which UserConsent to update.
+     */
+    where: UserConsentWhereUniqueInput
+  }
+
+  /**
+   * UserConsent updateMany
+   */
+  export type UserConsentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserConsents.
+     */
+    data: XOR<UserConsentUpdateManyMutationInput, UserConsentUncheckedUpdateManyInput>
+    /**
+     * Filter which UserConsents to update
+     */
+    where?: UserConsentWhereInput
+    /**
+     * Limit how many UserConsents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserConsent updateManyAndReturn
+   */
+  export type UserConsentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * The data used to update UserConsents.
+     */
+    data: XOR<UserConsentUpdateManyMutationInput, UserConsentUncheckedUpdateManyInput>
+    /**
+     * Filter which UserConsents to update
+     */
+    where?: UserConsentWhereInput
+    /**
+     * Limit how many UserConsents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserConsent upsert
+   */
+  export type UserConsentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserConsent to update in case it exists.
+     */
+    where: UserConsentWhereUniqueInput
+    /**
+     * In case the UserConsent found by the `where` argument doesn't exist, create a new UserConsent with this data.
+     */
+    create: XOR<UserConsentCreateInput, UserConsentUncheckedCreateInput>
+    /**
+     * In case the UserConsent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserConsentUpdateInput, UserConsentUncheckedUpdateInput>
+  }
+
+  /**
+   * UserConsent delete
+   */
+  export type UserConsentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+    /**
+     * Filter which UserConsent to delete.
+     */
+    where: UserConsentWhereUniqueInput
+  }
+
+  /**
+   * UserConsent deleteMany
+   */
+  export type UserConsentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserConsents to delete
+     */
+    where?: UserConsentWhereInput
+    /**
+     * Limit how many UserConsents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserConsent without action
+   */
+  export type UserConsentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserConsent
+     */
+    select?: UserConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserConsent
+     */
+    omit?: UserConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserConsentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -26327,6 +27553,19 @@ export namespace Prisma {
   };
 
   export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
+
+
+  export const UserConsentScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    version: 'version',
+    acceptedAt: 'acceptedAt',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent'
+  };
+
+  export type UserConsentScalarFieldEnum = (typeof UserConsentScalarFieldEnum)[keyof typeof UserConsentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -26656,6 +27895,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ConsentType'
+   */
+  export type EnumConsentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ConsentType[]'
+   */
+  export type ListEnumConsentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsentType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -26717,6 +27970,7 @@ export namespace Prisma {
     notifications?: NotificationListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
+    consents?: UserConsentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -26761,6 +28015,7 @@ export namespace Prisma {
     notifications?: NotificationOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     supportTickets?: SupportTicketOrderByRelationAggregateInput
+    consents?: UserConsentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -26808,6 +28063,7 @@ export namespace Prisma {
     notifications?: NotificationListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
+    consents?: UserConsentListRelationFilter
   }, "id" | "email" | "defaultAccountId">
 
   export type UserOrderByWithAggregationInput = {
@@ -28340,6 +29596,71 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"SupportTicket"> | Date | string
   }
 
+  export type UserConsentWhereInput = {
+    AND?: UserConsentWhereInput | UserConsentWhereInput[]
+    OR?: UserConsentWhereInput[]
+    NOT?: UserConsentWhereInput | UserConsentWhereInput[]
+    id?: StringFilter<"UserConsent"> | string
+    userId?: StringFilter<"UserConsent"> | string
+    type?: EnumConsentTypeFilter<"UserConsent"> | $Enums.ConsentType
+    version?: StringFilter<"UserConsent"> | string
+    acceptedAt?: DateTimeFilter<"UserConsent"> | Date | string
+    ipAddress?: StringNullableFilter<"UserConsent"> | string | null
+    userAgent?: StringNullableFilter<"UserConsent"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserConsentOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    version?: SortOrder
+    acceptedAt?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserConsentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserConsentWhereInput | UserConsentWhereInput[]
+    OR?: UserConsentWhereInput[]
+    NOT?: UserConsentWhereInput | UserConsentWhereInput[]
+    userId?: StringFilter<"UserConsent"> | string
+    type?: EnumConsentTypeFilter<"UserConsent"> | $Enums.ConsentType
+    version?: StringFilter<"UserConsent"> | string
+    acceptedAt?: DateTimeFilter<"UserConsent"> | Date | string
+    ipAddress?: StringNullableFilter<"UserConsent"> | string | null
+    userAgent?: StringNullableFilter<"UserConsent"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserConsentOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    version?: SortOrder
+    acceptedAt?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    _count?: UserConsentCountOrderByAggregateInput
+    _max?: UserConsentMaxOrderByAggregateInput
+    _min?: UserConsentMinOrderByAggregateInput
+  }
+
+  export type UserConsentScalarWhereWithAggregatesInput = {
+    AND?: UserConsentScalarWhereWithAggregatesInput | UserConsentScalarWhereWithAggregatesInput[]
+    OR?: UserConsentScalarWhereWithAggregatesInput[]
+    NOT?: UserConsentScalarWhereWithAggregatesInput | UserConsentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserConsent"> | string
+    userId?: StringWithAggregatesFilter<"UserConsent"> | string
+    type?: EnumConsentTypeWithAggregatesFilter<"UserConsent"> | $Enums.ConsentType
+    version?: StringWithAggregatesFilter<"UserConsent"> | string
+    acceptedAt?: DateTimeWithAggregatesFilter<"UserConsent"> | Date | string
+    ipAddress?: StringNullableWithAggregatesFilter<"UserConsent"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"UserConsent"> | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -28379,6 +29700,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -28420,6 +29742,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -28461,6 +29784,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -28502,6 +29826,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -30164,6 +31489,75 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserConsentCreateInput = {
+    id?: string
+    type: $Enums.ConsentType
+    version: string
+    acceptedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
+    user: UserCreateNestedOneWithoutConsentsInput
+  }
+
+  export type UserConsentUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: $Enums.ConsentType
+    version: string
+    acceptedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
+  }
+
+  export type UserConsentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumConsentTypeFieldUpdateOperationsInput | $Enums.ConsentType
+    version?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutConsentsNestedInput
+  }
+
+  export type UserConsentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumConsentTypeFieldUpdateOperationsInput | $Enums.ConsentType
+    version?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserConsentCreateManyInput = {
+    id?: string
+    userId: string
+    type: $Enums.ConsentType
+    version: string
+    acceptedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
+  }
+
+  export type UserConsentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumConsentTypeFieldUpdateOperationsInput | $Enums.ConsentType
+    version?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserConsentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumConsentTypeFieldUpdateOperationsInput | $Enums.ConsentType
+    version?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -30344,6 +31738,12 @@ export namespace Prisma {
     none?: SupportTicketWhereInput
   }
 
+  export type UserConsentListRelationFilter = {
+    every?: UserConsentWhereInput
+    some?: UserConsentWhereInput
+    none?: UserConsentWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -30406,6 +31806,10 @@ export namespace Prisma {
   }
 
   export type SupportTicketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserConsentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -31810,6 +33214,53 @@ export namespace Prisma {
     _max?: NestedEnumSupportTicketStatusFilter<$PrismaModel>
   }
 
+  export type EnumConsentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentType | EnumConsentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentTypeFilter<$PrismaModel> | $Enums.ConsentType
+  }
+
+  export type UserConsentCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    version?: SortOrder
+    acceptedAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+  }
+
+  export type UserConsentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    version?: SortOrder
+    acceptedAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+  }
+
+  export type UserConsentMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    version?: SortOrder
+    acceptedAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+  }
+
+  export type EnumConsentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentType | EnumConsentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConsentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConsentTypeFilter<$PrismaModel>
+    _max?: NestedEnumConsentTypeFilter<$PrismaModel>
+  }
+
   export type AccountCreateNestedOneWithoutDefaultForUserInput = {
     create?: XOR<AccountCreateWithoutDefaultForUserInput, AccountUncheckedCreateWithoutDefaultForUserInput>
     connectOrCreate?: AccountCreateOrConnectWithoutDefaultForUserInput
@@ -31933,6 +33384,13 @@ export namespace Prisma {
     connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
   }
 
+  export type UserConsentCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserConsentCreateWithoutUserInput, UserConsentUncheckedCreateWithoutUserInput> | UserConsentCreateWithoutUserInput[] | UserConsentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserConsentCreateOrConnectWithoutUserInput | UserConsentCreateOrConnectWithoutUserInput[]
+    createMany?: UserConsentCreateManyUserInputEnvelope
+    connect?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+  }
+
   export type TokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -32036,6 +33494,13 @@ export namespace Prisma {
     connectOrCreate?: SupportTicketCreateOrConnectWithoutUserInput | SupportTicketCreateOrConnectWithoutUserInput[]
     createMany?: SupportTicketCreateManyUserInputEnvelope
     connect?: SupportTicketWhereUniqueInput | SupportTicketWhereUniqueInput[]
+  }
+
+  export type UserConsentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserConsentCreateWithoutUserInput, UserConsentUncheckedCreateWithoutUserInput> | UserConsentCreateWithoutUserInput[] | UserConsentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserConsentCreateOrConnectWithoutUserInput | UserConsentCreateOrConnectWithoutUserInput[]
+    createMany?: UserConsentCreateManyUserInputEnvelope
+    connect?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -32308,6 +33773,20 @@ export namespace Prisma {
     deleteMany?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
   }
 
+  export type UserConsentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserConsentCreateWithoutUserInput, UserConsentUncheckedCreateWithoutUserInput> | UserConsentCreateWithoutUserInput[] | UserConsentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserConsentCreateOrConnectWithoutUserInput | UserConsentCreateOrConnectWithoutUserInput[]
+    upsert?: UserConsentUpsertWithWhereUniqueWithoutUserInput | UserConsentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserConsentCreateManyUserInputEnvelope
+    set?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    disconnect?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    delete?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    connect?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    update?: UserConsentUpdateWithWhereUniqueWithoutUserInput | UserConsentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserConsentUpdateManyWithWhereWithoutUserInput | UserConsentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserConsentScalarWhereInput | UserConsentScalarWhereInput[]
+  }
+
   export type TokenUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<TokenCreateWithoutUserInput, TokenUncheckedCreateWithoutUserInput> | TokenCreateWithoutUserInput[] | TokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TokenCreateOrConnectWithoutUserInput | TokenCreateOrConnectWithoutUserInput[]
@@ -32516,6 +33995,20 @@ export namespace Prisma {
     update?: SupportTicketUpdateWithWhereUniqueWithoutUserInput | SupportTicketUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SupportTicketUpdateManyWithWhereWithoutUserInput | SupportTicketUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SupportTicketScalarWhereInput | SupportTicketScalarWhereInput[]
+  }
+
+  export type UserConsentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserConsentCreateWithoutUserInput, UserConsentUncheckedCreateWithoutUserInput> | UserConsentCreateWithoutUserInput[] | UserConsentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserConsentCreateOrConnectWithoutUserInput | UserConsentCreateOrConnectWithoutUserInput[]
+    upsert?: UserConsentUpsertWithWhereUniqueWithoutUserInput | UserConsentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserConsentCreateManyUserInputEnvelope
+    set?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    disconnect?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    delete?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    connect?: UserConsentWhereUniqueInput | UserConsentWhereUniqueInput[]
+    update?: UserConsentUpdateWithWhereUniqueWithoutUserInput | UserConsentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserConsentUpdateManyWithWhereWithoutUserInput | UserConsentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserConsentScalarWhereInput | UserConsentScalarWhereInput[]
   }
 
   export type SubscriptionPriceCreateNestedManyWithoutPlanInput = {
@@ -33635,6 +35128,24 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSupportTicketsInput, UserUpdateWithoutSupportTicketsInput>, UserUncheckedUpdateWithoutSupportTicketsInput>
   }
 
+  export type UserCreateNestedOneWithoutConsentsInput = {
+    create?: XOR<UserCreateWithoutConsentsInput, UserUncheckedCreateWithoutConsentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConsentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumConsentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ConsentType
+  }
+
+  export type UserUpdateOneRequiredWithoutConsentsNestedInput = {
+    create?: XOR<UserCreateWithoutConsentsInput, UserUncheckedCreateWithoutConsentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConsentsInput
+    upsert?: UserUpsertWithoutConsentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConsentsInput, UserUpdateWithoutConsentsInput>, UserUncheckedUpdateWithoutConsentsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -34145,6 +35656,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSupportTicketStatusFilter<$PrismaModel>
     _max?: NestedEnumSupportTicketStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumConsentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentType | EnumConsentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentTypeFilter<$PrismaModel> | $Enums.ConsentType
+  }
+
+  export type NestedEnumConsentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsentType | EnumConsentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsentType[] | ListEnumConsentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsentTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConsentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConsentTypeFilter<$PrismaModel>
+    _max?: NestedEnumConsentTypeFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutDefaultForUserInput = {
@@ -34758,6 +36286,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserConsentCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.ConsentType
+    version: string
+    acceptedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
+  }
+
+  export type UserConsentUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.ConsentType
+    version: string
+    acceptedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
+  }
+
+  export type UserConsentCreateOrConnectWithoutUserInput = {
+    where: UserConsentWhereUniqueInput
+    create: XOR<UserConsentCreateWithoutUserInput, UserConsentUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserConsentCreateManyUserInputEnvelope = {
+    data: UserConsentCreateManyUserInput | UserConsentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithoutDefaultForUserInput = {
     update: XOR<AccountUpdateWithoutDefaultForUserInput, AccountUncheckedUpdateWithoutDefaultForUserInput>
     create: XOR<AccountCreateWithoutDefaultForUserInput, AccountUncheckedCreateWithoutDefaultForUserInput>
@@ -35351,6 +36907,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"SupportTicket"> | Date | string
   }
 
+  export type UserConsentUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserConsentWhereUniqueInput
+    update: XOR<UserConsentUpdateWithoutUserInput, UserConsentUncheckedUpdateWithoutUserInput>
+    create: XOR<UserConsentCreateWithoutUserInput, UserConsentUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserConsentUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserConsentWhereUniqueInput
+    data: XOR<UserConsentUpdateWithoutUserInput, UserConsentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserConsentUpdateManyWithWhereWithoutUserInput = {
+    where: UserConsentScalarWhereInput
+    data: XOR<UserConsentUpdateManyMutationInput, UserConsentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserConsentScalarWhereInput = {
+    AND?: UserConsentScalarWhereInput | UserConsentScalarWhereInput[]
+    OR?: UserConsentScalarWhereInput[]
+    NOT?: UserConsentScalarWhereInput | UserConsentScalarWhereInput[]
+    id?: StringFilter<"UserConsent"> | string
+    userId?: StringFilter<"UserConsent"> | string
+    type?: EnumConsentTypeFilter<"UserConsent"> | $Enums.ConsentType
+    version?: StringFilter<"UserConsent"> | string
+    acceptedAt?: DateTimeFilter<"UserConsent"> | Date | string
+    ipAddress?: StringNullableFilter<"UserConsent"> | string | null
+    userAgent?: StringNullableFilter<"UserConsent"> | string | null
+  }
+
   export type SubscriptionPriceCreateWithoutPlanInput = {
     id?: string
     name: string
@@ -35423,6 +37008,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionPlanInput = {
@@ -35463,6 +37049,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionPlanInput = {
@@ -35633,6 +37220,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionPriceInput = {
@@ -35673,6 +37261,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionPriceInput = {
@@ -35840,6 +37429,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTokensInput = {
@@ -35880,6 +37470,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTokensInput = {
@@ -35936,6 +37527,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensInput = {
@@ -35976,6 +37568,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -36016,6 +37609,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -36056,6 +37650,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -36269,6 +37864,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDefaultAccountInput = {
@@ -36309,6 +37905,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDefaultAccountInput = {
@@ -36365,6 +37962,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -36405,6 +38003,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OperationUpsertWithWhereUniqueWithoutAccountInput = {
@@ -36520,6 +38119,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDefaultAccountInput = {
@@ -36560,6 +38160,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutOperationsInput = {
@@ -36600,6 +38201,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOperationsInput = {
@@ -36640,6 +38242,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOperationsInput = {
@@ -36871,6 +38474,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOperationsInput = {
@@ -36911,6 +38515,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountUpsertWithoutOperationsInput = {
@@ -37143,6 +38748,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOperationMonthlyRollupsInput = {
@@ -37183,6 +38789,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOperationMonthlyRollupsInput = {
@@ -37239,6 +38846,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOperationMonthlyRollupsInput = {
@@ -37279,6 +38887,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRecurrenceConfigsInput = {
@@ -37319,6 +38928,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRecurrenceConfigsInput = {
@@ -37359,6 +38969,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRecurrenceConfigsInput = {
@@ -37568,6 +39179,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecurrenceConfigsInput = {
@@ -37608,6 +39220,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountUpsertWithoutRecurrenceConfigsInput = {
@@ -37795,6 +39408,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTagsInput = {
@@ -37835,6 +39449,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTagsInput = {
@@ -37926,6 +39541,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTagsInput = {
@@ -37966,6 +39582,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OperationUpsertWithWhereUniqueWithoutTagsInput = {
@@ -38022,6 +39639,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
@@ -38062,6 +39680,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoriesInput = {
@@ -38303,6 +39922,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoriesInput = {
@@ -38343,6 +39963,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryKeywordUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -38523,6 +40144,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoryKeywordsInput = {
@@ -38563,6 +40185,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoryKeywordsInput = {
@@ -38660,6 +40283,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoryKeywordsInput = {
@@ -38700,6 +40324,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutKeywordFiltersInput = {
@@ -38740,6 +40365,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutKeywordFiltersInput = {
@@ -38780,6 +40406,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutKeywordFiltersInput = {
@@ -38836,6 +40463,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutKeywordFiltersInput = {
@@ -38876,6 +40504,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAiUploadTasksInput = {
@@ -38916,6 +40545,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAiUploadTasksInput = {
@@ -38956,6 +40586,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAiUploadTasksInput = {
@@ -39012,6 +40643,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAiUploadTasksInput = {
@@ -39052,6 +40684,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAiTokenUsagesInput = {
@@ -39092,6 +40725,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAiTokenUsagesInput = {
@@ -39132,6 +40766,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAiTokenUsagesInput = {
@@ -39188,6 +40823,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAiTokenUsagesInput = {
@@ -39228,6 +40864,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutActivityEventsInput = {
@@ -39268,6 +40905,7 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivityEventsInput = {
@@ -39308,6 +40946,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActivityEventsInput = {
@@ -39364,6 +41003,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivityEventsInput = {
@@ -39404,6 +41044,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -39444,6 +41085,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -39484,6 +41126,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -39540,6 +41183,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -39580,6 +41224,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPaymentsInput = {
@@ -39620,6 +41265,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -39660,6 +41306,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -39745,6 +41392,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -39785,6 +41433,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SubscriptionPriceUpsertWithoutPaymentsInput = {
@@ -39860,6 +41509,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSupportTicketsInput = {
@@ -39900,6 +41550,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSupportTicketsInput = {
@@ -39956,6 +41607,7 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSupportTicketsInput = {
@@ -39996,6 +41648,187 @@ export namespace Prisma {
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutConsentsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
+    defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
+    subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
+    subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutConsentsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    defaultAccountId?: string | null
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionPlanId: string
+    subscriptionPriceId?: string | null
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    lastGlobalNotificationReadAt?: Date | string | null
+    welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutConsentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutConsentsInput, UserUncheckedCreateWithoutConsentsInput>
+  }
+
+  export type UserUpsertWithoutConsentsInput = {
+    update: XOR<UserUpdateWithoutConsentsInput, UserUncheckedUpdateWithoutConsentsInput>
+    create: XOR<UserCreateWithoutConsentsInput, UserUncheckedCreateWithoutConsentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutConsentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutConsentsInput, UserUncheckedUpdateWithoutConsentsInput>
+  }
+
+  export type UserUpdateWithoutConsentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
+    subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutConsentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    defaultAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionPlanId?: StringFieldUpdateOperationsInput | string
+    subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TokenCreateManyUserInput = {
@@ -40158,6 +41991,15 @@ export namespace Prisma {
     status?: $Enums.SupportTicketStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type UserConsentCreateManyUserInput = {
+    id?: string
+    type: $Enums.ConsentType
+    version: string
+    acceptedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type TokenUpdateWithoutUserInput = {
@@ -40670,6 +42512,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserConsentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumConsentTypeFieldUpdateOperationsInput | $Enums.ConsentType
+    version?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserConsentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumConsentTypeFieldUpdateOperationsInput | $Enums.ConsentType
+    version?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserConsentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumConsentTypeFieldUpdateOperationsInput | $Enums.ConsentType
+    version?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type SubscriptionPriceCreateManyPlanInput = {
     id?: string
     name: string
@@ -40777,6 +42646,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionPlanInput = {
@@ -40817,6 +42687,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutSubscriptionPlanInput = {
@@ -40919,6 +42790,7 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionPriceInput = {
@@ -40959,6 +42831,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutSubscriptionPriceInput = {

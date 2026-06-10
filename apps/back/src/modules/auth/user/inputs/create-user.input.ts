@@ -23,4 +23,19 @@ export class CreateUserInput {
   @IsOptional()
   @IsString()
   language?: string;
+
+  @Field(() => String)
+  @IsNotEmpty()
+  @IsString()
+  termsVersion: string;
+
+  @Field(() => String)
+  @IsNotEmpty()
+  @IsString()
+  privacyVersion: string;
+
+  @Field(() => String)
+  @IsNotEmpty()
+  @IsString()
+  crossBorderVersion: string;
 }

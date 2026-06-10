@@ -64,6 +64,7 @@ model User {
   notifications Notification[]
   payments      Payment[]
   supportTickets SupportTicket[]
+  consents       UserConsent[]
   
   @@index([subscriptionPlanId])
   @@index([subscriptionPriceId])
@@ -550,5 +551,25 @@ model SupportTicket {
 enum SupportTicketStatus {
   OPEN
   RESOLVED
+}
+
+enum ConsentType {
+  TERMS
+  PRIVACY
+  CROSS_BORDER_PD
+  AI_IMPORT
+}
+
+model UserConsent {
+  id         String      @id @default(uuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       ConsentType
+  version    String      @db.VarChar(32)
+  acceptedAt DateTime    @default(now())
+  ipAddress  String?     @db.VarChar(45)
+  userAgent  String?     @db.VarChar(512)
+
+  @@index([userId, type])
 }
 
