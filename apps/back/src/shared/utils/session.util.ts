@@ -8,7 +8,7 @@ export function saveSession(
   req: Request,
   user: User,
   metadata: SessionMetadata,
-) {
+): Promise<{ user: User; requiresTotp: false }> {
   return new Promise((resolve, reject) => {
     req.session.userId = user.id;
     req.session.createdAt = new Date();
@@ -31,7 +31,7 @@ export function savePendingTotpSession(
   req: Request,
   userId: string,
   metadata: SessionMetadata,
-) {
+): Promise<{ user: null; requiresTotp: true }> {
   return new Promise((resolve, reject) => {
     req.session.userId = userId;
     req.session.totpPending = true;

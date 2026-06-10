@@ -23,7 +23,10 @@ import { MailService } from '../../libs/mail/mail.service';
 import { generateToken } from '@back/shared/utils/generate-token.util';
 import { TokenType } from '@prisma/generated';
 import { ResetPasswordInput } from './inputs/reset-password.input';
-import { UserConsentService } from './user-consent.service';
+import {
+  RecordConsentInput,
+  UserConsentService,
+} from './user-consent.service';
 import { AcceptLegalDocumentsInput } from './inputs/accept-legal-documents.input';
 import { ConsentType } from '@prisma/generated';
 
