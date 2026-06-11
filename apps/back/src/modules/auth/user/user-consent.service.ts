@@ -1,6 +1,7 @@
 import { ConsentType } from '@prisma/generated';
 import { PrismaService } from '@back/core/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
+import { LEGAL_DOCUMENT_VERSION } from '@back/shared/constants/legal.constants';
 
 const REQUIRED_LEGAL_CONSENT_TYPES: ConsentType[] = [
   ConsentType.TERMS,
@@ -75,5 +76,39 @@ export class UserConsentService {
         version: input.crossBorderVersion,
       },
     ];
+  }
+
+  /** Records only missing required consents (implicit auth acceptance). */
+  public async ensureRequiredLegalConsents(
+    userId: string,
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
+    const consents = await this.prismaService.userConsent.findMany({
+      where: {
+        userId,
+        type: { in: REQUIRED_LEGAL_CONSENT_TYPES },
+      },
+      select: { type: true },
+    });
+
+    const acceptedTypes = new Set(consents.map((consent) => consent.type));
+    const missingTypes = REQUIRED_LEGAL_CONSENT_TYPES.filter(
+      (type) => !acceptedTypes.has(type),
+    );
+
+    if (missingTypes.length === 0) {
+      return;
+    }
+
+    await this.recordConsents(
+      userId,
+      missingTypes.map((type) => ({
+        type,
+        version: LEGAL_DOCUMENT_VERSION,
+      })),
+      ipAddress,
+      userAgent,
+    );
   }
 }

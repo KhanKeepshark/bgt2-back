@@ -25,6 +25,7 @@ import { UserService } from '../user/user.service';
 import { UserConsentService } from '../user/user-consent.service';
 import { LoginWithGoogleInput } from './inputs/login-with-google.input';
 import { VerifyLoginTotpInput } from './inputs/verify-login-totp.input';
+import { REQUIRE_EXPLICIT_LEGAL_CONSENT } from '@back/shared/constants/legal.constants';
 
 const sessionUserInclude = {
   accounts: true,
@@ -128,6 +129,8 @@ export class SessionService {
 
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
+    await this.syncLegalConsents(req, userWithLogin.id, userAgent);
+
     return this.wrapAuthResponse(
       await saveSession(req, userWithLogin, metadata),
     );
@@ -165,6 +168,8 @@ export class SessionService {
 
     const metadata = req.session.metadata ?? getSessionMetadata(req, '');
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
+
+    await this.syncLegalConsents(req, userWithLogin.id);
 
     return this.wrapAuthResponse(
       await saveSession(req, userWithLogin, metadata),
@@ -220,6 +225,8 @@ export class SessionService {
     const metadata = getSessionMetadata(req, userAgent);
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
+    await this.syncLegalConsents(req, userWithLogin.id, userAgent);
+
     return this.wrapAuthResponse(
       await saveSession(req, userWithLogin, metadata),
     );
@@ -261,11 +268,37 @@ export class SessionService {
     return await saveSession(req, user, metadata);
   }
 
+  private async syncLegalConsents(
+    req: Request,
+    userId: string,
+    userAgent?: string,
+  ) {
+    if (REQUIRE_EXPLICIT_LEGAL_CONSENT) {
+      return;
+    }
+
+    const agent =
+      userAgent ??
+      (typeof req.headers['user-agent'] === 'string'
+        ? req.headers['user-agent']
+        : undefined);
+
+    await this.userConsentService.ensureRequiredLegalConsents(
+      userId,
+      req.ip,
+      agent,
+    );
+  }
+
   private async wrapAuthResponse(sessionResult: {
     user: { id: string } | null;
     requiresTotp: boolean;
   }) {
     if (!sessionResult.user) {
+      return { ...sessionResult, requiresLegalAcceptance: false };
+    }
+
+    if (!REQUIRE_EXPLICIT_LEGAL_CONSENT) {
       return { ...sessionResult, requiresLegalAcceptance: false };
     }
 
