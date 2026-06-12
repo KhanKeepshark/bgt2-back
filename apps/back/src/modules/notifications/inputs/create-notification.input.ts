@@ -30,10 +30,11 @@ export class CreateNotificationInput {
   @IsNotEmpty()
   userId?: string;
 
-  @Field(() => LocalizedStringInput)
+  @Field(() => LocalizedStringInput, { nullable: true })
+  @IsOptional()
   @ValidateNested()
   @Type(() => LocalizedStringInput)
-  title: LocalizedStringInput;
+  title?: LocalizedStringInput;
 
   @Field(() => LocalizedStringInput)
   @ValidateNested()
@@ -45,8 +46,9 @@ export class CreateNotificationInput {
   @IsOptional()
   link?: string;
 
-  @Field(() => LocalizedStringInput)
+  @Field(() => LocalizedStringInput, { nullable: true })
+  @IsOptional()
   @ValidateNested()
   @Type(() => LocalizedStringInput)
-  buttonText: LocalizedStringInput;
+  buttonText?: LocalizedStringInput;
 }

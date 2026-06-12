@@ -70,9 +70,6 @@ export class UserModel implements User {
   role: 'USER' | 'ADMIN';
 
   @Field(() => Date, { nullable: true })
-  lastGlobalNotificationReadAt: Date | null;
-
-  @Field(() => Date, { nullable: true })
   welcomeSheetSeenAt: Date | null;
 
   @Field(() => Date, { nullable: true })

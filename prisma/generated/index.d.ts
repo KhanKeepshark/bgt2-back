@@ -94,6 +94,11 @@ export type UserActivityEvent = $Result.DefaultSelection<Prisma.$UserActivityEve
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
 /**
+ * Model InboxMessageRead
+ * 
+ */
+export type InboxMessageRead = $Result.DefaultSelection<Prisma.$InboxMessageReadPayload>
+/**
  * Model SystemMetric
  * 
  */
@@ -592,6 +597,16 @@ export class PrismaClient<
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.inboxMessageRead`: Exposes CRUD operations for the **InboxMessageRead** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InboxMessageReads
+    * const inboxMessageReads = await prisma.inboxMessageRead.findMany()
+    * ```
+    */
+  get inboxMessageRead(): Prisma.InboxMessageReadDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.systemMetric`: Exposes CRUD operations for the **SystemMetric** model.
     * Example usage:
     * ```ts
@@ -1086,6 +1101,7 @@ export namespace Prisma {
     AiTokenUsage: 'AiTokenUsage',
     UserActivityEvent: 'UserActivityEvent',
     Notification: 'Notification',
+    InboxMessageRead: 'InboxMessageRead',
     SystemMetric: 'SystemMetric',
     Payment: 'Payment',
     SupportTicket: 'SupportTicket',
@@ -1108,7 +1124,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "operationMonthlyRollup" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "userActivityEvent" | "notification" | "systemMetric" | "payment" | "supportTicket" | "userConsent"
+      modelProps: "user" | "subscriptionPlan" | "subscriptionPrice" | "token" | "account" | "operation" | "operationMonthlyRollup" | "recurrenceConfig" | "tag" | "category" | "categoryKeyword" | "keywordFilter" | "aiUploadTask" | "aiTokenUsage" | "userActivityEvent" | "notification" | "inboxMessageRead" | "systemMetric" | "payment" | "supportTicket" | "userConsent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2296,6 +2312,80 @@ export namespace Prisma {
           }
         }
       }
+      InboxMessageRead: {
+        payload: Prisma.$InboxMessageReadPayload<ExtArgs>
+        fields: Prisma.InboxMessageReadFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InboxMessageReadFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InboxMessageReadFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>
+          }
+          findFirst: {
+            args: Prisma.InboxMessageReadFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InboxMessageReadFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>
+          }
+          findMany: {
+            args: Prisma.InboxMessageReadFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>[]
+          }
+          create: {
+            args: Prisma.InboxMessageReadCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>
+          }
+          createMany: {
+            args: Prisma.InboxMessageReadCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InboxMessageReadCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>[]
+          }
+          delete: {
+            args: Prisma.InboxMessageReadDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>
+          }
+          update: {
+            args: Prisma.InboxMessageReadUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>
+          }
+          deleteMany: {
+            args: Prisma.InboxMessageReadDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InboxMessageReadUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InboxMessageReadUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>[]
+          }
+          upsert: {
+            args: Prisma.InboxMessageReadUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InboxMessageReadPayload>
+          }
+          aggregate: {
+            args: Prisma.InboxMessageReadAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInboxMessageRead>
+          }
+          groupBy: {
+            args: Prisma.InboxMessageReadGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InboxMessageReadGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InboxMessageReadCountArgs<ExtArgs>
+            result: $Utils.Optional<InboxMessageReadCountAggregateOutputType> | number
+          }
+        }
+      }
       SystemMetric: {
         payload: Prisma.$SystemMetricPayload<ExtArgs>
         fields: Prisma.SystemMetricFieldRefs
@@ -2692,6 +2782,7 @@ export namespace Prisma {
     aiTokenUsage?: AiTokenUsageOmit
     userActivityEvent?: UserActivityEventOmit
     notification?: NotificationOmit
+    inboxMessageRead?: InboxMessageReadOmit
     systemMetric?: SystemMetricOmit
     payment?: PaymentOmit
     supportTicket?: SupportTicketOmit
@@ -2803,6 +2894,7 @@ export namespace Prisma {
     aiUploadTasks: number
     activityEvents: number
     notifications: number
+    inboxMessageReads: number
     payments: number
     supportTickets: number
     consents: number
@@ -2822,6 +2914,7 @@ export namespace Prisma {
     aiUploadTasks?: boolean | UserCountOutputTypeCountAiUploadTasksArgs
     activityEvents?: boolean | UserCountOutputTypeCountActivityEventsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    inboxMessageReads?: boolean | UserCountOutputTypeCountInboxMessageReadsArgs
     payments?: boolean | UserCountOutputTypeCountPaymentsArgs
     supportTickets?: boolean | UserCountOutputTypeCountSupportTicketsArgs
     consents?: boolean | UserCountOutputTypeCountConsentsArgs
@@ -2927,6 +3020,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInboxMessageReadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InboxMessageReadWhereInput
   }
 
   /**
@@ -3241,6 +3341,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type NotificationCountOutputType
+   */
+
+  export type NotificationCountOutputType = {
+    inboxMessageReads: number
+  }
+
+  export type NotificationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    inboxMessageReads?: boolean | NotificationCountOutputTypeCountInboxMessageReadsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * NotificationCountOutputType without action
+   */
+  export type NotificationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationCountOutputType
+     */
+    select?: NotificationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * NotificationCountOutputType without action
+   */
+  export type NotificationCountOutputTypeCountInboxMessageReadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InboxMessageReadWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -3287,7 +3418,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     role: $Enums.Role | null
-    lastGlobalNotificationReadAt: Date | null
     welcomeSheetSeenAt: Date | null
     operationsArchivalNotifiedAt: Date | null
   }
@@ -3313,7 +3443,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     role: $Enums.Role | null
-    lastGlobalNotificationReadAt: Date | null
     welcomeSheetSeenAt: Date | null
     operationsArchivalNotifiedAt: Date | null
   }
@@ -3339,7 +3468,6 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     role: number
-    lastGlobalNotificationReadAt: number
     welcomeSheetSeenAt: number
     operationsArchivalNotifiedAt: number
     _all: number
@@ -3377,7 +3505,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     role?: true
-    lastGlobalNotificationReadAt?: true
     welcomeSheetSeenAt?: true
     operationsArchivalNotifiedAt?: true
   }
@@ -3403,7 +3530,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     role?: true
-    lastGlobalNotificationReadAt?: true
     welcomeSheetSeenAt?: true
     operationsArchivalNotifiedAt?: true
   }
@@ -3429,7 +3555,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     role?: true
-    lastGlobalNotificationReadAt?: true
     welcomeSheetSeenAt?: true
     operationsArchivalNotifiedAt?: true
     _all?: true
@@ -3542,7 +3667,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     role: $Enums.Role
-    lastGlobalNotificationReadAt: Date | null
     welcomeSheetSeenAt: Date | null
     operationsArchivalNotifiedAt: Date | null
     _count: UserCountAggregateOutputType | null
@@ -3587,7 +3711,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
-    lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
     operationsArchivalNotifiedAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
@@ -3606,6 +3729,7 @@ export namespace Prisma {
     aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
     activityEvents?: boolean | User$activityEventsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    inboxMessageReads?: boolean | User$inboxMessageReadsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
     consents?: boolean | User$consentsArgs<ExtArgs>
@@ -3633,7 +3757,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
-    lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
     operationsArchivalNotifiedAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
@@ -3662,7 +3785,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
-    lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
     operationsArchivalNotifiedAt?: boolean
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
@@ -3691,12 +3813,11 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     role?: boolean
-    lastGlobalNotificationReadAt?: boolean
     welcomeSheetSeenAt?: boolean
     operationsArchivalNotifiedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "subscriptionAutoRenew" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "lastGlobalNotificationReadAt" | "welcomeSheetSeenAt" | "operationsArchivalNotifiedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "defaultAccountId" | "isActive" | "isEmailVerified" | "subscriptionPlanId" | "subscriptionPriceId" | "subscriptionStartedAt" | "subscriptionExpiresAt" | "subscriptionAutoRenew" | "isTotpEnabled" | "totpSecret" | "lastLoginAt" | "loginCount" | "tokensBalance" | "createdAt" | "updatedAt" | "role" | "welcomeSheetSeenAt" | "operationsArchivalNotifiedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     defaultAccount?: boolean | User$defaultAccountArgs<ExtArgs>
     subscriptionPlan?: boolean | SubscriptionPlanDefaultArgs<ExtArgs>
@@ -3714,6 +3835,7 @@ export namespace Prisma {
     aiUploadTasks?: boolean | User$aiUploadTasksArgs<ExtArgs>
     activityEvents?: boolean | User$activityEventsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    inboxMessageReads?: boolean | User$inboxMessageReadsArgs<ExtArgs>
     payments?: boolean | User$paymentsArgs<ExtArgs>
     supportTickets?: boolean | User$supportTicketsArgs<ExtArgs>
     consents?: boolean | User$consentsArgs<ExtArgs>
@@ -3749,6 +3871,7 @@ export namespace Prisma {
       aiUploadTasks: Prisma.$AiUploadTaskPayload<ExtArgs>[]
       activityEvents: Prisma.$UserActivityEventPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      inboxMessageReads: Prisma.$InboxMessageReadPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       supportTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
       consents: Prisma.$UserConsentPayload<ExtArgs>[]
@@ -3777,7 +3900,6 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       role: $Enums.Role
-      lastGlobalNotificationReadAt: Date | null
       welcomeSheetSeenAt: Date | null
       operationsArchivalNotifiedAt: Date | null
     }, ExtArgs["result"]["user"]>
@@ -4190,6 +4312,7 @@ export namespace Prisma {
     aiUploadTasks<T extends User$aiUploadTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$aiUploadTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiUploadTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     activityEvents<T extends User$activityEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$activityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserActivityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inboxMessageReads<T extends User$inboxMessageReadsArgs<ExtArgs> = {}>(args?: Subset<T, User$inboxMessageReadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends User$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     supportTickets<T extends User$supportTicketsArgs<ExtArgs> = {}>(args?: Subset<T, User$supportTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     consents<T extends User$consentsArgs<ExtArgs> = {}>(args?: Subset<T, User$consentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4242,7 +4365,6 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly role: FieldRef<"User", 'Role'>
-    readonly lastGlobalNotificationReadAt: FieldRef<"User", 'DateTime'>
     readonly welcomeSheetSeenAt: FieldRef<"User", 'DateTime'>
     readonly operationsArchivalNotifiedAt: FieldRef<"User", 'DateTime'>
   }
@@ -4988,6 +5110,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.inboxMessageReads
+   */
+  export type User$inboxMessageReadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    where?: InboxMessageReadWhereInput
+    orderBy?: InboxMessageReadOrderByWithRelationInput | InboxMessageReadOrderByWithRelationInput[]
+    cursor?: InboxMessageReadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InboxMessageReadScalarFieldEnum | InboxMessageReadScalarFieldEnum[]
   }
 
   /**
@@ -21789,6 +21935,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | Notification$userArgs<ExtArgs>
+    inboxMessageReads?: boolean | Notification$inboxMessageReadsArgs<ExtArgs>
+    _count?: boolean | NotificationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21835,6 +21983,8 @@ export namespace Prisma {
   export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "link" | "buttonText" | "scope" | "userId" | "isRead" | "createdAt" | "updatedAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Notification$userArgs<ExtArgs>
+    inboxMessageReads?: boolean | Notification$inboxMessageReadsArgs<ExtArgs>
+    _count?: boolean | NotificationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Notification$userArgs<ExtArgs>
@@ -21847,6 +21997,7 @@ export namespace Prisma {
     name: "Notification"
     objects: {
       user: Prisma.$UserPayload<ExtArgs> | null
+      inboxMessageReads: Prisma.$InboxMessageReadPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -22254,6 +22405,7 @@ export namespace Prisma {
   export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends Notification$userArgs<ExtArgs> = {}>(args?: Subset<T, Notification$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    inboxMessageReads<T extends Notification$inboxMessageReadsArgs<ExtArgs> = {}>(args?: Subset<T, Notification$inboxMessageReadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22708,6 +22860,30 @@ export namespace Prisma {
   }
 
   /**
+   * Notification.inboxMessageReads
+   */
+  export type Notification$inboxMessageReadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    where?: InboxMessageReadWhereInput
+    orderBy?: InboxMessageReadOrderByWithRelationInput | InboxMessageReadOrderByWithRelationInput[]
+    cursor?: InboxMessageReadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InboxMessageReadScalarFieldEnum | InboxMessageReadScalarFieldEnum[]
+  }
+
+  /**
    * Notification without action
    */
   export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22723,6 +22899,1046 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InboxMessageRead
+   */
+
+  export type AggregateInboxMessageRead = {
+    _count: InboxMessageReadCountAggregateOutputType | null
+    _min: InboxMessageReadMinAggregateOutputType | null
+    _max: InboxMessageReadMaxAggregateOutputType | null
+  }
+
+  export type InboxMessageReadMinAggregateOutputType = {
+    userId: string | null
+    notificationId: string | null
+    readAt: Date | null
+  }
+
+  export type InboxMessageReadMaxAggregateOutputType = {
+    userId: string | null
+    notificationId: string | null
+    readAt: Date | null
+  }
+
+  export type InboxMessageReadCountAggregateOutputType = {
+    userId: number
+    notificationId: number
+    readAt: number
+    _all: number
+  }
+
+
+  export type InboxMessageReadMinAggregateInputType = {
+    userId?: true
+    notificationId?: true
+    readAt?: true
+  }
+
+  export type InboxMessageReadMaxAggregateInputType = {
+    userId?: true
+    notificationId?: true
+    readAt?: true
+  }
+
+  export type InboxMessageReadCountAggregateInputType = {
+    userId?: true
+    notificationId?: true
+    readAt?: true
+    _all?: true
+  }
+
+  export type InboxMessageReadAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InboxMessageRead to aggregate.
+     */
+    where?: InboxMessageReadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxMessageReads to fetch.
+     */
+    orderBy?: InboxMessageReadOrderByWithRelationInput | InboxMessageReadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InboxMessageReadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxMessageReads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxMessageReads.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InboxMessageReads
+    **/
+    _count?: true | InboxMessageReadCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InboxMessageReadMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InboxMessageReadMaxAggregateInputType
+  }
+
+  export type GetInboxMessageReadAggregateType<T extends InboxMessageReadAggregateArgs> = {
+        [P in keyof T & keyof AggregateInboxMessageRead]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInboxMessageRead[P]>
+      : GetScalarType<T[P], AggregateInboxMessageRead[P]>
+  }
+
+
+
+
+  export type InboxMessageReadGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InboxMessageReadWhereInput
+    orderBy?: InboxMessageReadOrderByWithAggregationInput | InboxMessageReadOrderByWithAggregationInput[]
+    by: InboxMessageReadScalarFieldEnum[] | InboxMessageReadScalarFieldEnum
+    having?: InboxMessageReadScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InboxMessageReadCountAggregateInputType | true
+    _min?: InboxMessageReadMinAggregateInputType
+    _max?: InboxMessageReadMaxAggregateInputType
+  }
+
+  export type InboxMessageReadGroupByOutputType = {
+    userId: string
+    notificationId: string
+    readAt: Date
+    _count: InboxMessageReadCountAggregateOutputType | null
+    _min: InboxMessageReadMinAggregateOutputType | null
+    _max: InboxMessageReadMaxAggregateOutputType | null
+  }
+
+  type GetInboxMessageReadGroupByPayload<T extends InboxMessageReadGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InboxMessageReadGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InboxMessageReadGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InboxMessageReadGroupByOutputType[P]>
+            : GetScalarType<T[P], InboxMessageReadGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InboxMessageReadSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    notificationId?: boolean
+    readAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notification?: boolean | NotificationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inboxMessageRead"]>
+
+  export type InboxMessageReadSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    notificationId?: boolean
+    readAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notification?: boolean | NotificationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inboxMessageRead"]>
+
+  export type InboxMessageReadSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    notificationId?: boolean
+    readAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notification?: boolean | NotificationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inboxMessageRead"]>
+
+  export type InboxMessageReadSelectScalar = {
+    userId?: boolean
+    notificationId?: boolean
+    readAt?: boolean
+  }
+
+  export type InboxMessageReadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "notificationId" | "readAt", ExtArgs["result"]["inboxMessageRead"]>
+  export type InboxMessageReadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notification?: boolean | NotificationDefaultArgs<ExtArgs>
+  }
+  export type InboxMessageReadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notification?: boolean | NotificationDefaultArgs<ExtArgs>
+  }
+  export type InboxMessageReadIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notification?: boolean | NotificationDefaultArgs<ExtArgs>
+  }
+
+  export type $InboxMessageReadPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InboxMessageRead"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      notification: Prisma.$NotificationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userId: string
+      notificationId: string
+      readAt: Date
+    }, ExtArgs["result"]["inboxMessageRead"]>
+    composites: {}
+  }
+
+  type InboxMessageReadGetPayload<S extends boolean | null | undefined | InboxMessageReadDefaultArgs> = $Result.GetResult<Prisma.$InboxMessageReadPayload, S>
+
+  type InboxMessageReadCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InboxMessageReadFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InboxMessageReadCountAggregateInputType | true
+    }
+
+  export interface InboxMessageReadDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InboxMessageRead'], meta: { name: 'InboxMessageRead' } }
+    /**
+     * Find zero or one InboxMessageRead that matches the filter.
+     * @param {InboxMessageReadFindUniqueArgs} args - Arguments to find a InboxMessageRead
+     * @example
+     * // Get one InboxMessageRead
+     * const inboxMessageRead = await prisma.inboxMessageRead.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InboxMessageReadFindUniqueArgs>(args: SelectSubset<T, InboxMessageReadFindUniqueArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InboxMessageRead that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InboxMessageReadFindUniqueOrThrowArgs} args - Arguments to find a InboxMessageRead
+     * @example
+     * // Get one InboxMessageRead
+     * const inboxMessageRead = await prisma.inboxMessageRead.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InboxMessageReadFindUniqueOrThrowArgs>(args: SelectSubset<T, InboxMessageReadFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InboxMessageRead that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxMessageReadFindFirstArgs} args - Arguments to find a InboxMessageRead
+     * @example
+     * // Get one InboxMessageRead
+     * const inboxMessageRead = await prisma.inboxMessageRead.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InboxMessageReadFindFirstArgs>(args?: SelectSubset<T, InboxMessageReadFindFirstArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InboxMessageRead that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxMessageReadFindFirstOrThrowArgs} args - Arguments to find a InboxMessageRead
+     * @example
+     * // Get one InboxMessageRead
+     * const inboxMessageRead = await prisma.inboxMessageRead.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InboxMessageReadFindFirstOrThrowArgs>(args?: SelectSubset<T, InboxMessageReadFindFirstOrThrowArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InboxMessageReads that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxMessageReadFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InboxMessageReads
+     * const inboxMessageReads = await prisma.inboxMessageRead.findMany()
+     * 
+     * // Get first 10 InboxMessageReads
+     * const inboxMessageReads = await prisma.inboxMessageRead.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const inboxMessageReadWithUserIdOnly = await prisma.inboxMessageRead.findMany({ select: { userId: true } })
+     * 
+     */
+    findMany<T extends InboxMessageReadFindManyArgs>(args?: SelectSubset<T, InboxMessageReadFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InboxMessageRead.
+     * @param {InboxMessageReadCreateArgs} args - Arguments to create a InboxMessageRead.
+     * @example
+     * // Create one InboxMessageRead
+     * const InboxMessageRead = await prisma.inboxMessageRead.create({
+     *   data: {
+     *     // ... data to create a InboxMessageRead
+     *   }
+     * })
+     * 
+     */
+    create<T extends InboxMessageReadCreateArgs>(args: SelectSubset<T, InboxMessageReadCreateArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InboxMessageReads.
+     * @param {InboxMessageReadCreateManyArgs} args - Arguments to create many InboxMessageReads.
+     * @example
+     * // Create many InboxMessageReads
+     * const inboxMessageRead = await prisma.inboxMessageRead.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InboxMessageReadCreateManyArgs>(args?: SelectSubset<T, InboxMessageReadCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InboxMessageReads and returns the data saved in the database.
+     * @param {InboxMessageReadCreateManyAndReturnArgs} args - Arguments to create many InboxMessageReads.
+     * @example
+     * // Create many InboxMessageReads
+     * const inboxMessageRead = await prisma.inboxMessageRead.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InboxMessageReads and only return the `userId`
+     * const inboxMessageReadWithUserIdOnly = await prisma.inboxMessageRead.createManyAndReturn({
+     *   select: { userId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InboxMessageReadCreateManyAndReturnArgs>(args?: SelectSubset<T, InboxMessageReadCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InboxMessageRead.
+     * @param {InboxMessageReadDeleteArgs} args - Arguments to delete one InboxMessageRead.
+     * @example
+     * // Delete one InboxMessageRead
+     * const InboxMessageRead = await prisma.inboxMessageRead.delete({
+     *   where: {
+     *     // ... filter to delete one InboxMessageRead
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InboxMessageReadDeleteArgs>(args: SelectSubset<T, InboxMessageReadDeleteArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InboxMessageRead.
+     * @param {InboxMessageReadUpdateArgs} args - Arguments to update one InboxMessageRead.
+     * @example
+     * // Update one InboxMessageRead
+     * const inboxMessageRead = await prisma.inboxMessageRead.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InboxMessageReadUpdateArgs>(args: SelectSubset<T, InboxMessageReadUpdateArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InboxMessageReads.
+     * @param {InboxMessageReadDeleteManyArgs} args - Arguments to filter InboxMessageReads to delete.
+     * @example
+     * // Delete a few InboxMessageReads
+     * const { count } = await prisma.inboxMessageRead.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InboxMessageReadDeleteManyArgs>(args?: SelectSubset<T, InboxMessageReadDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InboxMessageReads.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxMessageReadUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InboxMessageReads
+     * const inboxMessageRead = await prisma.inboxMessageRead.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InboxMessageReadUpdateManyArgs>(args: SelectSubset<T, InboxMessageReadUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InboxMessageReads and returns the data updated in the database.
+     * @param {InboxMessageReadUpdateManyAndReturnArgs} args - Arguments to update many InboxMessageReads.
+     * @example
+     * // Update many InboxMessageReads
+     * const inboxMessageRead = await prisma.inboxMessageRead.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InboxMessageReads and only return the `userId`
+     * const inboxMessageReadWithUserIdOnly = await prisma.inboxMessageRead.updateManyAndReturn({
+     *   select: { userId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InboxMessageReadUpdateManyAndReturnArgs>(args: SelectSubset<T, InboxMessageReadUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InboxMessageRead.
+     * @param {InboxMessageReadUpsertArgs} args - Arguments to update or create a InboxMessageRead.
+     * @example
+     * // Update or create a InboxMessageRead
+     * const inboxMessageRead = await prisma.inboxMessageRead.upsert({
+     *   create: {
+     *     // ... data to create a InboxMessageRead
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InboxMessageRead we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InboxMessageReadUpsertArgs>(args: SelectSubset<T, InboxMessageReadUpsertArgs<ExtArgs>>): Prisma__InboxMessageReadClient<$Result.GetResult<Prisma.$InboxMessageReadPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InboxMessageReads.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxMessageReadCountArgs} args - Arguments to filter InboxMessageReads to count.
+     * @example
+     * // Count the number of InboxMessageReads
+     * const count = await prisma.inboxMessageRead.count({
+     *   where: {
+     *     // ... the filter for the InboxMessageReads we want to count
+     *   }
+     * })
+    **/
+    count<T extends InboxMessageReadCountArgs>(
+      args?: Subset<T, InboxMessageReadCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InboxMessageReadCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InboxMessageRead.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxMessageReadAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InboxMessageReadAggregateArgs>(args: Subset<T, InboxMessageReadAggregateArgs>): Prisma.PrismaPromise<GetInboxMessageReadAggregateType<T>>
+
+    /**
+     * Group by InboxMessageRead.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InboxMessageReadGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InboxMessageReadGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InboxMessageReadGroupByArgs['orderBy'] }
+        : { orderBy?: InboxMessageReadGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InboxMessageReadGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInboxMessageReadGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InboxMessageRead model
+   */
+  readonly fields: InboxMessageReadFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InboxMessageRead.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InboxMessageReadClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    notification<T extends NotificationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NotificationDefaultArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InboxMessageRead model
+   */ 
+  interface InboxMessageReadFieldRefs {
+    readonly userId: FieldRef<"InboxMessageRead", 'String'>
+    readonly notificationId: FieldRef<"InboxMessageRead", 'String'>
+    readonly readAt: FieldRef<"InboxMessageRead", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InboxMessageRead findUnique
+   */
+  export type InboxMessageReadFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxMessageRead to fetch.
+     */
+    where: InboxMessageReadWhereUniqueInput
+  }
+
+  /**
+   * InboxMessageRead findUniqueOrThrow
+   */
+  export type InboxMessageReadFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxMessageRead to fetch.
+     */
+    where: InboxMessageReadWhereUniqueInput
+  }
+
+  /**
+   * InboxMessageRead findFirst
+   */
+  export type InboxMessageReadFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxMessageRead to fetch.
+     */
+    where?: InboxMessageReadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxMessageReads to fetch.
+     */
+    orderBy?: InboxMessageReadOrderByWithRelationInput | InboxMessageReadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InboxMessageReads.
+     */
+    cursor?: InboxMessageReadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxMessageReads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxMessageReads.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InboxMessageReads.
+     */
+    distinct?: InboxMessageReadScalarFieldEnum | InboxMessageReadScalarFieldEnum[]
+  }
+
+  /**
+   * InboxMessageRead findFirstOrThrow
+   */
+  export type InboxMessageReadFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxMessageRead to fetch.
+     */
+    where?: InboxMessageReadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxMessageReads to fetch.
+     */
+    orderBy?: InboxMessageReadOrderByWithRelationInput | InboxMessageReadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InboxMessageReads.
+     */
+    cursor?: InboxMessageReadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxMessageReads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxMessageReads.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InboxMessageReads.
+     */
+    distinct?: InboxMessageReadScalarFieldEnum | InboxMessageReadScalarFieldEnum[]
+  }
+
+  /**
+   * InboxMessageRead findMany
+   */
+  export type InboxMessageReadFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * Filter, which InboxMessageReads to fetch.
+     */
+    where?: InboxMessageReadWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InboxMessageReads to fetch.
+     */
+    orderBy?: InboxMessageReadOrderByWithRelationInput | InboxMessageReadOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InboxMessageReads.
+     */
+    cursor?: InboxMessageReadWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InboxMessageReads from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InboxMessageReads.
+     */
+    skip?: number
+    distinct?: InboxMessageReadScalarFieldEnum | InboxMessageReadScalarFieldEnum[]
+  }
+
+  /**
+   * InboxMessageRead create
+   */
+  export type InboxMessageReadCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InboxMessageRead.
+     */
+    data: XOR<InboxMessageReadCreateInput, InboxMessageReadUncheckedCreateInput>
+  }
+
+  /**
+   * InboxMessageRead createMany
+   */
+  export type InboxMessageReadCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InboxMessageReads.
+     */
+    data: InboxMessageReadCreateManyInput | InboxMessageReadCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InboxMessageRead createManyAndReturn
+   */
+  export type InboxMessageReadCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * The data used to create many InboxMessageReads.
+     */
+    data: InboxMessageReadCreateManyInput | InboxMessageReadCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InboxMessageRead update
+   */
+  export type InboxMessageReadUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InboxMessageRead.
+     */
+    data: XOR<InboxMessageReadUpdateInput, InboxMessageReadUncheckedUpdateInput>
+    /**
+     * Choose, which InboxMessageRead to update.
+     */
+    where: InboxMessageReadWhereUniqueInput
+  }
+
+  /**
+   * InboxMessageRead updateMany
+   */
+  export type InboxMessageReadUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InboxMessageReads.
+     */
+    data: XOR<InboxMessageReadUpdateManyMutationInput, InboxMessageReadUncheckedUpdateManyInput>
+    /**
+     * Filter which InboxMessageReads to update
+     */
+    where?: InboxMessageReadWhereInput
+    /**
+     * Limit how many InboxMessageReads to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InboxMessageRead updateManyAndReturn
+   */
+  export type InboxMessageReadUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * The data used to update InboxMessageReads.
+     */
+    data: XOR<InboxMessageReadUpdateManyMutationInput, InboxMessageReadUncheckedUpdateManyInput>
+    /**
+     * Filter which InboxMessageReads to update
+     */
+    where?: InboxMessageReadWhereInput
+    /**
+     * Limit how many InboxMessageReads to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InboxMessageRead upsert
+   */
+  export type InboxMessageReadUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InboxMessageRead to update in case it exists.
+     */
+    where: InboxMessageReadWhereUniqueInput
+    /**
+     * In case the InboxMessageRead found by the `where` argument doesn't exist, create a new InboxMessageRead with this data.
+     */
+    create: XOR<InboxMessageReadCreateInput, InboxMessageReadUncheckedCreateInput>
+    /**
+     * In case the InboxMessageRead was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InboxMessageReadUpdateInput, InboxMessageReadUncheckedUpdateInput>
+  }
+
+  /**
+   * InboxMessageRead delete
+   */
+  export type InboxMessageReadDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
+    /**
+     * Filter which InboxMessageRead to delete.
+     */
+    where: InboxMessageReadWhereUniqueInput
+  }
+
+  /**
+   * InboxMessageRead deleteMany
+   */
+  export type InboxMessageReadDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InboxMessageReads to delete
+     */
+    where?: InboxMessageReadWhereInput
+    /**
+     * Limit how many InboxMessageReads to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InboxMessageRead without action
+   */
+  export type InboxMessageReadDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InboxMessageRead
+     */
+    select?: InboxMessageReadSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InboxMessageRead
+     */
+    omit?: InboxMessageReadOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InboxMessageReadInclude<ExtArgs> | null
   }
 
 
@@ -27272,7 +28488,6 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     role: 'role',
-    lastGlobalNotificationReadAt: 'lastGlobalNotificationReadAt',
     welcomeSheetSeenAt: 'welcomeSheetSeenAt',
     operationsArchivalNotifiedAt: 'operationsArchivalNotifiedAt'
   };
@@ -27506,6 +28721,15 @@ export namespace Prisma {
   };
 
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const InboxMessageReadScalarFieldEnum: {
+    userId: 'userId',
+    notificationId: 'notificationId',
+    readAt: 'readAt'
+  };
+
+  export type InboxMessageReadScalarFieldEnum = (typeof InboxMessageReadScalarFieldEnum)[keyof typeof InboxMessageReadScalarFieldEnum]
 
 
   export const SystemMetricScalarFieldEnum: {
@@ -27949,7 +29173,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
-    lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     operationsArchivalNotifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     defaultAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
@@ -27968,6 +29191,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskListRelationFilter
     activityEvents?: UserActivityEventListRelationFilter
     notifications?: NotificationListRelationFilter
+    inboxMessageReads?: InboxMessageReadListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
     consents?: UserConsentListRelationFilter
@@ -27994,7 +29218,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
-    lastGlobalNotificationReadAt?: SortOrderInput | SortOrder
     welcomeSheetSeenAt?: SortOrderInput | SortOrder
     operationsArchivalNotifiedAt?: SortOrderInput | SortOrder
     defaultAccount?: AccountOrderByWithRelationInput
@@ -28013,6 +29236,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskOrderByRelationAggregateInput
     activityEvents?: UserActivityEventOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    inboxMessageReads?: InboxMessageReadOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     supportTickets?: SupportTicketOrderByRelationAggregateInput
     consents?: UserConsentOrderByRelationAggregateInput
@@ -28042,7 +29266,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
-    lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     operationsArchivalNotifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     defaultAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
@@ -28061,6 +29284,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskListRelationFilter
     activityEvents?: UserActivityEventListRelationFilter
     notifications?: NotificationListRelationFilter
+    inboxMessageReads?: InboxMessageReadListRelationFilter
     payments?: PaymentListRelationFilter
     supportTickets?: SupportTicketListRelationFilter
     consents?: UserConsentListRelationFilter
@@ -28087,7 +29311,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
-    lastGlobalNotificationReadAt?: SortOrderInput | SortOrder
     welcomeSheetSeenAt?: SortOrderInput | SortOrder
     operationsArchivalNotifiedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -28121,7 +29344,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
-    lastGlobalNotificationReadAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     operationsArchivalNotifiedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
@@ -29292,6 +30514,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    inboxMessageReads?: InboxMessageReadListRelationFilter
   }
 
   export type NotificationOrderByWithRelationInput = {
@@ -29306,6 +30529,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    inboxMessageReads?: InboxMessageReadOrderByRelationAggregateInput
   }
 
   export type NotificationWhereUniqueInput = Prisma.AtLeast<{
@@ -29323,6 +30547,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    inboxMessageReads?: InboxMessageReadListRelationFilter
   }, "id">
 
   export type NotificationOrderByWithAggregationInput = {
@@ -29355,6 +30580,55 @@ export namespace Prisma {
     isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+  }
+
+  export type InboxMessageReadWhereInput = {
+    AND?: InboxMessageReadWhereInput | InboxMessageReadWhereInput[]
+    OR?: InboxMessageReadWhereInput[]
+    NOT?: InboxMessageReadWhereInput | InboxMessageReadWhereInput[]
+    userId?: StringFilter<"InboxMessageRead"> | string
+    notificationId?: StringFilter<"InboxMessageRead"> | string
+    readAt?: DateTimeFilter<"InboxMessageRead"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    notification?: XOR<NotificationScalarRelationFilter, NotificationWhereInput>
+  }
+
+  export type InboxMessageReadOrderByWithRelationInput = {
+    userId?: SortOrder
+    notificationId?: SortOrder
+    readAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    notification?: NotificationOrderByWithRelationInput
+  }
+
+  export type InboxMessageReadWhereUniqueInput = Prisma.AtLeast<{
+    userId_notificationId?: InboxMessageReadUserIdNotificationIdCompoundUniqueInput
+    AND?: InboxMessageReadWhereInput | InboxMessageReadWhereInput[]
+    OR?: InboxMessageReadWhereInput[]
+    NOT?: InboxMessageReadWhereInput | InboxMessageReadWhereInput[]
+    userId?: StringFilter<"InboxMessageRead"> | string
+    notificationId?: StringFilter<"InboxMessageRead"> | string
+    readAt?: DateTimeFilter<"InboxMessageRead"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    notification?: XOR<NotificationScalarRelationFilter, NotificationWhereInput>
+  }, "userId_notificationId">
+
+  export type InboxMessageReadOrderByWithAggregationInput = {
+    userId?: SortOrder
+    notificationId?: SortOrder
+    readAt?: SortOrder
+    _count?: InboxMessageReadCountOrderByAggregateInput
+    _max?: InboxMessageReadMaxOrderByAggregateInput
+    _min?: InboxMessageReadMinOrderByAggregateInput
+  }
+
+  export type InboxMessageReadScalarWhereWithAggregatesInput = {
+    AND?: InboxMessageReadScalarWhereWithAggregatesInput | InboxMessageReadScalarWhereWithAggregatesInput[]
+    OR?: InboxMessageReadScalarWhereWithAggregatesInput[]
+    NOT?: InboxMessageReadScalarWhereWithAggregatesInput | InboxMessageReadScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"InboxMessageRead"> | string
+    notificationId?: StringWithAggregatesFilter<"InboxMessageRead"> | string
+    readAt?: DateTimeWithAggregatesFilter<"InboxMessageRead"> | Date | string
   }
 
   export type SystemMetricWhereInput = {
@@ -29679,7 +30953,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -29698,6 +30971,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -29724,7 +30998,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -29740,6 +31013,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -29763,7 +31037,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -29782,6 +31055,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -29808,7 +31082,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -29824,6 +31097,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -29850,7 +31124,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
   }
@@ -29873,7 +31146,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -29899,7 +31171,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -31147,6 +32418,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutNotificationsInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutNotificationInput
   }
 
   export type NotificationUncheckedCreateInput = {
@@ -31160,6 +32432,7 @@ export namespace Prisma {
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutNotificationInput
   }
 
   export type NotificationUpdateInput = {
@@ -31173,6 +32446,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutNotificationsNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutNotificationNestedInput
   }
 
   export type NotificationUncheckedUpdateInput = {
@@ -31186,6 +32460,7 @@ export namespace Prisma {
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutNotificationNestedInput
   }
 
   export type NotificationCreateManyInput = {
@@ -31224,6 +32499,46 @@ export namespace Prisma {
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxMessageReadCreateInput = {
+    readAt?: Date | string
+    user: UserCreateNestedOneWithoutInboxMessageReadsInput
+    notification: NotificationCreateNestedOneWithoutInboxMessageReadsInput
+  }
+
+  export type InboxMessageReadUncheckedCreateInput = {
+    userId: string
+    notificationId: string
+    readAt?: Date | string
+  }
+
+  export type InboxMessageReadUpdateInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInboxMessageReadsNestedInput
+    notification?: NotificationUpdateOneRequiredWithoutInboxMessageReadsNestedInput
+  }
+
+  export type InboxMessageReadUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    notificationId?: StringFieldUpdateOperationsInput | string
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxMessageReadCreateManyInput = {
+    userId: string
+    notificationId: string
+    readAt?: Date | string
+  }
+
+  export type InboxMessageReadUpdateManyMutationInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxMessageReadUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    notificationId?: StringFieldUpdateOperationsInput | string
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SystemMetricCreateInput = {
@@ -31726,6 +33041,12 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
+  export type InboxMessageReadListRelationFilter = {
+    every?: InboxMessageReadWhereInput
+    some?: InboxMessageReadWhereInput
+    none?: InboxMessageReadWhereInput
+  }
+
   export type PaymentListRelationFilter = {
     every?: PaymentWhereInput
     some?: PaymentWhereInput
@@ -31801,6 +33122,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type InboxMessageReadOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type PaymentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -31834,7 +33159,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
-    lastGlobalNotificationReadAt?: SortOrder
     welcomeSheetSeenAt?: SortOrder
     operationsArchivalNotifiedAt?: SortOrder
   }
@@ -31865,7 +33189,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
-    lastGlobalNotificationReadAt?: SortOrder
     welcomeSheetSeenAt?: SortOrder
     operationsArchivalNotifiedAt?: SortOrder
   }
@@ -31891,7 +33214,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     role?: SortOrder
-    lastGlobalNotificationReadAt?: SortOrder
     welcomeSheetSeenAt?: SortOrder
     operationsArchivalNotifiedAt?: SortOrder
   }
@@ -33040,6 +34362,34 @@ export namespace Prisma {
     _max?: NestedEnumNotificationScopeFilter<$PrismaModel>
   }
 
+  export type NotificationScalarRelationFilter = {
+    is?: NotificationWhereInput
+    isNot?: NotificationWhereInput
+  }
+
+  export type InboxMessageReadUserIdNotificationIdCompoundUniqueInput = {
+    userId: string
+    notificationId: string
+  }
+
+  export type InboxMessageReadCountOrderByAggregateInput = {
+    userId?: SortOrder
+    notificationId?: SortOrder
+    readAt?: SortOrder
+  }
+
+  export type InboxMessageReadMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    notificationId?: SortOrder
+    readAt?: SortOrder
+  }
+
+  export type InboxMessageReadMinOrderByAggregateInput = {
+    userId?: SortOrder
+    notificationId?: SortOrder
+    readAt?: SortOrder
+  }
+
   export type SystemMetricCountOrderByAggregateInput = {
     id?: SortOrder
     date?: SortOrder
@@ -33370,6 +34720,13 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type InboxMessageReadCreateNestedManyWithoutUserInput = {
+    create?: XOR<InboxMessageReadCreateWithoutUserInput, InboxMessageReadUncheckedCreateWithoutUserInput> | InboxMessageReadCreateWithoutUserInput[] | InboxMessageReadUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutUserInput | InboxMessageReadCreateOrConnectWithoutUserInput[]
+    createMany?: InboxMessageReadCreateManyUserInputEnvelope
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+  }
+
   export type PaymentCreateNestedManyWithoutUserInput = {
     create?: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput> | PaymentCreateWithoutUserInput[] | PaymentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutUserInput | PaymentCreateOrConnectWithoutUserInput[]
@@ -33480,6 +34837,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type InboxMessageReadUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<InboxMessageReadCreateWithoutUserInput, InboxMessageReadUncheckedCreateWithoutUserInput> | InboxMessageReadCreateWithoutUserInput[] | InboxMessageReadUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutUserInput | InboxMessageReadCreateOrConnectWithoutUserInput[]
+    createMany?: InboxMessageReadCreateManyUserInputEnvelope
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
   }
 
   export type PaymentUncheckedCreateNestedManyWithoutUserInput = {
@@ -33745,6 +35109,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type InboxMessageReadUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InboxMessageReadCreateWithoutUserInput, InboxMessageReadUncheckedCreateWithoutUserInput> | InboxMessageReadCreateWithoutUserInput[] | InboxMessageReadUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutUserInput | InboxMessageReadCreateOrConnectWithoutUserInput[]
+    upsert?: InboxMessageReadUpsertWithWhereUniqueWithoutUserInput | InboxMessageReadUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InboxMessageReadCreateManyUserInputEnvelope
+    set?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    disconnect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    delete?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    update?: InboxMessageReadUpdateWithWhereUniqueWithoutUserInput | InboxMessageReadUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InboxMessageReadUpdateManyWithWhereWithoutUserInput | InboxMessageReadUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InboxMessageReadScalarWhereInput | InboxMessageReadScalarWhereInput[]
+  }
+
   export type PaymentUpdateManyWithoutUserNestedInput = {
     create?: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput> | PaymentCreateWithoutUserInput[] | PaymentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutUserInput | PaymentCreateOrConnectWithoutUserInput[]
@@ -33967,6 +35345,20 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InboxMessageReadCreateWithoutUserInput, InboxMessageReadUncheckedCreateWithoutUserInput> | InboxMessageReadCreateWithoutUserInput[] | InboxMessageReadUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutUserInput | InboxMessageReadCreateOrConnectWithoutUserInput[]
+    upsert?: InboxMessageReadUpsertWithWhereUniqueWithoutUserInput | InboxMessageReadUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InboxMessageReadCreateManyUserInputEnvelope
+    set?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    disconnect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    delete?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    update?: InboxMessageReadUpdateWithWhereUniqueWithoutUserInput | InboxMessageReadUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InboxMessageReadUpdateManyWithWhereWithoutUserInput | InboxMessageReadUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InboxMessageReadScalarWhereInput | InboxMessageReadScalarWhereInput[]
   }
 
   export type PaymentUncheckedUpdateManyWithoutUserNestedInput = {
@@ -35060,6 +36452,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type InboxMessageReadCreateNestedManyWithoutNotificationInput = {
+    create?: XOR<InboxMessageReadCreateWithoutNotificationInput, InboxMessageReadUncheckedCreateWithoutNotificationInput> | InboxMessageReadCreateWithoutNotificationInput[] | InboxMessageReadUncheckedCreateWithoutNotificationInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutNotificationInput | InboxMessageReadCreateOrConnectWithoutNotificationInput[]
+    createMany?: InboxMessageReadCreateManyNotificationInputEnvelope
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+  }
+
+  export type InboxMessageReadUncheckedCreateNestedManyWithoutNotificationInput = {
+    create?: XOR<InboxMessageReadCreateWithoutNotificationInput, InboxMessageReadUncheckedCreateWithoutNotificationInput> | InboxMessageReadCreateWithoutNotificationInput[] | InboxMessageReadUncheckedCreateWithoutNotificationInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutNotificationInput | InboxMessageReadCreateOrConnectWithoutNotificationInput[]
+    createMany?: InboxMessageReadCreateManyNotificationInputEnvelope
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+  }
+
   export type EnumNotificationScopeFieldUpdateOperationsInput = {
     set?: $Enums.NotificationScope
   }
@@ -35072,6 +36478,62 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type InboxMessageReadUpdateManyWithoutNotificationNestedInput = {
+    create?: XOR<InboxMessageReadCreateWithoutNotificationInput, InboxMessageReadUncheckedCreateWithoutNotificationInput> | InboxMessageReadCreateWithoutNotificationInput[] | InboxMessageReadUncheckedCreateWithoutNotificationInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutNotificationInput | InboxMessageReadCreateOrConnectWithoutNotificationInput[]
+    upsert?: InboxMessageReadUpsertWithWhereUniqueWithoutNotificationInput | InboxMessageReadUpsertWithWhereUniqueWithoutNotificationInput[]
+    createMany?: InboxMessageReadCreateManyNotificationInputEnvelope
+    set?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    disconnect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    delete?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    update?: InboxMessageReadUpdateWithWhereUniqueWithoutNotificationInput | InboxMessageReadUpdateWithWhereUniqueWithoutNotificationInput[]
+    updateMany?: InboxMessageReadUpdateManyWithWhereWithoutNotificationInput | InboxMessageReadUpdateManyWithWhereWithoutNotificationInput[]
+    deleteMany?: InboxMessageReadScalarWhereInput | InboxMessageReadScalarWhereInput[]
+  }
+
+  export type InboxMessageReadUncheckedUpdateManyWithoutNotificationNestedInput = {
+    create?: XOR<InboxMessageReadCreateWithoutNotificationInput, InboxMessageReadUncheckedCreateWithoutNotificationInput> | InboxMessageReadCreateWithoutNotificationInput[] | InboxMessageReadUncheckedCreateWithoutNotificationInput[]
+    connectOrCreate?: InboxMessageReadCreateOrConnectWithoutNotificationInput | InboxMessageReadCreateOrConnectWithoutNotificationInput[]
+    upsert?: InboxMessageReadUpsertWithWhereUniqueWithoutNotificationInput | InboxMessageReadUpsertWithWhereUniqueWithoutNotificationInput[]
+    createMany?: InboxMessageReadCreateManyNotificationInputEnvelope
+    set?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    disconnect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    delete?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    connect?: InboxMessageReadWhereUniqueInput | InboxMessageReadWhereUniqueInput[]
+    update?: InboxMessageReadUpdateWithWhereUniqueWithoutNotificationInput | InboxMessageReadUpdateWithWhereUniqueWithoutNotificationInput[]
+    updateMany?: InboxMessageReadUpdateManyWithWhereWithoutNotificationInput | InboxMessageReadUpdateManyWithWhereWithoutNotificationInput[]
+    deleteMany?: InboxMessageReadScalarWhereInput | InboxMessageReadScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutInboxMessageReadsInput = {
+    create?: XOR<UserCreateWithoutInboxMessageReadsInput, UserUncheckedCreateWithoutInboxMessageReadsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInboxMessageReadsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NotificationCreateNestedOneWithoutInboxMessageReadsInput = {
+    create?: XOR<NotificationCreateWithoutInboxMessageReadsInput, NotificationUncheckedCreateWithoutInboxMessageReadsInput>
+    connectOrCreate?: NotificationCreateOrConnectWithoutInboxMessageReadsInput
+    connect?: NotificationWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutInboxMessageReadsNestedInput = {
+    create?: XOR<UserCreateWithoutInboxMessageReadsInput, UserUncheckedCreateWithoutInboxMessageReadsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInboxMessageReadsInput
+    upsert?: UserUpsertWithoutInboxMessageReadsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInboxMessageReadsInput, UserUpdateWithoutInboxMessageReadsInput>, UserUncheckedUpdateWithoutInboxMessageReadsInput>
+  }
+
+  export type NotificationUpdateOneRequiredWithoutInboxMessageReadsNestedInput = {
+    create?: XOR<NotificationCreateWithoutInboxMessageReadsInput, NotificationUncheckedCreateWithoutInboxMessageReadsInput>
+    connectOrCreate?: NotificationCreateOrConnectWithoutInboxMessageReadsInput
+    upsert?: NotificationUpsertWithoutInboxMessageReadsInput
+    connect?: NotificationWhereUniqueInput
+    update?: XOR<XOR<NotificationUpdateToOneWithWhereWithoutInboxMessageReadsInput, NotificationUpdateWithoutInboxMessageReadsInput>, NotificationUncheckedUpdateWithoutInboxMessageReadsInput>
   }
 
   export type UserCreateNestedOneWithoutPaymentsInput = {
@@ -36198,6 +37660,7 @@ export namespace Prisma {
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutNotificationInput
   }
 
   export type NotificationUncheckedCreateWithoutUserInput = {
@@ -36210,6 +37673,7 @@ export namespace Prisma {
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutNotificationInput
   }
 
   export type NotificationCreateOrConnectWithoutUserInput = {
@@ -36219,6 +37683,26 @@ export namespace Prisma {
 
   export type NotificationCreateManyUserInputEnvelope = {
     data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InboxMessageReadCreateWithoutUserInput = {
+    readAt?: Date | string
+    notification: NotificationCreateNestedOneWithoutInboxMessageReadsInput
+  }
+
+  export type InboxMessageReadUncheckedCreateWithoutUserInput = {
+    notificationId: string
+    readAt?: Date | string
+  }
+
+  export type InboxMessageReadCreateOrConnectWithoutUserInput = {
+    where: InboxMessageReadWhereUniqueInput
+    create: XOR<InboxMessageReadCreateWithoutUserInput, InboxMessageReadUncheckedCreateWithoutUserInput>
+  }
+
+  export type InboxMessageReadCreateManyUserInputEnvelope = {
+    data: InboxMessageReadCreateManyUserInput | InboxMessageReadCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -36845,6 +38329,31 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type InboxMessageReadUpsertWithWhereUniqueWithoutUserInput = {
+    where: InboxMessageReadWhereUniqueInput
+    update: XOR<InboxMessageReadUpdateWithoutUserInput, InboxMessageReadUncheckedUpdateWithoutUserInput>
+    create: XOR<InboxMessageReadCreateWithoutUserInput, InboxMessageReadUncheckedCreateWithoutUserInput>
+  }
+
+  export type InboxMessageReadUpdateWithWhereUniqueWithoutUserInput = {
+    where: InboxMessageReadWhereUniqueInput
+    data: XOR<InboxMessageReadUpdateWithoutUserInput, InboxMessageReadUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InboxMessageReadUpdateManyWithWhereWithoutUserInput = {
+    where: InboxMessageReadScalarWhereInput
+    data: XOR<InboxMessageReadUpdateManyMutationInput, InboxMessageReadUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type InboxMessageReadScalarWhereInput = {
+    AND?: InboxMessageReadScalarWhereInput | InboxMessageReadScalarWhereInput[]
+    OR?: InboxMessageReadScalarWhereInput[]
+    NOT?: InboxMessageReadScalarWhereInput | InboxMessageReadScalarWhereInput[]
+    userId?: StringFilter<"InboxMessageRead"> | string
+    notificationId?: StringFilter<"InboxMessageRead"> | string
+    readAt?: DateTimeFilter<"InboxMessageRead"> | Date | string
+  }
+
   export type PaymentUpsertWithWhereUniqueWithoutUserInput = {
     where: PaymentWhereUniqueInput
     update: XOR<PaymentUpdateWithoutUserInput, PaymentUncheckedUpdateWithoutUserInput>
@@ -36988,7 +38497,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -37006,6 +38514,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -37031,7 +38540,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -37047,6 +38555,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -37132,7 +38641,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
-    lastGlobalNotificationReadAt?: DateTimeNullableFilter<"User"> | Date | string | null
     welcomeSheetSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     operationsArchivalNotifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
   }
@@ -37200,7 +38708,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -37218,6 +38725,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -37243,7 +38751,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -37259,6 +38766,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -37409,7 +38917,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -37427,6 +38934,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -37453,7 +38961,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -37468,6 +38975,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -37507,7 +39015,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -37525,6 +39032,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -37551,7 +39059,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -37566,6 +39073,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -37589,7 +39097,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -37607,6 +39114,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -37633,7 +39141,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -37648,6 +39155,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -37844,7 +39352,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
@@ -37862,6 +39369,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -37887,7 +39395,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -37903,6 +39410,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -37942,7 +39450,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -37960,6 +39467,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -37986,7 +39494,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -38001,6 +39508,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -38099,7 +39607,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
@@ -38117,6 +39624,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -38142,7 +39650,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -38158,6 +39665,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -38181,7 +39689,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -38199,6 +39706,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -38225,7 +39733,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -38240,6 +39747,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -38454,7 +39962,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -38472,6 +39979,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -38498,7 +40006,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -38513,6 +40020,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -38728,7 +40236,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -38746,6 +40253,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -38772,7 +40280,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -38787,6 +40294,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -38826,7 +40334,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -38844,6 +40351,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -38870,7 +40378,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -38885,6 +40392,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -38908,7 +40416,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -38926,6 +40433,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -38952,7 +40460,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -38967,6 +40474,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -39159,7 +40667,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -39177,6 +40684,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -39203,7 +40711,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -39218,6 +40725,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -39388,7 +40896,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -39406,6 +40913,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -39432,7 +40940,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -39447,6 +40954,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -39521,7 +41029,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -39539,6 +41046,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -39565,7 +41073,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -39580,6 +41087,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -39619,7 +41127,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -39637,6 +41144,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -39663,7 +41171,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -39678,6 +41185,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -39902,7 +41410,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -39920,6 +41427,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -39946,7 +41454,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -39961,6 +41468,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -40124,7 +41632,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -40142,6 +41649,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -40168,7 +41676,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -40183,6 +41690,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -40263,7 +41771,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -40281,6 +41788,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -40307,7 +41815,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -40322,6 +41829,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -40345,7 +41853,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -40363,6 +41870,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -40389,7 +41897,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -40404,6 +41911,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -40443,7 +41951,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -40461,6 +41968,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -40487,7 +41995,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -40502,6 +42009,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -40525,7 +42033,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -40543,6 +42050,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -40569,7 +42077,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -40584,6 +42091,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -40623,7 +42131,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -40641,6 +42148,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -40667,7 +42175,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -40682,6 +42189,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -40705,7 +42213,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -40723,6 +42230,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -40749,7 +42257,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -40764,6 +42271,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -40803,7 +42311,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -40821,6 +42328,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -40847,7 +42355,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -40862,6 +42369,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -40885,7 +42393,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -40903,6 +42410,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -40929,7 +42437,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -40944,6 +42451,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -40983,7 +42491,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -41001,6 +42508,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -41027,7 +42535,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -41042,6 +42549,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -41065,7 +42573,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -41083,6 +42590,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
@@ -41109,7 +42617,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -41124,6 +42631,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
@@ -41132,6 +42640,26 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutNotificationsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type InboxMessageReadCreateWithoutNotificationInput = {
+    readAt?: Date | string
+    user: UserCreateNestedOneWithoutInboxMessageReadsInput
+  }
+
+  export type InboxMessageReadUncheckedCreateWithoutNotificationInput = {
+    userId: string
+    readAt?: Date | string
+  }
+
+  export type InboxMessageReadCreateOrConnectWithoutNotificationInput = {
+    where: InboxMessageReadWhereUniqueInput
+    create: XOR<InboxMessageReadCreateWithoutNotificationInput, InboxMessageReadUncheckedCreateWithoutNotificationInput>
+  }
+
+  export type InboxMessageReadCreateManyNotificationInputEnvelope = {
+    data: InboxMessageReadCreateManyNotificationInput | InboxMessageReadCreateManyNotificationInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutNotificationsInput = {
@@ -41163,7 +42691,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -41181,6 +42708,7 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -41207,7 +42735,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -41222,9 +42749,274 @@ export namespace Prisma {
     aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type InboxMessageReadUpsertWithWhereUniqueWithoutNotificationInput = {
+    where: InboxMessageReadWhereUniqueInput
+    update: XOR<InboxMessageReadUpdateWithoutNotificationInput, InboxMessageReadUncheckedUpdateWithoutNotificationInput>
+    create: XOR<InboxMessageReadCreateWithoutNotificationInput, InboxMessageReadUncheckedCreateWithoutNotificationInput>
+  }
+
+  export type InboxMessageReadUpdateWithWhereUniqueWithoutNotificationInput = {
+    where: InboxMessageReadWhereUniqueInput
+    data: XOR<InboxMessageReadUpdateWithoutNotificationInput, InboxMessageReadUncheckedUpdateWithoutNotificationInput>
+  }
+
+  export type InboxMessageReadUpdateManyWithWhereWithoutNotificationInput = {
+    where: InboxMessageReadScalarWhereInput
+    data: XOR<InboxMessageReadUpdateManyMutationInput, InboxMessageReadUncheckedUpdateManyWithoutNotificationInput>
+  }
+
+  export type UserCreateWithoutInboxMessageReadsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
+    defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
+    subscriptionPlan: SubscriptionPlanCreateNestedOneWithoutUsersInput
+    subscriptionPrice?: SubscriptionPriceCreateNestedOneWithoutUsersInput
+    tokens?: TokenCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tags?: TagCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterCreateNestedManyWithoutUserInput
+    operations?: OperationCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
+    consents?: UserConsentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInboxMessageReadsInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string
+    defaultAccountId?: string | null
+    isActive?: boolean
+    isEmailVerified?: boolean
+    subscriptionPlanId: string
+    subscriptionPriceId?: string | null
+    subscriptionStartedAt?: Date | string
+    subscriptionExpiresAt?: Date | string | null
+    subscriptionAutoRenew?: boolean
+    isTotpEnabled?: boolean
+    totpSecret?: string | null
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    tokensBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.Role
+    welcomeSheetSeenAt?: Date | string | null
+    operationsArchivalNotifiedAt?: Date | string | null
+    tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tags?: TagUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    categoryKeywords?: CategoryKeywordUncheckedCreateNestedManyWithoutUserInput
+    keywordFilters?: KeywordFilterUncheckedCreateNestedManyWithoutUserInput
+    operations?: OperationUncheckedCreateNestedManyWithoutUserInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedCreateNestedManyWithoutUserInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedCreateNestedManyWithoutUserInput
+    aiTokenUsages?: AiTokenUsageUncheckedCreateNestedManyWithoutUserInput
+    aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
+    activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
+    consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInboxMessageReadsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInboxMessageReadsInput, UserUncheckedCreateWithoutInboxMessageReadsInput>
+  }
+
+  export type NotificationCreateWithoutInboxMessageReadsInput = {
+    id?: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
+    link?: string | null
+    buttonText: JsonNullValueInput | InputJsonValue
+    scope?: $Enums.NotificationScope
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutInboxMessageReadsInput = {
+    id?: string
+    title: JsonNullValueInput | InputJsonValue
+    description: JsonNullValueInput | InputJsonValue
+    link?: string | null
+    buttonText: JsonNullValueInput | InputJsonValue
+    scope?: $Enums.NotificationScope
+    userId?: string | null
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutInboxMessageReadsInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutInboxMessageReadsInput, NotificationUncheckedCreateWithoutInboxMessageReadsInput>
+  }
+
+  export type UserUpsertWithoutInboxMessageReadsInput = {
+    update: XOR<UserUpdateWithoutInboxMessageReadsInput, UserUncheckedUpdateWithoutInboxMessageReadsInput>
+    create: XOR<UserCreateWithoutInboxMessageReadsInput, UserUncheckedCreateWithoutInboxMessageReadsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInboxMessageReadsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInboxMessageReadsInput, UserUncheckedUpdateWithoutInboxMessageReadsInput>
+  }
+
+  export type UserUpdateWithoutInboxMessageReadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
+    subscriptionPlan?: SubscriptionPlanUpdateOneRequiredWithoutUsersNestedInput
+    subscriptionPrice?: SubscriptionPriceUpdateOneWithoutUsersNestedInput
+    tokens?: TokenUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tags?: TagUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUpdateManyWithoutUserNestedInput
+    operations?: OperationUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInboxMessageReadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    defaultAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionPlanId?: StringFieldUpdateOperationsInput | string
+    subscriptionPriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionAutoRenew?: BoolFieldUpdateOperationsInput | boolean
+    isTotpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    tokensBalance?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    categoryKeywords?: CategoryKeywordUncheckedUpdateManyWithoutUserNestedInput
+    keywordFilters?: KeywordFilterUncheckedUpdateManyWithoutUserNestedInput
+    operations?: OperationUncheckedUpdateManyWithoutUserNestedInput
+    operationMonthlyRollups?: OperationMonthlyRollupUncheckedUpdateManyWithoutUserNestedInput
+    recurrenceConfigs?: RecurrenceConfigUncheckedUpdateManyWithoutUserNestedInput
+    aiTokenUsages?: AiTokenUsageUncheckedUpdateManyWithoutUserNestedInput
+    aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
+    activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+    consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type NotificationUpsertWithoutInboxMessageReadsInput = {
+    update: XOR<NotificationUpdateWithoutInboxMessageReadsInput, NotificationUncheckedUpdateWithoutInboxMessageReadsInput>
+    create: XOR<NotificationCreateWithoutInboxMessageReadsInput, NotificationUncheckedCreateWithoutInboxMessageReadsInput>
+    where?: NotificationWhereInput
+  }
+
+  export type NotificationUpdateToOneWithWhereWithoutInboxMessageReadsInput = {
+    where?: NotificationWhereInput
+    data: XOR<NotificationUpdateWithoutInboxMessageReadsInput, NotificationUncheckedUpdateWithoutInboxMessageReadsInput>
+  }
+
+  export type NotificationUpdateWithoutInboxMessageReadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: JsonNullValueInput | InputJsonValue
+    scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutInboxMessageReadsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: JsonNullValueInput | InputJsonValue
+    description?: JsonNullValueInput | InputJsonValue
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonText?: JsonNullValueInput | InputJsonValue
+    scope?: EnumNotificationScopeFieldUpdateOperationsInput | $Enums.NotificationScope
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutPaymentsInput = {
@@ -41245,7 +43037,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -41264,6 +43055,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
   }
@@ -41289,7 +43081,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -41305,6 +43096,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
@@ -41372,7 +43164,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -41391,6 +43182,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
@@ -41416,7 +43208,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -41432,6 +43223,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -41489,7 +43281,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -41508,6 +43299,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     consents?: UserConsentCreateNestedManyWithoutUserInput
   }
@@ -41533,7 +43325,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -41549,6 +43340,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     consents?: UserConsentUncheckedCreateNestedManyWithoutUserInput
   }
@@ -41587,7 +43379,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -41606,6 +43397,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
   }
@@ -41631,7 +43423,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -41647,6 +43438,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -41669,7 +43461,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     defaultAccount?: AccountCreateNestedOneWithoutDefaultForUserInput
@@ -41688,6 +43479,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadCreateNestedManyWithoutUserInput
     payments?: PaymentCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketCreateNestedManyWithoutUserInput
   }
@@ -41713,7 +43505,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
     tokens?: TokenUncheckedCreateNestedManyWithoutUserInput
@@ -41729,6 +43520,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedCreateNestedManyWithoutUserInput
     activityEvents?: UserActivityEventUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    inboxMessageReads?: InboxMessageReadUncheckedCreateNestedManyWithoutUserInput
     payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     supportTickets?: SupportTicketUncheckedCreateNestedManyWithoutUserInput
   }
@@ -41767,7 +43559,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -41786,6 +43577,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
   }
@@ -41811,7 +43603,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -41827,6 +43618,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -41969,6 +43761,11 @@ export namespace Prisma {
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type InboxMessageReadCreateManyUserInput = {
+    notificationId: string
+    readAt?: Date | string
   }
 
   export type PaymentCreateManyUserInput = {
@@ -42420,6 +44217,7 @@ export namespace Prisma {
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutNotificationNestedInput
   }
 
   export type NotificationUncheckedUpdateWithoutUserInput = {
@@ -42432,6 +44230,7 @@ export namespace Prisma {
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutNotificationNestedInput
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserInput = {
@@ -42444,6 +44243,21 @@ export namespace Prisma {
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxMessageReadUpdateWithoutUserInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notification?: NotificationUpdateOneRequiredWithoutInboxMessageReadsNestedInput
+  }
+
+  export type InboxMessageReadUncheckedUpdateWithoutUserInput = {
+    notificationId?: StringFieldUpdateOperationsInput | string
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxMessageReadUncheckedUpdateManyWithoutUserInput = {
+    notificationId?: StringFieldUpdateOperationsInput | string
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentUpdateWithoutUserInput = {
@@ -42569,7 +44383,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
   }
@@ -42626,7 +44439,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -42644,6 +44456,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -42669,7 +44482,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -42685,6 +44497,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -42710,7 +44523,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -42735,7 +44547,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     role?: $Enums.Role
-    lastGlobalNotificationReadAt?: Date | string | null
     welcomeSheetSeenAt?: Date | string | null
     operationsArchivalNotifiedAt?: Date | string | null
   }
@@ -42770,7 +44581,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     defaultAccount?: AccountUpdateOneWithoutDefaultForUserNestedInput
@@ -42788,6 +44598,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUpdateManyWithoutUserNestedInput
     payments?: PaymentUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUpdateManyWithoutUserNestedInput
     consents?: UserConsentUpdateManyWithoutUserNestedInput
@@ -42813,7 +44624,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tokens?: TokenUncheckedUpdateManyWithoutUserNestedInput
@@ -42829,6 +44639,7 @@ export namespace Prisma {
     aiUploadTasks?: AiUploadTaskUncheckedUpdateManyWithoutUserNestedInput
     activityEvents?: UserActivityEventUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    inboxMessageReads?: InboxMessageReadUncheckedUpdateManyWithoutUserNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     supportTickets?: SupportTicketUncheckedUpdateManyWithoutUserNestedInput
     consents?: UserConsentUncheckedUpdateManyWithoutUserNestedInput
@@ -42854,7 +44665,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    lastGlobalNotificationReadAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     welcomeSheetSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     operationsArchivalNotifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -43479,6 +45289,26 @@ export namespace Prisma {
     transferAccountId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxMessageReadCreateManyNotificationInput = {
+    userId: string
+    readAt?: Date | string
+  }
+
+  export type InboxMessageReadUpdateWithoutNotificationInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInboxMessageReadsNestedInput
+  }
+
+  export type InboxMessageReadUncheckedUpdateWithoutNotificationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InboxMessageReadUncheckedUpdateManyWithoutNotificationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

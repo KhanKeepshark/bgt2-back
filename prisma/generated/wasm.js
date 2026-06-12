@@ -138,7 +138,6 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   role: 'role',
-  lastGlobalNotificationReadAt: 'lastGlobalNotificationReadAt',
   welcomeSheetSeenAt: 'welcomeSheetSeenAt',
   operationsArchivalNotifiedAt: 'operationsArchivalNotifiedAt'
 };
@@ -326,6 +325,12 @@ exports.Prisma.NotificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.InboxMessageReadScalarFieldEnum = {
+  userId: 'userId',
+  notificationId: 'notificationId',
+  readAt: 'readAt'
+};
+
 exports.Prisma.SystemMetricScalarFieldEnum = {
   id: 'id',
   date: 'date',
@@ -502,6 +507,7 @@ exports.Prisma.ModelName = {
   AiTokenUsage: 'AiTokenUsage',
   UserActivityEvent: 'UserActivityEvent',
   Notification: 'Notification',
+  InboxMessageRead: 'InboxMessageRead',
   SystemMetric: 'SystemMetric',
   Payment: 'Payment',
   SupportTicket: 'SupportTicket',

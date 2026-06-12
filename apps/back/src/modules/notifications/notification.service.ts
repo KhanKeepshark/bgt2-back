@@ -25,31 +25,25 @@ export class NotificationService {
         [obj.en, obj.ru, obj.kz].some(
           (v) => v != null && String(v).trim().length > 0,
         );
-      if (
-        !hasAtLeastOne(input.title) ||
-        !hasAtLeastOne(input.description) ||
-        !hasAtLeastOne(input.buttonText)
-      ) {
+      if (!hasAtLeastOne(input.description)) {
         throw new BadRequestException(
           NotificationError.AT_LEAST_ONE_LANGUAGE_REQUIRED,
         );
       }
 
-      const titleJson = {
-        en: input.title.en ?? null,
-        ru: input.title.ru ?? null,
-        kz: input.title.kz ?? null,
-      };
-      const descriptionJson = {
-        en: input.description.en ?? null,
-        ru: input.description.ru ?? null,
-        kz: input.description.kz ?? null,
-      };
-      const buttonTextJson = {
-        en: input.buttonText.en ?? null,
-        ru: input.buttonText.ru ?? null,
-        kz: input.buttonText.kz ?? null,
-      };
+      const normalizeLocalized = (obj?: {
+        en?: string;
+        ru?: string;
+        kz?: string;
+      }) => ({
+        en: obj?.en?.trim() ? obj.en.trim() : null,
+        ru: obj?.ru?.trim() ? obj.ru.trim() : null,
+        kz: obj?.kz?.trim() ? obj.kz.trim() : null,
+      });
+
+      const titleJson = normalizeLocalized(input.title);
+      const descriptionJson = normalizeLocalized(input.description);
+      const buttonTextJson = normalizeLocalized(input.buttonText);
 
       const created = await this.prismaService.notification.create({
         data: {
@@ -90,6 +84,8 @@ export class NotificationService {
 
   public async findAllUser(user: User): Promise<Notification[]> {
     try {
+      const readGlobalIds = await this.getReadGlobalNotificationIds(user.id);
+
       const [personal, global] = await Promise.all([
         this.prismaService.notification.findMany({
           where: {
@@ -110,12 +106,9 @@ export class NotificationService {
 
       const globalWithReadState = global.map((n) => ({
         ...n,
-        isRead: user.lastGlobalNotificationReadAt
-          ? n.createdAt <= user.lastGlobalNotificationReadAt
-          : false,
+        isRead: readGlobalIds.has(n.id),
       }));
 
-      // Сначала персональные, потом глобальные (или наоборот — по вкусу)
       return [...personal, ...globalWithReadState];
     } catch (error) {
       if (error?.code?.startsWith('P')) {
@@ -128,6 +121,8 @@ export class NotificationService {
 
   public async findUnread(user: User): Promise<Notification[]> {
     try {
+      const readGlobalIds = await this.getReadGlobalNotificationIds(user.id);
+
       const [personalUnread, global] = await Promise.all([
         this.prismaService.notification.findMany({
           where: {
@@ -138,17 +133,16 @@ export class NotificationService {
           orderBy: { createdAt: 'desc' },
         }),
         this.prismaService.notification.findMany({
-          where: { scope: NotificationScope.GLOBAL },
+          where: {
+            scope: NotificationScope.GLOBAL,
+            createdAt: { gte: user.createdAt },
+          },
           orderBy: { createdAt: 'desc' },
         }),
       ]);
 
       const globalUnread = global
-        .filter(
-          (n) =>
-            !user.lastGlobalNotificationReadAt ||
-            n.createdAt > user.lastGlobalNotificationReadAt,
-        )
+        .filter((n) => !readGlobalIds.has(n.id))
         .map((n) => ({
           ...n,
           isRead: false,
@@ -208,18 +202,7 @@ export class NotificationService {
         return updated;
       }
 
-      // GLOBAL: обновляем lastGlobalNotificationReadAt, если дата этого уведомления новее
-      if (
-        !user.lastGlobalNotificationReadAt ||
-        notification.createdAt > user.lastGlobalNotificationReadAt
-      ) {
-        await this.prismaService.user.update({
-          where: { id: user.id },
-          data: {
-            lastGlobalNotificationReadAt: notification.createdAt,
-          },
-        });
-      }
+      await this.markGlobalAsRead(user.id, id);
 
       return {
         ...notification,
@@ -236,7 +219,6 @@ export class NotificationService {
 
   public async markAllAsRead(user: User): Promise<boolean> {
     try {
-      // Персональные уведомления
       await this.prismaService.notification.updateMany({
         where: {
           scope: NotificationScope.USER,
@@ -246,13 +228,24 @@ export class NotificationService {
         data: { isRead: true },
       });
 
-      // Глобальные уведомления
-      await this.prismaService.user.update({
-        where: { id: user.id },
-        data: {
-          lastGlobalNotificationReadAt: new Date(),
+      const unreadGlobals = await this.prismaService.notification.findMany({
+        where: {
+          scope: NotificationScope.GLOBAL,
+          createdAt: { gte: user.createdAt },
+          inboxMessageReads: { none: { userId: user.id } },
         },
+        select: { id: true },
       });
+
+      if (unreadGlobals.length > 0) {
+        await this.prismaService.inboxMessageRead.createMany({
+          data: unreadGlobals.map(({ id }) => ({
+            userId: user.id,
+            notificationId: id,
+          })),
+          skipDuplicates: true,
+        });
+      }
 
       return true;
     } catch (error) {
@@ -280,5 +273,29 @@ export class NotificationService {
 
       throw error;
     }
+  }
+
+  private async getReadGlobalNotificationIds(
+    userId: string,
+  ): Promise<Set<string>> {
+    const rows = await this.prismaService.inboxMessageRead.findMany({
+      where: { userId },
+      select: { notificationId: true },
+    });
+
+    return new Set(rows.map((row) => row.notificationId));
+  }
+
+  private async markGlobalAsRead(
+    userId: string,
+    notificationId: string,
+  ): Promise<void> {
+    await this.prismaService.inboxMessageRead.upsert({
+      where: {
+        userId_notificationId: { userId, notificationId },
+      },
+      create: { userId, notificationId },
+      update: {},
+    });
   }
 }

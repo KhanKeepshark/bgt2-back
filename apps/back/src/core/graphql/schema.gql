@@ -152,13 +152,13 @@ input CreateKeywordFilterInput {
 }
 
 input CreateNotificationInput {
-  buttonText: LocalizedStringInput!
+  buttonText: LocalizedStringInput
   description: LocalizedStringInput!
   link: String
 
   """USER = personal, GLOBAL = for all users"""
   scope: NotificationScope = USER
-  title: LocalizedStringInput!
+  title: LocalizedStringInput
 
   """Required when scope=USER, target user id"""
   userId: String
@@ -804,7 +804,6 @@ type UserModel {
   isActive: Boolean!
   isEmailVerified: Boolean!
   isTotpEnabled: Boolean!
-  lastGlobalNotificationReadAt: DateTime
   lastLoginAt: DateTime
   loginCount: Float!
   name: String!
