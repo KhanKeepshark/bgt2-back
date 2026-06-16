@@ -486,8 +486,7 @@ exports.SupportTicketStatus = exports.$Enums.SupportTicketStatus = {
 exports.ConsentType = exports.$Enums.ConsentType = {
   TERMS: 'TERMS',
   PRIVACY: 'PRIVACY',
-  CROSS_BORDER_PD: 'CROSS_BORDER_PD',
-  AI_IMPORT: 'AI_IMPORT'
+  CROSS_BORDER_PD: 'CROSS_BORDER_PD'
 };
 
 exports.Prisma.ModelName = {

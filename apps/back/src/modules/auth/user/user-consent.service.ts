@@ -34,14 +34,6 @@ export class UserConsentService {
     );
   }
 
-  public async hasAiImportConsent(userId: string): Promise<boolean> {
-    const consent = await this.prismaService.userConsent.findFirst({
-      where: { userId, type: ConsentType.AI_IMPORT },
-    });
-
-    return !!consent;
-  }
-
   public async recordConsents(
     userId: string,
     consents: RecordConsentInput[],

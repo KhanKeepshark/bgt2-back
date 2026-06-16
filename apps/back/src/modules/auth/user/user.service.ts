@@ -25,7 +25,6 @@ import { TokenType } from '@prisma/generated';
 import { ResetPasswordInput } from './inputs/reset-password.input';
 import { RecordConsentInput, UserConsentService } from './user-consent.service';
 import { AcceptLegalDocumentsInput } from './inputs/accept-legal-documents.input';
-import { ConsentType } from '@prisma/generated';
 
 @Injectable()
 export class UserService {
@@ -478,13 +477,6 @@ export class UserService {
           crossBorderVersion: input.crossBorderVersion,
         }),
       );
-    }
-
-    if (input.aiImportVersion) {
-      consents.push({
-        type: ConsentType.AI_IMPORT,
-        version: input.aiImportVersion,
-      });
     }
 
     if (consents.length === 0) {

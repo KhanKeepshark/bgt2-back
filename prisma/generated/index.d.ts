@@ -243,8 +243,7 @@ export type SupportTicketStatus = (typeof SupportTicketStatus)[keyof typeof Supp
 export const ConsentType: {
   TERMS: 'TERMS',
   PRIVACY: 'PRIVACY',
-  CROSS_BORDER_PD: 'CROSS_BORDER_PD',
-  AI_IMPORT: 'AI_IMPORT'
+  CROSS_BORDER_PD: 'CROSS_BORDER_PD'
 };
 
 export type ConsentType = (typeof ConsentType)[keyof typeof ConsentType]

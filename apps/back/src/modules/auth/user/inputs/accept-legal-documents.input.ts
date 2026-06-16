@@ -1,28 +1,20 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class AcceptLegalDocumentsInput {
-  @Field(() => String, { nullable: true })
-  @ValidateIf((input: AcceptLegalDocumentsInput) => !input.aiImportVersion)
+  @Field(() => String)
   @IsNotEmpty()
   @IsString()
-  termsVersion?: string;
+  termsVersion: string;
 
-  @Field(() => String, { nullable: true })
-  @ValidateIf((input: AcceptLegalDocumentsInput) => !input.aiImportVersion)
+  @Field(() => String)
   @IsNotEmpty()
   @IsString()
-  privacyVersion?: string;
+  privacyVersion: string;
 
-  @Field(() => String, { nullable: true })
-  @ValidateIf((input: AcceptLegalDocumentsInput) => !input.aiImportVersion)
+  @Field(() => String)
   @IsNotEmpty()
   @IsString()
-  crossBorderVersion?: string;
-
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  @IsString()
-  aiImportVersion?: string;
+  crossBorderVersion: string;
 }

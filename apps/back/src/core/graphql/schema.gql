@@ -3,10 +3,9 @@
 # ------------------------------------------------------
 
 input AcceptLegalDocumentsInput {
-  aiImportVersion: String
-  crossBorderVersion: String
-  privacyVersion: String
-  termsVersion: String
+  crossBorderVersion: String!
+  privacyVersion: String!
+  termsVersion: String!
 }
 
 type AccountModel {

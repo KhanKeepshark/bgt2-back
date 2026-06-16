@@ -570,7 +570,6 @@ enum ConsentType {
   TERMS
   PRIVACY
   CROSS_BORDER_PD
-  AI_IMPORT
 }
 
 model UserConsent {
