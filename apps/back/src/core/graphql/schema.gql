@@ -119,11 +119,6 @@ enum CategoryType {
   INCOME
 }
 
-input ChangePasswordInput {
-  newPassword: String!
-  oldPassword: String!
-}
-
 input CreateAccountInput {
   balance: String
   currency: String!
@@ -356,7 +351,6 @@ type Mutation {
   aiFileUpload(file: Upload!): AiUploadTaskModel!
   cancelPremiumSubscription: UserModel!
   categoryHasOperations(id: String!): Boolean!
-  changePassword(data: ChangePasswordInput!): UserModel!
   clearSessionCookie: Boolean!
   confirmPayment(paymentId: String!, transactionId: String!): PaymentModel!
   createAccount(input: CreateAccountInput!): AccountModel!
@@ -535,7 +529,6 @@ type Query {
   findAllUsers(items: Int, orderBy: UserOrderByInput, page: Int, where: UserWhereInput): PaginatedUsersModel!
   findCategoriesByType(type: String!): [CategoryModel!]!
   findCurrentSession: SessionModel!
-  findOneAccount(id: String!): AccountModel!
   findOneCategory(id: String!): CategoryModel!
   findOneNotification(id: String!): NotificationModel!
   findOneOperation(id: String!): OperationModel!

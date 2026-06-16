@@ -114,26 +114,6 @@ export class AccountService {
     }
   }
 
-  public async findOne(id: string): Promise<Account> {
-    try {
-      const account = await this.prismaService.account.findFirst({
-        where: { id },
-      });
-
-      if (!account) {
-        throw new NotFoundException(AccountError.NOT_FOUND);
-      }
-
-      return account;
-    } catch (error) {
-      if (error?.code?.startsWith('P')) {
-        throw new BadRequestException(AccountError.NOT_FOUND);
-      }
-
-      throw error;
-    }
-  }
-
   public async update(input: UpdateAccountInput, user: User): Promise<Account> {
     try {
       if (input.name) {

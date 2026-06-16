@@ -12,10 +12,9 @@ import {
   SubscriptionError,
 } from '@back/shared/constants/errors.constants';
 import { UpdateUserInput } from './inputs/update-user.input';
-import { ChangePasswordInput } from './inputs/change-password.input';
 import { UserWhereInput } from './inputs/user-where.input';
 import { UserOrderByInput } from './inputs/user-order-by.input';
-import { hash, verify } from 'argon2';
+import { hash } from 'argon2';
 import { VerificationService } from '../verification/verification.service';
 import { AccountService } from '../../accounts/account/account.service';
 import { CategoryService } from '../../accounts/category/category.service';
@@ -314,32 +313,6 @@ export class UserService {
         subscriptionPlan: true,
         subscriptionPrice: true,
       },
-    });
-  }
-
-  public async changePassword(id: string, input: ChangePasswordInput) {
-    const user = await this.prismaService.user.findUnique({
-      where: { id },
-    });
-
-    if (!user) {
-      throw new BadRequestException(AuthError.USER_NOT_FOUND);
-    }
-
-    if (!user.password) {
-      throw new BadRequestException(AuthError.INVALID_PASSWORD);
-    }
-
-    const isPasswordValid = await verify(user.password, input.oldPassword);
-    if (!isPasswordValid) {
-      throw new BadRequestException(AuthError.INVALID_PASSWORD);
-    }
-
-    const hashedPassword = await hash(input.newPassword);
-
-    return this.prismaService.user.update({
-      where: { id },
-      data: { password: hashedPassword },
     });
   }
 

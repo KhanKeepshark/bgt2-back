@@ -31,16 +31,6 @@ export class AccountResolver {
     return this.accountService.findAll(user);
   }
 
-  // TODO: return authorization
-  // @Authorization()
-  @Query(() => AccountModel, { name: 'findOneAccount' })
-  public async findOneAccount(
-    @Args('id') id: string,
-    // @Authorized() user: User,
-  ) {
-    return this.accountService.findOne(id);
-  }
-
   @Authorization()
   @Mutation(() => AccountModel, { name: 'updateAccount' })
   public async updateAccount(

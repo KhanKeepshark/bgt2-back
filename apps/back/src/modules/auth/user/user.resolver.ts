@@ -12,7 +12,6 @@ import {
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { CreateUserInput } from './inputs/create-user.input';
 import { AcceptLegalDocumentsInput } from './inputs/accept-legal-documents.input';
-import { ChangePasswordInput } from './inputs/change-password.input';
 import { ResetPasswordInput } from './inputs/reset-password.input';
 import { UseGuards } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
@@ -77,17 +76,10 @@ export class UserResolver {
     return this.userService.update(input);
   }
 
-  @Mutation(() => UserModel, { name: 'changePassword' })
-  @Authorization()
-  public async changePassword(
-    @Authorized('id') id: string,
-    @Args('data') input: ChangePasswordInput,
-  ) {
-    return this.userService.changePassword(id, input);
-  }
-
   @Mutation(() => Boolean, { name: 'sendPasswordResetEmail' })
   @Authorization()
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle({ default: { limit: 3, ttl: 3600000 } })
   public async sendPasswordResetEmail(
     @Authorized('id') id: string,
     @Args('language', { nullable: true }) language?: string,
