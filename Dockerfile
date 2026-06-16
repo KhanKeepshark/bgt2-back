@@ -60,4 +60,4 @@ RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/ap
 EXPOSE 8080
 
 # Sync DB schema from prisma/schema.prisma, then start
-CMD ["sh", "-c", "yarn prisma generate && yarn prisma db push && yarn start:prod"]
+CMD ["sh", "-c", "yarn prisma generate && yarn prisma migrate deploy && yarn start:prod"]
