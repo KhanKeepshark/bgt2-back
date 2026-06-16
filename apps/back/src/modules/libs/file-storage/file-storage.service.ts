@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { sanitizeFileExtension } from '@back/shared/utils/file.util';
 import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,10 +13,18 @@ export class FileStorageService {
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
-    const fileExt = filename.split('.').pop() || 'tmp';
+    const fileExt = sanitizeFileExtension(filename);
     const filePath = path.join(tempDir, `${uuidv4()}.${fileExt}`);
-    fs.writeFileSync(filePath, buffer);
-    return filePath;
+    const resolvedPath = path.resolve(filePath);
+    const resolvedDir = path.resolve(tempDir);
+    if (
+      resolvedPath !== resolvedDir &&
+      !resolvedPath.startsWith(`${resolvedDir}${path.sep}`)
+    ) {
+      throw new Error('Invalid file path');
+    }
+    fs.writeFileSync(resolvedPath, buffer);
+    return resolvedPath;
   }
 
   public readTempFile(filePath: string): Buffer {

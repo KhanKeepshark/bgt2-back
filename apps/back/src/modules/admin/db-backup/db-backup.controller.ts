@@ -11,6 +11,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
+import { randomUUID } from 'crypto';
 import { diskStorage } from 'multer';
 import * as os from 'os';
 import { DbBackupService } from './db-backup.service';
@@ -30,8 +31,8 @@ export class DbBackupController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: os.tmpdir(),
-        filename: (_req, file, cb) => {
-          cb(null, `db-upload-${Date.now()}-${file.originalname}`);
+        filename: (_req, _file, cb) => {
+          cb(null, `db-upload-${Date.now()}-${randomUUID()}.tmp`);
         },
       }),
       limits: {
