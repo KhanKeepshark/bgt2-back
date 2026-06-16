@@ -98,11 +98,24 @@ export class AiUploadOrchestrator {
       throw new BadRequestException('Task not found');
     }
 
+    const isTerminal =
+      task.status === 'COMPLETED' || task.status === 'FAILED';
+    let tokensBalance: number | undefined;
+
+    if (isTerminal) {
+      const currentUser = await this.prismaService.user.findUnique({
+        where: { id: user.id },
+        select: { tokensBalance: true },
+      });
+      tokensBalance = currentUser?.tokensBalance ?? 0;
+    }
+
     return {
       taskId: task.id,
       status: task.status,
       operations: task.result ? (task.result as any) : null,
       error: task.error,
+      tokensBalance,
     };
   }
 
