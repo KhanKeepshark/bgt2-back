@@ -7,7 +7,10 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthError, GeneralError } from '@back/shared/constants/errors.constants';
+import {
+  AuthError,
+  GeneralError,
+} from '@back/shared/constants/errors.constants';
 import { TOTP_ISSUER } from '@back/shared/constants/totp.constants';
 import { LoginInput } from './inputs/login.inputs';
 import { verify } from 'argon2';

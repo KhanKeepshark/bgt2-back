@@ -98,8 +98,7 @@ export class AiUploadOrchestrator {
       throw new BadRequestException('Task not found');
     }
 
-    const isTerminal =
-      task.status === 'COMPLETED' || task.status === 'FAILED';
+    const isTerminal = task.status === 'COMPLETED' || task.status === 'FAILED';
     let tokensBalance: number | undefined;
 
     if (isTerminal) {
