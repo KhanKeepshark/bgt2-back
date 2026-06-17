@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
 import type { User } from '@prisma/generated';
 import { AccountModel } from '../../../accounts/account/models/account.model';
 import { TagModel } from '../../../accounts/tag/model/tag.model';
@@ -18,7 +18,7 @@ export class UserModel implements User {
   @Field(() => String)
   name: string;
 
-  @Field(() => String)
+  @HideField()
   password: string;
 
   @Field(() => String, { nullable: true })
@@ -51,7 +51,7 @@ export class UserModel implements User {
   @Field(() => Boolean)
   isTotpEnabled: boolean;
 
-  @Field(() => String, { nullable: true })
+  @HideField()
   totpSecret: string;
 
   @Field(() => Date, { nullable: true })

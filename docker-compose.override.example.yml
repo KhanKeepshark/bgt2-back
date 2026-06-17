@@ -1,0 +1,24 @@
+# Локальная разработка: скопируйте в docker-compose.override.yml
+# (файл подхватывается автоматически: docker compose up)
+#
+# cp docker-compose.override.example.yml docker-compose.override.yml
+
+version: '3.7'
+
+services:
+  backend:
+    ports:
+      - "8080:8080"
+
+  db:
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  redis:
+    ports:
+      - "127.0.0.1:6379:6379"
+
+  rabbitmq:
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"

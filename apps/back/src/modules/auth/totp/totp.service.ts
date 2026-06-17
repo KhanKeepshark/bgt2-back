@@ -11,6 +11,7 @@ import { User } from '@prisma/generated';
 import { randomBytes } from 'crypto';
 import { TOTP } from 'otpauth';
 import * as QRCode from 'qrcode';
+import { DisableTotpInput } from './inputs/disable-totp.input';
 import { EnableTotpInput } from './inputs/enable-totp.input';
 
 @Injectable()
@@ -65,7 +66,9 @@ export class TotpService {
     return true;
   }
 
-  public async disable(user: User) {
+  public async disable(user: User, input: DisableTotpInput) {
+    this.verifyPin(user, input.pin);
+
     await this.prismaService.user.update({
       where: { id: user.id },
       data: {

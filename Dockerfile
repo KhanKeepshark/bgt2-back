@@ -50,11 +50,14 @@ COPY --from=builder /app/prisma ./prisma
 # Generate Prisma client
 RUN yarn prisma generate
 
-# Create uploads directory
-RUN mkdir -p uploads
-
 # Install PostgreSQL client for backups
 RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
+# Writable dirs for bind mounts (uploads, backups)
+RUN mkdir -p uploads backups \
+    && chown -R node:node /app
+
+USER node
 
 # Expose the port your app runs on
 EXPOSE 8080

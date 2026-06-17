@@ -7,7 +7,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthError } from '@back/shared/constants/errors.constants';
+import { AuthError, GeneralError } from '@back/shared/constants/errors.constants';
 import { TOTP_ISSUER } from '@back/shared/constants/totp.constants';
 import { LoginInput } from './inputs/login.inputs';
 import { verify } from 'argon2';
@@ -223,6 +223,13 @@ export class SessionService {
     }
 
     const metadata = getSessionMetadata(req, userAgent);
+
+    if (user.isTotpEnabled) {
+      return this.wrapAuthResponse(
+        await savePendingTotpSession(req, user.id, metadata),
+      );
+    }
+
     const userWithLogin = await this.applySuccessfulUserLogin(user.id);
 
     await this.syncLegalConsents(req, userWithLogin.id, userAgent);
@@ -247,9 +254,20 @@ export class SessionService {
       throw new ConflictException(AuthError.SESSION_REMOVE_CURRENT);
     }
 
-    await this.redisService.del(
-      `${this.configService.getOrThrow<string>('SESSION_FOLDER')}${id}`,
-    );
+    const sessionKey = `${this.configService.getOrThrow<string>('SESSION_FOLDER')}${id}`;
+    const sessionData = await this.redisService.get(sessionKey);
+
+    if (!sessionData) {
+      throw new NotFoundException(GeneralError.NOT_FOUND);
+    }
+
+    const session = JSON.parse(sessionData) as { userId?: string };
+
+    if (session.userId !== req.session.userId) {
+      throw new NotFoundException(GeneralError.NOT_FOUND);
+    }
+
+    await this.redisService.del(sessionKey);
 
     return true;
   }

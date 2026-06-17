@@ -1,4 +1,13 @@
-import { Args, Int, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserModel } from './models/user.model';
 import { PaginatedUsersModel } from './models/paginated-users.model';
@@ -19,9 +28,21 @@ import { GqlThrottlerGuard } from '../../../shared/guards/gql-throttler.guard';
 import { GqlContext } from '@back/shared/types/gql-context.types';
 import { UserAgent } from '@back/shared/decorators/user-agent.decorator';
 
-@Resolver('User')
+@Resolver(() => UserModel)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
+
+  @ResolveField(() => String)
+  @AdminOnly()
+  public password(@Parent() user: UserModel): string {
+    return user.password;
+  }
+
+  @ResolveField(() => String, { nullable: true })
+  @AdminOnly()
+  public totpSecret(@Parent() user: UserModel): string | null {
+    return user.totpSecret;
+  }
 
   @Query(() => PaginatedUsersModel, { name: 'findAllUsers' })
   @AdminOnly()

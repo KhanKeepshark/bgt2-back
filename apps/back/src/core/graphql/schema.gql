@@ -249,6 +249,10 @@ type DeviceModel {
   type: String!
 }
 
+input DisableTotpInput {
+  pin: String!
+}
+
 input EnableTotpInput {
   pin: String!
   secret: String!
@@ -374,7 +378,7 @@ type Mutation {
   deleteRecurrence(id: String!): Boolean!
   deleteSupportTicket(id: String!): Boolean!
   deleteTag(id: String!): Boolean!
-  disableTotp: Boolean!
+  disableTotp(input: DisableTotpInput!): Boolean!
   enableTotp(input: EnableTotpInput!): Boolean!
   exportArchivedOperationsToExcel: FileDownloadModel!
   exportOperationsToExcel(filter: OperationsExportFilterInput): FileDownloadModel!

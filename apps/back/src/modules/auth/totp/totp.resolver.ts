@@ -4,6 +4,7 @@ import { Authorized } from '@back/shared/decorators/authorized.decorator';
 import { User } from '@prisma/generated';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
 import { TotpModel } from './models/totp.model';
+import { DisableTotpInput } from './inputs/disable-totp.input';
 import { EnableTotpInput } from './inputs/enable-totp.input';
 
 @Resolver('Totp')
@@ -27,7 +28,10 @@ export class TotpResolver {
 
   @Authorization()
   @Mutation(() => Boolean, { name: 'disableTotp' })
-  public async disableTotp(@Authorized() user: User) {
-    return this.totpService.disable(user);
+  public async disableTotp(
+    @Authorized() user: User,
+    @Args('input') input: DisableTotpInput,
+  ) {
+    return this.totpService.disable(user, input);
   }
 }
