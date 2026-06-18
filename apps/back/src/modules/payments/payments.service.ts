@@ -71,17 +71,16 @@ export class PaymentsService {
         );
       }
 
-      const priorSuccessfulPremiumPayments =
-        await this.prisma.payment.count({
-          where: {
-            userId: payment.userId,
-            status: 'SUCCESS',
-            id: { not: payment.id },
-            subscriptionPrice: {
-              plan: { type: SubscriptionType.PREMIUM },
-            },
+      const priorSuccessfulPremiumPayments = await this.prisma.payment.count({
+        where: {
+          userId: payment.userId,
+          status: 'SUCCESS',
+          id: { not: payment.id },
+          subscriptionPrice: {
+            plan: { type: SubscriptionType.PREMIUM },
           },
-        });
+        },
+      });
 
       const isFirstPremiumPurchase = priorSuccessfulPremiumPayments === 0;
       const tokensOnPurchase = payment.subscriptionPrice.plan.tokensOnPurchase;

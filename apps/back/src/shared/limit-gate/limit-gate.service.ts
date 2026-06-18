@@ -89,7 +89,9 @@ export class LimitGateService {
     userId: string,
     tx?: Prisma.TransactionClient,
   ): Promise<void> {
-    const userWithPlan = await this.loadUserWithPlan(userId, tx, { tags: true });
+    const userWithPlan = await this.loadUserWithPlan(userId, tx, {
+      tags: true,
+    });
     const max = userWithPlan.subscriptionPlan.maxTags;
     if (max === null) return;
 

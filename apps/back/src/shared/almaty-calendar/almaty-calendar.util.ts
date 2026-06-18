@@ -60,7 +60,10 @@ export function getAlmatyDateParts(date: Date): AlmatyDateParts {
   return getZonedDateParts(date, LIMIT_GATE_TIMEZONE);
 }
 
-export function getAlmatyDayBounds(now = new Date()): { start: Date; end: Date } {
+export function getAlmatyDayBounds(now = new Date()): {
+  start: Date;
+  end: Date;
+} {
   const { year, month, day } = getAlmatyDateParts(now);
 
   return {
@@ -77,7 +80,15 @@ export function addAlmatyDays(
   parts: AlmatyDateParts,
   daysToAdd: number,
 ): AlmatyDateParts {
-  const anchor = almatyLocalToUtc(parts.year, parts.month, parts.day, 12, 0, 0, 0);
+  const anchor = almatyLocalToUtc(
+    parts.year,
+    parts.month,
+    parts.day,
+    12,
+    0,
+    0,
+    0,
+  );
   anchor.setUTCDate(anchor.getUTCDate() + daysToAdd);
   return getAlmatyDateParts(anchor);
 }

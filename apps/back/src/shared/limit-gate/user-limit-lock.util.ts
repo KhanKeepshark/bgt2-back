@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/generated';
+import type { Prisma } from '@prisma/generated';
 
 export async function lockUserForLimits(
   tx: Prisma.TransactionClient,

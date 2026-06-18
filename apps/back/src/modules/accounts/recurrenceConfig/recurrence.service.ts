@@ -412,7 +412,11 @@ export class RecurrenceService {
 
       const result = await this.prismaService.$transaction(async (tx) => {
         await this.limitGate.lockUserForLimits(tx, recurrence.userId);
-        await this.limitGate.assertCanCreateOperations(recurrence.userId, 1, tx);
+        await this.limitGate.assertCanCreateOperations(
+          recurrence.userId,
+          1,
+          tx,
+        );
 
         const operation = await tx.operation.create({
           data: {
