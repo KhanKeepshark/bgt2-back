@@ -122,12 +122,20 @@ export class AiUploadOrchestrator {
     const { taskId, userId, filePath, mimetype, estimatedTokens } = data;
     let actualTokens = 0;
     let operationsCreated = 0;
+    let tokensDebited = false;
+
+    const claimed = await this.prismaService.aiUploadTask.updateMany({
+      where: { id: taskId, status: 'PENDING' },
+      data: { status: 'PROCESSING' },
+    });
+
+    if (claimed.count === 0) {
+      return;
+    }
 
     try {
-      await this.prismaService.aiUploadTask.update({
-        where: { id: taskId },
-        data: { status: 'PROCESSING' },
-      });
+      await this.limitGate.debitAiTokens(userId, estimatedTokens);
+      tokensDebited = true;
 
       const buffer = this.fileStorageService.readTempFile(filePath);
       const categories = await this.getUserCategories(userId);
@@ -157,15 +165,6 @@ export class AiUploadOrchestrator {
       );
 
       await this.prismaService.$transaction(async (tx) => {
-        await tx.user.update({
-          where: { id: userId },
-          data: {
-            tokensBalance: {
-              decrement: estimatedTokens,
-            },
-          },
-        });
-
         await tx.aiTokenUsage.create({
           data: {
             userId,
@@ -187,7 +186,6 @@ export class AiUploadOrchestrator {
         });
       });
 
-      // Cleanup
       this.fileStorageService.deleteTempFile(filePath);
     } catch (error) {
       const errorMessage = error.message || 'Failed to process uploaded file.';
@@ -196,37 +194,12 @@ export class AiUploadOrchestrator {
         error.stack,
       );
 
-      if (actualTokens > 0 && estimatedTokens > 0) {
-        try {
-          await this.prismaService.$transaction(async (tx) => {
-            await tx.user.update({
-              where: { id: userId },
-              data: { tokensBalance: { decrement: estimatedTokens } },
-            });
-
-            await tx.aiTokenUsage.create({
-              data: {
-                userId,
-                estimatedTokens,
-                actualTokens,
-                operationsCreated,
-                fileType: mimetype,
-                status: 'FAILED',
-                error: errorMessage,
-              },
-            });
-          });
-        } catch (logError) {
-          this.logger.error(
-            `Failed to charge/log failed usage: ${logError.message}`,
-          );
-        }
-      } else {
+      if (tokensDebited) {
         await this.logTokenUsage({
           userId,
           estimatedTokens,
-          actualTokens: 0,
-          operationsCreated: 0,
+          actualTokens,
+          operationsCreated,
           fileType: mimetype,
           status: 'FAILED',
           error: errorMessage,

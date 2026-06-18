@@ -27,13 +27,14 @@ export class TagService {
         throw new BadRequestException(TagError.ALREADY_EXISTS);
       }
 
-      await this.limitGate.assertCanCreateTag(user.id);
+      return await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, user.id);
+        await this.limitGate.assertCanCreateTag(user.id, tx);
 
-      const created = await this.prismaService.tag.create({
-        data: { ...input, user: { connect: { id: user.id } } },
+        return tx.tag.create({
+          data: { ...input, user: { connect: { id: user.id } } },
+        });
       });
-
-      return created;
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(TagError.CREATION_FAILED);

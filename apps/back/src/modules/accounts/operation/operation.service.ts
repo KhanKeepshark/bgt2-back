@@ -46,7 +46,6 @@ export class OperationService {
     user: User,
   ): Promise<Operation> {
     try {
-      await this.limitGate.assertCanCreateOperations(user.id);
       assertOperationDateAllowed(input.date, {
         skipRetention: user.role === Role.ADMIN,
       });
@@ -96,6 +95,9 @@ export class OperationService {
 
         const createTransferOperation = await this.prismaService.$transaction(
           async (tx) => {
+            await this.limitGate.lockUserForLimits(tx, user.id);
+            await this.limitGate.assertCanCreateOperations(user.id, 1, tx);
+
             const operation = await tx.operation.create({
               data: {
                 amount: amount,
@@ -159,6 +161,9 @@ export class OperationService {
           : { decrement: amount };
 
       const created = await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, user.id);
+        await this.limitGate.assertCanCreateOperations(user.id, 1, tx);
+
         const operation = await tx.operation.create({
           data: {
             amount: amount,
@@ -208,11 +213,6 @@ export class OperationService {
     user: User,
   ): Promise<Operation[]> {
     try {
-      await this.limitGate.assertCanCreateOperations(
-        user.id,
-        operations.length,
-      );
-
       const account = await this.prismaService.account.findFirst({
         where: { id: accountId, userId: user.id },
       });
@@ -235,6 +235,17 @@ export class OperationService {
       const accountMap = new Map<string, Account>();
       accounts.forEach((acc) => accountMap.set(acc.name.toLowerCase(), acc));
 
+      const newCategoryNames = new Set<string>();
+      for (const op of operations) {
+        if (op.type === OperationType.TRANSFER) continue;
+        if (!op.categoryName?.trim()) continue;
+
+        const categoryKey = op.categoryName.toLowerCase();
+        if (!categoryMap.has(categoryKey)) {
+          newCategoryNames.add(categoryKey);
+        }
+      }
+
       for (const op of operations) {
         assertOperationDateAllowed(new Date(op.date), {
           skipRetention: user.role === Role.ADMIN,
@@ -244,6 +255,20 @@ export class OperationService {
       const createdOperations: Operation[] = [];
 
       await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, user.id);
+        await this.limitGate.assertCanCreateOperations(
+          user.id,
+          operations.length,
+          tx,
+        );
+        if (newCategoryNames.size > 0) {
+          await this.limitGate.assertCanCreateCategories(
+            user.id,
+            newCategoryNames.size,
+            tx,
+          );
+        }
+
         for (const op of operations) {
           if (op.type === OperationType.TRANSFER) {
             // For transfers we interpret categoryName column as the target account name

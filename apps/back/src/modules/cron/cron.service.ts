@@ -3,6 +3,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { RecurrenceService } from '../accounts/recurrenceConfig/recurrence.service';
 import { OperationArchiveService } from '../operation-archive/operation-archive.service';
 import { PrismaService } from '@back/core/prisma/prisma.service';
+import { RECURRENCE_CRON_UTC } from '@back/shared/almaty-calendar/almaty-calendar.util';
 import { SubscriptionType } from '@prisma/generated';
 import { exec } from 'child_process';
 import { promisify } from 'util';
@@ -18,9 +19,9 @@ export class CronService {
   ) {}
 
   /**
-   * Обработка повторяющихся операций каждый день в 00:01
+   * Обработка повторяющихся операций каждый день в 00:01 Asia/Almaty.
    */
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(RECURRENCE_CRON_UTC)
   async handleRecurringOperations() {
     this.logger.log('Starting recurring operations processing...');
 
@@ -82,7 +83,7 @@ export class CronService {
           subscriptionPriceId: null,
           subscriptionExpiresAt: null,
           subscriptionAutoRenew: false,
-          tokensBalance: defaultPlan.tokensOnPurchase,
+          tokensBalance: 0,
         },
       });
 

@@ -1,4 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { SubscriptionType } from '@prisma/generated';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { CreatePaymentInput } from './inputs/create-payment.input';
 import { ConfigService } from '@nestjs/config';
@@ -37,6 +38,19 @@ export class PaymentsService {
     status: 'SUCCESS' | 'FAILED',
     externalId?: string,
   ) {
+    const existingPayment = await this.prisma.payment.findUnique({
+      where: { id: paymentId },
+      include: { subscriptionPrice: { include: { plan: true } } },
+    });
+
+    if (!existingPayment) {
+      throw new BadRequestException('Payment not found');
+    }
+
+    if (existingPayment.status === 'SUCCESS' && status === 'SUCCESS') {
+      return existingPayment;
+    }
+
     const payment = await this.prisma.payment.update({
       where: { id: paymentId },
       data: {
@@ -47,7 +61,6 @@ export class PaymentsService {
     });
 
     if (status === 'SUCCESS' && payment.subscriptionPrice) {
-      // Activate subscription for user
       const now = new Date();
       let expiresAt: Date | null = null;
 
@@ -58,6 +71,21 @@ export class PaymentsService {
         );
       }
 
+      const priorSuccessfulPremiumPayments =
+        await this.prisma.payment.count({
+          where: {
+            userId: payment.userId,
+            status: 'SUCCESS',
+            id: { not: payment.id },
+            subscriptionPrice: {
+              plan: { type: SubscriptionType.PREMIUM },
+            },
+          },
+        });
+
+      const isFirstPremiumPurchase = priorSuccessfulPremiumPayments === 0;
+      const tokensOnPurchase = payment.subscriptionPrice.plan.tokensOnPurchase;
+
       await this.prisma.user.update({
         where: { id: payment.userId },
         data: {
@@ -66,9 +94,13 @@ export class PaymentsService {
           subscriptionStartedAt: now,
           subscriptionExpiresAt: expiresAt,
           subscriptionAutoRenew: true,
-          tokensBalance: {
-            increment: payment.subscriptionPrice.plan.tokensOnPurchase,
-          },
+          ...(isFirstPremiumPurchase && tokensOnPurchase > 0
+            ? {
+                tokensBalance: {
+                  increment: tokensOnPurchase,
+                },
+              }
+            : {}),
         },
       });
     }

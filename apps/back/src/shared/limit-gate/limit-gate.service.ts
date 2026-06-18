@@ -5,17 +5,29 @@ import {
   GeneralError,
   SubscriptionError,
 } from '@back/shared/constants/errors.constants';
-import type { SubscriptionPlan, User } from '@prisma/generated';
+import type { Prisma, SubscriptionPlan, User } from '@prisma/generated';
 import { getMonthlyOperationsCapCreatedAtRange } from './monthly-operations-cap.util';
+import { lockUserForLimits } from './user-limit-lock.util';
 
 type UserWithPlan = User & { subscriptionPlan: SubscriptionPlan };
+type LimitGateDb = PrismaService | Prisma.TransactionClient;
 
 @Injectable()
 export class LimitGateService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async assertCanCreateAccount(userId: string): Promise<void> {
-    const userWithPlan = await this.loadUserWithPlan(userId, {
+  async lockUserForLimits(
+    tx: Prisma.TransactionClient,
+    userId: string,
+  ): Promise<void> {
+    await lockUserForLimits(tx, userId);
+  }
+
+  async assertCanCreateAccount(
+    userId: string,
+    tx?: Prisma.TransactionClient,
+  ): Promise<void> {
+    const userWithPlan = await this.loadUserWithPlan(userId, tx, {
       accounts: true,
     });
     const max = userWithPlan.subscriptionPlan.maxAccounts;
@@ -26,14 +38,26 @@ export class LimitGateService {
     }
   }
 
-  async assertCanCreateCategory(userId: string): Promise<void> {
-    const userWithPlan = await this.loadUserWithPlan(userId, {
+  async assertCanCreateCategory(
+    userId: string,
+    tx?: Prisma.TransactionClient,
+  ): Promise<void> {
+    await this.assertCanCreateCategories(userId, 1, tx);
+  }
+
+  async assertCanCreateCategories(
+    userId: string,
+    additionalCount = 1,
+    tx?: Prisma.TransactionClient,
+  ): Promise<void> {
+    const userWithPlan = await this.loadUserWithPlan(userId, tx, {
       categories: true,
     });
     const max = userWithPlan.subscriptionPlan.maxCategories;
     if (max === null) return;
 
-    if (userWithPlan._count.categories >= max) {
+    const currentCount = userWithPlan._count.categories ?? 0;
+    if (currentCount + additionalCount > max) {
       throw new BadRequestException(SubscriptionError.LIMIT_REACHED);
     }
   }
@@ -41,13 +65,15 @@ export class LimitGateService {
   async assertCanCreateOperations(
     userId: string,
     additionalCount = 1,
+    tx?: Prisma.TransactionClient,
   ): Promise<void> {
-    const userWithPlan = await this.loadUserWithPlan(userId);
+    const userWithPlan = await this.loadUserWithPlan(userId, tx);
     const max = userWithPlan.subscriptionPlan.maxOperationsPerMonth;
     if (max === null) return;
 
     const { start, end } = getMonthlyOperationsCapCreatedAtRange();
-    const count = await this.prisma.operation.count({
+    const client = this.getClient(tx);
+    const count = await client.operation.count({
       where: {
         userId,
         createdAt: { gte: start, lte: end },
@@ -59,8 +85,11 @@ export class LimitGateService {
     }
   }
 
-  async assertCanCreateTag(userId: string): Promise<void> {
-    const userWithPlan = await this.loadUserWithPlan(userId, { tags: true });
+  async assertCanCreateTag(
+    userId: string,
+    tx?: Prisma.TransactionClient,
+  ): Promise<void> {
+    const userWithPlan = await this.loadUserWithPlan(userId, tx, { tags: true });
     const max = userWithPlan.subscriptionPlan.maxTags;
     if (max === null) return;
 
@@ -69,8 +98,11 @@ export class LimitGateService {
     }
   }
 
-  async assertCanCreateRecurrenceConfig(userId: string): Promise<void> {
-    const userWithPlan = await this.loadUserWithPlan(userId, {
+  async assertCanCreateRecurrenceConfig(
+    userId: string,
+    tx?: Prisma.TransactionClient,
+  ): Promise<void> {
+    const userWithPlan = await this.loadUserWithPlan(userId, tx, {
       recurrenceConfigs: true,
     });
     const max = userWithPlan.subscriptionPlan.maxRecurrenceConfigs;
@@ -84,12 +116,14 @@ export class LimitGateService {
   async assertCanCreateCategoryKeyword(
     userId: string,
     categoryId: string,
+    tx?: Prisma.TransactionClient,
   ): Promise<void> {
-    const userWithPlan = await this.loadUserWithPlan(userId);
+    const userWithPlan = await this.loadUserWithPlan(userId, tx);
     const max = userWithPlan.subscriptionPlan.maxCategoryKeywordsPerCategory;
     if (max === null) return;
 
-    const keywordCount = await this.prisma.categoryKeyword.count({
+    const client = this.getClient(tx);
+    const keywordCount = await client.categoryKeyword.count({
       where: { categoryId, userId },
     });
 
@@ -139,8 +173,55 @@ export class LimitGateService {
     return available;
   }
 
+  async debitAiTokens(userId: string, amount: number): Promise<number> {
+    if (amount <= 0) {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { tokensBalance: true },
+      });
+      return user?.tokensBalance ?? 0;
+    }
+
+    const result = await this.prisma.user.updateMany({
+      where: {
+        id: userId,
+        tokensBalance: { gte: amount },
+      },
+      data: {
+        tokensBalance: { decrement: amount },
+      },
+    });
+
+    if (result.count === 0) {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { tokensBalance: true },
+      });
+      const available = user?.tokensBalance ?? 0;
+
+      throw new BadRequestException(
+        JSON.stringify({
+          code: AiUploadError.INSUFFICIENT_TOKENS,
+          params: { required: amount, available },
+        }),
+      );
+    }
+
+    const updated = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { tokensBalance: true },
+    });
+
+    return updated?.tokensBalance ?? 0;
+  }
+
+  private getClient(tx?: Prisma.TransactionClient): LimitGateDb {
+    return tx ?? this.prisma;
+  }
+
   private async loadUserWithPlan(
     userId: string,
+    tx?: Prisma.TransactionClient,
     countSelect?: {
       accounts?: true;
       categories?: true;
@@ -157,7 +238,8 @@ export class LimitGateService {
       };
     }
   > {
-    const userWithPlan = await this.prisma.user.findUnique({
+    const client = this.getClient(tx);
+    const userWithPlan = await client.user.findUnique({
       where: { id: userId },
       include: {
         subscriptionPlan: true,

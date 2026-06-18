@@ -38,8 +38,6 @@ export class CategoryService {
         throw new BadRequestException(CategoryError.ALREADY_EXISTS);
       }
 
-      await this.limitGate.assertCanCreateCategory(user.id);
-
       if (input.parentId) {
         const parentCategory = await this.prismaService.category.findFirst({
           where: { id: input.parentId, userId: user.id },
@@ -56,24 +54,27 @@ export class CategoryService {
         }
       }
 
-      const created = await this.prismaService.category.create({
-        data: {
-          name: input.name,
-          type: input.type,
-          color: input.color,
-          icon: input.icon,
-          user: { connect: { id: user.id } },
-          parent: input.parentId
-            ? { connect: { id: input.parentId } }
-            : undefined,
-        },
-        include: {
-          parent: true,
-          children: true,
-        },
-      });
+      return await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, user.id);
+        await this.limitGate.assertCanCreateCategory(user.id, tx);
 
-      return created;
+        return tx.category.create({
+          data: {
+            name: input.name,
+            type: input.type,
+            color: input.color,
+            icon: input.icon,
+            user: { connect: { id: user.id } },
+            parent: input.parentId
+              ? { connect: { id: input.parentId } }
+              : undefined,
+          },
+          include: {
+            parent: true,
+            children: true,
+          },
+        });
+      });
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(CategoryError.CREATION_FAILED);
@@ -274,17 +275,21 @@ export class CategoryService {
         throw new NotFoundException(CategoryError.NOT_FOUND);
       }
 
-      await this.limitGate.assertCanCreateCategoryKeyword(
-        user.id,
-        input.categoryId,
-      );
+      return await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, user.id);
+        await this.limitGate.assertCanCreateCategoryKeyword(
+          user.id,
+          input.categoryId,
+          tx,
+        );
 
-      return await this.prismaService.categoryKeyword.create({
-        data: {
-          phrase: input.phrase,
-          categoryId: input.categoryId,
-          userId: user.id,
-        },
+        return tx.categoryKeyword.create({
+          data: {
+            phrase: input.phrase,
+            categoryId: input.categoryId,
+            userId: user.id,
+          },
+        });
       });
     } catch (error) {
       if (error?.code === 'P2002') {
@@ -316,10 +321,22 @@ export class CategoryService {
         }
 
         if (input.categoryId !== keyword.categoryId) {
-          await this.limitGate.assertCanCreateCategoryKeyword(
-            user.id,
-            input.categoryId,
-          );
+          return await this.prismaService.$transaction(async (tx) => {
+            await this.limitGate.lockUserForLimits(tx, user.id);
+            await this.limitGate.assertCanCreateCategoryKeyword(
+              user.id,
+              input.categoryId,
+              tx,
+            );
+
+            return tx.categoryKeyword.update({
+              where: { id: input.id },
+              data: {
+                phrase: input.phrase,
+                categoryId: input.categoryId,
+              },
+            });
+          });
         }
       }
 

@@ -22,6 +22,16 @@ import {
 } from '@back/shared/constants/errors.constants';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 import { isOperationDateInHotWindow } from '@back/shared/operation-retention/operation-retention.util';
+import {
+  addAlmatyDays,
+  addAlmatyMonths,
+  addAlmatyYears,
+  almatyPartsToUtcStart,
+  getAlmatyDateParts,
+  getAlmatyDayBounds,
+  getAlmatyDayOfWeek,
+  isAlmatyCalendarDayOnOrBefore,
+} from '@back/shared/almaty-calendar/almaty-calendar.util';
 
 @Injectable()
 export class RecurrenceService {
@@ -37,8 +47,6 @@ export class RecurrenceService {
     user: User,
   ): Promise<Operation> {
     try {
-      await this.limitGate.assertCanCreateRecurrenceConfig(user.id);
-
       const account = await this.prismaService.account.findFirst({
         where: { id: input.accountId, userId: user.id },
       });
@@ -81,6 +89,10 @@ export class RecurrenceService {
       }
 
       const result = await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, user.id);
+        await this.limitGate.assertCanCreateRecurrenceConfig(user.id, tx);
+        await this.limitGate.assertCanCreateOperations(user.id, 1, tx);
+
         // Вычисляем следующую дату для RecurrenceConfig,
         // так как первая операция создается сразу
         const nextDate = this.calculateNextDate(
@@ -387,17 +399,9 @@ export class RecurrenceService {
         throw new NotFoundException(RecurrenceError.NOT_FOUND);
       }
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const recurrenceDate = new Date(recurrence.date);
-      recurrenceDate.setHours(0, 0, 0, 0);
-
-      if (recurrenceDate > today) {
+      if (!isAlmatyCalendarDayOnOrBefore(recurrence.date)) {
         throw new BadRequestException('Recurrence date has not arrived yet');
       }
-
-      await this.limitGate.assertCanCreateOperations(recurrence.userId);
 
       const nextDate = this.calculateNextDate(
         recurrence.date,
@@ -407,6 +411,9 @@ export class RecurrenceService {
       );
 
       const result = await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, recurrence.userId);
+        await this.limitGate.assertCanCreateOperations(recurrence.userId, 1, tx);
+
         const operation = await tx.operation.create({
           data: {
             amount: recurrence.amount,
@@ -513,8 +520,7 @@ export class RecurrenceService {
     created: number;
     errors: number;
   }> {
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+    const endOfToday = getAlmatyDayBounds().end;
 
     const stats = {
       processed: 0,
@@ -566,16 +572,15 @@ export class RecurrenceService {
     interval: number,
     weekDays?: number[],
   ): Date {
-    const date = new Date(currentDate);
+    const parts = getAlmatyDateParts(currentDate);
 
     switch (frequency) {
       case 'DAILY':
-        date.setDate(date.getDate() + interval);
-        break;
+        return almatyPartsToUtcStart(addAlmatyDays(parts, interval));
 
       case 'WEEKLY':
         if (weekDays && weekDays.length > 0) {
-          const currentDay = date.getDay();
+          const currentDay = getAlmatyDayOfWeek(currentDate);
           const sortedWeekDays = [...weekDays].sort((a, b) => a - b);
 
           let nextDay = sortedWeekDays.find((day) => day > currentDay);
@@ -583,25 +588,25 @@ export class RecurrenceService {
           if (nextDay === undefined) {
             nextDay = sortedWeekDays[0];
             const daysToAdd = 7 - currentDay + nextDay + (interval - 1) * 7;
-            date.setDate(date.getDate() + daysToAdd);
-          } else {
-            date.setDate(date.getDate() + (nextDay - currentDay));
+            return almatyPartsToUtcStart(addAlmatyDays(parts, daysToAdd));
           }
+
+          return almatyPartsToUtcStart(
+            addAlmatyDays(parts, nextDay - currentDay),
+          );
         }
         break;
 
       case 'MONTHLY':
-        date.setMonth(date.getMonth() + interval);
-        break;
+        return almatyPartsToUtcStart(addAlmatyMonths(parts, interval));
 
       case 'YEARLY':
-        date.setFullYear(date.getFullYear() + interval);
-        break;
+        return almatyPartsToUtcStart(addAlmatyYears(parts, interval));
 
       default:
         throw new BadRequestException(`Unknown frequency: ${frequency}`);
     }
 
-    return date;
+    return currentDate;
   }
 }

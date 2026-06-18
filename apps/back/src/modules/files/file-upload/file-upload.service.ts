@@ -8,12 +8,16 @@ import { ExtractedOperation } from '@back/shared/types/ai-operations';
 import { fixEncoding } from '../ai-upload/utils/fixEncoding';
 import { getCellRawValue, getCellValue } from '../ai-upload/utils/getCellValue';
 import { FileError } from '@back/shared/constants/errors.constants';
+import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 
 type RequiredColumns = 'amount' | 'date' | 'description' | 'type' | 'category';
 
 @Injectable()
 export class FileUploadService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly limitGate: LimitGateService,
+  ) {}
 
   public async parseOperationsFile(
     user: User,
@@ -89,6 +93,9 @@ export class FileUploadService {
         },
       });
       const categoryIndex = this.buildCategoryIndex(categories);
+      const canUseAutoCategory = await this.limitGate.canUseAutoCategory(
+        user.id,
+      );
 
       for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
         const row = rows[rowIndex];
@@ -133,7 +140,11 @@ export class FileUploadService {
         let categoryIcon: string | undefined = undefined;
 
         const normalizedDescription = description?.toLowerCase().trim() ?? '';
-        if (normalizedDescription && normalizedType !== 'TRANSFER') {
+        if (
+          canUseAutoCategory &&
+          normalizedDescription &&
+          normalizedType !== 'TRANSFER'
+        ) {
           const autoCategory = this.findCategoryByKeywordsInIndex(
             normalizedDescription,
             normalizedType as 'INCOME' | 'EXPENSE',

@@ -27,37 +27,39 @@ export class AccountService {
         throw new BadRequestException(AccountError.ALREADY_EXISTS);
       }
 
-      const accountCount = await this.prismaService.account.count({
-        where: { userId: user.id },
-      });
+      return await this.prismaService.$transaction(async (tx) => {
+        await this.limitGate.lockUserForLimits(tx, user.id);
+        await this.limitGate.assertCanCreateAccount(user.id, tx);
 
-      await this.limitGate.assertCanCreateAccount(user.id);
-
-      const initialBalance = input.balance ?? '0';
-
-      const created = await this.prismaService.account.create({
-        data: {
-          name: input.name,
-          currency: input.currency,
-          icon: input.icon,
-          iconColor: input.iconColor,
-          initialBalance,
-          balance: initialBalance,
-          user: {
-            connect: { id: user.id },
-          },
-        },
-      });
-
-      // Если это первый аккаунт пользователя — делаем его defaultAccount
-      if (accountCount === 0) {
-        await this.prismaService.user.update({
-          where: { id: user.id },
-          data: { defaultAccountId: created.id },
+        const accountCount = await tx.account.count({
+          where: { userId: user.id },
         });
-      }
 
-      return created;
+        const initialBalance = input.balance ?? '0';
+
+        const created = await tx.account.create({
+          data: {
+            name: input.name,
+            currency: input.currency,
+            icon: input.icon,
+            iconColor: input.iconColor,
+            initialBalance,
+            balance: initialBalance,
+            user: {
+              connect: { id: user.id },
+            },
+          },
+        });
+
+        if (accountCount === 0) {
+          await tx.user.update({
+            where: { id: user.id },
+            data: { defaultAccountId: created.id },
+          });
+        }
+
+        return created;
+      });
     } catch (error) {
       if (error?.code?.startsWith('P')) {
         throw new BadRequestException(AccountError.CREATION_FAILED);
