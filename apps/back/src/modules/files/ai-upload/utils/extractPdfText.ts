@@ -1,13 +1,31 @@
-import { PDFExtract, type PDFExtractOptions } from 'pdf.js-extract';
+import type { PDFExtract, PDFExtractOptions } from 'pdf.js-extract';
 
-const pdfExtract = new PDFExtract();
+type PdfExtractModule = {
+  PDFExtract: typeof PDFExtract;
+  instance: PDFExtract;
+};
 
-const extractBuffer = (
+let pdfExtractModulePromise: Promise<PdfExtractModule> | null = null;
+
+const getPdfExtractModule = (): Promise<PdfExtractModule> => {
+  if (!pdfExtractModulePromise) {
+    pdfExtractModulePromise = import('pdf.js-extract').then(({ PDFExtract }) => ({
+      PDFExtract,
+      instance: new PDFExtract(),
+    }));
+  }
+
+  return pdfExtractModulePromise;
+};
+
+const extractBuffer = async (
   buffer: Buffer,
   options: PDFExtractOptions = {},
-): Promise<Awaited<ReturnType<PDFExtract['extract']>>> =>
-  new Promise((resolve, reject) => {
-    pdfExtract.extractBuffer(buffer, options, (error, data) => {
+): Promise<Awaited<ReturnType<PDFExtract['extract']>>> => {
+  const { instance } = await getPdfExtractModule();
+
+  return new Promise((resolve, reject) => {
+    instance.extractBuffer(buffer, options, (error, data) => {
       if (error) {
         reject(error);
         return;
@@ -15,11 +33,13 @@ const extractBuffer = (
       resolve(data);
     });
   });
+};
 
 export const extractPdfText = async (
   buffer: Buffer,
 ): Promise<string | null> => {
   try {
+    const { PDFExtract } = await getPdfExtractModule();
     const data = await extractBuffer(buffer, { normalizeWhitespace: true });
     const lines: string[] = [];
 
