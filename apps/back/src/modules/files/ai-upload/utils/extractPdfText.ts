@@ -9,10 +9,12 @@ let pdfExtractModulePromise: Promise<PdfExtractModule> | null = null;
 
 const getPdfExtractModule = (): Promise<PdfExtractModule> => {
   if (!pdfExtractModulePromise) {
-    pdfExtractModulePromise = import('pdf.js-extract').then(({ PDFExtract }) => ({
-      PDFExtract,
-      instance: new PDFExtract(),
-    }));
+    pdfExtractModulePromise = import('pdf.js-extract').then(
+      ({ PDFExtract }) => ({
+        PDFExtract,
+        instance: new PDFExtract(),
+      }),
+    );
   }
 
   return pdfExtractModulePromise;
