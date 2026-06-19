@@ -3,6 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { GoogleGenAI } from '@google/genai';
 import { buildOptimizedPrompt } from './utils/buildOptimizedPrompt';
 import { createFilePart } from './utils/createFilePart';
+import { createTextPart } from './utils/createTextPart';
+
+export interface GenerateContentOptions {
+  extractedText?: string;
+}
 
 @Injectable()
 export class GeminiService {
@@ -37,13 +42,18 @@ export class GeminiService {
   public async generateContent(
     buffer: Buffer,
     mimetype: string,
+    options: GenerateContentOptions = {},
   ): Promise<{ rawResult: string; actualTokens: number }> {
-    const filePart = createFilePart(buffer, mimetype);
     const prompt = buildOptimizedPrompt();
+    const contentPart = options.extractedText
+      ? createTextPart(
+          `Extract financial operations from this PDF text:\n\n${options.extractedText}`,
+        )
+      : createFilePart(buffer, mimetype);
 
     const response = await this.genAI.models.generateContent({
       model: this.modelName,
-      contents: [filePart],
+      contents: [contentPart],
       config: {
         systemInstruction: prompt,
         temperature: 0,

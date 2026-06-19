@@ -71,6 +71,7 @@
     "i18n-iso-countries": "^7.14.0",
     "ioredis": "^5.6.1",
     "otpauth": "^9.4.0",
+    "pdf.js-extract": "^1.0.1",
     "prisma": "^6.5.0",
     "qrcode": "^1.5.4",
     "react": "^19.1.0",

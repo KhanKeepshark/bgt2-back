@@ -16,6 +16,12 @@ import { ProcessAiUploadJob } from './ai-upload.controller';
 import { GeminiService } from '../../libs/gemini/gemini.service';
 import { FileStorageService } from '../../libs/file-storage/file-storage.service';
 import { CategoryMatcherService } from './services/category-matcher.service';
+import { AiUploadTokenEstimateStore } from './services/ai-upload-token-estimate.store';
+import { hashFileBuffer } from './utils/hashFileBuffer';
+import { extractPdfText } from './utils/extractPdfText';
+import { isUsablePdfText } from './utils/isUsablePdfText';
+
+const PDF_MIME_TYPE = 'application/pdf';
 
 @Injectable()
 export class AiUploadOrchestrator {
@@ -28,35 +34,40 @@ export class AiUploadOrchestrator {
     private readonly fileStorageService: FileStorageService,
     private readonly categoryMatcher: CategoryMatcherService,
     private readonly limitGate: LimitGateService,
+    private readonly tokenEstimateStore: AiUploadTokenEstimateStore,
   ) {}
 
   public async aiFileUpload(
     user: User,
     file: Upload,
+    estimatedTokens: number,
   ): Promise<{ taskId: string; status: string; tokensBalance: number }> {
-    let estimatedTokens = 0;
-
     try {
       const buffer = await streamToBuffer(file.createReadStream());
-
-      // Получаем оценку токенов перед запросом
-      estimatedTokens = await this.geminiService.countTokens(
-        buffer,
-        file.mimetype,
+      const fileHash = hashFileBuffer(buffer);
+      const cachedEstimate = await this.tokenEstimateStore.get(
+        user.id,
+        fileHash,
       );
+
+      if (cachedEstimate === null) {
+        throw new BadRequestException(AiUploadError.ESTIMATE_EXPIRED);
+      }
+
+      if (cachedEstimate !== estimatedTokens) {
+        throw new BadRequestException(AiUploadError.ESTIMATE_MISMATCH);
+      }
 
       const tokensBalance = await this.limitGate.assertHasAiTokens(
         user.id,
-        estimatedTokens,
+        cachedEstimate,
       );
 
-      // Сохраняем файл на диск
       const filePath = this.fileStorageService.saveTempFile(
         buffer,
         file.filename,
       );
 
-      // Создаем задачу в БД
       const task = await this.prismaService.aiUploadTask.create({
         data: {
           userId: user.id,
@@ -64,13 +75,12 @@ export class AiUploadOrchestrator {
         },
       });
 
-      // Отправляем задачу в RabbitMQ
       this.rabbitClient.emit('process_ai_upload', {
         taskId: task.id,
         userId: user.id,
         filePath,
         mimetype: file.mimetype,
-        estimatedTokens,
+        estimatedTokens: cachedEstimate,
       });
 
       return {
@@ -143,8 +153,15 @@ export class AiUploadOrchestrator {
         where: { userId, type: 'DELETE' },
       });
 
+      const extractedText = await this.resolvePdfExtractedText(
+        buffer,
+        mimetype,
+      );
+
       const { rawResult, actualTokens: tokensUsed } =
-        await this.geminiService.generateContent(buffer, mimetype);
+        await this.geminiService.generateContent(buffer, mimetype, {
+          extractedText,
+        });
       actualTokens = tokensUsed;
 
       const extractedOperations = parseToonResponse(rawResult);
@@ -230,6 +247,9 @@ export class AiUploadOrchestrator {
         buffer,
         file.mimetype,
       );
+      const fileHash = hashFileBuffer(buffer);
+
+      await this.tokenEstimateStore.save(user.id, fileHash, tokenCount);
 
       return { tokenCount };
     } catch (error) {
@@ -239,6 +259,25 @@ export class AiUploadOrchestrator {
       }
       throw new BadRequestException(AiUploadError.TOKEN_COUNT_FAILED);
     }
+  }
+
+  private async resolvePdfExtractedText(
+    buffer: Buffer,
+    mimetype: string,
+  ): Promise<string | undefined> {
+    if (mimetype !== PDF_MIME_TYPE) {
+      return undefined;
+    }
+
+    const pdfText = await extractPdfText(buffer);
+    if (!pdfText || !isUsablePdfText(pdfText)) {
+      return undefined;
+    }
+
+    this.logger.debug(
+      `Using extracted PDF text (${pdfText.length} chars) instead of binary upload`,
+    );
+    return pdfText;
   }
 
   private async getUserCategories(userId: string) {
@@ -285,7 +324,6 @@ export class AiUploadOrchestrator {
         `Failed to log AI token usage: ${error.message}`,
         error.stack,
       );
-      // Не пробрасываем ошибку, чтобы не сломать основной процесс
     }
   }
 }

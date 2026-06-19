@@ -352,7 +352,7 @@ type Mutation {
   adminDeleteDbBackup(filename: String!): Boolean!
   adminStartDbRestore(confirmDatabaseName: String!, filename: String!, totpCode: String): DbRestoreJobModel!
   aiFileTokenCount(file: Upload!): AiCountModel!
-  aiFileUpload(file: Upload!): AiUploadTaskModel!
+  aiFileUpload(estimatedTokens: Int!, file: Upload!): AiUploadTaskModel!
   cancelPremiumSubscription: UserModel!
   categoryHasOperations(id: String!): Boolean!
   clearSessionCookie: Boolean!

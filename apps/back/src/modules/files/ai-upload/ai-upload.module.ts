@@ -6,9 +6,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getAiUploadRmqOptions } from '@back/core/config/ai-upload-rmq.config';
 import { AiUploadController } from './ai-upload.controller';
 import { CategoryMatcherService } from './services/category-matcher.service';
+import { AiUploadTokenEstimateStore } from './services/ai-upload-token-estimate.store';
+import { RedisModule } from '@back/core/redis/redis.module';
 
 @Module({
   imports: [
+    RedisModule,
     ClientsModule.registerAsync([
       {
         name: 'AI_UPLOAD_SERVICE',
@@ -22,6 +25,11 @@ import { CategoryMatcherService } from './services/category-matcher.service';
     ]),
   ],
   controllers: [AiUploadController],
-  providers: [AiUploadResolver, AiUploadOrchestrator, CategoryMatcherService],
+  providers: [
+    AiUploadResolver,
+    AiUploadOrchestrator,
+    CategoryMatcherService,
+    AiUploadTokenEstimateStore,
+  ],
 })
 export class AiUploadModule {}

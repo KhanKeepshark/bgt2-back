@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Query, Args, Int } from '@nestjs/graphql';
 import { AiUploadOrchestrator } from './ai-upload-orchestrator.service';
 import { Authorization } from '@back/shared/decorators/auth.decorator';
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
@@ -17,10 +17,15 @@ export class AiUploadResolver {
   @Mutation(() => AiUploadTaskModel, { name: 'aiFileUpload' })
   public async aiFileUpload(
     @Authorized() user: User,
+    @Args('estimatedTokens', { type: () => Int }) estimatedTokens: number,
     @Args({ name: 'file', type: () => GraphQLUpload }, AiFileValidationPipe)
     file: Upload,
   ): Promise<AiUploadTaskModel> {
-    return await this.uploadOrchestrator.aiFileUpload(user, file);
+    return await this.uploadOrchestrator.aiFileUpload(
+      user,
+      file,
+      estimatedTokens,
+    );
   }
 
   @Authorization()
