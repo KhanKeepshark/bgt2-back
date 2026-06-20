@@ -1,5 +1,6 @@
 import type { TokenType, User } from '@prisma/generated';
 import type { PrismaService } from '@back/core/prisma/prisma.service';
+import { PASSWORD_RESET_TTL_MINUTES } from '@back/shared/constants/auth-token.constants';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function generateToken(
@@ -7,6 +8,7 @@ export async function generateToken(
   type: TokenType,
   user: User,
   isUUID: boolean = false,
+  ttlMinutes: number = PASSWORD_RESET_TTL_MINUTES,
 ) {
   let token: string;
 
@@ -16,7 +18,7 @@ export async function generateToken(
     token = Math.floor(Math.random() * (1000000 - 100000) + 100000).toString();
   }
 
-  const expiresAt = new Date(new Date().getTime() + 1000 * 60 * 5);
+  const expiresAt = new Date(new Date().getTime() + 1000 * 60 * ttlMinutes);
 
   const existingToken = await prismaService.token.findFirst({
     where: {

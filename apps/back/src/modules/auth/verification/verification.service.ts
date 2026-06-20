@@ -5,10 +5,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { AuthError } from '@back/shared/constants/errors.constants';
+import { EMAIL_VERIFY_TTL_MINUTES } from '@back/shared/constants/auth-token.constants';
 import { MailService } from '../../libs/mail/mail.service';
 import { VerificationInput } from './inputs/verification.input';
+import { ResendVerificationInput } from './inputs/resend-verification.input';
 import { TokenType, User } from '@prisma/generated';
 import { generateToken } from '@back/shared/utils/generate-token.util';
+import { VerificationResendStatus } from './models/verification-resend-status.model';
 
 @Injectable()
 export class VerificationService {
@@ -54,6 +57,7 @@ export class VerificationService {
       TokenType.EMAIL_VERIFY,
       user,
       true,
+      EMAIL_VERIFY_TTL_MINUTES,
     );
 
     await this.mailService.sendVerificationEmail(
@@ -63,5 +67,117 @@ export class VerificationService {
     );
 
     return true;
+  }
+
+  public async getResendStatus(
+    email?: string,
+    token?: string,
+  ): Promise<VerificationResendStatus> {
+    if (!email && !token) {
+      throw new BadRequestException(AuthError.BAD_CREDENTIALS);
+    }
+
+    const { user, verificationToken } = await this.resolveVerificationContext(
+      email,
+      token,
+    );
+
+    if (!user || user.isEmailVerified) {
+      return {
+        canResend: false,
+        nextResendAt: null,
+        tokenExpired: false,
+      };
+    }
+
+    if (!verificationToken) {
+      return {
+        canResend: true,
+        nextResendAt: null,
+        tokenExpired: true,
+      };
+    }
+
+    return this.buildResendStatus(verificationToken);
+  }
+
+  public async resendVerificationEmail(input: ResendVerificationInput) {
+    const { email, token, language } = input;
+
+    if (!email && !token) {
+      throw new BadRequestException(AuthError.BAD_CREDENTIALS);
+    }
+
+    const { user, verificationToken } = await this.resolveVerificationContext(
+      email,
+      token,
+    );
+
+    if (!user || user.isEmailVerified) {
+      return true;
+    }
+
+    if (verificationToken) {
+      const status = this.buildResendStatus(verificationToken);
+
+      if (!status.canResend) {
+        throw new BadRequestException(AuthError.VERIFICATION_RESEND_TOO_EARLY);
+      }
+    }
+
+    await this.sendVerificationEmail(user, language);
+
+    return true;
+  }
+
+  private buildResendStatus(verificationToken: {
+    createdAt: Date;
+    expiresAt: Date;
+  }): VerificationResendStatus {
+    const tokenExpired = new Date(verificationToken.expiresAt) < new Date();
+    const nextResendAt = this.getNextResendAt(verificationToken.createdAt);
+    const canResend = tokenExpired && nextResendAt <= new Date();
+
+    return {
+      canResend,
+      nextResendAt: canResend ? null : nextResendAt,
+      tokenExpired,
+    };
+  }
+
+  private getNextResendAt(createdAt: Date) {
+    return new Date(createdAt.getTime() + EMAIL_VERIFY_TTL_MINUTES * 60 * 1000);
+  }
+
+  private async resolveVerificationContext(email?: string, token?: string) {
+    if (token) {
+      const verificationToken = await this.prismaService.token.findUnique({
+        where: { token, type: TokenType.EMAIL_VERIFY },
+        include: { user: true },
+      });
+
+      return {
+        user: verificationToken?.user ?? null,
+        verificationToken,
+      };
+    }
+
+    const user = email
+      ? await this.prismaService.user.findUnique({ where: { email } })
+      : null;
+
+    if (!user) {
+      return { user: null, verificationToken: null };
+    }
+
+    const verificationToken = await this.prismaService.token.findFirst({
+      where: {
+        userId: user.id,
+        type: TokenType.EMAIL_VERIFY,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return { user, verificationToken };
   }
 }

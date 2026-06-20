@@ -1,0 +1,2 @@
+export const EMAIL_VERIFY_TTL_MINUTES = 30;
+export const PASSWORD_RESET_TTL_MINUTES = 5;

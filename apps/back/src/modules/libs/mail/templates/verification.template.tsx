@@ -14,6 +14,7 @@ import {
 interface VerificationTemplateProps {
   domain: string;
   token: string;
+  email: string;
   language?: string;
 }
 
@@ -44,9 +45,10 @@ const translations = {
 export const VerificationTemplate = ({
   domain,
   token,
+  email,
   language = 'ru',
 }: VerificationTemplateProps) => {
-  const verificationUrl = `${domain}/auth/verify-token?token=${token}`;
+  const verificationUrl = `${domain}/auth/verify-token?token=${token}&email=${encodeURIComponent(email)}`;
   const t = translations[language as keyof typeof translations] || translations.ru;
 
   return (

@@ -21,7 +21,7 @@ export class MailService {
       this.configService.getOrThrow<string>('ALLOWED_ORIGINS');
     const domain = allowedOrigins.split(',')[0];
     const html = await render(
-      VerificationTemplate({ domain, token, language }),
+      VerificationTemplate({ domain, token, email, language }),
     );
 
     let subject = 'Verify your email';

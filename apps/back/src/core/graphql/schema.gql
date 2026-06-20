@@ -403,6 +403,7 @@ type Mutation {
   updateSubscriptionPlan(data: UpdateSubscriptionPlanInput!): SubscriptionPlanModel!
   updateTag(input: UpdateTagInput!): TagModel!
   updateUser(data: UpdateUserInput!): UserModel!
+  resendVerificationEmail(input: ResendVerificationInput!): Boolean!
   verifyAccount(input: VerificationInput!): Boolean!
   verifyLoginTotp(data: VerifyLoginTotpInput!): AuthModel!
 }
@@ -550,6 +551,7 @@ type Query {
   operationsRetentionStartMonth: DateTime!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
   userStats(userId: String!): UserStatsModel!
+  verificationResendStatus(email: String, token: String): VerificationResendStatus!
 }
 
 input RecurrenceConfigInput {
@@ -861,6 +863,18 @@ type UsersByPlanItem {
 
 input VerificationInput {
   token: String!
+}
+
+type VerificationResendStatus {
+  canResend: Boolean!
+  nextResendAt: DateTime
+  tokenExpired: Boolean!
+}
+
+input ResendVerificationInput {
+  email: String
+  language: String
+  token: String
 }
 
 input VerifyLoginTotpInput {
