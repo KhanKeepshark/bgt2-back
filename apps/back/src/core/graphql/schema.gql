@@ -394,6 +394,7 @@ type Mutation {
   removeSession(id: String!): Boolean!
   removeUser(id: String!): UserModel!
   replyToSupportTicket(input: ReplySupportTicketInput!): SupportTicket!
+  resendVerificationEmail(input: ResendVerificationInput!): Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
   sendPasswordResetEmail(language: String): Boolean!
   updateAccount(input: UpdateAccountInput!): AccountModel!
@@ -403,7 +404,6 @@ type Mutation {
   updateSubscriptionPlan(data: UpdateSubscriptionPlanInput!): SubscriptionPlanModel!
   updateTag(input: UpdateTagInput!): TagModel!
   updateUser(data: UpdateUserInput!): UserModel!
-  resendVerificationEmail(input: ResendVerificationInput!): Boolean!
   verifyAccount(input: VerificationInput!): Boolean!
   verifyLoginTotp(data: VerifyLoginTotpInput!): AuthModel!
 }
@@ -592,6 +592,12 @@ enum RecurrenceFrequency {
 input ReplySupportTicketInput {
   id: ID!
   replyMessage: String!
+}
+
+input ResendVerificationInput {
+  email: String
+  language: String
+  token: String
 }
 
 input ResetPasswordInput {
@@ -869,12 +875,6 @@ type VerificationResendStatus {
   canResend: Boolean!
   nextResendAt: DateTime
   tokenExpired: Boolean!
-}
-
-input ResendVerificationInput {
-  email: String
-  language: String
-  token: String
 }
 
 input VerifyLoginTotpInput {
