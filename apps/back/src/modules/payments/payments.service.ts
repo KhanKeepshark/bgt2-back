@@ -3,6 +3,7 @@ import { SubscriptionType } from '@prisma/generated';
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { CreatePaymentInput } from './inputs/create-payment.input';
 import { ConfigService } from '@nestjs/config';
+import { SubscriptionError } from '@back/shared/constants/errors.constants';
 
 @Injectable()
 export class PaymentsService {
@@ -11,7 +12,16 @@ export class PaymentsService {
     private configService: ConfigService,
   ) {}
 
+  private assertPremiumSalesEnabled(): void {
+    const enabled =
+      this.configService.get<string>('PREMIUM_SALES_ENABLED') === 'true';
+    if (!enabled) {
+      throw new BadRequestException(SubscriptionError.SALES_DISABLED);
+    }
+  }
+
   async createPayment(userId: string, input: CreatePaymentInput) {
+    this.assertPremiumSalesEnabled();
     const price = await this.prisma.subscriptionPrice.findUnique({
       where: { id: input.subscriptionPriceId },
     });
@@ -49,6 +59,12 @@ export class PaymentsService {
 
     if (existingPayment.status === 'SUCCESS' && status === 'SUCCESS') {
       return existingPayment;
+    }
+
+    // Block confirming a payment while sales are disabled, before writing
+    // SUCCESS — otherwise the row flips to SUCCESS but Premium is never granted.
+    if (status === 'SUCCESS') {
+      this.assertPremiumSalesEnabled();
     }
 
     const payment = await this.prisma.payment.update({

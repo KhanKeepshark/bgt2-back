@@ -75,6 +75,12 @@ export class UserModel implements User {
   @Field(() => Date, { nullable: true })
   operationsArchivalNotifiedAt: Date | null;
 
+  @Field(() => Date, { nullable: true })
+  premiumInterestAt: Date | null;
+
+  @Field(() => String, { nullable: true })
+  premiumInterestReason: string | null;
+
   @Field(() => SubscriptionPlanModel)
   subscriptionPlan: SubscriptionPlanModel;
 

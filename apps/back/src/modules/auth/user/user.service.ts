@@ -24,6 +24,7 @@ import { TokenType } from '@prisma/generated';
 import { ResetPasswordInput } from './inputs/reset-password.input';
 import { RecordConsentInput, UserConsentService } from './user-consent.service';
 import { AcceptLegalDocumentsInput } from './inputs/accept-legal-documents.input';
+import { isPremiumInterestReason } from '@back/shared/constants/premium-interest.constants';
 
 @Injectable()
 export class UserService {
@@ -63,6 +64,17 @@ export class UserService {
     ]);
 
     return { items: users, total };
+  }
+
+  public async getPremiumInterestStats() {
+    const [interestedCount, totalUsers] = await Promise.all([
+      this.prismaService.user.count({
+        where: { premiumInterestAt: { not: null } },
+      }),
+      this.prismaService.user.count(),
+    ]);
+
+    return { interestedCount, totalUsers };
   }
 
   public async me(id: string) {
@@ -401,6 +413,36 @@ export class UserService {
     return this.prismaService.user.update({
       where: { id },
       data: { welcomeSheetSeenAt: new Date() },
+      include: this.meInclude(),
+    });
+  }
+
+  public async registerPremiumInterest(id: string, reason: string) {
+    if (!isPremiumInterestReason(reason)) {
+      throw new BadRequestException(
+        SubscriptionError.INVALID_PREMIUM_INTEREST_REASON,
+      );
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      select: { premiumInterestAt: true },
+    });
+
+    if (!user) {
+      throw new BadRequestException(GeneralError.USER_NOT_FOUND);
+    }
+
+    if (user.premiumInterestAt) {
+      return this.me(id);
+    }
+
+    return this.prismaService.user.update({
+      where: { id },
+      data: {
+        premiumInterestAt: new Date(),
+        premiumInterestReason: reason,
+      },
       include: this.meInclude(),
     });
   }

@@ -11,6 +11,7 @@ import {
 import { UserService } from './user.service';
 import { UserModel } from './models/user.model';
 import { PaginatedUsersModel } from './models/paginated-users.model';
+import { PremiumInterestStatsModel } from './models/premium-interest-stats.model';
 import { UpdateUserInput } from './inputs/update-user.input';
 import { UserWhereInput } from './inputs/user-where.input';
 import { UserOrderByInput } from './inputs/user-order-by.input';
@@ -55,6 +56,12 @@ export class UserResolver {
     const pageNum = page ?? 1;
     const itemsPerPage = items ?? 10;
     return this.userService.findAll(pageNum, itemsPerPage, where, orderBy);
+  }
+
+  @Query(() => PremiumInterestStatsModel, { name: 'premiumInterestStats' })
+  @AdminOnly()
+  public async premiumInterestStats() {
+    return this.userService.getPremiumInterestStats();
   }
 
   @Query(() => UserModel, { name: 'me' })
@@ -127,6 +134,15 @@ export class UserResolver {
   @Authorization()
   public async markWelcomeSheetSeen(@Authorized('id') id: string) {
     return this.userService.markWelcomeSheetSeen(id);
+  }
+
+  @Mutation(() => UserModel, { name: 'registerPremiumInterest' })
+  @Authorization()
+  public async registerPremiumInterest(
+    @Authorized('id') id: string,
+    @Args('reason') reason: string,
+  ) {
+    return this.userService.registerPremiumInterest(id, reason);
   }
 
   @Mutation(() => UserModel, { name: 'cancelPremiumSubscription' })

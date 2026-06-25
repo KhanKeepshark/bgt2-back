@@ -46,6 +46,8 @@ model User {
   role                         Role      @default(USER)
   welcomeSheetSeenAt           DateTime?
   operationsArchivalNotifiedAt DateTime?
+  premiumInterestAt            DateTime?
+  premiumInterestReason        String?   @db.VarChar(32)
 
   tokens                  Token[]
   accounts                Account[]

@@ -391,6 +391,7 @@ type Mutation {
   markNotificationAsRead(id: String!): NotificationModel!
   markWelcomeSheetSeen: UserModel!
   parseOperationsFile(file: Upload!): [ExtractedOperationModel!]!
+  registerPremiumInterest(reason: String!): UserModel!
   removeSession(id: String!): Boolean!
   removeUser(id: String!): UserModel!
   replyToSupportTicket(input: ReplySupportTicketInput!): SupportTicket!
@@ -515,6 +516,11 @@ enum PaymentStatus {
   SUCCESS
 }
 
+type PremiumInterestStatsModel {
+  interestedCount: Int!
+  totalUsers: Int!
+}
+
 type Query {
   adminDbBackupFiles: [DbBackupFileModel!]!
   adminDbDeploymentInfo: AdminDbDeploymentInfoModel!
@@ -549,6 +555,7 @@ type Query {
   loginTotpPending: Boolean!
   me: UserModel!
   operationsRetentionStartMonth: DateTime!
+  premiumInterestStats: PremiumInterestStatsModel!
   systemMetrics(items: Int = 30, page: Int = 1): PaginatedSystemMetricsModel!
   userStats(userId: String!): UserStatsModel!
   verificationResendStatus(email: String, token: String): VerificationResendStatus!
@@ -813,6 +820,8 @@ type UserModel {
   name: String!
   operationsArchivalNotifiedAt: DateTime
   password: String!
+  premiumInterestAt: DateTime
+  premiumInterestReason: String
   role: String!
   subscriptionAutoRenew: Boolean!
   subscriptionExpiresAt: DateTime

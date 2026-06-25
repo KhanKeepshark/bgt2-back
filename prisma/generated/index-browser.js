@@ -139,7 +139,9 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt',
   role: 'role',
   welcomeSheetSeenAt: 'welcomeSheetSeenAt',
-  operationsArchivalNotifiedAt: 'operationsArchivalNotifiedAt'
+  operationsArchivalNotifiedAt: 'operationsArchivalNotifiedAt',
+  premiumInterestAt: 'premiumInterestAt',
+  premiumInterestReason: 'premiumInterestReason'
 };
 
 exports.Prisma.SubscriptionPlanScalarFieldEnum = {
