@@ -21,4 +21,5 @@ services:
   rabbitmq:
     ports:
       - "127.0.0.1:5672:5672"
-      - "127.0.0.1:15672:15672"
+      # Management UI (15672) отключён в prod-образе rabbitmq:3-alpine для экономии RAM.
+      # Локально при необходимости: image: rabbitmq:3-management
