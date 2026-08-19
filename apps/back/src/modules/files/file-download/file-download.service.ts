@@ -1,9 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { OperationService } from '@back/modules/accounts/operation/operation.service';
 import { User } from '@prisma/generated';
 import { OperationsExportFilterInput } from './inputs/operations-export-filter.input';
 import * as XLSX from 'xlsx';
-import { OperationFilterInput } from '@back/modules/accounts/operation/inputs/operation-filter.input';
 import { LimitGateService } from '@back/shared/limit-gate/limit-gate.service';
 import { UserActivityService } from '@back/modules/user-stats/user-activity.service';
 import { PrismaService } from '@back/core/prisma/prisma.service';
@@ -12,7 +10,6 @@ import { getHotWindowStartMonth } from '@back/shared/operation-retention/operati
 @Injectable()
 export class FileDownloadService {
   constructor(
-    private readonly operationService: OperationService,
     private readonly limitGate: LimitGateService,
     private readonly userActivityService: UserActivityService,
     private readonly prisma: PrismaService,
@@ -49,26 +46,31 @@ export class FileDownloadService {
     await this.limitGate.assertCanExport(user.id);
 
     const { dateFrom, dateTo } = this.resolveHotExportRange(filter);
-    const operationFilter: OperationFilterInput = { dateFrom, dateTo };
 
-    const operationGroups = await this.operationService.findAllSortedByDays(
-      user,
-      operationFilter,
-    );
+    const operations = await this.prisma.operation.findMany({
+      where: {
+        userId: user.id,
+        date: { gte: dateFrom, lte: dateTo },
+      },
+      include: {
+        account: true,
+        category: true,
+        transferAccount: true,
+      },
+      orderBy: { date: 'desc' },
+    });
 
-    const allOperations = operationGroups.flatMap((group) => group.operations);
-
-    if (allOperations.length === 0) {
+    if (operations.length === 0) {
       throw new BadRequestException('No operations found');
     }
 
-    const excelData = allOperations.map((operation: any) => ({
+    const excelData = operations.map((operation) => ({
       Date: operation.date.toISOString().split('T')[0],
       Description: operation.description,
       Type: operation.type,
       Amount: operation.amount.toString(),
       Category: operation.category?.name || '',
-      Account: operation.account.name,
+      Account: operation.account?.name || '',
       'Transfer Account': operation.transferAccount?.name || '',
     }));
 
